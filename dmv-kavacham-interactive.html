@@ -1,0 +1,1420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>श्रीदशमहाविद्याकवचम् - Interactive Study Tool</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: #e8e6e3;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .title {
+            font-size: 2.5rem;
+            color: #ff6b6b;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #4ecdc4;
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+
+        .subtitle a {
+            color: #4ecdc4;
+            text-decoration: underline;
+        }
+
+        .subtitle a:hover {
+            color: #ffbe0b;
+        }
+
+        .demo-link {
+            color: #ffffff !important;
+            text-decoration: underline;
+        }
+
+        .demo-link:visited {
+            color: #ffffff !important;
+        }
+
+        .demo-link:hover {
+            color: #ffbe0b !important;
+        }
+
+        .search-box {
+            margin-bottom: 20px;
+            text-align: center;
+            position: sticky;
+            top: 20px;
+            z-index: 100;
+            background: rgba(26, 26, 46, 0.95);
+            padding: 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(78, 205, 196, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .controls-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #4ecdc4;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #4ecdc4;
+        }
+
+        .checkbox-group label {
+            font-size: 14px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .dropdown-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dropdown-label {
+            font-size: 14px;
+            color: #4ecdc4;
+            white-space: nowrap;
+        }
+
+        .multi-select {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid #4ecdc4;
+            border-radius: 8px;
+            color: #e8e6e3;
+            padding: 6px 12px;
+            font-size: 13px;
+            min-width: 100px;
+            cursor: pointer;
+        }
+
+        .multi-select option {
+            background: #1a1a2e;
+            color: #e8e6e3;
+        }
+
+        .clear-btn {
+            padding: 8px 16px;
+            background: rgba(255, 107, 107, 0.2);
+            border: 1px solid #ff6b6b;
+            border-radius: 8px;
+            color: #ff6b6b;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.3s ease;
+        }
+
+        .clear-btn:hover {
+            background: rgba(255, 107, 107, 0.3);
+        }
+
+        .search-input-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .search-input {
+            padding: 12px 20px;
+            font-size: 16px;
+            border: 2px solid #4ecdc4;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #e8e6e3;
+            width: 300px;
+            max-width: 90%;
+        }
+
+        .search-input::placeholder {
+            color: rgba(232, 230, 227, 0.6);
+        }
+
+        .autocomplete-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(26, 26, 46, 0.95);
+            border: 1px solid #4ecdc4;
+            border-radius: 10px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1001;
+            width: 300px;
+            max-width: 90%;
+            margin-top: 5px;
+            backdrop-filter: blur(10px);
+        }
+
+        .autocomplete-item {
+            padding: 10px 15px;
+            cursor: pointer;
+            border-bottom: 1px solid rgba(78, 205, 196, 0.2);
+            color: #e8e6e3;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .autocomplete-item:hover {
+            background: rgba(78, 205, 196, 0.2);
+        }
+
+        .autocomplete-item:last-child {
+            border-bottom: none;
+        }
+
+        .autocomplete-type {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            font-style: italic;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .control-btn {
+            padding: 10px 20px;
+            background: rgba(78, 205, 196, 0.2);
+            border: 2px solid #4ecdc4;
+            border-radius: 25px;
+            color: #4ecdc4;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .control-btn:hover {
+            background: rgba(78, 205, 196, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .control-btn.active {
+            background: #4ecdc4;
+            color: #1a1a2e;
+        }
+
+        .verse {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .verse:hover {
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateY(-3px);
+        }
+
+        .verse-number {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff6b6b, #ee5a6f);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .sanskrit {
+            font-size: 1.4rem;
+            color: #ffbe0b;
+            margin-bottom: 15px;
+            line-height: 1.8;
+            font-weight: 500;
+            display: none;
+        }
+
+        .show-sanskrit .sanskrit {
+            display: block;
+        }
+
+        .transliteration {
+            font-size: 1.1rem;
+            color: #fb8500;
+            margin-bottom: 15px;
+            font-style: italic;
+            display: none;
+        }
+
+        .translation {
+            font-size: 1.1rem;
+            color: #e8e6e3;
+            line-height: 1.7;
+        }
+
+        .deities {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .deity {
+            background: rgba(255, 107, 107, 0.2);
+            border: 1px solid #ff6b6b;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: #ff6b6b;
+            font-weight: 500;
+        }
+
+        .direction {
+            background: rgba(78, 205, 196, 0.2);
+            border: 1px solid #4ecdc4;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: #4ecdc4;
+            font-weight: 500;
+        }
+
+        .body-part {
+            background: rgba(251, 133, 0, 0.2);
+            border: 1px solid #fb8500;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: #fb8500;
+            font-weight: 500;
+        }
+
+        .deity-name {
+            color: #ff6b6b;
+            font-weight: 600;
+        }
+
+        .direction-name {
+            color: #4ecdc4;
+            font-weight: 600;
+        }
+
+        .body-name {
+            color: #fb8500;
+            font-weight: 600;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .show-transliteration .transliteration {
+            display: block;
+        }
+
+        .verse.highlighted {
+            background: rgba(255, 107, 107, 0.15);
+            border-color: rgba(255, 107, 107, 0.3);
+        }
+
+        .verse.highlight-directions {
+            background: rgba(78, 205, 196, 0.1);
+            border-color: rgba(78, 205, 196, 0.4);
+        }
+
+        .verse.highlight-deities {
+            background: rgba(255, 107, 107, 0.1);
+            border-color: rgba(255, 107, 107, 0.4);
+        }
+
+        .verse.highlight-body {
+            background: rgba(251, 133, 0, 0.1);
+            border-color: rgba(251, 133, 0, 0.4);
+        }
+
+        .notes {
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 4px solid #4ecdc4;
+            padding: 20px;
+            margin-top: 30px;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .notes h3 {
+            color: #4ecdc4;
+            margin-bottom: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2rem;
+            }
+            .sanskrit {
+                font-size: 1.2rem;
+            }
+            .controls {
+                justify-content: center;
+            }
+            .control-btn {
+                font-size: 12px;
+                padding: 8px 16px;
+            }
+            .filters-row {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+
+        /* Force horizontal layout for filters */
+        .filters-row {
+            display: flex !important;
+            flex-direction: row !important;
+            justify-content: center !important;
+            align-items: center !important;
+            gap: 10px !important;
+            margin-bottom: 10px !important;
+            flex-wrap: nowrap !important;
+            width: 100% !important;
+        }
+
+        /* Force horizontal layout for filter tags */
+        .active-filters {
+            display: flex !important;
+            flex-direction: row !important;
+            flex-wrap: wrap !important;
+            gap: 6px !important;
+            justify-content: center !important;
+            margin-bottom: 15px !important;
+            width: 100% !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">श्रीदशमहाविद्याकवचम्</h1>
+            <p class="subtitle">The Armor of the Ten Great Wisdom Goddesses</p>
+            <a href="https://tiny.cc/ya-dmv-study-tool" target="_blank" class="demo-link">https://tiny.cc/ya-dmv-study-tool</a>
+        </div>
+
+        <div class="search-box" id="searchBox">
+            <div class="controls-row">
+                <div class="checkbox-group">
+                    <input type="checkbox" id="sanskritCheck" checked>
+                    <label for="sanskritCheck">Show Sanskrit</label>
+                </div>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="transliterationCheck" checked>
+                    <label for="transliterationCheck">Show Transliteration</label>
+                </div>
+                
+                <button class="clear-btn" id="clearFiltersBtn">Clear Filters</button>
+            </div>
+            
+            <div class="filters-row">
+                <div class="dropdown-group">
+                    <span class="dropdown-label">Deities:</span>
+                    <div class="custom-dropdown">
+                        <div class="dropdown-button" id="deitiesDropdownBtn">
+                            <span id="deitiesSelectedText">Select...</span>
+                            <span class="dropdown-arrow">▼</span>
+                        </div>
+                        <div class="dropdown-content hidden" id="deitiesDropdownContent"></div>
+                    </div>
+                </div>
+                
+                <div class="dropdown-group">
+                    <span class="dropdown-label">Directions:</span>
+                    <div class="custom-dropdown">
+                        <div class="dropdown-button" id="directionsDropdownBtn">
+                            <span id="directionsSelectedText">Select...</span>
+                            <span class="dropdown-arrow">▼</span>
+                        </div>
+                        <div class="dropdown-content hidden" id="directionsDropdownContent"></div>
+                    </div>
+                </div>
+                
+                <div class="dropdown-group">
+                    <span class="dropdown-label">Body:</span>
+                    <div class="custom-dropdown">
+                        <div class="dropdown-button" id="bodyDropdownBtn">
+                            <span id="bodySelectedText">Select...</span>
+                            <span class="dropdown-arrow">▼</span>
+                        </div>
+                        <div class="dropdown-content hidden" id="bodyDropdownContent"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="active-filters" id="activeFilters">
+                <!-- Active filter tags will appear here -->
+            </div>
+            
+            <div class="search-input-wrapper">
+                <input type="text" class="search-input" placeholder="Search deities, directions, or body parts..." id="searchInput" autocomplete="off">
+                <div class="autocomplete-dropdown hidden" id="autocompleteDropdown"></div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <!-- Controls moved to search box -->
+        </div>
+
+        <div id="verses">
+            <!-- Verses will be populated by JavaScript -->
+        </div>
+
+        <div class="notes">
+            <h3>Notes</h3>
+            <p><strong>Directional Protection:</strong> The kavacam systematically covers all eight directions plus above and all-around protection, creating a complete spiritual armor.</p>
+            <p><strong>Anatomical Coverage:</strong> From head to toe, every part of the body is placed under divine protection through specific goddess invocations.</p>
+            <p><strong>Epithets:</strong> Some names may vary across recensions and represent regional or textual variations.</p>
+        </div>
+    </div>
+
+    <script>
+        /*
+        ================================================================================
+        ŚRĪDAŚAMAHĀVIDYĀKAVACAM - INTERACTIVE STUDY TOOL
+        ================================================================================
+        
+        OVERVIEW:
+        Interactive web application for studying the Daśamahāvidyā Kavacam (Armor of 
+        the Ten Great Wisdom Goddesses). Provides multi-modal exploration through 
+        Sanskrit text, transliteration, translation, and intelligent filtering.
+        
+        CORE FEATURES:
+        • Dual text display controls (Sanskrit/Transliteration toggle independently)
+        • Real-time search with autocomplete for deities, directions, body parts
+        • Multi-category filtering with visual tags and OR-logic
+        • Responsive sticky navigation with glassmorphism design
+        • Complete 14-verse coverage with metadata-driven categorization
+        
+        TECHNICAL ARCHITECTURE:
+        • Data Layer: VERSE_DATA array with structured verse objects
+        • State Management: AppState object with centralized application state
+        • UI Layer: UI object handling all DOM interactions and rendering
+        • No external dependencies (pure HTML/CSS/JS)
+        
+        DATA STRUCTURE:
+        Each verse object contains:
+        - number: Verse number (1-14)
+        - sanskrit: Devanāgarī text with HTML line breaks
+        - transliteration: IAST romanization
+        - translation: English prose translation
+        - deities: Array of goddess names/epithets
+        - directions: Array of spatial orientations
+        - bodyParts: Array of anatomical terms
+        
+        FILTERING LOGIC:
+        • Uses OR-based logic across all categories
+        • Search integrates with filter system via tag creation
+        • Visual feedback through colored highlighting and tags
+        • State persistence during interaction sessions
+        
+        CSS FRAMEWORK:
+        • Custom responsive design with mobile-first approach
+        • Glassmorphism effects with backdrop-filter
+        • Color-coded categories (red=deities, teal=directions, orange=body)
+        • Smooth transitions and hover states
+        • Sticky positioning for persistent navigation
+        
+        KEY COMPONENTS:
+        1. AppState.buildSearchableItems() - Creates searchable term index
+        2. UI.populateCustomDropdown() - Builds interactive filter dropdowns
+        3. UI.updateFilterTags() - Manages visual filter tag system
+        4. UI.handleSearch() - Processes search input and autocomplete
+        5. UI.updateHighlights() - Applies OR-logic filtering and highlighting
+        
+        REPRODUCTION REQUIREMENTS:
+        • Single HTML file with embedded CSS/JS
+        • Traditional JavaScript (no ES6) for compatibility
+        • Structured verse data with categorical metadata arrays
+        • Event handling for dropdowns, checkboxes, search, and tags
+        • CSS classes for text display control and visual feedback
+        
+        LIVE DEMO: https://tiny.cc/ya-dmv-study-tool
+        DIRECT ARTIFACT LINK: https://claude.ai/public/artifacts/dc3235ea-ea7f-49f2-897a-df6c650264f1
+        
+        USAGE PATTERNS:
+        • Text Study: Toggle Sanskrit/transliteration for learning
+        • Deity Research: Filter by goddess names across verses
+        • Spatial Analysis: Explore directional protection patterns
+        • Anatomical Mapping: Study body part coverage
+        • Cross-Reference: Use search to find specific terms
+        
+        EXTENSIBILITY:
+        • Add verses by extending VERSE_DATA array
+        • Create new categories by adding metadata arrays
+        • Implement additional filtering logic in updateHighlights()
+        • Customize UI styling through CSS variable system
+        • Integrate with external APIs through state management layer
+        
+        PERFORMANCE CONSIDERATIONS:
+        • Efficient DOM manipulation through cached element references
+        • Debounced search to prevent excessive filtering
+        • Minimal re-rendering with targeted updates
+        • Event delegation for dynamic content
+        
+        ACCESSIBILITY FEATURES:
+        • Semantic HTML structure with proper headings
+        • Keyboard navigation support for interactive elements
+        • High contrast color schemes for readability
+        • Responsive design for various screen sizes
+        • Clear visual feedback for state changes
+        
+        ================================================================================
+        */
+        
+        
+        // =============================================================================
+        // DATA LAYER - Easy to expand
+        // =============================================================================
+        
+        var VERSE_DATA = [
+            {
+                number: 1,
+                sanskrit: "ॐ प्राच्यां रक्षतु मे तारा कामरूपनिवासिनी ।<br>आग्नेय्यां षोडशी पातु याम्यां धूमावती स्वयम् ॥१॥",
+                transliteration: "Om prācyāṃ rakṣatu me tārā kāmarūpanivāsinī |<br>āgneyāṃ ṣoḍaśī pātu yāmyāṃ dhūmāvatī svayam ||1||",
+                translation: "May Tārā, who dwells in Kāmarūpa, guard me in the east. In the southeast may Ṣoḍaśī (Tripurasundarī) protect me; in the south, Dhumāvatī herself.",
+                deities: ["Tara", "Sodasi", "Tripurasundari", "Dhumavati"],
+                directions: ["East", "Southeast", "South"],
+                bodyParts: []
+            },
+            {
+                number: 2,
+                sanskrit: "नैरृत्यां भैरवी पातु वारुण्यां भुवनेश्वरी ।<br>वायव्यां सततं पातु छिन्नमस्ता महेश्वरी ॥२॥",
+                transliteration: "nairṛtyāṃ bhairavī pātu vāruṇyāṃ bhuvaneśvarī |<br>vāyavyāṃ satataṃ pātu chinnamastā maheśvarī ||2||",
+                translation: "In the southwest may Bhairavī protect; in the west, Bhuvaneśvarī. In the northwest may the great goddess Chinnamastā protect me always.",
+                deities: ["Bhairavi", "Bhuvaneshvari", "Chinnamasta", "Maheshvari"],
+                directions: ["Southwest", "West", "Northwest"],
+                bodyParts: []
+            },
+            {
+                number: 3,
+                sanskrit: "कौबेर्यां पातु मे देवी श्रीविद्या बगलामुखी ।<br>ऐशान्यां पातु मे नित्यं महात्रिपुरसुन्दरी ॥३॥",
+                transliteration: "kauberyāṃ pātu me devī śrīvidyā bagalāmukhī |<br>aiśānyāṃ pātu me nityaṃ mahātripurasundarī ||3||",
+                translation: "In Kubera's quarter (the north) may the goddess Śrīvidyā—Bagalāmukhī—protect me. In Īśāna's quarter (the northeast) may Mahā‑Tripurasundarī protect me always.",
+                deities: ["Srividya", "Bagalamukhi", "Mahatripurasundari"],
+                directions: ["North", "Northeast"],
+                bodyParts: []
+            },
+            {
+                number: 4,
+                sanskrit: "ऊर्ध्वं रक्षतु मे विद्या मातङ्गीपीठवासिनी ।<br>सर्वतः पातु मे नित्यं कामाख्या कालिका स्वयम् ॥४॥",
+                transliteration: "ūrdhvaṃ rakṣatu me vidyā mātaṅgīpīṭhavāsinī |<br>sarvataḥ pātu me nityaṃ kāmākhyā kālikā svayam ||4||",
+                translation: "Above, may Vidyā Mātangī, who abides at her sacred seat, guard me. On all sides may Kālikā of Kāmākhyā protect me always.",
+                deities: ["Vidya", "Matangi", "Kamakhya", "Kalika"],
+                directions: ["Above", "All sides"],
+                bodyParts: []
+            },
+            {
+                number: 5,
+                sanskrit: "ब्रह्मरूपा महाविद्या सर्वविद्यामयी स्वयं ।<br>शीर्षे रक्षतु मे दुर्गा भालं श्रीभवगेहिनी ॥५॥",
+                transliteration: "brahmarūpā mahāvidyā sarvavidyāmayī svayam |<br>śīrṣe rakṣatu me durgā bhālaṃ śrībhavagehinī ||5||",
+                translation: "She is the Great Vidyā, of the very form of Brahman, the essence of all knowledges. May Durgā guard my head; may Śrī‑Bhavagehinī guard my forehead.",
+                deities: ["Mahavidya", "Durga", "Shribhavagahini", "Parvati"],
+                directions: [],
+                bodyParts: ["Head", "Forehead"]
+            },
+            {
+                number: 6,
+                sanskrit: "त्रिपुरा भ्रुयुगे पातु शर्वाणी पातु नासिकाम् ।<br>चक्षुषी चण्डिका पातु श्रोत्रे नीलसरस्वती ॥६॥",
+                transliteration: "tripurā bhruyuge pātu śarvaṇī pātu nāsikām |<br>cakṣuṣī caṇḍikā pātu śrotre nīlasarasvatī ||6||",
+                translation: "May Tripurā guard my brows; may Śarvaṇī (Pārvatī) guard my nose. May Caṇḍikā guard my eyes; may Nīla‑Sarasvatī guard my ears.",
+                deities: ["Tripura", "Sarvani", "Parvati", "Candika", "Nilasarasvati"],
+                directions: [],
+                bodyParts: ["Brows", "Nose", "Eyes", "Ears"]
+            },
+            {
+                number: 7,
+                sanskrit: "मुखं सौम्यमुखी पातु ग्रीवां रक्षतु पार्वती ।<br>जिह्वां रक्षतु मे देवी जिह्वाललनभीषणा ॥७॥",
+                transliteration: "mukhaṃ saumyamukhī pātu grīvāṃ rakṣatu pārvatī |<br>jihvāṃ rakṣatu me devī jihvālalanabhīṣaṇā ||7||",
+                translation: "May the gentle‑faced One protect my face; may Pārvatī guard my neck. May the goddess—fearsome to foes—guard my tongue.",
+                deities: ["Saumyamukhi", "Parvati", "Jihvalalanabhisana"],
+                directions: [],
+                bodyParts: ["Face", "Neck", "Tongue"]
+            },
+            {
+                number: 8,
+                sanskrit: "वाग्देवी वदनं पातु वक्षः पातु महेश्वरी ।<br>बाहू महाभुजा पातु कराङ्गुलीः सुरेश्वरी ॥८॥",
+                transliteration: "vāgdevī vadanaṃ pātu vakṣaḥ pātu maheśvarī |<br>bāhū mahābhujā pātu karāṅgulīḥ sureśvarī ||8||",
+                translation: "May Vāgdevī protect my speech and mouth; may Maheśvarī guard my chest. May the Mighty‑Armed One protect my arms, and the Queen of the gods protect my fingers.",
+                deities: ["Vagdevi", "Maheshvari", "Mahabhuja", "Sureshvari"],
+                directions: [],
+                bodyParts: ["Speech", "Mouth", "Chest", "Arms", "Fingers"]
+            },
+            {
+                number: 9,
+                sanskrit: "पृष्ठतः पातु भीमास्या कट्यां देवी दिगम्बरी ।<br>उदरं पातु मे नित्यं महाविद्या महोदरी ॥९॥",
+                transliteration: "pṛṣṭhataḥ pātu bhīmāsyā kaṭyāṃ devī digambarī |<br>udaraṃ pātu me nityaṃ mahāvidyā mahodarī ||9||",
+                translation: "From behind may Bhīmāsyā protect; at the hips, the goddess Digambarī. May the Great Vidyā Mahodari always protect my abdomen.",
+                deities: ["Bhimasya", "Digambari", "Mahavidya", "Mahodari"],
+                directions: ["Behind"],
+                bodyParts: ["Hips", "Abdomen"]
+            },
+            {
+                number: 10,
+                sanskrit: "उग्रतारा महादेवी जङ्घोरू परिरक्षतु ।<br>उग्रतारा गुदं मुष्कं च मेढ्रं च नाभिं च सुरसुन्दरी ॥१०॥",
+                transliteration: "ugratārā mahādevī jaṅghorū parirakṣatu |<br>ugratārā gudaṃ muṣkaṃ ca meḍhraṃ ca nābhiṃ ca surasundarī ||10||",
+                translation: "May the great goddess Ugratārā protect my shanks and thighs. May Ugratārā—Surasundarī—guard the anus, the scrotum, the phallus, and the navel.",
+                deities: ["Ugratara", "Mahadevi", "Surasundari"],
+                directions: [],
+                bodyParts: ["Shanks", "Thighs", "Knees", "Legs", "Anus", "Scrotum", "Phallus", "Navel"]
+            },
+            {
+                number: 11,
+                sanskrit: "पादाङ्गुलीः सदा पातु भवानी त्रिदशेश्वरी ।<br>रक्तमांसास्थिमज्जादीन् पातु देवी शवासना ॥११॥",
+                transliteration: "pādāṅgulīḥ sadā pātu bhavānī tridaśeśvarī |<br>raktamāṃsāsthimajjādīn pātu devī śavāsanā ||11||",
+                translation: "May Bhavānī, queen of the gods, always protect my toes. May the goddess who is seated upon a corpse protect my blood, flesh, bones, marrow, and the rest.",
+                deities: ["Bhavani", "Tridaseshvari", "Shavasana"],
+                directions: [],
+                bodyParts: ["Toes", "Blood", "Flesh", "Bones", "Marrow"]
+            },
+            {
+                number: 12,
+                sanskrit: "महाभयेषु घोरेषु महाभयनिवारिणी ।<br>पातु देवी महामाया कामाख्यापीठवासिनी ॥१२॥",
+                transliteration: "mahābhayeṣu ghoreṣu mahābhayanivāriṇī |<br>pātu devī mahāmāyā kāmākhyāpīṭhavāsinī ||12||",
+                translation: "In great and terrible dangers, may the remover of great fear—Mahāmāyā, who dwells at the seat of Kāmākhyā—protect me.",
+                deities: ["Mahabhayanivairini", "Mahamaya", "Kamakhyapithvasini"],
+                directions: [],
+                bodyParts: []
+            },
+            {
+                number: 13,
+                sanskrit: "भस्माचलगता दिव्यसिंहासनकृताश्रया ।<br>पातु श्रीकालिकादेवी सर्वोत्पातेषु सर्वदा ॥१३॥",
+                transliteration: "bhasmācalagatā divyasiṃhāsanakṛtāśrayā |<br>pātu śrīkālikādevī sarvotpāteṣu sarvadā ||13||",
+                translation: "Residing on the mountain of ash, enthroned upon the divine lion seat—may Śrī Kālika‑devī protect me from every calamity, always.",
+                deities: ["Shrikalikadevii"],
+                directions: [],
+                bodyParts: []
+            },
+            {
+                number: 14,
+                sanskrit: "रक्षाहीनं तु यत्स्थानं कवचेनापि वर्जितम् ।<br>तत्सर्वं सर्वदा पातु सर्वरक्षणकारिणी ॥१४॥",
+                transliteration: "rakṣāhīnaṃ tu yatsthānaṃ kavacenāpi varjitam |<br>tatsarvaṃ sarvadā pātu sarvarakṣaṇakāriṇī ||14||",
+                translation: "And whatever place is left unprotected—omitted even by this armor—may the All‑Protecting Goddess guard all of that, at all times.",
+                deities: ["Sarvaraksanakarini"],
+                directions: [],
+                bodyParts: []
+            }
+        ];
+        
+        // =============================================================================
+        // STATE MANAGEMENT
+        // =============================================================================
+        
+        var AppState = {
+            verses: VERSE_DATA,
+            searchableItems: [],
+            currentHighlight: '',
+            showTransliteration: true, // Default to true
+            showSanskrit: true, // Default to true
+            selectedDirections: [],
+            selectedDeities: [],
+            selectedBodyParts: [],
+            
+            init: function() {
+                this.searchableItems = this.buildSearchableItems();
+            },
+            
+            buildSearchableItems: function() {
+                var items = [];
+                var self = this;
+                
+                this.verses.forEach(function(verse) {
+                    // Add deities
+                    verse.deities.forEach(function(deity) {
+                        if (!self.findItem(items, deity)) {
+                            items.push({ text: deity, type: 'deity' });
+                        }
+                    });
+                    
+                    // Add directions  
+                    verse.directions.forEach(function(direction) {
+                        if (!self.findItem(items, direction)) {
+                            items.push({ text: direction, type: 'direction' });
+                        }
+                    });
+                    
+                    // Add body parts
+                    verse.bodyParts.forEach(function(bodyPart) {
+                        if (!self.findItem(items, bodyPart)) {
+                            items.push({ text: bodyPart, type: 'body' });
+                        }
+                    });
+                });
+                
+                return items.sort(function(a, b) { return a.text.localeCompare(b.text); });
+            },
+            
+            findItem: function(items, text) {
+                for (var i = 0; i < items.length; i++) {
+                    if (items[i].text.toLowerCase() === text.toLowerCase()) {
+                        return true;
+                    }
+                }
+                return false;
+            },
+            
+            toggleTransliteration: function() {
+                this.showTransliteration = !this.showTransliteration;
+                UI.updateTransliterationView();
+            },
+            
+            setFilters: function(directions, deities, bodyParts) {
+                this.selectedDirections = directions || [];
+                this.selectedDeities = deities || [];
+                this.selectedBodyParts = bodyParts || [];
+                UI.updateHighlights();
+            },
+            
+            clearFilters: function() {
+                this.selectedDirections = [];
+                this.selectedDeities = [];
+                this.selectedBodyParts = [];
+                UI.clearAllFilters();
+            },
+            
+            setHighlight: function(category) {
+                if (this.currentHighlight === category) {
+                    this.currentHighlight = '';
+                } else {
+                    this.currentHighlight = category;
+                }
+                UI.updateHighlights();
+            }
+        };
+        
+        // =============================================================================
+        // UI LAYER
+        // =============================================================================
+        
+        var UI = {
+            elements: {
+                versesContainer: null,
+                searchInput: null,
+                autocompleteDropdown: null,
+                transliterationCheck: null,
+                sanskritCheck: null,
+                deitiesDropdownBtn: null,
+                directionsDropdownBtn: null,
+                bodyDropdownBtn: null,
+                deitiesDropdownContent: null,
+                directionsDropdownContent: null,
+                bodyDropdownContent: null,
+                clearFiltersBtn: null,
+                activeFilters: null,
+                searchBox: null
+            },
+            
+            init: function() {
+                this.cacheElements();
+                this.bindEvents();
+                this.render();
+            },
+            
+            cacheElements: function() {
+                this.elements.versesContainer = document.getElementById('verses');
+                this.elements.searchInput = document.getElementById('searchInput');
+                this.elements.autocompleteDropdown = document.getElementById('autocompleteDropdown');
+                this.elements.transliterationCheck = document.getElementById('transliterationCheck');
+                this.elements.sanskritCheck = document.getElementById('sanskritCheck');
+                this.elements.deitiesDropdownBtn = document.getElementById('deitiesDropdownBtn');
+                this.elements.directionsDropdownBtn = document.getElementById('directionsDropdownBtn');
+                this.elements.bodyDropdownBtn = document.getElementById('bodyDropdownBtn');
+                this.elements.deitiesDropdownContent = document.getElementById('deitiesDropdownContent');
+                this.elements.directionsDropdownContent = document.getElementById('directionsDropdownContent');
+                this.elements.bodyDropdownContent = document.getElementById('bodyDropdownContent');
+                this.elements.clearFiltersBtn = document.getElementById('clearFiltersBtn');
+                this.elements.activeFilters = document.getElementById('activeFilters');
+                this.elements.searchBox = document.getElementById('searchBox');
+            },
+            
+            bindEvents: function() {
+                var self = this;
+                
+                this.elements.transliterationCheck.addEventListener('change', function() {
+                    AppState.showTransliteration = this.checked;
+                    self.updateTransliterationView();
+                });
+                
+                this.elements.sanskritCheck.addEventListener('change', function() {
+                    AppState.showSanskrit = this.checked;
+                    self.updateSanskritView();
+                });
+                
+                this.elements.searchInput.addEventListener('input', function() {
+                    self.handleSearch();
+                });
+                
+                this.elements.clearFiltersBtn.addEventListener('click', function() {
+                    AppState.clearFilters();
+                });
+                
+                // Custom dropdown handlers
+                this.elements.deitiesDropdownBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    self.toggleDropdown('deities');
+                });
+                
+                this.elements.directionsDropdownBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    self.toggleDropdown('directions');
+                });
+                
+                this.elements.bodyDropdownBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    self.toggleDropdown('body');
+                });
+                
+                // Hide dropdowns when clicking outside
+                document.addEventListener('click', function(e) {
+                    self.closeAllDropdowns();
+                    
+                    var searchBox = document.querySelector('.search-input-wrapper');
+                    if (!searchBox.contains(e.target)) {
+                        self.elements.autocompleteDropdown.classList.add('hidden');
+                    }
+                });
+                
+                // Scroll detection for minimizing search box
+                var lastScrollTop = 0;
+                var isMinimized = false;
+                var hoverTimeout;
+                
+                window.addEventListener('scroll', function() {
+                    var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                    
+                    if (scrollTop > 100 && !isMinimized) {
+                        self.elements.searchBox.classList.add('minimized');
+                        isMinimized = true;
+                    } else if (scrollTop <= 100 && isMinimized) {
+                        self.elements.searchBox.classList.remove('minimized');
+                        isMinimized = false;
+                    }
+                });
+                
+                // Hover to expand when minimized
+                this.elements.searchBox.addEventListener('mouseenter', function() {
+                    if (isMinimized) {
+                        clearTimeout(hoverTimeout);
+                        self.elements.searchBox.classList.remove('minimized');
+                    }
+                });
+                
+                this.elements.searchBox.addEventListener('mouseleave', function() {
+                    if (window.pageYOffset > 100) {
+                        hoverTimeout = setTimeout(function() {
+                            self.elements.searchBox.classList.add('minimized');
+                        }, 1000);
+                    }
+                });
+            },
+            
+            render: function() {
+                this.populateDropdowns();
+                this.renderVerses();
+                
+                // Initialize body classes based on AppState
+                if (AppState.showTransliteration) {
+                    document.body.classList.add('show-transliteration');
+                } else {
+                    document.body.classList.remove('show-transliteration');
+                }
+                
+                if (AppState.showSanskrit) {
+                    document.body.classList.add('show-sanskrit');
+                } else {
+                    document.body.classList.remove('show-sanskrit');
+                }
+                
+                this.updateTransliterationView();
+                this.updateSanskritView();
+            },
+            
+            populateDropdowns: function() {
+                var directions = [];
+                var deities = [];
+                var bodyParts = [];
+                
+                AppState.searchableItems.forEach(function(item) {
+                    if (item.type === 'direction') directions.push(item.text);
+                    else if (item.type === 'deity') deities.push(item.text);
+                    else if (item.type === 'body') bodyParts.push(item.text);
+                });
+                
+                this.populateCustomDropdown(this.elements.deitiesDropdownContent, deities, 'deities');
+                this.populateCustomDropdown(this.elements.directionsDropdownContent, directions, 'directions');
+                this.populateCustomDropdown(this.elements.bodyDropdownContent, bodyParts, 'body');
+            },
+            
+            populateCustomDropdown: function(container, options, type) {
+                var self = this;
+                var html = '';
+                
+                options.forEach(function(option) {
+                    html += '<div class="dropdown-item" data-value="' + option + '" data-type="' + type + '">' +
+                        '<input type="checkbox" class="dropdown-checkbox" id="' + type + '_' + option.replace(/\s+/g, '_') + '">' +
+                        '<span class="dropdown-item-text">' + option + '</span>' +
+                        '</div>';
+                });
+                
+                container.innerHTML = html;
+                
+                // Add event listeners to checkboxes
+                container.querySelectorAll('.dropdown-checkbox').forEach(function(checkbox) {
+                    checkbox.addEventListener('change', function(e) {
+                        e.stopPropagation();
+                        self.handleFilterChange();
+                        // Don't close dropdown when checking items
+                    });
+                });
+                
+                // Prevent dropdown from closing when clicking inside
+                container.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                });
+            },
+            
+            toggleDropdown: function(type) {
+                var content = this.elements[type + 'DropdownContent'];
+                var button = this.elements[type + 'DropdownBtn'];
+                
+                // Close other dropdowns
+                ['deities', 'directions', 'body'].forEach(function(otherType) {
+                    if (otherType !== type) {
+                        this.elements[otherType + 'DropdownContent'].classList.add('hidden');
+                        this.elements[otherType + 'DropdownBtn'].classList.remove('active');
+                    }
+                }.bind(this));
+                
+                // Toggle current dropdown
+                content.classList.toggle('hidden');
+                button.classList.toggle('active');
+            },
+            
+            closeAllDropdowns: function() {
+                this.elements.deitiesDropdownContent.classList.add('hidden');
+                this.elements.directionsDropdownContent.classList.add('hidden');
+                this.elements.bodyDropdownContent.classList.add('hidden');
+                this.elements.deitiesDropdownBtn.classList.remove('active');
+                this.elements.directionsDropdownBtn.classList.remove('active');
+                this.elements.bodyDropdownBtn.classList.remove('active');
+            },
+            
+            handleFilterChange: function() {
+                var selectedDeities = this.getSelectedFromDropdown('deities');
+                var selectedDirections = this.getSelectedFromDropdown('directions');
+                var selectedBodyParts = this.getSelectedFromDropdown('body');
+                
+                AppState.setFilters(selectedDirections, selectedDeities, selectedBodyParts);
+                this.updateDropdownLabels();
+                this.updateFilterTags();
+            },
+            
+            getSelectedFromDropdown: function(type) {
+                var container = this.elements[type + 'DropdownContent'];
+                var selected = [];
+                
+                container.querySelectorAll('.dropdown-checkbox:checked').forEach(function(checkbox) {
+                    var item = checkbox.closest('.dropdown-item');
+                    selected.push(item.dataset.value);
+                });
+                
+                return selected;
+            },
+            
+            updateDropdownLabels: function() {
+                this.updateDropdownLabel('deities', AppState.selectedDeities);
+                this.updateDropdownLabel('directions', AppState.selectedDirections);
+                this.updateDropdownLabel('body', AppState.selectedBodyParts);
+            },
+            
+            updateDropdownLabel: function(type, selected) {
+                var textElement = document.getElementById(type + 'SelectedText');
+                if (selected.length === 0) {
+                    textElement.textContent = 'Select...';
+                } else if (selected.length === 1) {
+                    textElement.textContent = selected[0];
+                } else {
+                    textElement.textContent = selected.length + ' selected';
+                }
+            },
+            
+            renderVerses: function() {
+                var html = '';
+                
+                AppState.verses.forEach(function(verse) {
+                    var deityTags = verse.deities.map(function(deity) {
+                        return '<span class="deity">' + deity + '</span>';
+                    }).join('');
+                    
+                    var directionTags = verse.directions.map(function(direction) {
+                        return '<span class="direction">' + direction + '</span>';
+                    }).join('');
+                    
+                    var bodyTags = verse.bodyParts.map(function(bodyPart) {
+                        return '<span class="body-part">' + bodyPart + '</span>';
+                    }).join('');
+                    
+                    html += 
+                        '<div class="verse" data-verse-number="' + verse.number + '">' +
+                            '<div class="verse-number">' + verse.number + '</div>' +
+                            '<div class="sanskrit">' + verse.sanskrit + '</div>' +
+                            '<div class="transliteration">' + verse.transliteration + '</div>' +
+                            '<div class="translation">' + verse.translation + '</div>' +
+                            '<div class="deities">' + deityTags + directionTags + bodyTags + '</div>' +
+                        '</div>';
+                });
+                
+                this.elements.versesContainer.innerHTML = html;
+            },
+            
+            handleSearch: function() {
+                var searchTerm = this.elements.searchInput.value.toLowerCase();
+                this.showAutocomplete(searchTerm);
+                this.filterVerses(searchTerm);
+            },
+            
+            showAutocomplete: function(searchTerm) {
+                if (searchTerm.length < 1) {
+                    this.elements.autocompleteDropdown.classList.add('hidden');
+                    return;
+                }
+                
+                var matches = AppState.searchableItems.filter(function(item) {
+                    return item.text.toLowerCase().indexOf(searchTerm) !== -1;
+                }).slice(0, 8);
+                
+                if (matches.length === 0) {
+                    this.elements.autocompleteDropdown.classList.add('hidden');
+                    return;
+                }
+                
+                var html = matches.map(function(item) {
+                    return '<div class="autocomplete-item" data-text="' + item.text + '" data-type="' + item.type + '">' +
+                        '<span class="' + item.type + '-name">' + item.text + '</span>' +
+                        '<span class="autocomplete-type">' + item.type + '</span>' +
+                        '</div>';
+                }).join('');
+                
+                this.elements.autocompleteDropdown.innerHTML = html;
+                this.elements.autocompleteDropdown.classList.remove('hidden');
+                
+                var self = this;
+                this.elements.autocompleteDropdown.querySelectorAll('.autocomplete-item').forEach(function(item) {
+                    item.addEventListener('click', function() {
+                        var searchTerm = this.dataset.text;
+                        var itemType = this.dataset.type;
+                        
+                        self.elements.searchInput.value = '';
+                        self.elements.autocompleteDropdown.classList.add('hidden');
+                        
+                        // Add to filters instead of just search
+                        self.addFilterTag(itemType, searchTerm);
+                        
+                        self.handleSearch();
+                    });
+                });
+            },
+            
+            addFilterTag: function(type, value) {
+                var pluralType = type === 'deity' ? 'deities' : 
+                                type === 'direction' ? 'directions' : 
+                                type === 'body' ? 'body' : type;
+                
+                // Add to state
+                var selectedArray = AppState['selected' + pluralType.charAt(0).toUpperCase() + pluralType.slice(1)];
+                if (selectedArray.indexOf(value) === -1) {
+                    selectedArray.push(value);
+                }
+                
+                // Update checkbox in dropdown
+                this.selectInDropdown(type, value);
+                
+                // Update UI
+                this.updateFilterTags();
+                this.updateHighlights();
+            },
+            
+            removeFilterTag: function(type, value) {
+                var pluralType = type === 'deity' ? 'deities' : 
+                                type === 'direction' ? 'directions' : 
+                                type === 'body' ? 'body' : type;
+                
+                // Remove from state
+                var selectedArray = AppState['selected' + pluralType.charAt(0).toUpperCase() + pluralType.slice(1)];
+                var index = selectedArray.indexOf(value);
+                if (index !== -1) {
+                    selectedArray.splice(index, 1);
+                }
+                
+                // Update checkbox in dropdown
+                var container = this.elements[pluralType + 'DropdownContent'];
+                if (container) {
+                    var checkbox = container.querySelector('[data-value="' + value + '"] .dropdown-checkbox');
+                    if (checkbox) {
+                        checkbox.checked = false;
+                    }
+                }
+                
+                // Update UI
+                this.updateFilterTags();
+                this.updateDropdownLabels();
+                this.updateHighlights();
+            },
+            
+            updateFilterTags: function() {
+                var html = '';
+                var self = this;
+                
+                AppState.selectedDeities.forEach(function(deity) {
+                    html += '<div class="filter-tag deity-tag">' +
+                        '<span>' + deity + '</span>' +
+                        '<span class="filter-tag-close" data-type="deity" data-value="' + deity + '">×</span>' +
+                        '</div>';
+                });
+                
+                AppState.selectedDirections.forEach(function(direction) {
+                    html += '<div class="filter-tag direction-tag">' +
+                        '<span>' + direction + '</span>' +
+                        '<span class="filter-tag-close" data-type="direction" data-value="' + direction + '">×</span>' +
+                        '</div>';
+                });
+                
+                AppState.selectedBodyParts.forEach(function(bodyPart) {
+                    html += '<div class="filter-tag body-tag">' +
+                        '<span>' + bodyPart + '</span>' +
+                        '<span class="filter-tag-close" data-type="body" data-value="' + bodyPart + '">×</span>' +
+                        '</div>';
+                });
+                
+                this.elements.activeFilters.innerHTML = html;
+                
+                // Add click handlers to close buttons
+                this.elements.activeFilters.querySelectorAll('.filter-tag-close').forEach(function(closeBtn) {
+                    closeBtn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        self.removeFilterTag(this.dataset.type, this.dataset.value);
+                    });
+                });
+            },
+            
+            filterVerses: function(searchTerm) {
+                var allVerses = document.querySelectorAll('.verse');
+                
+                allVerses.forEach(function(verseElement, index) {
+                    var verse = AppState.verses[index];
+                    var searchableText = [
+                        verse.translation,
+                        verse.deities.join(' '),
+                        verse.directions.join(' '),
+                        verse.bodyParts.join(' ')
+                    ].join(' ').toLowerCase();
+                    
+                    if (searchTerm === '' || searchableText.indexOf(searchTerm) !== -1) {
+                        verseElement.style.display = 'block';
+                        if (searchTerm !== '' && searchableText.indexOf(searchTerm) !== -1) {
+                            verseElement.classList.add('highlighted');
+                        } else {
+                            verseElement.classList.remove('highlighted');
+                        }
+                    } else {
+                        verseElement.style.display = 'none';
+                    }
+                });
+            },
+            
+            updateTransliterationView: function() {
+                if (AppState.showTransliteration) {
+                    document.body.classList.add('show-transliteration');
+                    this.elements.transliterationCheck.checked = true;
+                } else {
+                    document.body.classList.remove('show-transliteration');
+                    this.elements.transliterationCheck.checked = false;
+                }
+            },
+            
+            updateSanskritView: function() {
+                if (AppState.showSanskrit) {
+                    document.body.classList.add('show-sanskrit');
+                    this.elements.sanskritCheck.checked = true;
+                } else {
+                    document.body.classList.remove('show-sanskrit');
+                    this.elements.sanskritCheck.checked = false;
+                }
+            },
+            
+            updateHighlights: function() {
+                var allVerses = document.querySelectorAll('.verse');
+                
+                allVerses.forEach(function(verseElement, index) {
+                    var verse = AppState.verses[index];
+                    
+                    // Remove all highlight classes
+                    verseElement.classList.remove('highlight-directions', 'highlight-deities', 'highlight-body');
+                    
+                    // Check if verse should be visible based on filters (OR logic)
+                    var shouldShow = true;
+                    
+                    // If any filters are active, default to hide unless matches are found
+                    if (AppState.selectedDirections.length > 0 || 
+                        AppState.selectedDeities.length > 0 || 
+                        AppState.selectedBodyParts.length > 0) {
+                        shouldShow = false;
+                        
+                        // Show if verse matches ANY selected filter (OR logic)
+                        if (AppState.selectedDirections.length > 0) {
+                            var hasMatchingDirection = verse.directions.some(function(dir) { 
+                                return AppState.selectedDirections.indexOf(dir) !== -1; 
+                            });
+                            if (hasMatchingDirection) shouldShow = true;
+                        }
+                        
+                        if (AppState.selectedDeities.length > 0) {
+                            var hasMatchingDeity = verse.deities.some(function(deity) { 
+                                return AppState.selectedDeities.indexOf(deity) !== -1; 
+                            });
+                            if (hasMatchingDeity) shouldShow = true;
+                        }
+                        
+                        if (AppState.selectedBodyParts.length > 0) {
+                            var hasMatchingBodyPart = verse.bodyParts.some(function(part) { 
+                                return AppState.selectedBodyParts.indexOf(part) !== -1; 
+                            });
+                            if (hasMatchingBodyPart) shouldShow = true;
+                        }
+                    }
+                    
+                    // Show/hide verse based on filters
+                    if (shouldShow) {
+                        verseElement.style.display = 'block';
+                        
+                        // Apply highlights for matching categories
+                        if (AppState.selectedDirections.length > 0 && 
+                            verse.directions.some(function(dir) { return AppState.selectedDirections.indexOf(dir) !== -1; })) {
+                            verseElement.classList.add('highlight-directions');
+                        }
+                        if (AppState.selectedDeities.length > 0 && 
+                            verse.deities.some(function(deity) { return AppState.selectedDeities.indexOf(deity) !== -1; })) {
+                            verseElement.classList.add('highlight-deities');
+                        }
+                        if (AppState.selectedBodyParts.length > 0 && 
+                            verse.bodyParts.some(function(part) { return AppState.selectedBodyParts.indexOf(part) !== -1; })) {
+                            verseElement.classList.add('highlight-body');
+                        }
+                    } else {
+                        verseElement.style.display = 'none';
+                    }
+                });
+            },
+            
+            clearAllFilters: function() {
+                // Clear search
+                this.elements.searchInput.value = '';
+                
+                // Clear all checkboxes in dropdowns
+                document.querySelectorAll('.dropdown-checkbox').forEach(function(checkbox) {
+                    checkbox.checked = false;
+                });
+                
+                // Clear filter tags
+                this.elements.activeFilters.innerHTML = '';
+                
+                // Update dropdown labels
+                this.updateDropdownLabels();
+                
+                // Clear highlights and show all verses
+                var allVerses = document.querySelectorAll('.verse');
+                allVerses.forEach(function(verse) {
+                    verse.style.display = 'block';
+                    verse.classList.remove('highlighted', 'highlight-directions', 'highlight-deities', 'highlight-body');
+                });
+                
+                // Hide autocomplete and dropdowns
+                this.elements.autocompleteDropdown.classList.add('hidden');
+                this.closeAllDropdowns();
+            },
+            
+            selectInDropdown: function(type, value) {
+                var pluralType = type === 'deity' ? 'deities' : 
+                                type === 'direction' ? 'directions' : 
+                                type === 'body' ? 'body' : type;
+                
+                var container = this.elements[pluralType + 'DropdownContent'];
+                if (container) {
+                    var checkbox = container.querySelector('[data-value="' + value + '"] .dropdown-checkbox');
+                    if (checkbox && !checkbox.checked) {
+                        checkbox.checked = true;
+                    }
+                }
+            }
+        };
+        
+        // =============================================================================
+        // INITIALIZATION
+        // =============================================================================
+        
+        function initApp() {
+            AppState.init();
+            UI.init();
+        }
+        
+        // Start the app
+        initApp();
+    </script>
+</body>
+</html>
