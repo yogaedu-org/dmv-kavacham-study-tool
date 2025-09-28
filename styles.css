@@ -1,0 +1,890 @@
+/**
+ * DAŚAMAHĀVIDYĀ KAVACAM - INTERACTIVE STUDY TOOL
+ * Enterprise-Standard Stylesheet
+ * 
+ * This stylesheet provides clean, maintainable styling for the Sanskrit study tool.
+ * Organized into logical sections for easy maintenance and extension.
+ * 
+ * @version 2.0.0
+ * @author YogaEdu.org
+ * @license MIT
+ */
+
+/* ==========================================================================
+   CSS CUSTOM PROPERTIES (CSS Variables)
+   Centralized theming system for consistent design
+   ========================================================================== */
+
+:root {
+  /* Color Palette */
+  --color-primary: #1a1a2e;           /* Deep navy background */
+  --color-secondary: #16213e;         /* Medium navy */
+  --color-accent: #4ecdc4;            /* Teal accent */
+  --color-text-primary: #e8e6e3;      /* Light text */
+  --color-text-secondary: #a8a8a8;    /* Muted text */
+  --color-sanskrit: #ffbe0b;          /* Sanskrit text color */
+  --color-transliteration: #fb8500;   /* Transliteration color */
+  --color-deity: #ff6b6b;             /* Deity tag color */
+  --color-direction: #4ecdc4;         /* Direction tag color */
+  --color-body: #fb8500;              /* Body part tag color */
+  
+  /* Typography */
+  --font-family-primary: 'Georgia', serif;
+  --font-family-secondary: 'Arial', sans-serif;
+  --font-size-base: 16px;
+  --font-size-large: 1.2rem;
+  --font-size-xlarge: 2rem;
+  --line-height-base: 1.6;
+  --line-height-tight: 1.4;
+  
+  /* Spacing */
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 1rem;
+  --spacing-md: 1.5rem;
+  --spacing-lg: 2rem;
+  --spacing-xl: 3rem;
+  
+  /* Layout */
+  --container-max-width: 1200px;
+  --border-radius: 8px;
+  --border-radius-large: 15px;
+  
+  /* Shadows */
+  --shadow-subtle: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-medium: 0 4px 8px rgba(0, 0, 0, 0.15);
+  --shadow-strong: 0 8px 16px rgba(0, 0, 0, 0.2);
+  
+  /* Transitions */
+  --transition-fast: 0.2s ease;
+  --transition-medium: 0.3s ease;
+}
+
+/* ==========================================================================
+   RESET AND BASE STYLES
+   Normalize browser defaults and establish consistent foundation
+   ========================================================================== */
+
+/* Modern CSS Reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: var(--font-size-base);
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-family-primary);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 50%, #0f3460 100%);
+  color: var(--color-text-primary);
+  line-height: var(--line-height-base);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ==========================================================================
+   TYPOGRAPHY
+   Consistent text styling throughout the application
+   ========================================================================== */
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: var(--line-height-tight);
+  margin-bottom: var(--spacing-sm);
+}
+
+/* Main title styling */
+.title {
+  font-size: var(--font-size-xlarge);
+  color: var(--color-deity);
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: var(--spacing-sm);
+}
+
+/* Subtitle styling */
+.subtitle {
+  font-size: var(--font-size-large);
+  color: var(--color-accent);
+  font-style: italic;
+  text-align: center;
+  margin-bottom: var(--spacing-sm);
+}
+
+/* Link styling */
+a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--color-sanskrit);
+}
+
+/* Demo link specific styling */
+.demo-link {
+  color: #ffffff !important;
+  text-decoration: underline;
+}
+
+.demo-link:visited {
+  color: #ffffff !important;
+}
+
+.demo-link:hover {
+  color: var(--color-sanskrit) !important;
+}
+
+/* ==========================================================================
+   LAYOUT COMPONENTS
+   Main structural elements and containers
+   ========================================================================== */
+
+/* Main container */
+.container {
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: var(--spacing-lg);
+}
+
+/* Header section */
+.header {
+  text-align: center;
+  margin-bottom: var(--spacing-xl);
+  padding: var(--spacing-lg);
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: var(--border-radius-large);
+  backdrop-filter: blur(10px);
+  box-shadow: var(--shadow-medium);
+}
+
+/* ==========================================================================
+   CONTROLS SECTION
+   Search, filters, and toggle controls
+   ========================================================================== */
+
+/* Controls container */
+.controls {
+  background: rgba(var(--color-primary), 0.95);
+  padding: var(--spacing-lg);
+  border-radius: var(--border-radius-large);
+  margin-bottom: var(--spacing-lg);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(78, 205, 196, 0.3);
+  box-shadow: var(--shadow-strong);
+}
+
+/* Controls row layout */
+.controls-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-md);
+  flex-wrap: wrap;
+}
+
+/* Checkbox group styling */
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  color: var(--color-accent);
+}
+
+.checkbox-group input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--color-accent);
+  cursor: pointer;
+}
+
+.checkbox-group label {
+  font-size: 14px;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Search input styling */
+.search-input {
+  padding: 12px var(--spacing-lg);
+  font-size: var(--font-size-base);
+  border: 2px solid var(--color-accent);
+  border-radius: 25px;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--color-text-primary);
+  width: 300px;
+  max-width: 90%;
+  outline: none;
+  transition: border-color var(--transition-medium);
+}
+
+.search-input:focus {
+  border-color: var(--color-sanskrit);
+}
+
+.search-input::placeholder {
+  color: rgba(232, 230, 227, 0.6);
+}
+
+/* Clear button styling */
+.clear-btn {
+  padding: var(--spacing-xs) var(--spacing-md);
+  background: rgba(255, 107, 107, 0.2);
+  border: 1px solid var(--color-deity);
+  border-radius: var(--border-radius);
+  color: var(--color-deity);
+  cursor: pointer;
+  font-size: 13px;
+  transition: background-color var(--transition-medium);
+}
+
+.clear-btn:hover {
+  background: rgba(255, 107, 107, 0.3);
+}
+
+/* ==========================================================================
+   VERSE COMPONENTS
+   Individual verse styling and layout
+   ========================================================================== */
+
+/* Verses container */
+.verses-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+/* Individual verse styling */
+.verse {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: var(--border-radius-large);
+  padding: var(--spacing-lg);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all var(--transition-medium);
+  cursor: pointer;
+}
+
+.verse:hover {
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-medium);
+}
+
+/* Verse number badge */
+.verse-number {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--color-deity), #ee5a6f);
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 40px;
+  font-weight: bold;
+  margin-bottom: var(--spacing-md);
+  font-size: 18px;
+}
+
+/* Sanskrit text styling */
+.sanskrit {
+  font-size: 1.4rem;
+  color: var(--color-sanskrit);
+  margin-bottom: var(--spacing-md);
+  line-height: 1.8;
+  font-weight: 500;
+  display: none; /* Hidden by default, shown via CSS class */
+}
+
+/* Show Sanskrit when class is applied */
+.show-sanskrit .sanskrit {
+  display: block;
+}
+
+/* Transliteration text styling */
+.transliteration {
+  font-size: 1.1rem;
+  color: var(--color-transliteration);
+  margin-bottom: var(--spacing-md);
+  font-style: italic;
+  display: none; /* Hidden by default, shown via CSS class */
+}
+
+/* Show transliteration when class is applied */
+.show-transliteration .transliteration {
+  display: block;
+}
+
+/* Translation text styling */
+.translation {
+  font-size: 1.1rem;
+  color: var(--color-text-primary);
+  line-height: 1.7;
+  margin-bottom: var(--spacing-md);
+}
+
+/* ==========================================================================
+   DROPDOWN COMPONENTS
+   Custom dropdown filters for categories
+   ========================================================================== */
+
+/* Dropdown group layout */
+.dropdown-group {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  position: relative;
+}
+
+.dropdown-label {
+  font-size: 14px;
+  color: var(--color-accent);
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+/* Custom dropdown container */
+.custom-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown button styling */
+.dropdown-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 120px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--color-accent);
+  border-radius: var(--border-radius);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  font-size: 14px;
+  transition: all var(--transition-fast);
+  gap: var(--spacing-xs);
+}
+
+.dropdown-button:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: var(--color-sanskrit);
+}
+
+.dropdown-button.active {
+  background: rgba(78, 205, 196, 0.2);
+  border-color: var(--color-accent);
+}
+
+.dropdown-arrow {
+  font-size: 12px;
+  transition: transform var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.dropdown-button.active .dropdown-arrow {
+  transform: rotate(180deg);
+}
+
+/* Dropdown content container */
+.dropdown-content {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: rgba(22, 33, 62, 0.95);
+  border: 1px solid var(--color-accent);
+  border-radius: var(--border-radius);
+  backdrop-filter: blur(10px);
+  box-shadow: var(--shadow-strong);
+  z-index: 1000;
+  max-height: 200px;
+  overflow-y: auto;
+  margin-top: 2px;
+}
+
+/* Dropdown item styling */
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dropdown-item:last-child {
+  border-bottom: none;
+}
+
+.dropdown-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.dropdown-item-text {
+  flex: 1;
+  font-size: 14px;
+  color: var(--color-text-primary);
+}
+
+/* Dropdown checkbox styling */
+.dropdown-checkbox {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--color-accent);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   FILTER TAG COMPONENTS
+   Visual filter tags with remove functionality
+   ========================================================================== */
+
+/* Active filters container */
+.active-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs);
+  margin: var(--spacing-md) 0;
+  justify-content: center;
+  min-height: 0;
+}
+
+.active-filters:empty {
+  display: none;
+}
+
+/* Filter tag base styling */
+.filter-tag {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border: 1px solid;
+  transition: all var(--transition-fast);
+  cursor: default;
+}
+
+/* Filter tag close button */
+.filter-tag-close {
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  padding: 0;
+  margin-left: 4px;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+}
+
+.filter-tag-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Deity filter tags */
+.filter-tag.deity-tag {
+  background: rgba(255, 107, 107, 0.2);
+  border-color: var(--color-deity);
+  color: var(--color-deity);
+}
+
+/* Direction filter tags */
+.filter-tag.direction-tag {
+  background: rgba(78, 205, 196, 0.2);
+  border-color: var(--color-direction);
+  color: var(--color-direction);
+}
+
+/* Body part filter tags */
+.filter-tag.body-tag {
+  background: rgba(251, 133, 0, 0.2);
+  border-color: var(--color-body);
+  color: var(--color-body);
+}
+
+/* ==========================================================================
+   AUTOCOMPLETE DROPDOWN
+   Search suggestions dropdown
+   ========================================================================== */
+
+/* Search input wrapper for relative positioning */
+.search-input-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+/* Autocomplete dropdown container */
+.autocomplete-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(22, 33, 62, 0.95);
+  border: 1px solid var(--color-accent);
+  border-radius: var(--border-radius);
+  backdrop-filter: blur(10px);
+  box-shadow: var(--shadow-strong);
+  z-index: 1000;
+  width: 300px;
+  max-width: 90vw;
+  max-height: 200px;
+  overflow-y: auto;
+  margin-top: 5px;
+}
+
+/* Autocomplete item styling */
+.autocomplete-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.autocomplete-item:last-child {
+  border-bottom: none;
+}
+
+.autocomplete-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Autocomplete item text */
+.autocomplete-text {
+  flex: 1;
+  font-size: 14px;
+  color: var(--color-text-primary);
+}
+
+/* Autocomplete category badge */
+.autocomplete-category {
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.autocomplete-category.deity {
+  background: rgba(255, 107, 107, 0.3);
+  color: var(--color-deity);
+}
+
+.autocomplete-category.direction {
+  background: rgba(78, 205, 196, 0.3);
+  color: var(--color-direction);
+}
+
+.autocomplete-category.body {
+  background: rgba(251, 133, 0, 0.3);
+  color: var(--color-body);
+}
+
+/* ==========================================================================
+   VERSE HIGHLIGHTING
+   Enhanced verse highlighting for filtered content
+   ========================================================================== */
+
+/* Verse highlight states */
+.verse.highlight-deities {
+  border-left: 4px solid var(--color-deity);
+  background: rgba(255, 107, 107, 0.1);
+}
+
+.verse.highlight-directions {
+  border-left: 4px solid var(--color-direction);
+  background: rgba(78, 205, 196, 0.1);
+}
+
+.verse.highlight-body {
+  border-left: 4px solid var(--color-body);
+  background: rgba(251, 133, 0, 0.1);
+}
+
+/* Multiple highlight states - use gradient border */
+.verse.highlight-deities.highlight-directions {
+  border-left: 4px solid;
+  border-image: linear-gradient(45deg, var(--color-deity), var(--color-direction)) 1;
+  background: linear-gradient(135deg, rgba(255, 107, 107, 0.05), rgba(78, 205, 196, 0.05));
+}
+
+.verse.highlight-deities.highlight-body {
+  border-left: 4px solid;
+  border-image: linear-gradient(45deg, var(--color-deity), var(--color-body)) 1;
+  background: linear-gradient(135deg, rgba(255, 107, 107, 0.05), rgba(251, 133, 0, 0.05));
+}
+
+.verse.highlight-directions.highlight-body {
+  border-left: 4px solid;
+  border-image: linear-gradient(45deg, var(--color-direction), var(--color-body)) 1;
+  background: linear-gradient(135deg, rgba(78, 205, 196, 0.05), rgba(251, 133, 0, 0.05));
+}
+
+/* ==========================================================================
+   TAG COMPONENTS
+   Category tags for deities, directions, and body parts
+   ========================================================================== */
+
+/* Tags container */
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-md);
+}
+
+/* Base tag styling */
+.tag {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border: 1px solid;
+  transition: all var(--transition-fast);
+}
+
+/* Deity tags */
+.tag--deity {
+  background: rgba(255, 107, 107, 0.2);
+  border-color: var(--color-deity);
+  color: var(--color-deity);
+}
+
+/* Direction tags */
+.tag--direction {
+  background: rgba(78, 205, 196, 0.2);
+  border-color: var(--color-direction);
+  color: var(--color-direction);
+}
+
+/* Body part tags */
+.tag--body {
+  background: rgba(251, 133, 0, 0.2);
+  border-color: var(--color-body);
+  color: var(--color-body);
+}
+
+/* Tag hover effects */
+.tag:hover {
+  opacity: 0.8;
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   UTILITY CLASSES
+   Reusable utility classes for common styling needs
+   ========================================================================== */
+
+/* Visibility utilities */
+.hidden {
+  display: none !important;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Text alignment utilities */
+.text-center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+/* Spacing utilities */
+.mb-sm {
+  margin-bottom: var(--spacing-sm);
+}
+
+.mb-md {
+  margin-bottom: var(--spacing-md);
+}
+
+.mb-lg {
+  margin-bottom: var(--spacing-lg);
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN
+   Mobile-first responsive breakpoints and adjustments
+   ========================================================================== */
+
+/* Tablet and small desktop adjustments */
+@media (max-width: 768px) {
+  .title {
+    font-size: 1.8rem;
+  }
+  
+  .sanskrit {
+    font-size: 1.2rem;
+  }
+  
+  .controls-row {
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+  
+  .filters-row {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+  
+  .dropdown-button {
+    min-width: 150px;
+  }
+  
+  .container {
+    padding: var(--spacing-md);
+  }
+  
+  .search-input {
+    width: 100%;
+  }
+  
+  .autocomplete-dropdown {
+    width: calc(100vw - 40px);
+  }
+  
+  .active-filters {
+    margin: var(--spacing-sm) 0;
+  }
+}
+
+/* Mobile adjustments */
+@media (max-width: 480px) {
+  .title {
+    font-size: 1.5rem;
+  }
+  
+  .verse {
+    padding: var(--spacing-md);
+  }
+  
+  .tags {
+    gap: var(--spacing-xs);
+  }
+  
+  .tag {
+    font-size: 0.8rem;
+    padding: 4px 10px;
+  }
+}
+
+/* ==========================================================================
+   ACCESSIBILITY ENHANCEMENTS
+   Styles to improve accessibility and usability
+   ========================================================================== */
+
+/* Focus indicators for keyboard navigation */
+button:focus,
+input:focus,
+.verse:focus {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root {
+    --color-text-primary: #ffffff;
+    --color-text-secondary: #cccccc;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ==========================================================================
+   PRINT STYLES
+   Optimized styles for printing
+   ========================================================================== */
+
+@media print {
+  body {
+    background: white;
+    color: black;
+  }
+  
+  .controls {
+    display: none;
+  }
+  
+  .verse {
+    break-inside: avoid;
+    border: 1px solid #ccc;
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .sanskrit,
+  .transliteration {
+    display: block !important;
+  }
+}
+
+/* ==========================================================================
+   NOTES SECTION
+   Styling for explanatory notes and documentation
+   ========================================================================== */
+
+.notes {
+  background: rgba(255, 255, 255, 0.05);
+  border-left: 4px solid var(--color-accent);
+  padding: var(--spacing-lg);
+  margin-top: var(--spacing-xl);
+  border-radius: 0 var(--border-radius) var(--border-radius) 0;
+}
+
+.notes h3 {
+  color: var(--color-accent);
+  margin-bottom: var(--spacing-md);
+}
+
+.notes p {
+  margin-bottom: var(--spacing-sm);
+}
+
+.notes p:last-child {
+  margin-bottom: 0;
+}
