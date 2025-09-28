@@ -1,5 +1,7 @@
 # श्रीदशमहाविद्याकवचम् - Interactive Study Tool
 
+**🌐 [Try the Interactive Tool](https://yogaedu-org.github.io/dmv-kavacham-study-tool/)** ← Click here to use the application
+
 An advanced web application for studying the Daśamahāvidyā Kavacam (Armor of the Ten Great Wisdom Goddesses). This tool provides multi-modal exploration through Sanskrit text, transliteration, translation, and intelligent filtering.
 
 ## 🌟 Features
@@ -95,7 +97,7 @@ Complete protection mapping:
 
 ## 🔗 Live Demo
 
-**Primary Access**: https://tiny.cc/ya-dmv-study-tool
+**Primary Access**: https://yogaedu-org.github.io/dmv-kavacham-study-tool/
 
 ## 🛠️ Development
 
