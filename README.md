@@ -1,4 +1,4 @@
-[**🌐 Live Demo**](https://yogaedu-org.github.io/dmv-kavacham-study-tool/dmv-kavacham-interactive.html)
+[**🌐 Live Demo**](https://yogaedu-org.github.io/dmv-kavacham-study-tool/dmv-kavacham-interactive.html) ← Click here to try it
 
 # श्रीदशमहाविद्याकवचम् - Interactive Study Tool
 
