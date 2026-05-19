@@ -177,6 +177,184 @@ a:hover {
   backdrop-filter: blur(10px);
   border: 1px solid rgba(78, 205, 196, 0.3);
   box-shadow: var(--shadow-strong);
+  position: sticky;
+  top: var(--spacing-lg);
+  z-index: 100;
+  transition: all var(--transition-medium);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Compact mode styling */
+.controls.compact {
+  padding: var(--spacing-xs) min(var(--spacing-md), 3vw);
+  border-radius: 8px;
+  margin-bottom: 0;
+  min-height: auto;
+  height: auto;
+  top: 0;
+  border-radius: 0 0 var(--border-radius) var(--border-radius);
+  overflow: visible;
+  position: relative;
+}
+
+/* Compact mode - hide secondary elements */
+.controls.compact .filters-row,
+.controls.compact .checkbox-group,
+.controls.compact .sr-only {
+  display: none !important;
+}
+
+/* Compact mode - show control buttons stacked on right */
+.controls.compact .compact-toggle,
+.controls.compact .pin-toggle {
+  display: flex !important;
+  opacity: 1;
+  max-height: none;
+  overflow: visible;
+  pointer-events: auto;
+  position: absolute;
+  right: var(--spacing-sm);
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  font-size: 12px;
+  margin: 0;
+}
+
+/* Stack pin button below gear button */
+.controls.compact .pin-toggle {
+  right: var(--spacing-sm);
+  top: calc(50% + 14px);
+}
+
+/* Compact mode - show active filters but on second line */
+.controls.compact .active-filters {
+  display: flex !important;
+  opacity: 1;
+  max-height: none;
+  overflow: visible;
+  margin: 0 !important;
+  padding: 0 !important;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs);
+}
+
+/* Compact mode - hide empty active filters completely */
+.controls.compact .active-filters:empty {
+  display: none !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Compact mode - show only essential elements on first line */
+.controls.compact .controls-row:first-child {
+  margin-bottom: 0;
+  gap: min(var(--spacing-md), 2vw);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  padding-right: 60px; /* Space for stacked buttons */
+}
+
+/* Compact mode - keep search and clear button visible */
+.controls.compact .search-input-wrapper,
+.controls.compact .clear-btn {
+  opacity: 1;
+  max-height: none;
+  overflow: visible;
+  pointer-events: auto;
+}
+
+/* Compact toggle button */
+.compact-toggle {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--color-accent);
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  color: var(--color-accent);
+  font-size: 14px;
+  margin-left: var(--spacing-sm);
+}
+
+.compact-toggle:hover {
+  background: rgba(78, 205, 196, 0.2);
+  border-color: var(--color-sanskrit);
+  color: var(--color-sanskrit);
+}
+
+/* Pin button for manual state control */
+.pin-toggle {
+  background: none;
+  border: 1px solid var(--color-text-secondary);
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  color: var(--color-text-secondary);
+  font-size: 12px;
+  margin-left: var(--spacing-xs);
+}
+
+.pin-toggle:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.pin-toggle.pinned {
+  background: rgba(78, 205, 196, 0.2);
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+/* Compact mode search adjustments */
+.controls.compact .search-input {
+  width: min(250px, 60vw);
+  min-width: 150px;
+  padding: 8px var(--spacing-md);
+  font-size: 14px;
+  flex: 1;
+}
+
+/* Compact mode button adjustments */
+.controls.compact .clear-btn {
+  padding: 6px var(--spacing-sm);
+  font-size: 12px;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+/* Smooth transitions for all control elements */
+.controls-row,
+.filters-row,
+.active-filters {
+  transition: opacity var(--transition-medium), 
+              max-height var(--transition-medium),
+              margin var(--transition-medium);
+}
+
+/* Hide elements completely when compact */
+.controls.compact .filters-row {
+  margin-bottom: 0;
+}
+
+.controls.compact .active-filters:empty {
+  margin: 0;
 }
 
 /* Controls row layout */
@@ -534,17 +712,15 @@ a:hover {
 .autocomplete-dropdown {
   position: absolute;
   top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 0;
+  right: 0;
   background: rgba(22, 33, 62, 0.95);
   border: 1px solid var(--color-accent);
   border-radius: var(--border-radius);
   backdrop-filter: blur(10px);
   box-shadow: var(--shadow-strong);
-  z-index: 1000;
-  width: 300px;
-  max-width: 90vw;
-  max-height: 200px;
+  z-index: 1001;
+  max-height: min(200px, 40vh);
   overflow-y: auto;
   margin-top: 5px;
 }
@@ -573,6 +749,9 @@ a:hover {
   flex: 1;
   font-size: 14px;
   color: var(--color-text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* Autocomplete category badge */
@@ -801,6 +980,27 @@ a:hover {
   .tag {
     font-size: 0.8rem;
     padding: 4px 10px;
+  }
+  
+  /* Mobile compact mode adjustments */
+  .controls.compact {
+    padding: var(--spacing-xs) var(--spacing-sm);
+  }
+  
+  .controls.compact .search-input {
+    width: 100%;
+    min-width: 120px;
+    font-size: 13px;
+    padding: 6px var(--spacing-sm);
+  }
+  
+  .controls.compact .clear-btn {
+    font-size: 11px;
+    padding: 6px 8px;
+  }
+  
+  .controls.compact .controls-row:first-child {
+    gap: var(--spacing-xs);
   }
 }
 

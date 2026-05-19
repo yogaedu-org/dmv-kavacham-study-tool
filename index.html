@@ -67,6 +67,31 @@
             
             <!-- Toggle Controls Row -->
             <div class="controls-row">
+                <!-- Search Input (for compact mode) -->
+                <div class="search-input-wrapper">
+                    <label for="searchInput" class="sr-only">Search verses</label>
+                    <input 
+                        type="search" 
+                        id="searchInput" 
+                        class="search-input" 
+                        placeholder="Search..."
+                        title="Search by deity name, direction, or body part"
+                        aria-describedby="search-help"
+                        autocomplete="off"
+                        role="combobox"
+                        aria-expanded="false"
+                        aria-autocomplete="list"
+                    >
+                    <div class="autocomplete-dropdown hidden" id="autocompleteDropdown" role="listbox" aria-label="Search suggestions">
+                        <!-- Autocomplete options populated by JavaScript -->
+                    </div>
+                </div>
+                
+                <!-- Clear Filters Button -->
+                <button class="clear-btn" id="clearFilters" aria-label="Clear all filters and search">
+                    Clear Filters
+                </button>
+                
                 <!-- Sanskrit Text Toggle -->
                 <div class="checkbox-group">
                     <input type="checkbox" id="sanskritToggle" checked aria-describedby="sanskrit-help">
@@ -79,9 +104,14 @@
                     <label for="transliterationToggle">Show Transliteration</label>
                 </div>
                 
-                <!-- Clear Filters Button -->
-                <button class="clear-btn" id="clearFilters" aria-label="Clear all filters and search">
-                    Clear Filters
+                <!-- Compact Toggle Button -->
+                <button class="compact-toggle" id="compactToggle" aria-label="Toggle compact mode" title="Expand/Collapse controls">
+                    ⚙️
+                </button>
+                
+                <!-- Pin Toggle Button -->
+                <button class="pin-toggle" id="pinToggle" aria-label="Pin controls expanded" title="Pin controls (prevent auto-collapse on scroll)">
+                    📌
                 </button>
             </div>
             
@@ -135,27 +165,6 @@
                 <!-- Filter tags populated by JavaScript -->
             </div>
             
-            <!-- Search Input Row -->
-            <div class="controls-row">
-                <div class="search-input-wrapper">
-                    <label for="searchInput" class="sr-only">Search verses</label>
-                    <input 
-                        type="search" 
-                        id="searchInput" 
-                        class="search-input" 
-                        placeholder="Search..."
-                        title="Search by deity name, direction, or body part"
-                        aria-describedby="search-help"
-                        autocomplete="off"
-                        role="combobox"
-                        aria-expanded="false"
-                        aria-autocomplete="list"
-                    >
-                    <div class="autocomplete-dropdown hidden" id="autocompleteDropdown" role="listbox" aria-label="Search suggestions">
-                        <!-- Autocomplete options populated by JavaScript -->
-                    </div>
-                </div>
-            </div>
             
             <!-- Help Text (Screen Reader) -->
             <div class="sr-only">

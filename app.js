@@ -201,6 +201,11 @@ const AppState = {
     selectedDirections: [],
     selectedBodyParts: [],
     
+    // Compact mode state
+    isCompact: false,
+    isPinned: false,
+    scrollTimeout: null,
+    
     // Cached data
     allDeities: [],
     allDirections: [],
@@ -323,7 +328,12 @@ const DOMElements = {
     
     // Content areas
     versesContainer: null,
-    loadingIndicator: null
+    loadingIndicator: null,
+    
+    // Compact mode controls
+    compactToggle: null,
+    pinToggle: null,
+    controlsContainer: null
 };
 
 /* ==========================================================================
@@ -377,6 +387,81 @@ function escapeHtml(text) {
     };
     return text.replace(/[&<>"']/g, function(m) { return map[m]; });
 }
+
+/* ==========================================================================
+   COMPACT MODE FUNCTIONALITY
+   Sticky controls with auto-collapse on scroll
+   ========================================================================== */
+
+/**
+ * Toggle compact mode manually
+ */
+function toggleCompactMode() {
+    AppState.isCompact = !AppState.isCompact;
+    updateCompactMode();
+    console.log(`Compact mode: ${AppState.isCompact ? 'ON' : 'OFF'}`);
+}
+
+/**
+ * Toggle pin state for manual control
+ */
+function togglePinMode() {
+    AppState.isPinned = !AppState.isPinned;
+    updatePinButton();
+    console.log(`Pin mode: ${AppState.isPinned ? 'PINNED' : 'UNPINNED'}`);
+}
+
+/**
+ * Update the visual state of compact mode
+ */
+function updateCompactMode() {
+    if (!DOMElements.controlsContainer) return;
+    
+    if (AppState.isCompact) {
+        DOMElements.controlsContainer.classList.add('compact');
+    } else {
+        DOMElements.controlsContainer.classList.remove('compact');
+    }
+}
+
+/**
+ * Update the visual state of the pin button
+ */
+function updatePinButton() {
+    if (!DOMElements.pinToggle) return;
+    
+    if (AppState.isPinned) {
+        DOMElements.pinToggle.classList.add('pinned');
+        DOMElements.pinToggle.title = 'Unpin controls (allow auto-collapse)';
+    } else {
+        DOMElements.pinToggle.classList.remove('pinned');
+        DOMElements.pinToggle.title = 'Pin controls (prevent auto-collapse on scroll)';
+    }
+}
+
+/**
+ * Handle scroll events with debouncing for compact mode
+ */
+const handleScroll = debounce(function() {
+    // Don't auto-change if pinned
+    if (AppState.isPinned) return;
+    
+    const scrollPosition = window.scrollY || window.pageYOffset;
+    
+    if (scrollPosition === 0) {
+        // At the top - expand
+        if (AppState.isCompact) {
+            AppState.isCompact = false;
+            updateCompactMode();
+        }
+    } else {
+        // Scrolled down - collapse
+        if (!AppState.isCompact) {
+            AppState.isCompact = true;
+            updateCompactMode();
+        }
+    }
+}, 100);
 
 /* ==========================================================================
    DROPDOWN FUNCTIONALITY
@@ -1020,6 +1105,24 @@ function initializeEventListeners() {
             closeAllDropdowns();
         }
     });
+    
+    // Compact mode controls
+    if (DOMElements.compactToggle) {
+        DOMElements.compactToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            toggleCompactMode();
+        });
+    }
+    
+    if (DOMElements.pinToggle) {
+        DOMElements.pinToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            togglePinMode();
+        });
+    }
+    
+    // Scroll detection for auto-compact
+    window.addEventListener('scroll', handleScroll);
 }
 
 /* ==========================================================================
@@ -1059,6 +1162,11 @@ function cacheDOMElements() {
     // Content areas
     DOMElements.versesContainer = getElementById('versesContainer');
     DOMElements.loadingIndicator = getElementById('loadingIndicator');
+    
+    // Compact mode controls
+    DOMElements.compactToggle = getElementById('compactToggle');
+    DOMElements.pinToggle = getElementById('pinToggle');
+    DOMElements.controlsContainer = document.querySelector('.controls');
 }
 
 /**
@@ -1139,6 +1247,12 @@ window.DMVKavacham = {
     addFilterTag: addFilterTag,
     removeFilterTag: removeFilterTag,
     applyFiltersAndHighlights: applyFiltersAndHighlights,
+    
+    // Compact mode functions
+    toggleCompactMode: toggleCompactMode,
+    togglePinMode: togglePinMode,
+    updateCompactMode: updateCompactMode,
+    updatePinButton: updatePinButton,
     
     // Utility functions
     debounce: debounce,
