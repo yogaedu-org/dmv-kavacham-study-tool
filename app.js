@@ -67,7 +67,7 @@ const FALLBACK_VERSE_DATA = [
     },
     {
         number: 5,
-        sanskrit: "ब्रह्मरूपा महाविद्या सर्वविद्यामयी स्वयं ।\nशीर्षे रक्षतु मे दुर्गा भालं श्रीभवगेहिनी ॥५॥",
+        sanskrit: "ब्रह्मरूपा महाविद्या सर्वविद्यामयी स्वयम् ।\nशीर्षे रक्षतु मे दुर्गा भालं श्रीभवगेहिनी ॥५॥",
         transliteration: "brahmarūpā mahāvidyā sarvavidyāmayī svayam |\nśīrṣe rakṣatu me durgā bhālaṃ śrībhavagehinī ||5||",
         translation: "She is the Great Vidyā, of the very form of Brahman, the essence of all knowledges. May Durgā guard my head; may Śrī‑Bhavagehinī guard my forehead.",
         deities: ["Mahavidya", "Durga", "Shribhavagahini", "Parvati"],
