@@ -32,7 +32,7 @@ const FALLBACK_VERSE_DATA = [
     {
         number: 1,
         sanskrit: "ॐ प्राच्यां रक्षतु मे तारा कामरूपनिवासिनी ।\nआग्नेय्यां षोडशी पातु याम्यां धूमावती स्वयम् ॥१॥",
-        transliteration: "Om prācyāṃ rakṣatu me tārā kāmarūpanivāsinī |\nāgneyāṃ ṣoḍaśī pātu yāmyāṃ dhūmāvatī svayam ||1||",
+        transliteration: "Om prācyāṃ rakṣatu me tārā kāmarūpanivāsinī |\nāgneyyāṃ ṣoḍaśī pātu yāmyāṃ dhūmāvatī svayam ||1||",
         translation: "May Tārā, who dwells in Kāmarūpa, guard me in the east. In the southeast may Ṣoḍaśī (Tripurasundarī) protect me; in the south, Dhumāvatī herself.",
         deities: ["Tara", "Sodasi", "Tripurasundari", "Dhumavati"],
         directions: ["East", "Southeast", "South"],
@@ -77,7 +77,7 @@ const FALLBACK_VERSE_DATA = [
     {
         number: 6,
         sanskrit: "त्रिपुरा भ्रुयुगे पातु शर्वाणी पातु नासिकाम् ।\nचक्षुषी चण्डिका पातु श्रोत्रे नीलसरस्वती ॥६॥",
-        transliteration: "tripurā bhruyuge pātu śarvaṇī pātu nāsikām |\ncakṣuṣī caṇḍikā pātu śrotre nīlasarasvatī ||6||",
+        transliteration: "tripurā bhruyuge pātu śarvāṇī pātu nāsikām |\ncakṣuṣī caṇḍikā pātu śrotre nīlasarasvatī ||6||",
         translation: "May Tripurā guard my brows; may Śarvaṇī (Pārvatī) guard my nose. May Caṇḍikā guard my eyes; may Nīla‑Sarasvatī guard my ears.",
         deities: ["Tripura", "Sarvani", "Parvati", "Candika", "Nilasarasvati"],
         directions: [],
@@ -142,7 +142,7 @@ const FALLBACK_VERSE_DATA = [
         sanskrit: "भस्माचलगता दिव्यसिंहासनकृताश्रया ।\nपातु श्रीकालिकादेवी सर्वोत्पातेषु सर्वदा ॥१३॥",
         transliteration: "bhasmācalagatā divyasiṃhāsanakṛtāśrayā |\npātu śrīkālikādevī sarvotpāteṣu sarvadā ||13||",
         translation: "Residing on the mountain of ash, enthroned upon the divine lion seat—may Śrī Kālika‑devī protect me from every calamity, always.",
-        deities: ["Shrikalikadevii"],
+        deities: ["Shrikalikadevi"],
         directions: [],
         bodyParts: []
     },
