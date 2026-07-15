@@ -91,22 +91,35 @@
   .badge{font-family:var(--serif);font-weight:600;font-size:.95rem;color:var(--bg);
      background:var(--kumkum);border-radius:8px;padding:.15rem .55rem;letter-spacing:.02em}
   :root[data-theme="dark"] .badge{color:#1a0f0e}
-  .field{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+  .field{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
      border:1px solid var(--line);border-radius:20px;padding:.2rem .6rem}
+  .field.q{color:var(--kumkum);border-color:var(--kumkum);font-weight:700}
   .conf{margin-left:auto;font-size:.8rem;color:var(--add);font-weight:600;display:flex;align-items:center;gap:.3rem}
   .conf.meta{color:var(--muted)}
+
+  /* Context line: the layer that is CORRECT / unchanged */
+  .context{display:flex;gap:.5rem .7rem;flex-wrap:wrap;align-items:baseline;background:var(--surface-2);
+     border:1px solid var(--line);border-radius:10px;padding:.6rem .8rem;margin-bottom:.9rem}
+  .context .clab{font-size:.66rem;letter-spacing:.09em;text-transform:uppercase;color:var(--add);
+     font-weight:700;white-space:nowrap;display:inline-flex;align-items:center;gap:.3rem}
+  .context .clab::before{content:"✓"}
+  .context .txt.deva{font-size:1.18rem;line-height:1.6}
+  .context .txt.iast{font-size:.98rem}
+  .context small{color:var(--muted);font-size:.78rem}
 
   .diff{display:grid;grid-template-columns:1fr;gap:.6rem}
   @media(min-width:640px){.diff{grid-template-columns:1fr 1fr;gap:.9rem}}
   .side{border-radius:11px;padding:.7rem .85rem;border:1px solid}
   .side.before{background:var(--del-bg);border-color:var(--del-line)}
   .side.after{background:var(--add-bg);border-color:var(--add-line)}
-  .side .tag{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700;display:block;margin-bottom:.4rem}
+  .side .tag{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700;display:flex;justify-content:space-between;gap:.5rem;margin-bottom:.4rem}
+  .side .tag .layer{color:var(--muted);letter-spacing:.06em}
   .before .tag{color:var(--del)} .after .tag{color:var(--add)}
   .txt{font-size:1.02rem;word-break:break-word}
-  .txt.deva{font-family:var(--deva);font-size:1.3rem;line-height:1.85}
+  .txt.deva{font-family:var(--deva);font-size:1.32rem;line-height:1.85}
   .txt.iast{font-family:var(--serif);font-style:italic}
   .txt.code{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:.95rem;font-style:normal}
+  .txt + .txt{margin-top:.35rem}
   .mark{padding:.02em .18em;border-radius:5px;font-style:normal;font-weight:700}
   .before .mark{background:rgba(163,63,57,.22);color:var(--del);text-decoration:line-through;text-decoration-thickness:1.5px}
   .after .mark{background:rgba(47,111,79,.2);color:var(--add)}
@@ -148,7 +161,6 @@
   footer{margin-top:2.6rem;color:var(--muted);font-size:.8rem;border-top:1px solid var(--line);padding-top:1rem}
   a{color:var(--kumkum)}
 
-  /* Copy panel */
   .overlay{position:fixed;inset:0;background:rgba(20,16,26,.55);display:none;align-items:center;
      justify-content:center;padding:1.2rem;z-index:50}
   .overlay.open{display:flex}
@@ -172,7 +184,7 @@
   <header class="masthead">
     <div class="eyebrow">Daśamahāvidyā Kavacam · Textual review</div>
     <h1>Four corrections, <span class="deva-title">तीन स्रोतों</span> confirmed</h1>
-    <p class="lede">Every change below is backed by three independent Devanāgarī witnesses — Sanskrit Documents, Devshoppe, and Vishwamatha. Decide each one, add a note if you like, then copy the JSON back.</p>
+    <p class="lede">Each card shows both scripts and names the layer in question — Devanāgarī, transliteration, or metadata. The ✓ line is the layer that is already correct; the red→green diff is the one that changes. All three witnesses (Sanskrit Documents, Devshoppe, Vishwamatha) agree.</p>
     <div class="repo-line">
       <span>Repo <code>yogaedu-org/dmv-kavacham-study-tool</code></span>
       <span>· Issue <code>#3</code></span><span>· Epic <code>#2</code></span>
@@ -192,74 +204,74 @@
       <button class="reset" id="reset" type="button">Reset</button>
     </div>
   </div>
-  <p class="hint"><b>To send decisions back:</b> click <b>Copy JSON</b>, then paste the block into the chat. It carries the repo, issue #3, and each verse's decision + your notes.</p>
+  <p class="hint"><b>To send decisions back:</b> click <b>Copy JSON</b>, then paste the block into the chat. It carries the repo, issue #3, both scripts, and each verse's decision + your notes.</p>
 
   <div class="cards" id="cards">
 
+    <!-- V1: transliteration in question, Devanāgarī correct -->
     <article class="card" data-state="accept" data-verse="V1">
       <div class="card-strip"></div>
       <div class="card-body">
-        <div class="card-head"><span class="badge">Verse 1</span><span class="field">Transliteration · line 1</span><span class="conf">✓ 3 sources</span></div>
+        <div class="card-head"><span class="badge">Verse 1</span><span class="field q">In question: Transliteration</span><span class="conf">✓ 3 sources</span></div>
+        <div class="context"><span class="clab">Devanāgarī correct</span><span class="txt deva">…आग्नेय्यां षोडशी पातु…</span><small>(the द्वित्व/doubled य्य is right)</small></div>
         <div class="diff">
-          <div class="side before"><span class="tag">Current</span><div class="txt iast">…ā<span class="mark">gney</span>āṃ ṣoḍaśī pātu…</div></div>
-          <div class="side after"><span class="tag">Proposed</span><div class="txt iast">…ā<span class="mark">gneyy</span>āṃ ṣoḍaśī pātu…</div></div>
+          <div class="side before"><span class="tag">Current <span class="layer">IAST</span></span><div class="txt iast">…ā<span class="mark">gney</span>āṃ ṣoḍaśī pātu…</div></div>
+          <div class="side after"><span class="tag">Proposed <span class="layer">IAST</span></span><div class="txt iast">…ā<span class="mark">gneyy</span>āṃ ṣoḍaśī pātu…</div></div>
         </div>
-        <p class="why"><b>Why:</b> the Devanāgarī already reads <span class="deva-title">आग्नेय्यां</span> with a doubled <span class="deva-title">य्य</span>. The IAST dropped one <em>y</em> — it should be <b>āgneyyāṃ</b>. Only the romanization changes.</p>
+        <p class="why"><b>Why:</b> the Devanāgarī <span class="deva-title">आग्नेय्यां</span> has a doubled <span class="deva-title">य्य</span>; the romanization dropped one <em>y</em>. Fix IAST → <b>āgneyyāṃ</b>. Devanāgarī unchanged.</p>
         <div class="sources"><span class="src">Sanskrit Documents</span><span class="src">Devshoppe</span><span class="src">Vishwamatha</span></div>
-        <div class="decide" role="group" aria-label="Decision for Verse 1">
-          <button class="btn accept" data-act="accept">Accept</button><button class="btn hold" data-act="hold">Hold</button><button class="btn reject" data-act="reject">Reject</button>
-        </div>
+        <div class="decide" role="group" aria-label="Decision for Verse 1"><button class="btn accept" data-act="accept">Accept</button><button class="btn hold" data-act="hold">Hold</button><button class="btn reject" data-act="reject">Reject</button></div>
         <label class="note-wrap"><span class="note-lab">Note (optional)</span><textarea class="note" rows="1" placeholder="A reason, a caveat, a question…"></textarea></label>
       </div>
     </article>
 
+    <!-- V5: Devanāgarī in question, transliteration correct -->
     <article class="card" data-state="accept" data-verse="V5">
       <div class="card-strip"></div>
       <div class="card-body">
-        <div class="card-head"><span class="badge">Verse 5</span><span class="field">Devanāgarī · line 1</span><span class="conf">✓ 3 sources</span></div>
+        <div class="card-head"><span class="badge">Verse 5</span><span class="field q">In question: Devanāgarī</span><span class="conf">✓ 3 sources</span></div>
+        <div class="context"><span class="clab">Transliteration correct</span><span class="txt iast">…sarvavidyāmayī svayam |</span></div>
         <div class="diff">
-          <div class="side before"><span class="tag">Current</span><div class="txt deva">…सर्वविद्यामयी स्वयं ।</div><div class="txt code">svaya<span class="mark">ṃ</span> (anusvāra ं)</div></div>
-          <div class="side after"><span class="tag">Proposed</span><div class="txt deva">…सर्वविद्यामयी स्वय<span class="mark">म्</span> ।</div><div class="txt code">svaya<span class="mark">m</span> (halant म्)</div></div>
+          <div class="side before"><span class="tag">Current <span class="layer">Devanāgarī</span></span><div class="txt deva">…सर्वविद्यामयी स्वय<span class="mark">ं</span> ।</div><div class="txt code">…svaya<span class="mark">ṃ</span> (anusvāra ं)</div></div>
+          <div class="side after"><span class="tag">Proposed <span class="layer">Devanāgarī</span></span><div class="txt deva">…सर्वविद्यामयी स्वय<span class="mark">म्</span> ।</div><div class="txt code">…svaya<span class="mark">m</span> (halant म्)</div></div>
         </div>
-        <p class="why"><b>Why:</b> both external sources read <span class="deva-title">स्वयम्</span>, and so do <b>your own verses 1 and 4</b>. The IAST already says <i>svayam</i> — the verse-5 anusvāra is the lone outlier.</p>
+        <p class="why"><b>Why:</b> both external sources read <span class="deva-title">स्वयम्</span>, as do <b>your own verses 1 and 4</b>. The IAST already says <i>svayam</i> — the verse-5 anusvāra is the lone outlier.</p>
         <div class="sources"><span class="src">Sanskrit Documents</span><span class="src">Devshoppe</span><span class="src">Vishwamatha</span><span class="src internal">internal V1/V4</span></div>
-        <div class="decide" role="group" aria-label="Decision for Verse 5">
-          <button class="btn accept" data-act="accept">Accept</button><button class="btn hold" data-act="hold">Hold</button><button class="btn reject" data-act="reject">Reject</button>
-        </div>
+        <div class="decide" role="group" aria-label="Decision for Verse 5"><button class="btn accept" data-act="accept">Accept</button><button class="btn hold" data-act="hold">Hold</button><button class="btn reject" data-act="reject">Reject</button></div>
         <label class="note-wrap"><span class="note-lab">Note (optional)</span><textarea class="note" rows="1" placeholder="A reason, a caveat, a question…"></textarea></label>
       </div>
     </article>
 
+    <!-- V6: transliteration in question, Devanāgarī correct -->
     <article class="card" data-state="accept" data-verse="V6">
       <div class="card-strip"></div>
       <div class="card-body">
-        <div class="card-head"><span class="badge">Verse 6</span><span class="field">Transliteration · line 1</span><span class="conf">✓ 3 sources</span></div>
+        <div class="card-head"><span class="badge">Verse 6</span><span class="field q">In question: Transliteration</span><span class="conf">✓ 3 sources</span></div>
+        <div class="context"><span class="clab">Devanāgarī correct</span><span class="txt deva">…पातु शर्वाणी पातु नासिकाम् ।</span><small>(long आ in र्वा)</small></div>
         <div class="diff">
-          <div class="side before"><span class="tag">Current</span><div class="txt iast">…pātu śarv<span class="mark">a</span>ṇī pātu nāsikām |</div></div>
-          <div class="side after"><span class="tag">Proposed</span><div class="txt iast">…pātu śarv<span class="mark">ā</span>ṇī pātu nāsikām |</div></div>
+          <div class="side before"><span class="tag">Current <span class="layer">IAST</span></span><div class="txt iast">…pātu śarv<span class="mark">a</span>ṇī pātu nāsikām |</div></div>
+          <div class="side after"><span class="tag">Proposed <span class="layer">IAST</span></span><div class="txt iast">…pātu śarv<span class="mark">ā</span>ṇī pātu nāsikām |</div></div>
         </div>
-        <p class="why"><b>Why:</b> the Devanāgarī <span class="deva-title">शर्वाणी</span> carries a long <b>ā</b>; the IAST rendered it short. Fix the romanization to <b>śarvāṇī</b>.</p>
+        <p class="why"><b>Why:</b> the Devanāgarī <span class="deva-title">शर्वाणी</span> carries a long <b>ā</b>; the IAST rendered it short. Fix IAST → <b>śarvāṇī</b>. Devanāgarī unchanged.</p>
         <div class="sources"><span class="src">Sanskrit Documents</span><span class="src">Devshoppe</span><span class="src">Vishwamatha</span></div>
-        <div class="decide" role="group" aria-label="Decision for Verse 6">
-          <button class="btn accept" data-act="accept">Accept</button><button class="btn hold" data-act="hold">Hold</button><button class="btn reject" data-act="reject">Reject</button>
-        </div>
+        <div class="decide" role="group" aria-label="Decision for Verse 6"><button class="btn accept" data-act="accept">Accept</button><button class="btn hold" data-act="hold">Hold</button><button class="btn reject" data-act="reject">Reject</button></div>
         <label class="note-wrap"><span class="note-lab">Note (optional)</span><textarea class="note" rows="1" placeholder="A reason, a caveat, a question…"></textarea></label>
       </div>
     </article>
 
+    <!-- V13: neither script wrong; only the metadata deity label -->
     <article class="card" data-state="accept" data-verse="V13">
       <div class="card-strip"></div>
       <div class="card-body">
-        <div class="card-head"><span class="badge">Verse 13</span><span class="field">Metadata · deities[]</span><span class="conf meta">✎ metadata only</span></div>
+        <div class="card-head"><span class="badge">Verse 13</span><span class="field q">In question: Metadata label only</span><span class="conf meta">✎ not the recited text</span></div>
+        <div class="context"><span class="clab">Recited text correct</span><span class="txt deva">…पातु श्रीकालिकादेवी सर्वोत्पातेषु सर्वदा</span><span class="txt iast">…pātu śrīkālikādevī…</span></div>
         <div class="diff">
-          <div class="side before"><span class="tag">Current</span><div class="txt code">"Shrikalikadev<span class="mark">ii</span>"</div></div>
-          <div class="side after"><span class="tag">Proposed</span><div class="txt code">"Shrikalikadev<span class="mark">i</span>"</div></div>
+          <div class="side before"><span class="tag">Current <span class="layer">deities[]</span></span><div class="txt code">"Shrikalikadev<span class="mark">ii</span>"</div></div>
+          <div class="side after"><span class="tag">Proposed <span class="layer">deities[]</span></span><div class="txt code">"Shrikalikadev<span class="mark">i</span>"</div></div>
         </div>
-        <p class="why"><b>Why:</b> a doubled trailing <i>i</i> in the <code>deities</code> tag. The recited text <span class="deva-title">श्रीकालिकादेवी</span> is correct and untouched — this only tidies a search/filter label, so it carries no liturgical risk.</p>
+        <p class="why"><b>Why:</b> a doubled trailing <i>i</i> in the <code>deities</code> search/filter tag. Both the Devanāgarī <span class="deva-title">श्रीकालिकादेवी</span> and its IAST are correct and untouched — no liturgical risk.</p>
         <div class="sources"><span class="src">verse text ✓ 3 sources</span><span class="src internal">internal typo</span></div>
-        <div class="decide" role="group" aria-label="Decision for Verse 13">
-          <button class="btn accept" data-act="accept">Accept</button><button class="btn hold" data-act="hold">Hold</button><button class="btn reject" data-act="reject">Reject</button>
-        </div>
+        <div class="decide" role="group" aria-label="Decision for Verse 13"><button class="btn accept" data-act="accept">Accept</button><button class="btn hold" data-act="hold">Hold</button><button class="btn reject" data-act="reject">Reject</button></div>
         <label class="note-wrap"><span class="note-lab">Note (optional)</span><textarea class="note" rows="1" placeholder="A reason, a caveat, a question…"></textarea></label>
       </div>
     </article>
@@ -295,17 +307,21 @@
 
 <script>
 (function(){
-  var META = {
-    board:"dmv-kavacham text corrections",
-    repo:"yogaedu-org/dmv-kavacham-study-tool",
-    relatesTo:{ issue:3, epic:2 },
-    dataFile:"data/verses.json"
-  };
+  var META = { board:"dmv-kavacham text corrections", repo:"yogaedu-org/dmv-kavacham-study-tool",
+    relatesTo:{ issue:3, epic:2 }, dataFile:"data/verses.json" };
   var DEFS = {
-    V1:{verse:1, field:"transliteration", location:"line 1", from:"āgneyāṃ", to:"āgneyyāṃ"},
-    V5:{verse:5, field:"devanagari",      location:"line 1", from:"स्वयं", to:"स्वयम्"},
-    V6:{verse:6, field:"transliteration", location:"line 1", from:"śarvaṇī", to:"śarvāṇī"},
-    V13:{verse:13, field:"metadata.deities", location:"deities[]", from:"Shrikalikadevii", to:"Shrikalikadevi"}
+    V1:{verse:1, inQuestion:"transliteration", location:"line 1",
+        devanagari:"आग्नेय्यां", devanagariStatus:"correct (unchanged)",
+        transliterationFrom:"āgneyāṃ", transliterationTo:"āgneyyāṃ"},
+    V5:{verse:5, inQuestion:"devanagari", location:"line 1",
+        devanagariFrom:"स्वयं", devanagariTo:"स्वयम्",
+        transliteration:"svayam", transliterationStatus:"correct (unchanged)"},
+    V6:{verse:6, inQuestion:"transliteration", location:"line 1",
+        devanagari:"शर्वाणी", devanagariStatus:"correct (unchanged)",
+        transliterationFrom:"śarvaṇī", transliterationTo:"śarvāṇī"},
+    V13:{verse:13, inQuestion:"metadata.deities", location:"deities[]",
+        devanagari:"श्रीकालिकादेवी", transliteration:"śrīkālikādevī", textStatus:"both correct (unchanged)",
+        metadataFrom:"Shrikalikadevii", metadataTo:"Shrikalikadevi"}
   };
   var VARIANTS = [
     {verse:10, decision:"keep", detail:"repeated उग्रतारा — recension variant"},
@@ -331,34 +347,24 @@
   function buildJSON(){
     var decisions=cards.map(function(c){
       var id=c.dataset.verse, d=DEFS[id], note=c.querySelector(".note").value.trim();
-      return {id:id, verse:d.verse, field:d.field, location:d.location,
-              from:d.from, to:d.to, decision:c.dataset.state, note:note};
+      var out={id:id};
+      for(var k in d){ if(d.hasOwnProperty(k)) out[k]=d[k]; }
+      out.decision=c.dataset.state; out.note=note;
+      return out;
     });
-    var payload={
-      board:META.board, repo:META.repo, relatesTo:META.relatesTo, dataFile:META.dataFile,
-      generatedAt:new Date().toISOString(),
-      decisions:decisions, variantsAcknowledged:VARIANTS
-    };
-    return JSON.stringify(payload,null,2);
+    return JSON.stringify({ board:META.board, repo:META.repo, relatesTo:META.relatesTo,
+      dataFile:META.dataFile, generatedAt:new Date().toISOString(),
+      decisions:decisions, variantsAcknowledged:VARIANTS }, null, 2);
   }
   function showToast(msg){ toast.textContent=msg; toast.classList.add("show");
     clearTimeout(toastT); toastT=setTimeout(function(){toast.classList.remove("show");},2600); }
-  function copy(text){
-    if(navigator.clipboard && navigator.clipboard.writeText){
-      return navigator.clipboard.writeText(text);
-    }
-    return Promise.reject();
-  }
+  function copy(text){ return (navigator.clipboard && navigator.clipboard.writeText) ? navigator.clipboard.writeText(text) : Promise.reject(); }
   function openPanel(){
-    var text=buildJSON(); jsonOut.value=text; overlay.classList.add("open");
-    jsonOut.focus(); jsonOut.select();
-    copy(text).then(function(){showToast("Copied — paste it into the chat");})
-              .catch(function(){showToast("Select all & copy (Ctrl/Cmd+C)");});
+    var text=buildJSON(); jsonOut.value=text; overlay.classList.add("open"); jsonOut.focus(); jsonOut.select();
+    copy(text).then(function(){showToast("Copied — paste it into the chat");}).catch(function(){showToast("Select all & copy (Ctrl/Cmd+C)");});
   }
   cards.forEach(function(c){
-    c.querySelectorAll(".btn").forEach(function(b){
-      b.addEventListener("click", function(){ c.dataset.state=b.dataset.act; render(); });
-    });
+    c.querySelectorAll(".btn").forEach(function(b){ b.addEventListener("click", function(){ c.dataset.state=b.dataset.act; render(); }); });
   });
   document.getElementById("reset").addEventListener("click", function(){
     cards.forEach(function(c){ c.dataset.state="accept"; c.querySelector(".note").value=""; }); render();
