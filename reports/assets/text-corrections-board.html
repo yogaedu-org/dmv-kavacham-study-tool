@@ -42,32 +42,39 @@
        line-height:1.55;-webkit-font-smoothing:antialiased;padding-bottom:4rem}
   .wrap{max-width:940px;margin:0 auto;padding:clamp(1rem,3vw,2rem)}
 
-  /* Header */
   .masthead{padding:clamp(1.2rem,4vw,2.4rem) 0 1.4rem;border-bottom:1px solid var(--line)}
   .eyebrow{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:600}
   h1{font-family:var(--serif);font-weight:600;font-size:clamp(1.7rem,4.5vw,2.5rem);
      margin:.5rem 0 .3rem;letter-spacing:-.01em;text-wrap:balance}
   .lede{color:var(--muted);max-width:62ch;font-size:1rem}
   .deva-title{font-family:var(--deva);color:var(--kumkum);font-weight:600}
+  .repo-line{margin-top:.7rem;font-size:.78rem;color:var(--muted);display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}
+  .repo-line code{font-family:ui-monospace,Menlo,Consolas,monospace;background:var(--chip);
+     padding:.12rem .45rem;border-radius:6px;color:var(--ink)}
 
-  /* Sticky decision summary */
   .summary{position:sticky;top:0;z-index:5;background:var(--surface);border:1px solid var(--line);
-     border-radius:14px;box-shadow:var(--shadow);padding:1rem 1.1rem;margin:1.4rem 0 2rem;
+     border-radius:14px;box-shadow:var(--shadow);padding:1rem 1.1rem;margin:1.4rem 0 .6rem;
      display:flex;flex-wrap:wrap;align-items:center;gap:.9rem 1.3rem}
   .tally{display:flex;gap:1.1rem;flex-wrap:wrap}
-  .tally b{font-variant-numeric:tabular-nums}
   .tk{display:flex;align-items:baseline;gap:.35rem;font-size:.9rem;color:var(--muted)}
-  .tk .n{font-family:var(--serif);font-size:1.35rem;color:var(--ink);font-weight:600}
+  .tk .n{font-family:var(--serif);font-size:1.35rem;color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
   .tk.accept .n{color:var(--add)} .tk.hold .n{color:var(--gold)} .tk.reject .n{color:var(--del)}
   .instruction{flex:1 1 260px;min-width:220px;font-size:.92rem;color:var(--ink);
      background:var(--surface-2);border:1px dashed var(--line);border-radius:9px;padding:.55rem .75rem}
   .instruction span{color:var(--muted)}
   .instruction b{color:var(--kumkum);font-weight:600}
-  .reset{margin-left:auto;font:inherit;font-size:.82rem;color:var(--muted);background:none;
-     border:1px solid var(--line);border-radius:8px;padding:.4rem .7rem;cursor:pointer}
+  .actions{display:flex;gap:.5rem;margin-left:auto}
+  .copy{font:inherit;font-size:.85rem;font-weight:600;color:#fff;background:var(--kumkum);
+     border:1px solid var(--kumkum);border-radius:9px;padding:.5rem .95rem;cursor:pointer}
+  :root[data-theme="dark"] .copy{color:#1a0f0e}
+  .copy:hover{filter:brightness(1.06)}
+  .copy:focus-visible,.reset:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+  .reset{font:inherit;font-size:.82rem;color:var(--muted);background:none;
+     border:1px solid var(--line);border-radius:9px;padding:.5rem .7rem;cursor:pointer}
   .reset:hover{color:var(--ink);border-color:var(--muted)}
+  .hint{font-size:.8rem;color:var(--muted);margin:0 0 2rem;padding-left:.2rem}
+  .hint b{color:var(--kumkum)}
 
-  /* Cards */
   .cards{display:flex;flex-direction:column;gap:1.4rem}
   .card{background:var(--surface);border:1px solid var(--line);border-radius:16px;
      box-shadow:var(--shadow);overflow:hidden;transition:border-color .2s}
@@ -83,6 +90,7 @@
   .card-head{display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;margin-bottom:1rem}
   .badge{font-family:var(--serif);font-weight:600;font-size:.95rem;color:var(--bg);
      background:var(--kumkum);border-radius:8px;padding:.15rem .55rem;letter-spacing:.02em}
+  :root[data-theme="dark"] .badge{color:#1a0f0e}
   .field{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
      border:1px solid var(--line);border-radius:20px;padding:.2rem .6rem}
   .conf{margin-left:auto;font-size:.8rem;color:var(--add);font-weight:600;display:flex;align-items:center;gap:.3rem}
@@ -102,7 +110,6 @@
   .mark{padding:.02em .18em;border-radius:5px;font-style:normal;font-weight:700}
   .before .mark{background:rgba(163,63,57,.22);color:var(--del);text-decoration:line-through;text-decoration-thickness:1.5px}
   .after .mark{background:rgba(47,111,79,.2);color:var(--add)}
-  :root[data-theme="dark"] .before .mark,@media (prefers-color-scheme:dark){.before .mark{background:rgba(231,155,149,.18)}}
 
   .why{margin:1rem 0 .2rem;font-size:.92rem;color:var(--muted)}
   .why b{color:var(--ink);font-weight:600}
@@ -112,7 +119,6 @@
   .src::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--add)}
   .src.internal::before{background:var(--gold)}
 
-  /* Decision buttons */
   .decide{display:flex;gap:.5rem;margin-top:1.1rem;flex-wrap:wrap}
   .btn{font:inherit;font-size:.85rem;font-weight:600;border:1px solid var(--line);background:var(--surface-2);
      color:var(--muted);border-radius:9px;padding:.5rem .95rem;cursor:pointer;transition:.15s}
@@ -123,7 +129,13 @@
   .card[data-state="reject"] .btn.reject{background:var(--del);color:#fff;border-color:var(--del)}
   :root[data-theme="dark"] .card[data-state="accept"] .btn.accept{color:#0e2418}
 
-  /* Leave as-is */
+  .note-wrap{display:block;margin-top:.9rem}
+  .note-lab{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:.35rem}
+  .note{width:100%;font:inherit;font-size:.9rem;color:var(--ink);background:var(--surface-2);
+     border:1px solid var(--line);border-radius:9px;padding:.55rem .7rem;resize:vertical;min-height:2.6rem;line-height:1.5}
+  .note::placeholder{color:var(--muted);opacity:.8}
+  .note:focus-visible{outline:2px solid var(--focus);outline-offset:1px;border-color:var(--focus)}
+
   .aside{margin-top:2.6rem;border-top:1px solid var(--line);padding-top:1.6rem}
   .aside h2{font-family:var(--serif);font-size:1.15rem;font-weight:600;margin:0 0 .3rem}
   .aside p.sub{color:var(--muted);font-size:.9rem;margin:0 0 1rem;max-width:60ch}
@@ -135,6 +147,24 @@
 
   footer{margin-top:2.6rem;color:var(--muted);font-size:.8rem;border-top:1px solid var(--line);padding-top:1rem}
   a{color:var(--kumkum)}
+
+  /* Copy panel */
+  .overlay{position:fixed;inset:0;background:rgba(20,16,26,.55);display:none;align-items:center;
+     justify-content:center;padding:1.2rem;z-index:50}
+  .overlay.open{display:flex}
+  .panel{background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);
+     width:min(640px,100%);max-height:82vh;display:flex;flex-direction:column;padding:1.2rem}
+  .panel h3{font-family:var(--serif);margin:0 0 .2rem;font-size:1.15rem}
+  .panel p{margin:0 0 .8rem;font-size:.85rem;color:var(--muted)}
+  .panel textarea{flex:1;min-height:300px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.8rem;
+     line-height:1.5;color:var(--ink);background:var(--surface-2);border:1px solid var(--line);
+     border-radius:10px;padding:.8rem;resize:none;white-space:pre;overflow:auto}
+  .panel-actions{display:flex;gap:.5rem;margin-top:.9rem;justify-content:flex-end}
+  .toast{position:fixed;bottom:1.4rem;left:50%;transform:translateX(-50%) translateY(140%);
+     background:var(--ink);color:var(--bg);padding:.6rem 1.1rem;border-radius:999px;font-size:.85rem;
+     font-weight:600;box-shadow:var(--shadow);transition:transform .25s;z-index:60}
+  .toast.show{transform:translateX(-50%) translateY(0)}
+
   @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 
@@ -142,7 +172,12 @@
   <header class="masthead">
     <div class="eyebrow">Daśamahāvidyā Kavacam · Textual review</div>
     <h1>Four corrections, <span class="deva-title">तीन स्रोतों</span> confirmed</h1>
-    <p class="lede">Every change below is backed by three independent Devanāgarī witnesses — Sanskrit Documents, Devshoppe, and Vishwamatha. Decide each one; the summary writes the instruction to hand back.</p>
+    <p class="lede">Every change below is backed by three independent Devanāgarī witnesses — Sanskrit Documents, Devshoppe, and Vishwamatha. Decide each one, add a note if you like, then copy the JSON back.</p>
+    <div class="repo-line">
+      <span>Repo <code>yogaedu-org/dmv-kavacham-study-tool</code></span>
+      <span>· Issue <code>#3</code></span><span>· Epic <code>#2</code></span>
+      <span>· Data <code>data/verses.json</code></span>
+    </div>
   </header>
 
   <div class="summary" role="region" aria-label="Decision summary">
@@ -152,166 +187,189 @@
       <div class="tk reject"><span class="n" id="n-reject">0</span> Reject</div>
     </div>
     <div class="instruction" id="instruction"></div>
-    <button class="reset" id="reset" type="button">Reset to recommended</button>
+    <div class="actions">
+      <button class="copy" id="copyJson" type="button">Copy JSON</button>
+      <button class="reset" id="reset" type="button">Reset</button>
+    </div>
   </div>
+  <p class="hint"><b>To send decisions back:</b> click <b>Copy JSON</b>, then paste the block into the chat. It carries the repo, issue #3, and each verse's decision + your notes.</p>
 
   <div class="cards" id="cards">
 
-    <!-- V1 -->
     <article class="card" data-state="accept" data-verse="V1">
       <div class="card-strip"></div>
       <div class="card-body">
-        <div class="card-head">
-          <span class="badge">Verse 1</span>
-          <span class="field">Transliteration · line 1</span>
-          <span class="conf">✓ 3 sources</span>
-        </div>
+        <div class="card-head"><span class="badge">Verse 1</span><span class="field">Transliteration · line 1</span><span class="conf">✓ 3 sources</span></div>
         <div class="diff">
-          <div class="side before"><span class="tag">Current</span>
-            <div class="txt iast">…ā<span class="mark">gney</span>āṃ ṣoḍaśī pātu…</div></div>
-          <div class="side after"><span class="tag">Proposed</span>
-            <div class="txt iast">…ā<span class="mark">gneyy</span>āṃ ṣoḍaśī pātu…</div></div>
+          <div class="side before"><span class="tag">Current</span><div class="txt iast">…ā<span class="mark">gney</span>āṃ ṣoḍaśī pātu…</div></div>
+          <div class="side after"><span class="tag">Proposed</span><div class="txt iast">…ā<span class="mark">gneyy</span>āṃ ṣoḍaśī pātu…</div></div>
         </div>
-        <p class="why"><b>Why:</b> the Devanāgarī already reads <span class="deva-title">आग्नेय्यां</span> with a doubled <span class="deva-title">य्य</span>. The IAST dropped one <em>y</em> — it should be <b>āgneyyāṃ</b> (locative of <i>āgneyī</i>). Only the romanization changes.</p>
+        <p class="why"><b>Why:</b> the Devanāgarī already reads <span class="deva-title">आग्नेय्यां</span> with a doubled <span class="deva-title">य्य</span>. The IAST dropped one <em>y</em> — it should be <b>āgneyyāṃ</b>. Only the romanization changes.</p>
         <div class="sources"><span class="src">Sanskrit Documents</span><span class="src">Devshoppe</span><span class="src">Vishwamatha</span></div>
         <div class="decide" role="group" aria-label="Decision for Verse 1">
-          <button class="btn accept" data-act="accept">Accept</button>
-          <button class="btn hold" data-act="hold">Hold</button>
-          <button class="btn reject" data-act="reject">Reject</button>
+          <button class="btn accept" data-act="accept">Accept</button><button class="btn hold" data-act="hold">Hold</button><button class="btn reject" data-act="reject">Reject</button>
         </div>
+        <label class="note-wrap"><span class="note-lab">Note (optional)</span><textarea class="note" rows="1" placeholder="A reason, a caveat, a question…"></textarea></label>
       </div>
     </article>
 
-    <!-- V5 -->
     <article class="card" data-state="accept" data-verse="V5">
       <div class="card-strip"></div>
       <div class="card-body">
-        <div class="card-head">
-          <span class="badge">Verse 5</span>
-          <span class="field">Devanāgarī · line 1</span>
-          <span class="conf">✓ 3 sources</span>
-        </div>
+        <div class="card-head"><span class="badge">Verse 5</span><span class="field">Devanāgarī · line 1</span><span class="conf">✓ 3 sources</span></div>
         <div class="diff">
-          <div class="side before"><span class="tag">Current</span>
-            <div class="txt deva">…सर्वविद्यामयी स्वयँ ।</div>
-            <div class="txt code">svaya<span class="mark">ṃ</span> (anusvāra)</div></div>
-          <div class="side after"><span class="tag">Proposed</span>
-            <div class="txt deva">…सर्वविद्यामयी स्वय<span class="mark">म्</span> ।</div>
-            <div class="txt code">svaya<span class="mark">m</span> (halant म्)</div></div>
+          <div class="side before"><span class="tag">Current</span><div class="txt deva">…सर्वविद्यामयी स्वयं ।</div><div class="txt code">svaya<span class="mark">ṃ</span> (anusvāra ं)</div></div>
+          <div class="side after"><span class="tag">Proposed</span><div class="txt deva">…सर्वविद्यामयी स्वय<span class="mark">म्</span> ।</div><div class="txt code">svaya<span class="mark">m</span> (halant म्)</div></div>
         </div>
         <p class="why"><b>Why:</b> both external sources read <span class="deva-title">स्वयम्</span>, and so do <b>your own verses 1 and 4</b>. The IAST already says <i>svayam</i> — the verse-5 anusvāra is the lone outlier.</p>
         <div class="sources"><span class="src">Sanskrit Documents</span><span class="src">Devshoppe</span><span class="src">Vishwamatha</span><span class="src internal">internal V1/V4</span></div>
         <div class="decide" role="group" aria-label="Decision for Verse 5">
-          <button class="btn accept" data-act="accept">Accept</button>
-          <button class="btn hold" data-act="hold">Hold</button>
-          <button class="btn reject" data-act="reject">Reject</button>
+          <button class="btn accept" data-act="accept">Accept</button><button class="btn hold" data-act="hold">Hold</button><button class="btn reject" data-act="reject">Reject</button>
         </div>
+        <label class="note-wrap"><span class="note-lab">Note (optional)</span><textarea class="note" rows="1" placeholder="A reason, a caveat, a question…"></textarea></label>
       </div>
     </article>
 
-    <!-- V6 -->
     <article class="card" data-state="accept" data-verse="V6">
       <div class="card-strip"></div>
       <div class="card-body">
-        <div class="card-head">
-          <span class="badge">Verse 6</span>
-          <span class="field">Transliteration · line 1</span>
-          <span class="conf">✓ 3 sources</span>
-        </div>
+        <div class="card-head"><span class="badge">Verse 6</span><span class="field">Transliteration · line 1</span><span class="conf">✓ 3 sources</span></div>
         <div class="diff">
-          <div class="side before"><span class="tag">Current</span>
-            <div class="txt iast">…pātu śarv<span class="mark">a</span>ṇī pātu nāsikām |</div></div>
-          <div class="side after"><span class="tag">Proposed</span>
-            <div class="txt iast">…pātu śarv<span class="mark">ā</span>ṇī pātu nāsikām |</div></div>
+          <div class="side before"><span class="tag">Current</span><div class="txt iast">…pātu śarv<span class="mark">a</span>ṇī pātu nāsikām |</div></div>
+          <div class="side after"><span class="tag">Proposed</span><div class="txt iast">…pātu śarv<span class="mark">ā</span>ṇī pātu nāsikām |</div></div>
         </div>
         <p class="why"><b>Why:</b> the Devanāgarī <span class="deva-title">शर्वाणी</span> carries a long <b>ā</b>; the IAST rendered it short. Fix the romanization to <b>śarvāṇī</b>.</p>
         <div class="sources"><span class="src">Sanskrit Documents</span><span class="src">Devshoppe</span><span class="src">Vishwamatha</span></div>
         <div class="decide" role="group" aria-label="Decision for Verse 6">
-          <button class="btn accept" data-act="accept">Accept</button>
-          <button class="btn hold" data-act="hold">Hold</button>
-          <button class="btn reject" data-act="reject">Reject</button>
+          <button class="btn accept" data-act="accept">Accept</button><button class="btn hold" data-act="hold">Hold</button><button class="btn reject" data-act="reject">Reject</button>
         </div>
+        <label class="note-wrap"><span class="note-lab">Note (optional)</span><textarea class="note" rows="1" placeholder="A reason, a caveat, a question…"></textarea></label>
       </div>
     </article>
 
-    <!-- V13 -->
     <article class="card" data-state="accept" data-verse="V13">
       <div class="card-strip"></div>
       <div class="card-body">
-        <div class="card-head">
-          <span class="badge">Verse 13</span>
-          <span class="field">Metadata · deities[]</span>
-          <span class="conf meta">✎ metadata only</span>
-        </div>
+        <div class="card-head"><span class="badge">Verse 13</span><span class="field">Metadata · deities[]</span><span class="conf meta">✎ metadata only</span></div>
         <div class="diff">
-          <div class="side before"><span class="tag">Current</span>
-            <div class="txt code">"Shrikalikadev<span class="mark">ii</span>"</div></div>
-          <div class="side after"><span class="tag">Proposed</span>
-            <div class="txt code">"Shrikalikadev<span class="mark">i</span>"</div></div>
+          <div class="side before"><span class="tag">Current</span><div class="txt code">"Shrikalikadev<span class="mark">ii</span>"</div></div>
+          <div class="side after"><span class="tag">Proposed</span><div class="txt code">"Shrikalikadev<span class="mark">i</span>"</div></div>
         </div>
         <p class="why"><b>Why:</b> a doubled trailing <i>i</i> in the <code>deities</code> tag. The recited text <span class="deva-title">श्रीकालिकादेवी</span> is correct and untouched — this only tidies a search/filter label, so it carries no liturgical risk.</p>
         <div class="sources"><span class="src">verse text ✓ 3 sources</span><span class="src internal">internal typo</span></div>
         <div class="decide" role="group" aria-label="Decision for Verse 13">
-          <button class="btn accept" data-act="accept">Accept</button>
-          <button class="btn hold" data-act="hold">Hold</button>
-          <button class="btn reject" data-act="reject">Reject</button>
+          <button class="btn accept" data-act="accept">Accept</button><button class="btn hold" data-act="hold">Hold</button><button class="btn reject" data-act="reject">Reject</button>
         </div>
+        <label class="note-wrap"><span class="note-lab">Note (optional)</span><textarea class="note" rows="1" placeholder="A reason, a caveat, a question…"></textarea></label>
       </div>
     </article>
   </div>
 
   <section class="aside">
     <h2>Leave as-is — legitimate variants, not errors</h2>
-    <p class="sub">Surfaced during corroboration but deliberately <b>not</b> proposed as fixes. Listed so the decision is on the record.</p>
+    <p class="sub">Surfaced during corroboration but deliberately <b>not</b> proposed as fixes. Listed so the decision is on the record (and carried in the JSON).</p>
     <div class="keep">
       <div class="keeprow"><span class="vk">Verse 10</span><span>The repeated <em>उग्रतारा</em> on line 2 is a recension variant — one witness omits it (tighter metre), one keeps it. Editorial choice, not a correction.</span></div>
       <div class="keeprow"><span class="vk">Verse 6</span><span>Our <em>नीलसरस्वती</em> (long ī) is etymologically correct (Nīla = "blue") and internally consistent; the sources' short-i form is the laxity. Keep ours.</span></div>
-      <div class="keeprow"><span class="vk">Verses 2–3</span><span>Half-lines run together with no line break — cosmetic layout only (tracked separately as issue #5). The text is correct.</span></div>
+      <div class="keeprow"><span class="vk">Verses 2–3</span><span>Half-lines run together with no line break — cosmetic layout only (tracked as issue #5). The text is correct.</span></div>
     </div>
   </section>
 
   <footer>
-    Decisions live only in this page — nothing is applied. Full evidence in <code>reports/2026-07-15-text-corroboration.md</code> · tracked as issue&nbsp;#3.
+    Decisions live only in this page — nothing is applied until you send the JSON back. Full evidence in <code>reports/2026-07-15-text-corroboration.md</code> · issue #3 · epic #2.
   </footer>
 </div>
 
+<div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-label="Copy decisions JSON">
+  <div class="panel">
+    <h3>Decisions JSON</h3>
+    <p>Copied to your clipboard. If not, select all and copy — then paste into the chat.</p>
+    <textarea id="jsonOut" readonly spellcheck="false"></textarea>
+    <div class="panel-actions">
+      <button class="reset" id="closePanel" type="button">Close</button>
+      <button class="copy" id="copyAgain" type="button">Copy again</button>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
 <script>
 (function(){
-  var order = ["V1","V5","V6","V13"];
-  var cards = Array.prototype.slice.call(document.querySelectorAll(".card"));
-  var elA = document.getElementById("n-accept"),
-      elH = document.getElementById("n-hold"),
-      elR = document.getElementById("n-reject"),
-      instr = document.getElementById("instruction");
+  var META = {
+    board:"dmv-kavacham text corrections",
+    repo:"yogaedu-org/dmv-kavacham-study-tool",
+    relatesTo:{ issue:3, epic:2 },
+    dataFile:"data/verses.json"
+  };
+  var DEFS = {
+    V1:{verse:1, field:"transliteration", location:"line 1", from:"āgneyāṃ", to:"āgneyyāṃ"},
+    V5:{verse:5, field:"devanagari",      location:"line 1", from:"स्वयं", to:"स्वयम्"},
+    V6:{verse:6, field:"transliteration", location:"line 1", from:"śarvaṇī", to:"śarvāṇī"},
+    V13:{verse:13, field:"metadata.deities", location:"deities[]", from:"Shrikalikadevii", to:"Shrikalikadevi"}
+  };
+  var VARIANTS = [
+    {verse:10, decision:"keep", detail:"repeated उग्रतारा — recension variant"},
+    {verse:6,  decision:"keep", detail:"नीलसरस्वती long-ī — etymologically correct"},
+    {verse:"2-3", decision:"cosmetic", detail:"missing line break — tracked as #5"}
+  ];
 
-  function state(){
-    var s = {accept:[],hold:[],reject:[]};
-    cards.forEach(function(c){ s[c.dataset.state].push(c.dataset.verse); });
-    return s;
-  }
-  function label(arr){
-    return arr.map(function(v){return v.replace("V","V");}).join(", ");
-  }
+  var cards = Array.prototype.slice.call(document.querySelectorAll(".card"));
+  var elA=document.getElementById("n-accept"), elH=document.getElementById("n-hold"),
+      elR=document.getElementById("n-reject"), instr=document.getElementById("instruction");
+  var overlay=document.getElementById("overlay"), jsonOut=document.getElementById("jsonOut"),
+      toast=document.getElementById("toast"), toastT=null;
+
+  function state(){ var s={accept:[],hold:[],reject:[]}; cards.forEach(function(c){s[c.dataset.state].push(c.dataset.verse);}); return s; }
   function render(){
-    var s = state();
-    elA.textContent = s.accept.length;
-    elH.textContent = s.hold.length;
-    elR.textContent = s.reject.length;
-    var parts = [];
-    if(s.accept.length) parts.push('<b>Apply</b> '+label(s.accept));
-    if(s.hold.length)   parts.push('<span>Hold</span> '+label(s.hold));
-    if(s.reject.length) parts.push('<span>Reject</span> '+label(s.reject));
-    instr.innerHTML = '→ ' + (parts.length ? parts.join(' · ') : '<span>no decisions yet</span>');
+    var s=state(); elA.textContent=s.accept.length; elH.textContent=s.hold.length; elR.textContent=s.reject.length;
+    var parts=[];
+    if(s.accept.length) parts.push('<b>Apply</b> '+s.accept.join(", "));
+    if(s.hold.length)   parts.push('<span>Hold</span> '+s.hold.join(", "));
+    if(s.reject.length) parts.push('<span>Reject</span> '+s.reject.join(", "));
+    instr.innerHTML='→ '+(parts.length?parts.join(' · '):'<span>no decisions yet</span>');
+  }
+  function buildJSON(){
+    var decisions=cards.map(function(c){
+      var id=c.dataset.verse, d=DEFS[id], note=c.querySelector(".note").value.trim();
+      return {id:id, verse:d.verse, field:d.field, location:d.location,
+              from:d.from, to:d.to, decision:c.dataset.state, note:note};
+    });
+    var payload={
+      board:META.board, repo:META.repo, relatesTo:META.relatesTo, dataFile:META.dataFile,
+      generatedAt:new Date().toISOString(),
+      decisions:decisions, variantsAcknowledged:VARIANTS
+    };
+    return JSON.stringify(payload,null,2);
+  }
+  function showToast(msg){ toast.textContent=msg; toast.classList.add("show");
+    clearTimeout(toastT); toastT=setTimeout(function(){toast.classList.remove("show");},2600); }
+  function copy(text){
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      return navigator.clipboard.writeText(text);
+    }
+    return Promise.reject();
+  }
+  function openPanel(){
+    var text=buildJSON(); jsonOut.value=text; overlay.classList.add("open");
+    jsonOut.focus(); jsonOut.select();
+    copy(text).then(function(){showToast("Copied — paste it into the chat");})
+              .catch(function(){showToast("Select all & copy (Ctrl/Cmd+C)");});
   }
   cards.forEach(function(c){
     c.querySelectorAll(".btn").forEach(function(b){
-      b.addEventListener("click", function(){ c.dataset.state = b.dataset.act; render(); });
+      b.addEventListener("click", function(){ c.dataset.state=b.dataset.act; render(); });
     });
   });
   document.getElementById("reset").addEventListener("click", function(){
-    cards.forEach(function(c){ c.dataset.state = "accept"; });
-    render();
+    cards.forEach(function(c){ c.dataset.state="accept"; c.querySelector(".note").value=""; }); render();
   });
+  document.getElementById("copyJson").addEventListener("click", openPanel);
+  document.getElementById("copyAgain").addEventListener("click", function(){
+    jsonOut.select(); copy(jsonOut.value).then(function(){showToast("Copied");}).catch(function(){showToast("Press Ctrl/Cmd+C");});
+  });
+  document.getElementById("closePanel").addEventListener("click", function(){ overlay.classList.remove("open"); });
+  overlay.addEventListener("click", function(e){ if(e.target===overlay) overlay.classList.remove("open"); });
+  document.addEventListener("keydown", function(e){ if(e.key==="Escape") overlay.classList.remove("open"); });
   render();
 })();
 </script>
