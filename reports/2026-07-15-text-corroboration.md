@@ -89,3 +89,32 @@ Each cites the corroborating source(s). These are the items safe to fix.
 - **Toḍala Tantra provenance.** None of the machine-readable sources (S1–S3) carried a colophon attributing the kavacam to the **Toḍala Tantra**. The 14-verse kavacam itself is well-attested across sources, and the Toḍala-Tantra attribution is widely repeated in secondary/devotional descriptions, but I could not independently confirm it against a primary scan of the Toḍala Tantra in this pass. **Attribution: plausible but unverified here.** (An archive.org scan of the Toḍala Tantra would settle it.)
 - **HinduNidhi (S5)** full text could not be extracted (fetch declined on copyright grounds); it corroborates the work's existence/title only, not orthography.
 - **Verse 5 deity `श्रीभवगेहिनी` (Śrī-Bhavagehinī).** Meaning ("she of Bhava's/Śiva's household" = Pārvatī) is corroborated by the Ramachander translation S4 ("she who attracts Shiva"); spelling matches S1+S2. Noted only because the name is uncommon — no issue found.
+
+---
+
+## Update — third-source cross-check (2026-07-15)
+
+**Prompted:** cross-check the four confirmed fixes against `drikpanchang.com`.
+
+**Finding on drikpanchang:** drikpanchang does **not** host the Daśamahāvidyā Kavacam.
+The linked page (`.../mahavidya/mahavidya-mantras.html`) is the *ten individual*
+Mahāvidyā mantras (Kālī, Tārā, Ṣoḍaśī …), and drikpanchang's full Kavacham collection
+(`/lyrics/kavacham/kavacham-collection.html`) lists only Narasimha, Narayana, Bhairava,
+Durga, Lakṣmī, Sītā, and Śītalā kavachams — no Mahāvidyā kavacam. So it could not serve
+as a witness.
+
+**Substitute third witness — S6 (independent of S1/S2):**
+| # | Source | URL |
+|---|---|---|
+| S6 | Vishwamatha — Sri Dasa Mahavidya Kavacham | https://www.vishwamatha.com/sri-dasa-mahavidya-kavacham.html |
+
+S6 reads verbatim: `आग्नेय्यां` (double-य), `सर्वविद्यामयी स्वयम्` (halant म्),
+`शर्वाणी` (long ā), `पातु श्रीकालिकादेवी सर्वोत्पातेषु सर्वदा`.
+
+**Result — all four fixes now stand on THREE independent sources (S1 + S2 + S6):**
+| Fix | S1 | S2 | S6 | Verdict |
+|---|---|---|---|---|
+| V1 IAST `āgneyāṃ` → `āgneyyāṃ` | ✅ | ✅ | ✅ | CONFIRMED ×3 |
+| V5 Devanāgarī `स्वयं` → `स्वयम्` | ✅ | ✅ | ✅ | CONFIRMED ×3 |
+| V6 IAST `śarvaṇī` → `śarvāṇī` | ✅ | ✅ | ✅ | CONFIRMED ×3 |
+| V13 metadata `Shrikalikadevii` → `Shrikalikadevi` | ✅ | ✅ | ✅ | CONFIRMED ×3 |
