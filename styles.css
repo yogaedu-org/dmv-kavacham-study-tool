@@ -31,9 +31,14 @@
   /* Typography */
   --font-family-primary: 'Georgia', serif;
   --font-family-secondary: 'Arial', sans-serif;
+  --font-family-devanagari: 'Noto Serif Devanagari', 'Nirmala UI', 'Kohinoor Devanagari', 'Mangal', serif;
   --font-size-base: 16px;
   --font-size-large: 1.2rem;
   --font-size-xlarge: 2rem;
+  /* Fluid type scale (#14) — Devanagari floors higher; controls never below ~14px */
+  --fs-sanskrit: clamp(1.4rem, 1.15rem + 1.9vw, 1.95rem);
+  --fs-translit: clamp(1.02rem, 0.95rem + 0.7vw, 1.2rem);
+  --fs-translation: clamp(1rem, 0.96rem + 0.5vw, 1.12rem);
   --line-height-base: 1.6;
   --line-height-tight: 1.4;
   
@@ -57,6 +62,18 @@
   /* Transitions */
   --transition-fast: 0.2s ease;
   --transition-medium: 0.3s ease;
+}
+
+/* ==========================================================================
+   FONTS (self-hosted — #13)
+   Devanagari face so Sanskrit renders identically on every device
+   ========================================================================== */
+@font-face {
+  font-family: 'Noto Serif Devanagari';
+  src: url('fonts/NotoSerifDevanagari.woff2') format('woff2');
+  font-weight: 400 600;
+  font-style: normal;
+  font-display: swap;
 }
 
 /* ==========================================================================
@@ -276,8 +293,8 @@ a:hover {
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid var(--color-accent);
   border-radius: 50%;
-  width: 32px;
-  height: 32px;
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -299,8 +316,8 @@ a:hover {
   background: none;
   border: 1px solid var(--color-text-secondary);
   border-radius: 50%;
-  width: 32px;
-  height: 32px;
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -376,8 +393,8 @@ a:hover {
 }
 
 .checkbox-group input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
   accent-color: var(--color-accent);
   cursor: pointer;
 }
@@ -412,6 +429,7 @@ a:hover {
 
 /* Clear button styling */
 .clear-btn {
+  min-height: 44px;
   padding: var(--spacing-xs) var(--spacing-md);
   background: rgba(255, 107, 107, 0.2);
   border: 1px solid var(--color-deity);
@@ -471,10 +489,11 @@ a:hover {
 
 /* Sanskrit text styling */
 .sanskrit {
-  font-size: 1.4rem;
+  font-family: var(--font-family-devanagari);
+  font-size: var(--fs-sanskrit);
   color: var(--color-sanskrit);
   margin-bottom: var(--spacing-md);
-  line-height: 1.8;
+  line-height: 1.9;
   font-weight: 500;
   display: none; /* Hidden by default, shown via CSS class */
 }
@@ -486,7 +505,7 @@ a:hover {
 
 /* Transliteration text styling */
 .transliteration {
-  font-size: 1.1rem;
+  font-size: var(--fs-translit);
   color: var(--color-transliteration);
   margin-bottom: var(--spacing-md);
   font-style: italic;
@@ -500,7 +519,7 @@ a:hover {
 
 /* Translation text styling */
 .translation {
-  font-size: 1.1rem;
+  font-size: var(--fs-translation);
   color: var(--color-text-primary);
   line-height: 1.7;
   margin-bottom: var(--spacing-md);
@@ -538,6 +557,7 @@ a:hover {
   align-items: center;
   justify-content: space-between;
   min-width: 120px;
+  min-height: 44px;
   padding: 8px 12px;
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid var(--color-accent);
@@ -928,9 +948,7 @@ a:hover {
     font-size: 1.8rem;
   }
   
-  .sanskrit {
-    font-size: 1.2rem;
-  }
+  /* .sanskrit sizing handled by the fluid clamp scale (--fs-sanskrit) */
   
   .controls-row {
     flex-direction: column;
