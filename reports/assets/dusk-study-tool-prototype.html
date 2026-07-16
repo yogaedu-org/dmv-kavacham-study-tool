@@ -1,0 +1,364 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kavacam Reader — "Manuscript at Dusk" prototype</title>
+<style>
+  :root{
+    /* DUSK (dark) is the primary world */
+    --bg:#141019; --bg-2:#0f0c15; --surface:#1e1926; --surface-2:#191320;
+    --ink:#ece7ef; --muted:#a99fb2; --line:#332b3e; --line-soft:#241d2f;
+    --goldleaf:#e4b25a; --kumkum:#d9615a; --indigo:#7d9bd0; --sandal:#cBA789;
+    --ring:#c98f88;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 14px 40px rgba(0,0,0,.4);
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+    --ui:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    --deva:"Noto Serif Devanagari","Nirmala UI","Kohinoor Devanagari","Mangal",serif;
+    --fs-sanskrit:clamp(1.4rem,1.14rem + 1.9vw,1.95rem);
+    --fs-translit:clamp(1.02rem,0.95rem + 0.7vw,1.2rem);
+    --fs-translation:clamp(1rem,0.96rem + 0.5vw,1.12rem);
+  }
+  @media (prefers-color-scheme:light){
+    :root{
+      --bg:#efe9e4; --bg-2:#e7e0d7; --surface:#faf6f1; --surface-2:#f2ece4;
+      --ink:#241f2b; --muted:#6b6472; --line:#ddd4cb; --line-soft:#e7ded4;
+      --goldleaf:#a9772f; --kumkum:#b23a34; --indigo:#4a5f8a; --sandal:#8a6d4f;
+      --ring:#8a5a53;
+      --shadow:0 1px 2px rgba(36,31,43,.06), 0 10px 30px rgba(36,31,43,.08);
+    }
+  }
+  :root[data-theme="light"]{
+    --bg:#efe9e4; --bg-2:#e7e0d7; --surface:#faf6f1; --surface-2:#f2ece4;
+    --ink:#241f2b; --muted:#6b6472; --line:#ddd4cb; --line-soft:#e7ded4;
+    --goldleaf:#a9772f; --kumkum:#b23a34; --indigo:#4a5f8a; --sandal:#8a6d4f; --ring:#8a5a53;
+    --shadow:0 1px 2px rgba(36,31,43,.06), 0 10px 30px rgba(36,31,43,.08);
+  }
+  :root[data-theme="dark"]{
+    --bg:#141019; --bg-2:#0f0c15; --surface:#1e1926; --surface-2:#191320;
+    --ink:#ece7ef; --muted:#a99fb2; --line:#332b3e; --line-soft:#241d2f;
+    --goldleaf:#e4b25a; --kumkum:#d9615a; --indigo:#7d9bd0; --sandal:#cba789; --ring:#c98f88;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 14px 40px rgba(0,0,0,.4);
+  }
+
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;color:var(--ink);font-family:var(--ui);line-height:1.6;
+    background:
+      radial-gradient(120% 80% at 50% -10%, color-mix(in srgb, var(--goldleaf) 8%, transparent), transparent 60%),
+      linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
+    background-attachment:fixed;min-height:100vh;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:760px;margin:0 auto;padding:clamp(1rem,3vw,2rem)}
+
+  /* Masthead */
+  header.masthead{text-align:center;padding:clamp(1.6rem,6vw,3.4rem) 0 1.4rem}
+  .kalash{font-size:1.5rem;color:var(--kumkum);letter-spacing:.3em;margin-bottom:.6rem}
+  h1.title{font-family:var(--deva);font-weight:700;color:var(--goldleaf);
+    font-size:clamp(2rem,6vw,3.1rem);line-height:1.25;margin:0;letter-spacing:.01em;text-wrap:balance}
+  .subtitle{font-family:var(--serif);font-style:italic;color:var(--muted);
+    font-size:clamp(1rem,2.4vw,1.2rem);margin:.5rem 0 0}
+  .colophon{margin-top:1rem;font-size:.8rem;color:var(--muted);letter-spacing:.02em}
+  .colophon b{color:var(--sandal);font-weight:600}
+
+  .proto-note{max-width:640px;margin:1.4rem auto 0;font-size:.78rem;color:var(--muted);
+    background:var(--surface-2);border:1px dashed var(--line);border-radius:10px;padding:.6rem .85rem;text-align:left}
+
+  /* Control bar */
+  .controls{position:sticky;top:.6rem;z-index:10;margin:1.6rem 0 2rem;
+    background:color-mix(in srgb, var(--surface) 88%, transparent);backdrop-filter:blur(10px);
+    border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);
+    padding:.7rem .85rem;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+  .seg{display:inline-flex;align-items:center;gap:.5rem;min-height:44px;padding:0 .7rem;
+    border:1px solid var(--line);border-radius:10px;background:var(--surface-2);cursor:pointer;
+    font-size:.86rem;color:var(--muted);user-select:none}
+  .seg input{accent-color:var(--kumkum);width:17px;height:17px}
+  .seg[data-on="true"]{color:var(--ink);border-color:color-mix(in srgb,var(--goldleaf) 55%,var(--line))}
+  .spacer{flex:1 1 auto}
+  .theme-btn{width:44px;height:44px;padding:0;border-radius:10px;border:1px solid var(--line);
+    background:var(--surface-2);color:var(--goldleaf);cursor:pointer;
+    display:inline-flex;align-items:center;justify-content:center;transition:border-color .15s,color .15s}
+  .theme-btn:hover{border-color:var(--goldleaf)}
+  .theme-btn svg{display:block}
+  .seg:focus-visible,.theme-btn:focus-visible{outline:2px solid var(--ring);outline-offset:2px}
+
+  /* Legend */
+  .legend{display:flex;gap:1.1rem;flex-wrap:wrap;justify-content:center;margin:-.6rem 0 2rem;
+    font-size:.76rem;color:var(--muted)}
+  .legend span{display:inline-flex;align-items:center;gap:.4rem}
+  .legend svg{width:22px;height:22px;flex:none}
+
+  /* Verse cards */
+  .verses{display:flex;flex-direction:column;gap:1.5rem}
+  .verse{position:relative;background:
+      linear-gradient(180deg, color-mix(in srgb,var(--surface) 100%, transparent), var(--surface-2));
+    border:1px solid var(--line);border-radius:18px;padding:1.5rem clamp(1.1rem,4vw,1.9rem);
+    box-shadow:var(--shadow)}
+  .verse::before{content:"";position:absolute;inset:0 0 auto 0;height:2px;border-radius:18px 18px 0 0;
+    background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--goldleaf) 60%,transparent),transparent)}
+  .v-head{display:flex;align-items:center;gap:.9rem;margin-bottom:1.1rem}
+  .v-num{font-family:var(--serif);font-weight:700;font-size:1rem;color:var(--bg);
+    background:var(--kumkum);min-width:2rem;height:2rem;border-radius:8px;display:grid;place-items:center;
+    font-variant-numeric:tabular-nums}
+  :root[data-theme="dark"] .v-num{color:#150c0b}
+  @media (prefers-color-scheme:dark){.v-num{color:#150c0b}}
+  .v-label{font-family:var(--serif);font-size:1.05rem;color:var(--ink);font-weight:600;line-height:1.2}
+  .v-glyph{margin-left:auto;flex:none}
+  .v-glyph svg{width:56px;height:56px;display:block}
+
+  .sanskrit{font-family:var(--deva);font-size:var(--fs-sanskrit);line-height:1.95;color:var(--goldleaf);
+    font-weight:500;margin:.2rem 0 .9rem;white-space:pre-line}
+  .translit{font-family:var(--serif);font-style:italic;font-size:var(--fs-translit);color:var(--sandal);
+    line-height:1.7;margin:0 0 .9rem;white-space:pre-line}
+  .translation{font-size:var(--fs-translation);color:var(--ink);line-height:1.72;margin:0 0 1.1rem}
+  body:not(.show-sanskrit) .sanskrit{display:none}
+  body:not(.show-translit) .translit{display:none}
+
+  .tags{display:flex;gap:.4rem;flex-wrap:wrap}
+  .tag{font-size:.74rem;padding:.24rem .66rem;border-radius:20px;border:1px solid;
+    display:inline-flex;align-items:center;gap:.32rem;line-height:1.2}
+  .tag::before{content:"";width:6px;height:6px;border-radius:50%}
+  .tag.deity{color:var(--kumkum);border-color:color-mix(in srgb,var(--kumkum) 40%,transparent)}
+  .tag.deity::before{background:var(--kumkum)}
+  .tag.direction{color:var(--indigo);border-color:color-mix(in srgb,var(--indigo) 40%,transparent)}
+  .tag.direction::before{background:var(--indigo)}
+  .tag.body{color:var(--sandal);border-color:color-mix(in srgb,var(--sandal) 45%,transparent)}
+  .tag.body::before{background:var(--sandal)}
+
+  footer{text-align:center;color:var(--muted);font-size:.8rem;margin:3rem 0 1rem;
+    border-top:1px solid var(--line-soft);padding-top:1.4rem}
+  footer .deva{font-family:var(--deva);color:var(--kumkum)}
+
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+  @media (max-width:520px){
+    .v-glyph svg{width:46px;height:46px}
+    .controls{top:.4rem}
+  }
+</style>
+
+<div class="wrap">
+  <header class="masthead">
+    <div class="kalash">॥ ॐ ॥</div>
+    <h1 class="title">श्रीदशमहाविद्याकवचम्</h1>
+    <p class="subtitle">The Armor of the Ten Great Wisdom Goddesses</p>
+    <div class="colophon">A prototype reader · <b>Manuscript at Dusk</b></div>
+    <div class="proto-note" id="protoNote">
+      <b>Prototype.</b> Devanāgarī renders in your device's font here (Nirmala UI / Noto). The production build
+      self-hosts <i>Noto Serif Devanagari</i> so every device matches. Try the theme toggle and the text switches;
+      each verse's glyph is drawn from its own directions / body-parts.
+    </div>
+  </header>
+
+  <div class="controls" role="toolbar" aria-label="Reader controls">
+    <label class="seg" data-on="true" id="segSanskrit"><input type="checkbox" checked> Sanskrit</label>
+    <label class="seg" data-on="true" id="segTranslit"><input type="checkbox" checked> Transliteration</label>
+    <span class="spacer"></span>
+    <button class="theme-btn" id="themeBtn" type="button" aria-label="Switch to light theme" title="Light">
+      <svg id="themeIcon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"></svg>
+    </button>
+  </div>
+
+  <div class="legend" aria-hidden="true">
+    <span><svg id="lgDir" viewBox="0 0 60 60"></svg> directions guarded</span>
+    <span><svg id="lgBody" viewBox="0 0 60 60"></svg> body region</span>
+    <span><svg id="lgAll" viewBox="0 0 60 60"></svg> all-around</span>
+  </div>
+
+  <main class="verses" id="verses" aria-label="Verses"></main>
+
+  <footer>
+    <div class="deva">॥ इति श्रीदशमहाविद्याकवचं सम्पूर्णम् ॥</div>
+    <div style="margin-top:.5rem">Prototype for design direction #17 · text corrected &amp; corroborated (#3)</div>
+  </footer>
+</div>
+
+<script>
+const VERSES = [
+ {n:1,label:"The eastern quarters",
+  sa:"ॐ प्राच्यां रक्षतु मे तारा कामरूपनिवासिनी ।\nआग्नेय्यां षोडशी पातु याम्यां धूमावती स्वयम् ॥१॥",
+  tr:"oṃ prācyāṃ rakṣatu me tārā kāmarūpanivāsinī |\nāgneyyāṃ ṣoḍaśī pātu yāmyāṃ dhūmāvatī svayam ||1||",
+  en:"May Tārā, who dwells in Kāmarūpa, guard me in the east. In the southeast may Ṣoḍaśī protect me; in the south, Dhūmāvatī herself.",
+  deities:["Tārā","Ṣoḍaśī","Tripurasundarī","Dhūmāvatī"],directions:["East","Southeast","South"],body:[]},
+ {n:2,label:"The western quarters",
+  sa:"नैरृत्यां भैरवी पातु वारुण्यां भुवनेश्वरी ।\nवायव्यां सततं पातु छिन्नमस्ता महेश्वरी ॥२॥",
+  tr:"nairṛtyāṃ bhairavī pātu vāruṇyāṃ bhuvaneśvarī |\nvāyavyāṃ satataṃ pātu chinnamastā maheśvarī ||2||",
+  en:"In the southwest may Bhairavī protect; in the west, Bhuvaneśvarī. In the northwest may the great goddess Chinnamastā protect me always.",
+  deities:["Bhairavī","Bhuvaneśvarī","Chinnamastā","Maheśvarī"],directions:["Southwest","West","Northwest"],body:[]},
+ {n:3,label:"North & the Śrīvidyā seat",
+  sa:"कौबेर्यां पातु मे देवी श्रीविद्या बगलामुखी ।\nऐशान्यां पातु मे नित्यं महात्रिपुरसुन्दरी ॥३॥",
+  tr:"kauberyāṃ pātu me devī śrīvidyā bagalāmukhī |\naiśānyāṃ pātu me nityaṃ mahātripurasundarī ||3||",
+  en:"In the north may the goddess Śrīvidyā—Bagalāmukhī—protect me. In the northeast may Mahā-Tripurasundarī protect me always.",
+  deities:["Śrīvidyā","Bagalāmukhī","Mahātripurasundarī"],directions:["North","Northeast"],body:[]},
+ {n:4,label:"Above & all around",
+  sa:"ऊर्ध्वं रक्षतु मे विद्या मातङ्गीपीठवासिनी ।\nसर्वतः पातु मे नित्यं कामाख्या कालिका स्वयम् ॥४॥",
+  tr:"ūrdhvaṃ rakṣatu me vidyā mātaṅgīpīṭhavāsinī |\nsarvataḥ pātu me nityaṃ kāmākhyā kālikā svayam ||4||",
+  en:"Above, may Vidyā Mātaṅgī, who abides at her sacred seat, guard me. On all sides may Kālikā of Kāmākhyā protect me always.",
+  deities:["Vidyā","Mātaṅgī","Kāmākhyā","Kālikā"],directions:["Above","All sides"],body:[]},
+ {n:5,label:"Crown of the head",
+  sa:"ब्रह्मरूपा महाविद्या सर्वविद्यामयी स्वयम् ।\nशीर्षे रक्षतु मे दुर्गा भालं श्रीभवगेहिनी ॥५॥",
+  tr:"brahmarūpā mahāvidyā sarvavidyāmayī svayam |\nśīrṣe rakṣatu me durgā bhālaṃ śrībhavagehinī ||5||",
+  en:"She is the Great Vidyā, of the very form of Brahman. May Durgā guard my head; may Śrī-Bhavagehinī guard my forehead.",
+  deities:["Durgā","Śrī-Bhavagehinī","Pārvatī"],directions:[],body:["Head","Forehead"]},
+ {n:6,label:"Brow, nose, eyes, ears",
+  sa:"त्रिपुरा भ्रुयुगे पातु शर्वाणी पातु नासिकाम् ।\nचक्षुषी चण्डिका पातु श्रोत्रे नीलसरस्वती ॥६॥",
+  tr:"tripurā bhruyuge pātu śarvāṇī pātu nāsikām |\ncakṣuṣī caṇḍikā pātu śrotre nīlasarasvatī ||6||",
+  en:"May Tripurā guard my brows; may Śarvāṇī guard my nose. May Caṇḍikā guard my eyes; may Nīla-Sarasvatī guard my ears.",
+  deities:["Tripurā","Śarvāṇī","Caṇḍikā","Nīlasarasvatī"],directions:[],body:["Brows","Nose","Eyes","Ears"]},
+ {n:7,label:"Face, neck, tongue",
+  sa:"मुखं सौम्यमुखी पातु ग्रीवां रक्षतु पार्वती ।\nजिह्वां रक्षतु मे देवी जिह्वाललनभीषणा ॥७॥",
+  tr:"mukhaṃ saumyamukhī pātu grīvāṃ rakṣatu pārvatī |\njihvāṃ rakṣatu me devī jihvālalanabhīṣaṇā ||7||",
+  en:"May the gentle-faced One protect my face; may Pārvatī guard my neck. May the goddess—fearsome to foes—guard my tongue.",
+  deities:["Saumyamukhī","Pārvatī"],directions:[],body:["Face","Neck","Tongue"]},
+ {n:8,label:"Speech, chest, arms",
+  sa:"वाग्देवी वदनं पातु वक्षः पातु महेश्वरी ।\nबाहू महाभुजा पातु कराङ्गुलीः सुरेश्वरी ॥८॥",
+  tr:"vāgdevī vadanaṃ pātu vakṣaḥ pātu maheśvarī |\nbāhū mahābhujā pātu karāṅgulīḥ sureśvarī ||8||",
+  en:"May Vāgdevī protect my speech and mouth; may Maheśvarī guard my chest. May the Mighty-Armed One protect my arms, and the Queen of the gods my fingers.",
+  deities:["Vāgdevī","Maheśvarī","Sureśvarī"],directions:[],body:["Mouth","Chest","Arms","Fingers"]},
+ {n:9,label:"Back, hips, belly",
+  sa:"पृष्ठतः पातु भीमास्या कट्यां देवी दिगम्बरी ।\nउदरं पातु मे नित्यं महाविद्या महोदरी ॥९॥",
+  tr:"pṛṣṭhataḥ pātu bhīmāsyā kaṭyāṃ devī digambarī |\nudaraṃ pātu me nityaṃ mahāvidyā mahodarī ||9||",
+  en:"From behind may Bhīmāsyā protect; at the hips, the goddess Digambarī. May the Great Vidyā Mahodarī always protect my abdomen.",
+  deities:["Bhīmāsyā","Digambarī","Mahodarī"],directions:["Behind"],body:["Hips","Abdomen"]},
+ {n:10,label:"Thighs to the loins",
+  sa:"उग्रतारा महादेवी जङ्घोरू परिरक्षतु ।\nउग्रतारा गुदं मुष्कं च मेढ्रं च नाभिं च सुरसुन्दरी ॥१०॥",
+  tr:"ugratārā mahādevī jaṅghorū parirakṣatu |\nugratārā gudaṃ muṣkaṃ ca meḍhraṃ ca nābhiṃ ca surasundarī ||10||",
+  en:"May the great goddess Ugratārā protect my shanks and thighs. May Ugratārā—Surasundarī—guard the loins and the navel.",
+  deities:["Ugratārā","Surasundarī"],directions:[],body:["Thighs","Legs","Navel"]},
+ {n:11,label:"Toes, blood, bone, marrow",
+  sa:"पादाङ्गुलीः सदा पातु भवानी त्रिदशेश्वरी ।\nरक्तमांसास्थिमज्जादीन् पातु देवी शवासना ॥११॥",
+  tr:"pādāṅgulīḥ sadā pātu bhavānī tridaśeśvarī |\nraktamāṃsāsthimajjādīn pātu devī śavāsanā ||11||",
+  en:"May Bhavānī, queen of the gods, always protect my toes. May the goddess seated upon a corpse protect my blood, flesh, bones, and marrow.",
+  deities:["Bhavānī","Śavāsanā"],directions:[],body:["Toes","Blood","Flesh","Bones"]},
+ {n:12,label:"In great danger",
+  sa:"महाभयेषु घोरेषु महाभयनिवारिणी ।\nपातु देवी महामाया कामाख्यापीठवासिनी ॥१२॥",
+  tr:"mahābhayeṣu ghoreṣu mahābhayanivāriṇī |\npātu devī mahāmāyā kāmākhyāpīṭhavāsinī ||12||",
+  en:"In great and terrible dangers, may the remover of great fear—Mahāmāyā, who dwells at the seat of Kāmākhyā—protect me.",
+  deities:["Mahāmāyā","Mahābhayanivāriṇī"],directions:[],body:[]},
+ {n:13,label:"Against all calamity",
+  sa:"भस्माचलगता दिव्यसिंहासनकृताश्रया ।\nपातु श्रीकालिकादेवी सर्वोत्पातेषु सर्वदा ॥१३॥",
+  tr:"bhasmācalagatā divyasiṃhāsanakṛtāśrayā |\npātu śrīkālikādevī sarvotpāteṣu sarvadā ||13||",
+  en:"Enthroned upon the divine lion seat—may Śrī Kālikā-devī protect me from every calamity, always.",
+  deities:["Śrīkālikādevī"],directions:[],body:[]},
+ {n:14,label:"Whatever is left unguarded",
+  sa:"रक्षाहीनं तु यत्स्थानं कवचेनापि वर्जितम् ।\nतत्सर्वं सर्वदा पातु सर्वरक्षणकारिणी ॥१४॥",
+  tr:"rakṣāhīnaṃ tu yatsthānaṃ kavacenāpi varjitam |\ntatsarvaṃ sarvadā pātu sarvarakṣaṇakāriṇī ||14||",
+  en:"And whatever place is left unprotected—omitted even by this armor—may the All-Protecting Goddess guard all of that, always.",
+  deities:["Sarvarakṣaṇakāriṇī"],directions:[],body:[]}
+];
+
+const NS="http://www.w3.org/2000/svg";
+const el=(t,a)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e;};
+
+/* Compass rosette — light the guarded quarters */
+function compassGlyph(directions){
+  const svg=el("svg",{viewBox:"0 0 60 60"});
+  const cx=30,cy=30,R=20;
+  const ANG={North:-90,Northeast:-45,East:0,Southeast:45,South:90,Southwest:135,West:180,Northwest:-135};
+  const all=directions.includes("All sides"), above=directions.includes("Above");
+  svg.appendChild(el("circle",{cx,cy,r:R+3,fill:"none",stroke:"var(--line)","stroke-width":1}));
+  for(const name in ANG){
+    const a=ANG[name]*Math.PI/180, on= all||directions.includes(name);
+    const x=cx+Math.cos(a)*R, y=cy+Math.sin(a)*R;
+    svg.appendChild(el("line",{x1:cx,y1:cy,x2:x,y2:y,stroke:on?"var(--indigo)":"var(--line)","stroke-width":on?2:1,"stroke-linecap":"round","opacity":on?1:.55}));
+    svg.appendChild(el("circle",{cx:x,cy:y,r:on?3.4:2,fill:on?"var(--indigo)":"var(--line)","opacity":on?1:.6}));
+  }
+  svg.appendChild(el("circle",{cx,cy,r:above||all?4.2:3,fill:above||all?"var(--goldleaf)":"var(--surface)",stroke:"var(--goldleaf)","stroke-width":1.4}));
+  return svg;
+}
+
+/* Vertical body-axis — light the guarded region */
+const ZONES=[["crown",10],["head",17],["throat",24],["chest",31],["core",39],["legs",47],["feet",53]];
+function bodyZones(parts){
+  const s=new Set(); const has=w=>parts.some(p=>p.toLowerCase().includes(w));
+  if(has("head")||has("forehead")||has("crown")){s.add("crown");s.add("head");}
+  if(has("brow")||has("nose")||has("eye")||has("ear")||has("face")){s.add("head");}
+  if(has("mouth")||has("tongue")||has("speech")){s.add("head");}
+  if(has("neck")||has("throat")||has("griva")){s.add("throat");}
+  if(has("chest")||has("arm")||has("finger")||has("back")||has("hand")){s.add("chest");}
+  if(has("hip")||has("abdomen")||has("belly")||has("navel")||has("blood")||has("flesh")||has("bone")||has("marrow")){s.add("core");}
+  if(has("thigh")||has("leg")||has("shank")||has("knee")||has("loin")){s.add("legs");}
+  if(has("toe")||has("foot")||has("feet")){s.add("feet");}
+  return s;
+}
+function bodyGlyph(parts){
+  const svg=el("svg",{viewBox:"0 0 60 60"});
+  const on=bodyZones(parts), x=30;
+  svg.appendChild(el("line",{x1:x,y1:8,x2:x,y2:56,stroke:"var(--line)","stroke-width":6,"stroke-linecap":"round"}));
+  svg.appendChild(el("circle",{cx:x,cy:9,r:5,fill:on.has("crown")||on.has("head")?"var(--sandal)":"none",stroke:on.has("head")?"var(--sandal)":"var(--line)","stroke-width":1.6}));
+  for(let i=0;i<ZONES.length;i++){
+    const [k,y]=ZONES[i]; if(k==="crown")continue;
+    const lit=on.has(k);
+    svg.appendChild(el("line",{x1:x,y1:y-2.4,x2:x,y2:y+2.4,stroke:lit?"var(--sandal)":"var(--line-soft)","stroke-width":lit?6:6,"stroke-linecap":"round","opacity":lit?1:.5}));
+    if(lit) svg.appendChild(el("circle",{cx:x+9,cy:y,r:2.2,fill:"var(--sandal)"}));
+  }
+  return svg;
+}
+
+/* All-around mandala — complete protection */
+function mandalaGlyph(){
+  const svg=el("svg",{viewBox:"0 0 60 60"}); const cx=30,cy=30;
+  [22,15,8].forEach((r,i)=>svg.appendChild(el("circle",{cx,cy,r,fill:"none",stroke:i===2?"var(--kumkum)":"var(--goldleaf)","stroke-width":i===2?0:1.4,"opacity":.6})));
+  for(let i=0;i<8;i++){const a=i*Math.PI/4;const x=cx+Math.cos(a)*22,y=cy+Math.sin(a)*22;
+    svg.appendChild(el("circle",{cx:x,cy:y,r:2,fill:"var(--goldleaf)"}));}
+  svg.appendChild(el("circle",{cx,cy,r:7,fill:"var(--kumkum)","opacity":.9}));
+  return svg;
+}
+function glyphFor(v){
+  if(v.body.length) return bodyGlyph(v.body);
+  if(v.directions.length) return compassGlyph(v.directions);
+  return mandalaGlyph();
+}
+
+function tagRow(v){
+  const wrap=document.createElement("div"); wrap.className="tags";
+  v.deities.forEach(d=>wrap.appendChild(tag(d,"deity")));
+  v.directions.forEach(d=>wrap.appendChild(tag(d,"direction")));
+  v.body.forEach(d=>wrap.appendChild(tag(d,"body")));
+  return wrap;
+}
+function tag(text,cls){const s=document.createElement("span");s.className="tag "+cls;s.textContent=text;return s;}
+
+function render(){
+  const root=document.getElementById("verses");
+  VERSES.forEach(v=>{
+    const art=document.createElement("article"); art.className="verse"; art.id="v"+v.n;
+    const head=document.createElement("div"); head.className="v-head";
+    const num=document.createElement("div"); num.className="v-num"; num.textContent=v.n;
+    const lab=document.createElement("div"); lab.className="v-label"; lab.textContent=v.label;
+    const gl=document.createElement("div"); gl.className="v-glyph"; gl.setAttribute("aria-hidden","true"); gl.appendChild(glyphFor(v));
+    head.append(num,lab,gl);
+    const sa=document.createElement("div"); sa.className="sanskrit"; sa.lang="sa"; sa.textContent=v.sa;
+    const tr=document.createElement("div"); tr.className="translit"; tr.lang="sa-Latn"; tr.textContent=v.tr;
+    const en=document.createElement("div"); en.className="translation"; en.lang="en"; en.textContent=v.en;
+    art.append(head,sa,tr,en,tagRow(v));
+    root.appendChild(art);
+  });
+  document.getElementById("lgDir").replaceWith(withId(compassGlyph(["East","Southeast"]),"lgDir"));
+  document.getElementById("lgBody").replaceWith(withId(bodyGlyph(["Chest"]),"lgBody"));
+  document.getElementById("lgAll").replaceWith(withId(mandalaGlyph(),"lgAll"));
+}
+function withId(svg,id){svg.setAttribute("id",id);svg.setAttribute("viewBox","0 0 60 60");return svg;}
+
+/* Controls */
+function wireToggle(segId,cls){
+  const seg=document.getElementById(segId), box=seg.querySelector("input");
+  const apply=()=>{document.body.classList.toggle(cls,box.checked);seg.dataset.on=box.checked;};
+  box.addEventListener("change",apply); apply();
+}
+function initTheme(){
+  const btn=document.getElementById("themeBtn"), icon=document.getElementById("themeIcon");
+  const SUN='<circle cx="12" cy="12" r="4.6" fill="currentColor"/>'+
+    Array.from({length:8},(_,i)=>{const a=i*Math.PI/4,c=Math.cos(a),s=Math.sin(a);
+      return '<line x1="'+(12+c*7).toFixed(1)+'" y1="'+(12+s*7).toFixed(1)+'" x2="'+(12+c*9.6).toFixed(1)+'" y2="'+(12+s*9.6).toFixed(1)+'" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>';}).join("");
+  const MOON='<path d="M20 14.7A8 8 0 0 1 9.3 4 8 8 0 1 0 20 14.7z" fill="currentColor"/>';
+  const set=t=>{document.documentElement.setAttribute("data-theme",t);
+    const toLight=(t==="dark");                 // in dark now → the toggle takes you to light
+    icon.innerHTML=toLight?SUN:MOON;
+    btn.title=toLight?"Light":"Dark";
+    btn.setAttribute("aria-label","Switch to "+(toLight?"light":"dark")+" theme");};
+  const mq=window.matchMedia("(prefers-color-scheme: light)");
+  set(mq.matches?"light":"dark");
+  btn.addEventListener("click",()=>{
+    const cur=document.documentElement.getAttribute("data-theme");
+    set(cur==="dark"?"light":"dark");
+  });
+}
+document.body.classList.add("show-sanskrit","show-translit");
+render(); wireToggle("segSanskrit","show-sanskrit"); wireToggle("segTranslit","show-translit"); initTheme();
+</script>

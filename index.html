@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<!--
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                    DAŚAMAHĀVIDYĀ KAVACAM STUDY TOOL                         ║
+║                           Interactive Sanskrit Study                          ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║ Version: 2.0.0                                                              ║
+║ Author: YogaEdu.org                                                          ║
+║ License: MIT                                                                 ║
+║ Repository: https://github.com/yogaedu-org/dmv-kavacham-study-tool          ║
+║                                                                              ║
+║ Description:                                                                 ║
+║ Enterprise-standard web application for studying the Daśamahāvidyā Kavacam  ║
+║ (Armor of the Ten Great Wisdom Goddesses). Features Sanskrit text,          ║
+║ transliteration, translation, and intelligent search capabilities.          ║
+║                                                                              ║
+║ Architecture:                                                                ║
+║ - Semantic HTML5 structure                                                   ║
+║ - External CSS with custom properties                                        ║
+║ - Minimal, focused JavaScript                                                ║
+║ - Mobile-first responsive design                                             ║
+║ - Accessibility optimized                                                    ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+-->
+<html lang="en">
+<head>
+    <!-- Meta Information -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Interactive study tool for the Daśamahāvidyā Kavacam - Sanskrit armor of the Ten Great Wisdom Goddesses">
+    <meta name="keywords" content="Sanskrit, Mahavidya, Kavacam, Tantra, Hindu, Study, Interactive">
+    <meta name="author" content="YogaEdu.org">
+    <meta name="version" content="2.1.0">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Daśamahāvidyā Kavacam - Interactive Study Tool">
+    <meta property="og:description" content="Study the sacred Sanskrit armor of the Ten Great Wisdom Goddesses with interactive text, transliteration, and translation">
+    <meta property="og:url" content="https://yogaedu-org.github.io/dmv-kavacham-study-tool/">
+    
+    <!-- Page Title -->
+    <title>श्रीदशमहाविद्याकवचम् - Interactive Study Tool</title>
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Favicon & PWA (#15) -->
+    <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="theme-color" content="#14121c">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Kavacam">
+</head>
+
+<body>
+    <!-- Main Application Container -->
+    <div class="container">
+        
+        <!-- Header Section -->
+        <header class="header" role="banner">
+            <h1 class="title">श्रीदशमहाविद्याकवचम्</h1>
+            <p class="subtitle">The Armor of the Ten Great Wisdom Goddesses</p>
+            <p class="demo-link" style="font-size: 0.9rem; margin-top: 8px;">
+                Created with 🙏🏾❤🪷: 
+                <a href="https://github.com/yogaedu-org" target="_blank" class="demo-link">yogaedu.org</a>
+            </p>
+        </header>
+        
+        <!-- Controls Section -->
+        <section class="controls" role="search" aria-label="Study controls and search">
+            
+            <!-- Toggle Controls Row -->
+            <div class="controls-row">
+                <!-- Search Input (for compact mode) -->
+                <div class="search-input-wrapper">
+                    <label for="searchInput" class="sr-only">Search verses</label>
+                    <input 
+                        type="search" 
+                        id="searchInput" 
+                        class="search-input" 
+                        placeholder="Search..."
+                        title="Search by deity name, direction, or body part"
+                        aria-describedby="search-help"
+                        autocomplete="off"
+                        role="combobox"
+                        aria-expanded="false"
+                        aria-autocomplete="list"
+                    >
+                    <div class="autocomplete-dropdown hidden" id="autocompleteDropdown" role="listbox" aria-label="Search suggestions">
+                        <!-- Autocomplete options populated by JavaScript -->
+                    </div>
+                </div>
+                
+                <!-- Clear Filters Button -->
+                <button class="clear-btn" id="clearFilters" aria-label="Clear all filters and search">
+                    Clear Filters
+                </button>
+                
+                <!-- Sanskrit Text Toggle -->
+                <div class="checkbox-group">
+                    <input type="checkbox" id="sanskritToggle" checked aria-describedby="sanskrit-help">
+                    <label for="sanskritToggle">Show Sanskrit</label>
+                </div>
+                
+                <!-- Transliteration Toggle -->
+                <div class="checkbox-group">
+                    <input type="checkbox" id="transliterationToggle" checked aria-describedby="transliteration-help">
+                    <label for="transliterationToggle">Show Transliteration</label>
+                </div>
+                
+                <!-- Compact Toggle Button -->
+                <button class="compact-toggle" id="compactToggle" aria-label="Toggle compact mode" title="Expand/Collapse controls">
+                    ⚙️
+                </button>
+                
+                <!-- Pin Toggle Button -->
+                <button class="pin-toggle" id="pinToggle" aria-label="Pin controls expanded" title="Pin controls (prevent auto-collapse on scroll)">
+                    📌
+                </button>
+
+                <!-- Theme Toggle Button (#17) -->
+                <button class="theme-toggle" id="themeToggle" type="button" title="Light" aria-label="Switch to light theme">
+                    <svg class="theme-icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"></svg>
+                </button>
+
+                <!-- Font-size stepper (#23) -->
+                <div class="fontsize-group" role="group" aria-label="Text size">
+                    <button class="fs-btn fs-btn--sm" id="fontSmaller" type="button" aria-label="Decrease text size" title="Smaller text">A&minus;</button>
+                    <button class="fs-btn fs-btn--lg" id="fontLarger" type="button" aria-label="Increase text size" title="Larger text">A+</button>
+                </div>
+            </div>
+            
+            <!-- Filter Dropdowns Row -->
+            <div class="controls-row filters-row">
+                <!-- Deities Dropdown -->
+                <div class="dropdown-group">
+                    <span class="dropdown-label">Deities:</span>
+                    <div class="custom-dropdown">
+                        <button class="dropdown-button" id="deitiesDropdownBtn" aria-expanded="false" aria-haspopup="true">
+                            <span id="deitiesSelectedText">Select...</span>
+                            <span class="dropdown-arrow">▼</span>
+                        </button>
+                        <div class="dropdown-content hidden" id="deitiesDropdownContent" role="listbox" aria-label="Select deities to filter by">
+                            <!-- Populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Directions Dropdown -->
+                <div class="dropdown-group">
+                    <span class="dropdown-label">Directions:</span>
+                    <div class="custom-dropdown">
+                        <button class="dropdown-button" id="directionsDropdownBtn" aria-expanded="false" aria-haspopup="true">
+                            <span id="directionsSelectedText">Select...</span>
+                            <span class="dropdown-arrow">▼</span>
+                        </button>
+                        <div class="dropdown-content hidden" id="directionsDropdownContent" role="listbox" aria-label="Select directions to filter by">
+                            <!-- Populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Body Parts Dropdown -->
+                <div class="dropdown-group">
+                    <span class="dropdown-label">Body:</span>
+                    <div class="custom-dropdown">
+                        <button class="dropdown-button" id="bodyDropdownBtn" aria-expanded="false" aria-haspopup="true">
+                            <span id="bodySelectedText">Select...</span>
+                            <span class="dropdown-arrow">▼</span>
+                        </button>
+                        <div class="dropdown-content hidden" id="bodyDropdownContent" role="listbox" aria-label="Select body parts to filter by">
+                            <!-- Populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Active Filter Tags Row -->
+            <div class="active-filters" id="activeFilters" aria-label="Active filters" aria-live="polite">
+                <!-- Filter tags populated by JavaScript -->
+            </div>
+            
+            
+            <!-- Help Text (Screen Reader) -->
+            <div class="sr-only">
+                <p id="sanskrit-help">Toggle to show or hide Sanskrit Devanagari text</p>
+                <p id="transliteration-help">Toggle to show or hide romanized transliteration</p>
+                <p id="search-help">Search through all verse content including translations and categories</p>
+            </div>
+            
+        </section>
+        
+        <!-- Main Content Section -->
+        <main class="verses-container" role="main" id="versesContainer">
+            <!-- Verses will be dynamically populated here by JavaScript -->
+            <div class="loading" id="loadingIndicator">
+                Loading verses...
+            </div>
+        </main>
+        
+        <!-- Information Section -->
+        <aside class="notes" role="complementary">
+            <h3>Study Notes</h3>
+            <p><strong>Directional Protection:</strong> The kavacam systematically covers all eight directions plus above and all-around protection, creating complete spiritual armor.</p>
+            <p><strong>Anatomical Coverage:</strong> From head to toe, every part of the body is placed under divine protection through specific goddess invocations.</p>
+            <p><strong>Usage:</strong> Use the toggles to show/hide Sanskrit or transliteration text. Search to find specific deities, directions, or body parts across all verses.</p>
+            <p><strong>Epithets:</strong> Some goddess names may vary across different recensions and represent regional or textual variations.</p>
+        </aside>
+        
+    </div>
+    
+    <!-- Application JavaScript -->
+    <script src="app.js"></script>
+    
+    <!-- Analytics / Tracking (optional - add when needed) -->
+    <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script> -->
+    
+</body>
+</html>

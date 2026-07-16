@@ -1,0 +1,26 @@
+{
+  "app": {
+    "title": "श्रीदशमहाविद्याकवचम्",
+    "subtitle": "The Armor of the Ten Great Wisdom Goddesses",
+    "author": "YogaEdu.org",
+    "version": "2.1.0",
+    "links": {
+      "org": "https://github.com/yogaedu-org"
+    }
+  },
+  "features": {
+    "showSanskritDefault": true,
+    "showTransliterationDefault": true,
+    "enableSearch": true,
+    "enableFilters": true,
+    "enableCompactMode": true
+  },
+  "display": {
+    "breakpoints": { "tablet": 768, "mobile": 480 }
+  },
+  "categories": [
+    { "key": "deities",    "dataField": "deities",    "stateKey": "selectedDeities",    "allKey": "allDeities",    "domKey": "deities",    "cssVar": "deity",     "label": "Deities",    "color": "#d9615a", "colorLight": "#b23a34" },
+    { "key": "directions", "dataField": "directions", "stateKey": "selectedDirections", "allKey": "allDirections", "domKey": "directions", "cssVar": "direction", "label": "Directions", "color": "#7d9bd0", "colorLight": "#4a5f8a" },
+    { "key": "bodyParts",  "dataField": "bodyParts",  "stateKey": "selectedBodyParts",  "allKey": "allBodyParts",  "domKey": "body",       "cssVar": "body",      "label": "Body",       "color": "#c9a886", "colorLight": "#8a6d4f" }
+  ]
+}
