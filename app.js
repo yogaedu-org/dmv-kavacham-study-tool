@@ -1325,3 +1325,17 @@ window.DMVKavacham = {
 };
 
 console.log('DMV Kavacham Study Tool loaded. Access via window.DMVKavacham');
+
+/* ==========================================================================
+   SERVICE WORKER (#15)
+   Registers the offline app-shell cache. No-ops on file:// (needs HTTP/HTTPS).
+   ========================================================================== */
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+        navigator.serviceWorker.register('sw.js').then(function(reg) {
+            console.log('Service worker registered:', reg.scope);
+        }).catch(function(err) {
+            console.warn('Service worker registration failed:', err.message);
+        });
+    });
+}
