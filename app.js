@@ -173,7 +173,7 @@ function initThemeToggle() {
  */
 function initFontScale() {
     const KEY = 'dmv-font-scale';
-    const MIN = 0.85, MAX = 1.5, STEP = 0.1;
+    const MIN = 0.8, MAX = 2.5, STEP = 0.15;  // generous ceiling; the reader is the point (#23)
     let scale = parseFloat(localStorage.getItem(KEY));
     if (!scale || isNaN(scale)) scale = 1;
     const apply = function() {
@@ -990,7 +990,11 @@ function createTags(items, type) {
  * @returns {string} - Text with <br> tags
  */
 function formatTextForHTML(text) {
-    return escapeHtml(text).replace(/\n/g, '<br>');
+    // Non-breaking space before daṇḍa (।/॥) and IAST pipe daṇḍa (|/||) so the mark
+    // never wraps away from its word when the reader font size grows (#23).
+    return escapeHtml(text)
+        .replace(/ ([।॥]|\|+)/g, ' $1')
+        .replace(/\n/g, '<br>');
 }
 
 /* ==========================================================================
