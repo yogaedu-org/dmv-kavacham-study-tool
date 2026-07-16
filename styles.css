@@ -63,6 +63,13 @@
   /* Transitions */
   --transition-fast: 0.2s ease;
   --transition-medium: 0.3s ease;
+
+  /* Surfaces & overlays — theme-aware (#17 contrast/washout fix; dusk defaults) */
+  --overlay-1: rgba(255, 255, 255, 0.05);
+  --overlay-2: rgba(255, 255, 255, 0.10);
+  --overlay-3: rgba(255, 255, 255, 0.16);
+  --line-color: rgba(255, 255, 255, 0.14);
+  --placeholder-color: rgba(236, 231, 239, 0.5);
 }
 
 /* ==========================================================================
@@ -76,6 +83,8 @@
     --color-text-primary: #241f2b; --color-text-secondary: #6b6472;
     --color-sanskrit: #a9772f; --color-transliteration: #8a6d4f;
     --color-deity: #b23a34; --color-direction: #4a5f8a; --color-body: #8a6d4f;
+    --overlay-1: rgba(20, 18, 28, 0.035); --overlay-2: rgba(20, 18, 28, 0.06); --overlay-3: rgba(20, 18, 28, 0.10);
+    --line-color: rgba(20, 18, 28, 0.16); --placeholder-color: rgba(36, 31, 43, 0.6);
   }
 }
 :root[data-theme="light"] {
@@ -83,6 +92,8 @@
   --color-text-primary: #241f2b; --color-text-secondary: #6b6472;
   --color-sanskrit: #a9772f; --color-transliteration: #8a6d4f;
   --color-deity: #b23a34; --color-direction: #4a5f8a; --color-body: #8a6d4f;
+  --overlay-1: rgba(20, 18, 28, 0.035); --overlay-2: rgba(20, 18, 28, 0.06); --overlay-3: rgba(20, 18, 28, 0.10);
+  --line-color: rgba(20, 18, 28, 0.16); --placeholder-color: rgba(36, 31, 43, 0.6);
 }
 :root[data-theme="dark"] {
   --color-primary: #14121c; --color-secondary: #1e1926; --color-accent: #e4b25a;
@@ -175,12 +186,12 @@ a:hover {
 
 /* Demo link specific styling */
 .demo-link {
-  color: #ffffff !important;
+  color: var(--color-text-secondary) !important;
   text-decoration: underline;
 }
 
 .demo-link:visited {
-  color: #ffffff !important;
+  color: var(--color-text-secondary) !important;
 }
 
 .demo-link:hover {
@@ -204,7 +215,7 @@ a:hover {
   text-align: center;
   margin-bottom: var(--spacing-xl);
   padding: var(--spacing-lg);
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--overlay-1);
   border-radius: var(--border-radius-large);
   backdrop-filter: blur(10px);
   box-shadow: var(--shadow-medium);
@@ -326,7 +337,7 @@ a:hover {
   padding: 0;
   border-radius: 10px;
   border: 1px solid var(--color-accent);
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--overlay-1);
   color: var(--color-sanskrit);
   cursor: pointer;
   display: inline-flex;
@@ -339,7 +350,7 @@ a:hover {
 .theme-toggle svg { display: block; }
 
 .compact-toggle {
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--overlay-2);
   border: 1px solid var(--color-accent);
   border-radius: 50%;
   width: 44px;
@@ -460,7 +471,7 @@ a:hover {
   font-size: var(--font-size-base);
   border: 2px solid var(--color-accent);
   border-radius: 25px;
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--overlay-2);
   color: var(--color-text-primary);
   width: 300px;
   max-width: 90%;
@@ -473,7 +484,7 @@ a:hover {
 }
 
 .search-input::placeholder {
-  color: rgba(232, 230, 227, 0.6);
+  color: var(--placeholder-color);
 }
 
 /* Clear button styling */
@@ -508,10 +519,10 @@ a:hover {
 /* Individual verse styling */
 .verse {
   position: relative;
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--overlay-1);
   border-radius: var(--border-radius-large);
   padding: var(--spacing-lg);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--line-color);
   transition: all var(--transition-medium);
   cursor: pointer;
 }
@@ -533,7 +544,7 @@ a:hover {
 }
 
 .verse:hover {
-  background: rgba(255, 255, 255, 0.12);
+  background: var(--overlay-2);
   transform: translateY(-2px);
   box-shadow: var(--shadow-medium);
 }
@@ -625,7 +636,7 @@ a:hover {
   min-width: 120px;
   min-height: 44px;
   padding: 8px 12px;
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--overlay-2);
   border: 1px solid var(--color-accent);
   border-radius: var(--border-radius);
   color: var(--color-text-primary);
@@ -636,7 +647,7 @@ a:hover {
 }
 
 .dropdown-button:hover {
-  background: rgba(255, 255, 255, 0.15);
+  background: var(--overlay-3);
   border-color: var(--color-sanskrit);
 }
 
@@ -680,7 +691,7 @@ a:hover {
   padding: 8px 12px;
   cursor: pointer;
   transition: background-color var(--transition-fast);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid var(--line-color);
 }
 
 .dropdown-item:last-child {
@@ -688,7 +699,7 @@ a:hover {
 }
 
 .dropdown-item:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--overlay-2);
 }
 
 .dropdown-item-text {
@@ -759,7 +770,7 @@ a:hover {
 }
 
 .filter-tag-close:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: var(--overlay-3);
 }
 
 /* Deity filter tags */
@@ -819,7 +830,7 @@ a:hover {
   padding: 10px 15px;
   cursor: pointer;
   transition: background-color var(--transition-fast);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid var(--line-color);
 }
 
 .autocomplete-item:last-child {
@@ -827,7 +838,7 @@ a:hover {
 }
 
 .autocomplete-item:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--overlay-2);
 }
 
 /* Autocomplete item text */
@@ -1153,7 +1164,7 @@ input:focus,
    ========================================================================== */
 
 .notes {
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--overlay-1);
   border-left: 4px solid var(--color-accent);
   padding: var(--spacing-lg);
   margin-top: var(--spacing-xl);
