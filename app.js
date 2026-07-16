@@ -19,164 +19,24 @@
    ========================================================================== */
 
 /**
- * Verse data - loaded from JSON file at runtime or fallback embedded data
- * Will be populated by loadVerseData() function
+ * Verse data — the single source of truth is data/verses.json.
+ * Populated by loadVerseData(); the app must be served over HTTP(S).
  */
 let VERSE_DATA = [];
 
 /**
- * Fallback verse data embedded in JavaScript
- * Used when JSON file cannot be fetched (e.g., file:// protocol)
- */
-const FALLBACK_VERSE_DATA = [
-    {
-        number: 1,
-        sanskrit: "ॐ प्राच्यां रक्षतु मे तारा कामरूपनिवासिनी ।\nआग्नेय्यां षोडशी पातु याम्यां धूमावती स्वयम् ॥१॥",
-        transliteration: "Om prācyāṃ rakṣatu me tārā kāmarūpanivāsinī |\nāgneyyāṃ ṣoḍaśī pātu yāmyāṃ dhūmāvatī svayam ||1||",
-        translation: "May Tārā, who dwells in Kāmarūpa, guard me in the east. In the southeast may Ṣoḍaśī (Tripurasundarī) protect me; in the south, Dhumāvatī herself.",
-        deities: ["Tara", "Sodasi", "Tripurasundari", "Dhumavati"],
-        directions: ["East", "Southeast", "South"],
-        bodyParts: []
-    },
-    {
-        number: 2,
-        sanskrit: "नैरृत्यां भैरवी पातु वारुण्यां भुवनेश्वरी ।\nवायव्यां सततं पातु छिन्नमस्ता महेश्वरी ॥२॥",
-        transliteration: "nairṛtyāṃ bhairavī pātu vāruṇyāṃ bhuvaneśvarī |\nvāyavyāṃ satataṃ pātu chinnamastā maheśvarī ||2||",
-        translation: "In the southwest may Bhairavī protect; in the west, Bhuvaneśvarī. In the northwest may the great goddess Chinnamastā protect me always.",
-        deities: ["Bhairavi", "Bhuvaneshvari", "Chinnamasta", "Maheshvari"],
-        directions: ["Southwest", "West", "Northwest"],
-        bodyParts: []
-    },
-    {
-        number: 3,
-        sanskrit: "कौबेर्यां पातु मे देवी श्रीविद्या बगलामुखी ।\nऐशान्यां पातु मे नित्यं महात्रिपुरसुन्दरी ॥३॥",
-        transliteration: "kauberyāṃ pātu me devī śrīvidyā bagalāmukhī |\naiśānyāṃ pātu me nityaṃ mahātripurasundarī ||3||",
-        translation: "In Kubera's quarter (the north) may the goddess Śrīvidyā—Bagalāmukhī—protect me. In Īśāna's quarter (the northeast) may Mahā‑Tripurasundarī protect me always.",
-        deities: ["Srividya", "Bagalamukhi", "Mahatripurasundari"],
-        directions: ["North", "Northeast"],
-        bodyParts: []
-    },
-    {
-        number: 4,
-        sanskrit: "ऊर्ध्वं रक्षतु मे विद्या मातङ्गीपीठवासिनी ।\nसर्वतः पातु मे नित्यं कामाख्या कालिका स्वयम् ॥४॥",
-        transliteration: "ūrdhvaṃ rakṣatu me vidyā mātaṅgīpīṭhavāsinī |\nsarvataḥ pātu me nityaṃ kāmākhyā kālikā svayam ||4||",
-        translation: "Above, may Vidyā Mātangī, who abides at her sacred seat, guard me. On all sides may Kālikā of Kāmākhyā protect me always.",
-        deities: ["Vidya", "Matangi", "Kamakhya", "Kalika"],
-        directions: ["Above", "All sides"],
-        bodyParts: []
-    },
-    {
-        number: 5,
-        sanskrit: "ब्रह्मरूपा महाविद्या सर्वविद्यामयी स्वयम् ।\nशीर्षे रक्षतु मे दुर्गा भालं श्रीभवगेहिनी ॥५॥",
-        transliteration: "brahmarūpā mahāvidyā sarvavidyāmayī svayam |\nśīrṣe rakṣatu me durgā bhālaṃ śrībhavagehinī ||5||",
-        translation: "She is the Great Vidyā, of the very form of Brahman, the essence of all knowledges. May Durgā guard my head; may Śrī‑Bhavagehinī guard my forehead.",
-        deities: ["Mahavidya", "Durga", "Shribhavagahini", "Parvati"],
-        directions: [],
-        bodyParts: ["Head", "Forehead"]
-    },
-    {
-        number: 6,
-        sanskrit: "त्रिपुरा भ्रुयुगे पातु शर्वाणी पातु नासिकाम् ।\nचक्षुषी चण्डिका पातु श्रोत्रे नीलसरस्वती ॥६॥",
-        transliteration: "tripurā bhruyuge pātu śarvāṇī pātu nāsikām |\ncakṣuṣī caṇḍikā pātu śrotre nīlasarasvatī ||6||",
-        translation: "May Tripurā guard my brows; may Śarvaṇī (Pārvatī) guard my nose. May Caṇḍikā guard my eyes; may Nīla‑Sarasvatī guard my ears.",
-        deities: ["Tripura", "Sarvani", "Parvati", "Candika", "Nilasarasvati"],
-        directions: [],
-        bodyParts: ["Brows", "Nose", "Eyes", "Ears"]
-    },
-    {
-        number: 7,
-        sanskrit: "मुखं सौम्यमुखी पातु ग्रीवां रक्षतु पार्वती ।\nजिह्वां रक्षतु मे देवी जिह्वाललनभीषणा ॥७॥",
-        transliteration: "mukhaṃ saumyamukhī pātu grīvāṃ rakṣatu pārvatī |\njihvāṃ rakṣatu me devī jihvālalanabhīṣaṇā ||7||",
-        translation: "May the gentle‑faced One protect my face; may Pārvatī guard my neck. May the goddess—fearsome to foes—guard my tongue.",
-        deities: ["Saumyamukhi", "Parvati", "Jihvalalanabhisana"],
-        directions: [],
-        bodyParts: ["Face", "Neck", "Tongue"]
-    },
-    {
-        number: 8,
-        sanskrit: "वाग्देवी वदनं पातु वक्षः पातु महेश्वरी ।\nबाहू महाभुजा पातु कराङ्गुलीः सुरेश्वरी ॥८॥",
-        transliteration: "vāgdevī vadanaṃ pātu vakṣaḥ pātu maheśvarī |\nbāhū mahābhujā pātu karāṅgulīḥ sureśvarī ||8||",
-        translation: "May Vāgdevī protect my speech and mouth; may Maheśvarī guard my chest. May the Mighty‑Armed One protect my arms, and the Queen of the gods protect my fingers.",
-        deities: ["Vagdevi", "Maheshvari", "Mahabhuja", "Sureshvari"],
-        directions: [],
-        bodyParts: ["Speech", "Mouth", "Chest", "Arms", "Fingers"]
-    },
-    {
-        number: 9,
-        sanskrit: "पृष्ठतः पातु भीमास्या कट्यां देवी दिगम्बरी ।\nउदरं पातु मे नित्यं महाविद्या महोदरी ॥९॥",
-        transliteration: "pṛṣṭhataḥ pātu bhīmāsyā kaṭyāṃ devī digambarī |\nudaraṃ pātu me nityaṃ mahāvidyā mahodarī ||9||",
-        translation: "From behind may Bhīmāsyā protect; at the hips, the goddess Digambarī. May the Great Vidyā Mahodari always protect my abdomen.",
-        deities: ["Bhimasya", "Digambari", "Mahavidya", "Mahodari"],
-        directions: ["Behind"],
-        bodyParts: ["Hips", "Abdomen"]
-    },
-    {
-        number: 10,
-        sanskrit: "उग्रतारा महादेवी जङ्घोरू परिरक्षतु ।\nउग्रतारा गुदं मुष्कं च मेढ्रं च नाभिं च सुरसुन्दरी ॥१०॥",
-        transliteration: "ugratārā mahādevī jaṅghorū parirakṣatu |\nugratārā gudaṃ muṣkaṃ ca meḍhraṃ ca nābhiṃ ca surasundarī ||10||",
-        translation: "May the great goddess Ugratārā protect my shanks and thighs. May Ugratārā—Surasundarī—guard the anus, the scrotum, the phallus, and the navel.",
-        deities: ["Ugratara", "Mahadevi", "Surasundari"],
-        directions: [],
-        bodyParts: ["Shanks", "Thighs", "Knees", "Legs", "Anus", "Scrotum", "Phallus", "Navel"]
-    },
-    {
-        number: 11,
-        sanskrit: "पादाङ्गुलीः सदा पातु भवानी त्रिदशेश्वरी ।\nरक्तमांसास्थिमज्जादीन् पातु देवी शवासना ॥११॥",
-        transliteration: "pādāṅgulīḥ sadā pātu bhavānī tridaśeśvarī |\nraktamāṃsāsthimajjādīn pātu devī śavāsanā ||11||",
-        translation: "May Bhavānī, queen of the gods, always protect my toes. May the goddess who is seated upon a corpse protect my blood, flesh, bones, marrow, and the rest.",
-        deities: ["Bhavani", "Tridaseshvari", "Shavasana"],
-        directions: [],
-        bodyParts: ["Toes", "Blood", "Flesh", "Bones", "Marrow"]
-    },
-    {
-        number: 12,
-        sanskrit: "महाभयेषु घोरेषु महाभयनिवारिणी ।\nपातु देवी महामाया कामाख्यापीठवासिनी ॥१२॥",
-        transliteration: "mahābhayeṣu ghoreṣu mahābhayanivāriṇī |\npātu devī mahāmāyā kāmākhyāpīṭhavāsinī ||12||",
-        translation: "In great and terrible dangers, may the remover of great fear—Mahāmāyā, who dwells at the seat of Kāmākhyā—protect me.",
-        deities: ["Mahabhayanivairini", "Mahamaya", "Kamakhyapithvasini"],
-        directions: [],
-        bodyParts: []
-    },
-    {
-        number: 13,
-        sanskrit: "भस्माचलगता दिव्यसिंहासनकृताश्रया ।\nपातु श्रीकालिकादेवी सर्वोत्पातेषु सर्वदा ॥१३॥",
-        transliteration: "bhasmācalagatā divyasiṃhāsanakṛtāśrayā |\npātu śrīkālikādevī sarvotpāteṣu sarvadā ||13||",
-        translation: "Residing on the mountain of ash, enthroned upon the divine lion seat—may Śrī Kālika‑devī protect me from every calamity, always.",
-        deities: ["Shrikalikadevi"],
-        directions: [],
-        bodyParts: []
-    },
-    {
-        number: 14,
-        sanskrit: "रक्षाहीनं तु यत्स्थानं कवचेनापि वर्जितम् ।\nतत्सर्वं सर्वदा पातु सर्वरक्षणकारिणी ॥१४॥",
-        transliteration: "rakṣāhīnaṃ tu yatsthānaṃ kavacenāpi varjitam |\ntatsarvaṃ sarvadā pātu sarvarakṣaṇakāriṇī ||14||",
-        translation: "And whatever place is left unprotected—omitted even by this armor—may the All‑Protecting Goddess guard all of that, at all times.",
-        deities: ["Sarvaraksanakarini"],
-        directions: [],
-        bodyParts: []
-    }
-];
-
-/**
- * Load verse data from JSON file with smart fallback
+ * Load verse data from data/verses.json (single source of truth).
+ * Throws on failure; initializeApp() renders the error state.
  * @returns {Promise<void>}
  */
 async function loadVerseData() {
-    try {
-        // Try to fetch from JSON file first
-        const response = await fetch('data/verses.json');
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        VERSE_DATA = data.verses;
-        console.log(`✅ Loaded ${VERSE_DATA.length} verses from verses.json (external data)`);
-    } catch (error) {
-        // Fall back to embedded data
-        console.warn('Failed to load external verse data, using embedded fallback:', error.message);
-        VERSE_DATA = FALLBACK_VERSE_DATA;
-        console.log(`📦 Using ${VERSE_DATA.length} verses from embedded fallback data`);
+    const response = await fetch('data/verses.json');
+    if (!response.ok) {
+        throw new Error(`Could not load data/verses.json (HTTP ${response.status}). The app must be served over HTTP(S); opening index.html directly via file:// will not work.`);
     }
+    const data = await response.json();
+    VERSE_DATA = data.verses;
+    console.log(`Loaded ${VERSE_DATA.length} verses from data/verses.json`);
 }
 
 /* ==========================================================================
