@@ -168,6 +168,26 @@ function initThemeToggle() {
     });
 }
 
+/**
+ * Reader font-size stepper (#23) — multiplies the fluid type scale; persisted.
+ */
+function initFontScale() {
+    const KEY = 'dmv-font-scale';
+    const MIN = 0.85, MAX = 1.5, STEP = 0.1;
+    let scale = parseFloat(localStorage.getItem(KEY));
+    if (!scale || isNaN(scale)) scale = 1;
+    const apply = function() {
+        scale = Math.min(MAX, Math.max(MIN, scale));
+        document.documentElement.style.setProperty('--user-scale', scale.toFixed(2));
+        try { localStorage.setItem(KEY, scale); } catch (e) { /* private mode */ }
+    };
+    apply();
+    const smaller = document.getElementById('fontSmaller');
+    const larger = document.getElementById('fontLarger');
+    if (smaller) smaller.addEventListener('click', function() { scale -= STEP; apply(); });
+    if (larger) larger.addEventListener('click', function() { scale += STEP; apply(); });
+}
+
 /* ==========================================================================
    APPLICATION STATE
    Enhanced state management for filters, search, and display options
@@ -1305,6 +1325,9 @@ async function initializeApp() {
 
         // Wire the theme toggle (#17)
         initThemeToggle();
+
+        // Wire the reader font-size stepper (#23)
+        initFontScale();
 
         // Set initial display state
         updateDisplayClasses();
