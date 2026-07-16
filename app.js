@@ -62,9 +62,9 @@ const DEFAULT_CONFIG = {
     },
     display: { breakpoints: { tablet: 768, mobile: 480 } },
     categories: [
-        { key: 'deities',    dataField: 'deities',    stateKey: 'selectedDeities',    label: 'Deities',    color: '#ff6b6b' },
-        { key: 'directions', dataField: 'directions', stateKey: 'selectedDirections', label: 'Directions', color: '#4ecdc4' },
-        { key: 'bodyParts',  dataField: 'bodyParts',  stateKey: 'selectedBodyParts',  label: 'Body',       color: '#fb8500' }
+        { key: 'deities',    dataField: 'deities',    stateKey: 'selectedDeities',    allKey: 'allDeities',    domKey: 'deities',    cssVar: 'deity',     label: 'Deities',    color: '#ff6b6b' },
+        { key: 'directions', dataField: 'directions', stateKey: 'selectedDirections', allKey: 'allDirections', domKey: 'directions', cssVar: 'direction', label: 'Directions', color: '#4ecdc4' },
+        { key: 'bodyParts',  dataField: 'bodyParts',  stateKey: 'selectedBodyParts',  allKey: 'allBodyParts',  domKey: 'body',       cssVar: 'body',      label: 'Body',       color: '#fb8500' }
     ]
 };
 
@@ -109,6 +109,13 @@ function applyConfig() {
     AppState.showTransliteration = CONFIG.features.showTransliterationDefault !== false;
     if (DOMElements.sanskritToggle) DOMElements.sanskritToggle.checked = AppState.showSanskrit;
     if (DOMElements.transliterationToggle) DOMElements.transliterationToggle.checked = AppState.showTransliteration;
+
+    // Category colors (#8) — drive the CSS custom properties from the registry
+    CONFIG.categories.forEach(function(cat) {
+        if (cat.cssVar && cat.color) {
+            document.documentElement.style.setProperty('--color-' + cat.cssVar, cat.color);
+        }
+    });
 
     // Version (#9) — keep the debug export in sync with the authoritative value
     if (window.DMVKavacham) window.DMVKavacham.version = CONFIG.app.version;
@@ -1127,10 +1134,10 @@ async function initializeApp() {
         applyConfig();
         console.log('Version ' + CONFIG.app.version);
 
-        // Populate dropdowns with extracted keywords
-        populateDropdown('deities', AppState.allDeities);
-        populateDropdown('directions', AppState.allDirections);
-        populateDropdown('body', AppState.allBodyParts);
+        // Populate dropdowns from the category registry (#8)
+        CONFIG.categories.forEach(function(cat) {
+            populateDropdown(cat.domKey, AppState[cat.allKey]);
+        });
         
         // Set up event listeners
         initializeEventListeners();
