@@ -82,18 +82,24 @@
     --color-primary: #efe9e4; --color-secondary: #e7e0d7; --color-accent: #a9772f;
     --color-text-primary: #241f2b; --color-text-secondary: #6b6472;
     --color-sanskrit: #a9772f; --color-transliteration: #8a6d4f;
-    --color-deity: #b23a34; --color-direction: #4a5f8a; --color-body: #8a6d4f;
-    --overlay-1: rgba(20, 18, 28, 0.035); --overlay-2: rgba(20, 18, 28, 0.06); --overlay-3: rgba(20, 18, 28, 0.10);
-    --line-color: rgba(20, 18, 28, 0.16); --placeholder-color: rgba(36, 31, 43, 0.6);
+    --color-primary: #e8ded0; --color-secondary: #ded2c1;
+    --color-accent: #9a6b28; --color-sanskrit: #9a6b28; --color-transliteration: #7c6142;
+    --color-deity: #a8352f; --color-direction: #3f5480; --color-body: #7a5f3f;
+    --color-text-primary: #221d29; --color-text-secondary: #635c6b;
+    --overlay-1: #faf7f2; --overlay-2: #f1e9dd; --overlay-3: #e7dccc;
+    --line-color: rgba(20, 18, 28, 0.13); --placeholder-color: rgba(34, 29, 41, 0.55);
   }
 }
 :root[data-theme="light"] {
   --color-primary: #efe9e4; --color-secondary: #e7e0d7; --color-accent: #a9772f;
   --color-text-primary: #241f2b; --color-text-secondary: #6b6472;
   --color-sanskrit: #a9772f; --color-transliteration: #8a6d4f;
-  --color-deity: #b23a34; --color-direction: #4a5f8a; --color-body: #8a6d4f;
-  --overlay-1: rgba(20, 18, 28, 0.035); --overlay-2: rgba(20, 18, 28, 0.06); --overlay-3: rgba(20, 18, 28, 0.10);
-  --line-color: rgba(20, 18, 28, 0.16); --placeholder-color: rgba(36, 31, 43, 0.6);
+  --color-primary: #e8ded0; --color-secondary: #ded2c1;
+  --color-accent: #9a6b28; --color-sanskrit: #9a6b28; --color-transliteration: #7c6142;
+  --color-deity: #a8352f; --color-direction: #3f5480; --color-body: #7a5f3f;
+  --color-text-primary: #221d29; --color-text-secondary: #635c6b;
+  --overlay-1: #faf7f2; --overlay-2: #f1e9dd; --overlay-3: #e7dccc;
+  --line-color: rgba(20, 18, 28, 0.13); --placeholder-color: rgba(34, 29, 41, 0.55);
 }
 :root[data-theme="dark"] {
   --color-primary: #14121c; --color-secondary: #1e1926; --color-accent: #e4b25a;
