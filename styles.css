@@ -507,12 +507,29 @@ a:hover {
 
 /* Individual verse styling */
 .verse {
+  position: relative;
   background: rgba(255, 255, 255, 0.08);
   border-radius: var(--border-radius-large);
   padding: var(--spacing-lg);
   border: 1px solid rgba(255, 255, 255, 0.1);
   transition: all var(--transition-medium);
   cursor: pointer;
+}
+
+/* Orientation glyph (#17) — direction rosette / body axis / all-around mandala */
+.verse-glyph {
+  position: absolute;
+  top: var(--spacing-lg);
+  right: var(--spacing-lg);
+  width: 52px;
+  height: 52px;
+  color: var(--color-text-secondary);
+  pointer-events: none;
+  opacity: 0.95;
+}
+.verse-glyph svg { width: 100%; height: 100%; display: block; }
+@media (max-width: 480px) {
+  .verse-glyph { width: 42px; height: 42px; top: var(--spacing-md); right: var(--spacing-md); }
 }
 
 .verse:hover {

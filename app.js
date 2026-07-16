@@ -973,6 +973,68 @@ function formatTextForHTML(text) {
     return escapeHtml(text).replace(/\n/g, '<br>');
 }
 
+/* ==========================================================================
+   ORIENTATION GLYPHS (#17)
+   Each verse's glyph is drawn from its own data: a direction rosette (which
+   quarters it guards), a body axis (which region), or an all-around mandala.
+   Static SVG built from trusted verse data — no user input.
+   ========================================================================== */
+
+const DIR_ANGLES = { North: -90, Northeast: -45, East: 0, Southeast: 45, South: 90, Southwest: 135, West: 180, Northwest: -135 };
+
+function compassGlyphSVG(directions) {
+    const R = 20, all = directions.indexOf('All sides') !== -1, above = directions.indexOf('Above') !== -1;
+    let p = '<circle cx="30" cy="30" r="23" fill="none" stroke="currentColor" stroke-opacity="0.35" stroke-width="1"/>';
+    Object.keys(DIR_ANGLES).forEach(function(name) {
+        const a = DIR_ANGLES[name] * Math.PI / 180, on = all || directions.indexOf(name) !== -1;
+        const x = (30 + Math.cos(a) * R).toFixed(1), y = (30 + Math.sin(a) * R).toFixed(1);
+        const col = on ? 'var(--color-direction)' : 'currentColor', op = on ? '1' : '0.4';
+        p += '<line x1="30" y1="30" x2="' + x + '" y2="' + y + '" stroke="' + col + '" stroke-opacity="' + op + '" stroke-width="' + (on ? 2 : 1) + '" stroke-linecap="round"/>';
+        p += '<circle cx="' + x + '" cy="' + y + '" r="' + (on ? 3.2 : 2) + '" fill="' + col + '" fill-opacity="' + op + '"/>';
+    });
+    const c = above || all;
+    p += '<circle cx="30" cy="30" r="' + (c ? 4 : 3) + '" fill="' + (c ? 'var(--color-sanskrit)' : 'transparent') + '" stroke="var(--color-sanskrit)" stroke-width="1.3"/>';
+    return '<svg viewBox="0 0 60 60">' + p + '</svg>';
+}
+
+const BODY_ZONES = [['crown', 10], ['head', 17], ['throat', 24], ['chest', 31], ['core', 39], ['legs', 47], ['feet', 53]];
+function bodyZoneSet(parts) {
+    const has = function(w) { return parts.some(function(x) { return x.toLowerCase().indexOf(w) !== -1; }); };
+    const s = {};
+    if (has('head') || has('forehead') || has('crown')) { s.crown = 1; s.head = 1; }
+    if (has('brow') || has('nose') || has('eye') || has('ear') || has('face') || has('mouth') || has('tongue') || has('speech')) s.head = 1;
+    if (has('neck') || has('throat') || has('griva')) s.throat = 1;
+    if (has('chest') || has('arm') || has('finger') || has('back') || has('hand')) s.chest = 1;
+    if (has('hip') || has('abdomen') || has('belly') || has('navel') || has('blood') || has('flesh') || has('bone') || has('marrow')) s.core = 1;
+    if (has('thigh') || has('leg') || has('shank') || has('knee') || has('loin')) s.legs = 1;
+    if (has('toe') || has('foot') || has('feet')) s.feet = 1;
+    return s;
+}
+function bodyGlyphSVG(bodyParts) {
+    const on = bodyZoneSet(bodyParts);
+    let p = '<line x1="30" y1="8" x2="30" y2="56" stroke="currentColor" stroke-opacity="0.3" stroke-width="6" stroke-linecap="round"/>';
+    p += '<circle cx="30" cy="9" r="5" fill="' + (on.crown || on.head ? 'var(--color-body)' : 'none') + '" stroke="' + (on.head ? 'var(--color-body)' : 'currentColor') + '" stroke-opacity="' + (on.head ? '1' : '0.4') + '" stroke-width="1.6"/>';
+    BODY_ZONES.forEach(function(z) {
+        if (z[0] === 'crown') return;
+        const y = z[1], lit = !!on[z[0]];
+        p += '<line x1="30" y1="' + (y - 2.4) + '" x2="30" y2="' + (y + 2.4) + '" stroke="' + (lit ? 'var(--color-body)' : 'currentColor') + '" stroke-opacity="' + (lit ? '1' : '0.3') + '" stroke-width="6" stroke-linecap="round"/>';
+        if (lit) p += '<circle cx="39" cy="' + y + '" r="2.2" fill="var(--color-body)"/>';
+    });
+    return '<svg viewBox="0 0 60 60">' + p + '</svg>';
+}
+function mandalaGlyphSVG() {
+    let p = '';
+    [22, 15].forEach(function(r) { p += '<circle cx="30" cy="30" r="' + r + '" fill="none" stroke="var(--color-sanskrit)" stroke-opacity="0.6" stroke-width="1.4"/>'; });
+    for (let i = 0; i < 8; i++) { const a = i * Math.PI / 4; p += '<circle cx="' + (30 + Math.cos(a) * 22).toFixed(1) + '" cy="' + (30 + Math.sin(a) * 22).toFixed(1) + '" r="2" fill="var(--color-sanskrit)"/>'; }
+    p += '<circle cx="30" cy="30" r="7" fill="var(--color-deity)" fill-opacity="0.9"/>';
+    return '<svg viewBox="0 0 60 60">' + p + '</svg>';
+}
+function glyphForVerse(verse) {
+    if (verse.bodyParts && verse.bodyParts.length) return bodyGlyphSVG(verse.bodyParts);
+    if (verse.directions && verse.directions.length) return compassGlyphSVG(verse.directions);
+    return mandalaGlyphSVG();
+}
+
 /**
  * Create HTML for a single verse
  * @param {Object} verse - Verse data object
@@ -986,8 +1048,9 @@ function createVerseHTML(verse) {
     
     return `
         <article class="verse" id="verse-${verse.number}" tabindex="0">
+            <div class="verse-glyph" aria-hidden="true">${glyphForVerse(verse)}</div>
             <div class="verse-number">${verse.number}</div>
-            
+
             <div class="sanskrit" lang="sa">${formatTextForHTML(verse.sanskrit)}</div>
             
             <div class="transliteration" lang="sa-Latn">${formatTextForHTML(verse.transliteration)}</div>
