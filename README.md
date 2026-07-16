@@ -1,4 +1,6 @@
-[**🌐 Live Demo**](https://yogaedu-org.github.io/dmv-kavacham-study-tool/dmv-kavacham-interactive.html) ← Click here to try it
+[**🌐 Live Demo**](https://yogaedu-org.github.io/dmv-kavacham-study-tool/) ← Click here to try it
+
+> Served-only / installable PWA. The app fetches `data/verses.json`, so it must be served over HTTP(S) (GitHub Pages) — opening `index.html` directly via `file://` will not work.
 
 # श्रीदशमहाविद्याकवचम् - Interactive Study Tool
 
@@ -97,7 +99,7 @@ Complete protection mapping:
 
 ## 🔗 Live Demo
 
-**Primary Access**: https://yogaedu-org.github.io/dmv-kavacham-study-tool/dmv-kavacham-interactive.html
+**Primary Access**: https://yogaedu-org.github.io/dmv-kavacham-study-tool/ (canonical `index.html`)
 
 ## 📊 Project Status & Quality Assessment
 
@@ -210,7 +212,6 @@ This is a well-crafted, professional educational tool with excellent architectur
 ├── index.html                     # Main HTML structure (204 lines)
 ├── data/
 │   └── verses.json               # Verse data with metadata (167 lines)
-├── dmv-kavacham-interactive.html # Legacy single-file application
 ├── CHANGELOG.md                  # Version history
 └── README.md                     # This documentation
 ```
