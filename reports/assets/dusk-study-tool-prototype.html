@@ -71,11 +71,11 @@
   .seg input{accent-color:var(--kumkum);width:17px;height:17px}
   .seg[data-on="true"]{color:var(--ink);border-color:color-mix(in srgb,var(--goldleaf) 55%,var(--line))}
   .spacer{flex:1 1 auto}
-  .theme-btn{min-height:44px;min-width:44px;padding:0 .9rem;border-radius:10px;border:1px solid var(--line);
-    background:var(--surface-2);color:var(--ink);font:inherit;font-size:.86rem;font-weight:600;cursor:pointer;
-    display:inline-flex;align-items:center;gap:.5rem}
+  .theme-btn{width:44px;height:44px;padding:0;border-radius:10px;border:1px solid var(--line);
+    background:var(--surface-2);color:var(--goldleaf);cursor:pointer;
+    display:inline-flex;align-items:center;justify-content:center;transition:border-color .15s,color .15s}
   .theme-btn:hover{border-color:var(--goldleaf)}
-  .theme-btn .dot{width:12px;height:12px;border-radius:50%;background:var(--goldleaf);box-shadow:0 0 0 3px color-mix(in srgb,var(--goldleaf) 25%,transparent)}
+  .theme-btn svg{display:block}
   .seg:focus-visible,.theme-btn:focus-visible{outline:2px solid var(--ring);outline-offset:2px}
 
   /* Legend */
@@ -149,8 +149,8 @@
     <label class="seg" data-on="true" id="segSanskrit"><input type="checkbox" checked> Sanskrit</label>
     <label class="seg" data-on="true" id="segTranslit"><input type="checkbox" checked> Transliteration</label>
     <span class="spacer"></span>
-    <button class="theme-btn" id="themeBtn" type="button" aria-label="Toggle dusk / manuscript theme">
-      <span class="dot"></span><span id="themeLabel">Dusk</span>
+    <button class="theme-btn" id="themeBtn" type="button" aria-label="Switch to light theme" title="Light">
+      <svg id="themeIcon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"></svg>
     </button>
   </div>
 
@@ -342,8 +342,16 @@ function wireToggle(segId,cls){
   box.addEventListener("change",apply); apply();
 }
 function initTheme(){
-  const btn=document.getElementById("themeBtn"), lab=document.getElementById("themeLabel");
-  const set=t=>{document.documentElement.setAttribute("data-theme",t);lab.textContent=t==="dark"?"Dusk":"Manuscript";};
+  const btn=document.getElementById("themeBtn"), icon=document.getElementById("themeIcon");
+  const SUN='<circle cx="12" cy="12" r="4.6" fill="currentColor"/>'+
+    Array.from({length:8},(_,i)=>{const a=i*Math.PI/4,c=Math.cos(a),s=Math.sin(a);
+      return '<line x1="'+(12+c*7).toFixed(1)+'" y1="'+(12+s*7).toFixed(1)+'" x2="'+(12+c*9.6).toFixed(1)+'" y2="'+(12+s*9.6).toFixed(1)+'" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>';}).join("");
+  const MOON='<path d="M20 14.7A8 8 0 0 1 9.3 4 8 8 0 1 0 20 14.7z" fill="currentColor"/>';
+  const set=t=>{document.documentElement.setAttribute("data-theme",t);
+    const toLight=(t==="dark");                 // in dark now → the toggle takes you to light
+    icon.innerHTML=toLight?SUN:MOON;
+    btn.title=toLight?"Light":"Dark";
+    btn.setAttribute("aria-label","Switch to "+(toLight?"light":"dark")+" theme");};
   const mq=window.matchMedia("(prefers-color-scheme: light)");
   set(mq.matches?"light":"dark");
   btn.addEventListener("click",()=>{
