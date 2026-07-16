@@ -272,28 +272,19 @@ a:hover {
   display: none !important;
 }
 
-/* Compact mode - show control buttons stacked on right */
+/* Compact mode - control buttons flow inline so they never overlap the
+   theme / font-size buttons (#23) */
 .controls.compact .compact-toggle,
 .controls.compact .pin-toggle {
-  display: flex !important;
+  display: inline-flex !important;
   opacity: 1;
-  max-height: none;
-  overflow: visible;
   pointer-events: auto;
-  position: absolute;
-  right: var(--spacing-sm);
-  top: 50%;
-  transform: translateY(-50%);
-  width: 24px;
-  height: 24px;
-  font-size: 12px;
+  position: static;
+  transform: none;
+  width: 40px;
+  height: 40px;
+  font-size: 14px;
   margin: 0;
-}
-
-/* Stack pin button below gear button */
-.controls.compact .pin-toggle {
-  right: var(--spacing-sm);
-  top: calc(50% + 14px);
 }
 
 /* Compact mode - show active filters but on second line */
@@ -317,15 +308,14 @@ a:hover {
   padding: 0 !important;
 }
 
-/* Compact mode - show only essential elements on first line */
+/* Compact mode - controls wrap and stay clear of each other */
 .controls.compact .controls-row:first-child {
   margin-bottom: 0;
-  gap: min(var(--spacing-md), 2vw);
+  gap: var(--spacing-xs) var(--spacing-sm);
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  flex-wrap: nowrap;
-  padding-right: 60px; /* Space for stacked buttons */
+  flex-wrap: wrap;
 }
 
 /* Compact mode - keep search and clear button visible */
