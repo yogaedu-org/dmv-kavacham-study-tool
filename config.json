@@ -19,8 +19,8 @@
     "breakpoints": { "tablet": 768, "mobile": 480 }
   },
   "categories": [
-    { "key": "deities",    "dataField": "deities",    "stateKey": "selectedDeities",    "allKey": "allDeities",    "domKey": "deities",    "cssVar": "deity",     "label": "Deities",    "color": "#ff6b6b" },
-    { "key": "directions", "dataField": "directions", "stateKey": "selectedDirections", "allKey": "allDirections", "domKey": "directions", "cssVar": "direction", "label": "Directions", "color": "#4ecdc4" },
-    { "key": "bodyParts",  "dataField": "bodyParts",  "stateKey": "selectedBodyParts",  "allKey": "allBodyParts",  "domKey": "body",       "cssVar": "body",      "label": "Body",       "color": "#fb8500" }
+    { "key": "deities",    "dataField": "deities",    "stateKey": "selectedDeities",    "allKey": "allDeities",    "domKey": "deities",    "cssVar": "deity",     "label": "Deities",    "color": "#d9615a", "colorLight": "#b23a34" },
+    { "key": "directions", "dataField": "directions", "stateKey": "selectedDirections", "allKey": "allDirections", "domKey": "directions", "cssVar": "direction", "label": "Directions", "color": "#7d9bd0", "colorLight": "#4a5f8a" },
+    { "key": "bodyParts",  "dataField": "bodyParts",  "stateKey": "selectedBodyParts",  "allKey": "allBodyParts",  "domKey": "body",       "cssVar": "body",      "label": "Body",       "color": "#c9a886", "colorLight": "#8a6d4f" }
   ]
 }

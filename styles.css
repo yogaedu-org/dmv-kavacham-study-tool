@@ -17,16 +17,17 @@
 
 :root {
   /* Color Palette */
-  --color-primary: #1a1a2e;           /* Deep navy background */
-  --color-secondary: #16213e;         /* Medium navy */
-  --color-accent: #4ecdc4;            /* Teal accent */
-  --color-text-primary: #e8e6e3;      /* Light text */
-  --color-text-secondary: #a8a8a8;    /* Muted text */
-  --color-sanskrit: #ffbe0b;          /* Sanskrit text color */
-  --color-transliteration: #fb8500;   /* Transliteration color */
-  --color-deity: #ff6b6b;             /* Deity tag color */
-  --color-direction: #4ecdc4;         /* Direction tag color */
-  --color-body: #fb8500;              /* Body part tag color */
+  /* "Manuscript at Dusk" palette — dusk (dark) is the default; see theme blocks below (#17) */
+  --color-primary: #14121c;           /* Dusk — deep aubergine-black */
+  --color-secondary: #1e1926;         /* Ash surface */
+  --color-accent: #e4b25a;            /* Goldleaf accent */
+  --color-text-primary: #ece7ef;      /* Light ink */
+  --color-text-secondary: #a99fb2;    /* Muted */
+  --color-sanskrit: #e4b25a;          /* Goldleaf */
+  --color-transliteration: #cba789;   /* Sandal */
+  --color-deity: #d9615a;             /* Kumkum (config-driven per theme) */
+  --color-direction: #7d9bd0;         /* Indigo (config-driven per theme) */
+  --color-body: #c9a886;              /* Sandal (config-driven per theme) */
   
   /* Typography */
   --font-family-primary: 'Georgia', serif;
@@ -65,6 +66,32 @@
 }
 
 /* ==========================================================================
+   THEME-AWARE PALETTE (#17)
+   Dusk (dark) is default. Manuscript (light) applies via OS preference or an
+   explicit data-theme toggle. Category colors are set from config per theme.
+   ========================================================================== */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --color-primary: #efe9e4; --color-secondary: #e7e0d7; --color-accent: #a9772f;
+    --color-text-primary: #241f2b; --color-text-secondary: #6b6472;
+    --color-sanskrit: #a9772f; --color-transliteration: #8a6d4f;
+    --color-deity: #b23a34; --color-direction: #4a5f8a; --color-body: #8a6d4f;
+  }
+}
+:root[data-theme="light"] {
+  --color-primary: #efe9e4; --color-secondary: #e7e0d7; --color-accent: #a9772f;
+  --color-text-primary: #241f2b; --color-text-secondary: #6b6472;
+  --color-sanskrit: #a9772f; --color-transliteration: #8a6d4f;
+  --color-deity: #b23a34; --color-direction: #4a5f8a; --color-body: #8a6d4f;
+}
+:root[data-theme="dark"] {
+  --color-primary: #14121c; --color-secondary: #1e1926; --color-accent: #e4b25a;
+  --color-text-primary: #ece7ef; --color-text-secondary: #a99fb2;
+  --color-sanskrit: #e4b25a; --color-transliteration: #cba789;
+  --color-deity: #d9615a; --color-direction: #7d9bd0; --color-body: #c9a886;
+}
+
+/* ==========================================================================
    FONTS (self-hosted — #13)
    Devanagari face so Sanskrit renders identically on every device
    ========================================================================== */
@@ -97,7 +124,10 @@ html {
 
 body {
   font-family: var(--font-family-primary);
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 50%, #0f3460 100%);
+  background:
+    radial-gradient(120% 80% at 50% -10%, rgba(228, 178, 90, 0.06), transparent 60%),
+    linear-gradient(180deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+  background-attachment: fixed;
   color: var(--color-text-primary);
   line-height: var(--line-height-base);
   min-height: 100vh;
@@ -289,6 +319,25 @@ a:hover {
 }
 
 /* Compact toggle button */
+/* Theme toggle (#17) — sun/moon icon button */
+.theme-toggle {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border-radius: 10px;
+  border: 1px solid var(--color-accent);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--color-sanskrit);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color var(--transition-fast), color var(--transition-fast);
+  margin-left: var(--spacing-xs);
+}
+.theme-toggle:hover { border-color: var(--color-sanskrit); }
+.theme-toggle svg { display: block; }
+
 .compact-toggle {
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid var(--color-accent);

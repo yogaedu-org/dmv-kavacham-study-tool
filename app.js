@@ -62,9 +62,9 @@ const DEFAULT_CONFIG = {
     },
     display: { breakpoints: { tablet: 768, mobile: 480 } },
     categories: [
-        { key: 'deities',    dataField: 'deities',    stateKey: 'selectedDeities',    allKey: 'allDeities',    domKey: 'deities',    cssVar: 'deity',     label: 'Deities',    color: '#ff6b6b' },
-        { key: 'directions', dataField: 'directions', stateKey: 'selectedDirections', allKey: 'allDirections', domKey: 'directions', cssVar: 'direction', label: 'Directions', color: '#4ecdc4' },
-        { key: 'bodyParts',  dataField: 'bodyParts',  stateKey: 'selectedBodyParts',  allKey: 'allBodyParts',  domKey: 'body',       cssVar: 'body',      label: 'Body',       color: '#fb8500' }
+        { key: 'deities',    dataField: 'deities',    stateKey: 'selectedDeities',    allKey: 'allDeities',    domKey: 'deities',    cssVar: 'deity',     label: 'Deities',    color: '#d9615a', colorLight: '#b23a34' },
+        { key: 'directions', dataField: 'directions', stateKey: 'selectedDirections', allKey: 'allDirections', domKey: 'directions', cssVar: 'direction', label: 'Directions', color: '#7d9bd0', colorLight: '#4a5f8a' },
+        { key: 'bodyParts',  dataField: 'bodyParts',  stateKey: 'selectedBodyParts',  allKey: 'allBodyParts',  domKey: 'body',       cssVar: 'body',      label: 'Body',       color: '#c9a886', colorLight: '#8a6d4f' }
     ]
 };
 
@@ -110,15 +110,62 @@ function applyConfig() {
     if (DOMElements.sanskritToggle) DOMElements.sanskritToggle.checked = AppState.showSanskrit;
     if (DOMElements.transliterationToggle) DOMElements.transliterationToggle.checked = AppState.showTransliteration;
 
-    // Category colors (#8) — drive the CSS custom properties from the registry
-    CONFIG.categories.forEach(function(cat) {
-        if (cat.cssVar && cat.color) {
-            document.documentElement.style.setProperty('--color-' + cat.cssVar, cat.color);
-        }
-    });
+    // Category colors (#8/#17) — from the registry, for the active theme
+    applyCategoryColors();
 
     // Version (#9) — keep the debug export in sync with the authoritative value
     if (window.DMVKavacham) window.DMVKavacham.version = CONFIG.app.version;
+}
+
+/**
+ * Resolve the active theme: an explicit data-theme wins, else the OS preference (#17).
+ * @returns {string} 'light' or 'dark'
+ */
+function currentTheme() {
+    const explicit = document.documentElement.getAttribute('data-theme');
+    if (explicit) return explicit;
+    return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+}
+
+/**
+ * Set category CSS colors from the registry for the active theme (#8/#17).
+ */
+function applyCategoryColors() {
+    const light = currentTheme() === 'light';
+    CONFIG.categories.forEach(function(cat) {
+        if (!cat.cssVar) return;
+        const col = (light && cat.colorLight) ? cat.colorLight : cat.color;
+        if (col) document.documentElement.style.setProperty('--color-' + cat.cssVar, col);
+    });
+}
+
+/**
+ * Wire the sun/moon theme toggle: icon shows the target, tooltip matches (#17).
+ */
+function initThemeToggle() {
+    const btn = document.getElementById('themeToggle');
+    if (!btn) return;
+    const icon = btn.querySelector('.theme-icon');
+    const SUN = '<circle cx="12" cy="12" r="4.6" fill="currentColor"/>' +
+        Array.from({ length: 8 }, function(_, i) {
+            const a = i * Math.PI / 4, c = Math.cos(a), s = Math.sin(a);
+            return '<line x1="' + (12 + c * 7).toFixed(1) + '" y1="' + (12 + s * 7).toFixed(1) +
+                   '" x2="' + (12 + c * 9.6).toFixed(1) + '" y2="' + (12 + s * 9.6).toFixed(1) +
+                   '" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>';
+        }).join('');
+    const MOON = '<path d="M20 14.7A8 8 0 0 1 9.3 4 8 8 0 1 0 20 14.7z" fill="currentColor"/>';
+    function set(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        const toLight = (theme === 'dark');
+        if (icon) icon.innerHTML = toLight ? SUN : MOON;
+        btn.title = toLight ? 'Light' : 'Dark';
+        btn.setAttribute('aria-label', 'Switch to ' + (toLight ? 'light' : 'dark') + ' theme');
+        applyCategoryColors();
+    }
+    set(currentTheme());
+    btn.addEventListener('click', function() {
+        set(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+    });
 }
 
 /* ==========================================================================
@@ -1141,7 +1188,10 @@ async function initializeApp() {
         
         // Set up event listeners
         initializeEventListeners();
-        
+
+        // Wire the theme toggle (#17)
+        initThemeToggle();
+
         // Set initial display state
         updateDisplayClasses();
         
