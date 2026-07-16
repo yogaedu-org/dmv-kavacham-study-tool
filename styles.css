@@ -237,7 +237,7 @@ a:hover {
 /* Controls container */
 .controls {
   background: var(--overlay-1);
-  padding: var(--spacing-md);
+  padding: var(--spacing-sm);
   border-radius: var(--border-radius-large);
   margin-bottom: var(--spacing-md);
   backdrop-filter: blur(10px);
@@ -476,6 +476,9 @@ a:hover {
   flex-wrap: wrap;
 }
 .controls-row:last-child { margin-bottom: 0; }
+/* Filters are the last visible row when no active filters — don't reserve a bottom gap */
+.filters-row { margin-bottom: 0; }
+.active-filters:not(:empty) { margin-top: var(--spacing-sm); }
 
 /* Checkbox group styling */
 .checkbox-group {
@@ -760,7 +763,7 @@ a:hover {
   display: flex;
   flex-wrap: wrap;
   gap: var(--spacing-xs);
-  margin: var(--spacing-md) 0;
+  margin: var(--spacing-sm) 0 0;
   justify-content: center;
   min-height: 0;
 }
