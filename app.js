@@ -40,6 +40,81 @@ async function loadVerseData() {
 }
 
 /* ==========================================================================
+   CONFIGURATION (#12)
+   Single source for app metadata, feature flags, breakpoints, and the
+   category registry (consumed by the category refactor, #8).
+   ========================================================================== */
+
+const DEFAULT_CONFIG = {
+    app: {
+        title: 'श्रीदशमहाविद्याकवचम्',
+        subtitle: 'The Armor of the Ten Great Wisdom Goddesses',
+        author: 'YogaEdu.org',
+        version: '2.1.0',
+        links: { org: 'https://github.com/yogaedu-org' }
+    },
+    features: {
+        showSanskritDefault: true,
+        showTransliterationDefault: true,
+        enableSearch: true,
+        enableFilters: true,
+        enableCompactMode: true
+    },
+    display: { breakpoints: { tablet: 768, mobile: 480 } },
+    categories: [
+        { key: 'deities',    dataField: 'deities',    stateKey: 'selectedDeities',    label: 'Deities',    color: '#ff6b6b' },
+        { key: 'directions', dataField: 'directions', stateKey: 'selectedDirections', label: 'Directions', color: '#4ecdc4' },
+        { key: 'bodyParts',  dataField: 'bodyParts',  stateKey: 'selectedBodyParts',  label: 'Body',       color: '#fb8500' }
+    ]
+};
+
+let CONFIG = DEFAULT_CONFIG;
+
+/**
+ * Load config.json, shallow-merging over the built-in defaults so a missing
+ * or partial file never breaks the app.
+ * @returns {Promise<void>}
+ */
+async function loadConfig() {
+    try {
+        const response = await fetch('config.json');
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const c = await response.json();
+        CONFIG = {
+            app:      Object.assign({}, DEFAULT_CONFIG.app, c.app),
+            features: Object.assign({}, DEFAULT_CONFIG.features, c.features),
+            display:  Object.assign({}, DEFAULT_CONFIG.display, c.display),
+            categories: Array.isArray(c.categories) && c.categories.length ? c.categories : DEFAULT_CONFIG.categories
+        };
+        console.log('Loaded config.json');
+    } catch (error) {
+        console.warn('config.json not loaded; using built-in defaults:', error.message);
+        CONFIG = DEFAULT_CONFIG;
+    }
+}
+
+/**
+ * Apply configuration to the DOM and initial state. Call AFTER cacheDOMElements().
+ */
+function applyConfig() {
+    // Metadata → document title + header
+    document.title = CONFIG.app.title + ' - Interactive Study Tool';
+    const titleEl = document.querySelector('.title');
+    if (titleEl) titleEl.textContent = CONFIG.app.title;
+    const subtitleEl = document.querySelector('.subtitle');
+    if (subtitleEl && CONFIG.app.subtitle) subtitleEl.textContent = CONFIG.app.subtitle;
+
+    // Feature defaults → display toggles
+    AppState.showSanskrit = CONFIG.features.showSanskritDefault !== false;
+    AppState.showTransliteration = CONFIG.features.showTransliterationDefault !== false;
+    if (DOMElements.sanskritToggle) DOMElements.sanskritToggle.checked = AppState.showSanskrit;
+    if (DOMElements.transliterationToggle) DOMElements.transliterationToggle.checked = AppState.showTransliteration;
+
+    // Version (#9) — keep the debug export in sync with the authoritative value
+    if (window.DMVKavacham) window.DMVKavacham.version = CONFIG.app.version;
+}
+
+/* ==========================================================================
    APPLICATION STATE
    Enhanced state management for filters, search, and display options
    ========================================================================== */
@@ -1033,18 +1108,25 @@ function cacheDOMElements() {
  * Initialize the application
  */
 async function initializeApp() {
-    console.log('Initializing Daśamahāvidyā Kavacam Study Tool v2.1.0');
-    
+    console.log('Initializing Daśamahāvidyā Kavacam Study Tool…');
+
     try {
-        // Load verse data first
+        // Load configuration (metadata, feature flags, category registry)
+        await loadConfig();
+
+        // Load verse data (single source of truth)
         await loadVerseData();
-        
+
         // Initialize application state with loaded data
         AppState.init();
-        
+
         // Cache DOM references
         cacheDOMElements();
-        
+
+        // Apply configuration now that config, state, and DOM are ready
+        applyConfig();
+        console.log('Version ' + CONFIG.app.version);
+
         // Populate dropdowns with extracted keywords
         populateDropdown('deities', AppState.allDeities);
         populateDropdown('directions', AppState.allDirections);
@@ -1118,8 +1200,8 @@ window.DMVKavacham = {
     debounce: debounce,
     escapeHtml: escapeHtml,
     
-    // Version info
-    version: '2.1.0'
+    // Version info (authoritative source: config.json → CONFIG.app.version)
+    version: CONFIG.app.version
 };
 
 console.log('DMV Kavacham Study Tool loaded. Access via window.DMVKavacham');
