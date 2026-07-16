@@ -51,6 +51,8 @@ const DEFAULT_CONFIG = {
         subtitle: 'The Armor of the Ten Great Wisdom Goddesses',
         author: 'YogaEdu.org',
         version: '2.1.0',
+        locales: ['en', 'ne', 'es'],
+        defaultLocale: 'en',
         links: { org: 'https://github.com/yogaedu-org' }
     },
     features: {
@@ -186,6 +188,129 @@ function initFontScale() {
     const larger = document.getElementById('fontLarger');
     if (smaller) smaller.addEventListener('click', function() { scale -= STEP; apply(); });
     if (larger) larger.addEventListener('click', function() { scale += STEP; apply(); });
+}
+
+/* ==========================================================================
+   INTERNATIONALIZATION (#25)
+   i18n/<locale>.json carries UI strings ("ui") and category term maps ("terms").
+   Anything missing falls back to the default locale, then to the raw value —
+   so a partial/draft locale can never blank the interface.
+   Sanskrit + transliteration are never localized (they are the source text).
+   ========================================================================== */
+
+const LOCALE_NAMES = { en: 'English', ne: 'नेपाली', es: 'Español' };
+
+const I18N = {
+    locale: 'en',
+    strings: {},
+    terms: {},
+    fallback: { ui: {}, terms: {} }
+};
+
+/** Startup locale: saved choice > browser language > config default. */
+function resolveLocale() {
+    const locales = CONFIG.app.locales || ['en'];
+    let saved = null;
+    try { saved = localStorage.getItem('dmv-locale'); } catch (e) {}
+    if (saved && locales.indexOf(saved) !== -1) return saved;
+    const nav = (navigator.language || '').slice(0, 2).toLowerCase();
+    if (locales.indexOf(nav) !== -1) return nav;
+    return CONFIG.app.defaultLocale || 'en';
+}
+
+async function fetchLocale(locale) {
+    try {
+        const response = await fetch('i18n/' + locale + '.json');
+        if (!response.ok) throw new Error('HTTP ' + response.status);
+        return await response.json();
+    } catch (error) {
+        console.warn('Locale "' + locale + '" not loaded:', error.message);
+        return null;
+    }
+}
+
+/** Load the default locale (as fallback) plus the active locale. */
+async function loadI18n(locale) {
+    const def = CONFIG.app.defaultLocale || 'en';
+    const base = await fetchLocale(def);
+    if (base) I18N.fallback = { ui: base.ui || {}, terms: base.terms || {} };
+    let active = base;
+    if (locale !== def) active = (await fetchLocale(locale)) || base;
+    I18N.locale = locale;
+    I18N.strings = (active && active.ui) || {};
+    I18N.terms = (active && active.terms) || {};
+    console.log('i18n locale:', locale);
+}
+
+/** UI string by key, falling back to default locale then the key itself. */
+function t(key) {
+    return I18N.strings[key] || I18N.fallback.ui[key] || key;
+}
+
+/** Look up a category registry entry by its DOM key ('deities'|'directions'|'body'). */
+function categoryByDomKey(domKey) {
+    return CONFIG.categories.filter(function(c) { return c.domKey === domKey; })[0] || null;
+}
+
+/** Localized category term, falling back to the canonical value. */
+function term(field, value) {
+    const active = I18N.terms[field];
+    if (active && active[value]) return active[value];
+    const base = I18N.fallback.terms[field];
+    if (base && base[value]) return base[value];
+    return value;
+}
+
+/** A verse's translation for the active locale, falling back to the default. */
+function verseTranslation(verse) {
+    const tr = verse.translations || {};
+    return tr[I18N.locale] || tr[CONFIG.app.defaultLocale || 'en'] || '';
+}
+
+/** Apply UI strings to elements marked data-i18n / data-i18n-attr. */
+function applyI18n() {
+    document.documentElement.setAttribute('lang', I18N.locale);
+    document.querySelectorAll('[data-i18n]').forEach(function(el) {
+        el.textContent = t(el.getAttribute('data-i18n'));
+    });
+    // data-i18n-attr="placeholder:search.placeholder;title:search.title"
+    document.querySelectorAll('[data-i18n-attr]').forEach(function(el) {
+        el.getAttribute('data-i18n-attr').split(';').forEach(function(pair) {
+            const bits = pair.split(':');
+            if (bits.length === 2) el.setAttribute(bits[0].trim(), t(bits[1].trim()));
+        });
+    });
+}
+
+/** Re-populate every category dropdown from the registry (locale-aware labels). */
+function populateAllDropdowns() {
+    CONFIG.categories.forEach(function(cat) {
+        populateDropdown(cat.domKey, AppState[cat.allKey]);
+    });
+}
+
+/** Wire the language switcher: swap locale, re-render, persist. */
+function initLanguageSwitcher() {
+    const select = document.getElementById('localeSelect');
+    if (!select) return;
+    select.innerHTML = '';
+    (CONFIG.app.locales || ['en']).forEach(function(loc) {
+        const opt = document.createElement('option');
+        opt.value = loc;
+        opt.textContent = LOCALE_NAMES[loc] || loc;
+        if (loc === I18N.locale) opt.selected = true;
+        select.appendChild(opt);
+    });
+    select.addEventListener('change', async function() {
+        const loc = select.value;
+        try { localStorage.setItem('dmv-locale', loc); } catch (e) {}
+        await loadI18n(loc);
+        applyI18n();
+        populateAllDropdowns();
+        updateFilterTags();
+        renderVerses();
+        applyFiltersAndHighlights();
+    });
 }
 
 /* ==========================================================================
@@ -486,26 +611,37 @@ function populateDropdown(type, options) {
     const container = DOMElements[type + 'DropdownContent'];
     if (!container) return;
     
+    // Labels are localized (#25); data-value stays canonical so filtering still matches.
+    const cat = categoryByDomKey(type);
+    const field = cat ? cat.dataField : type;
+    const selected = (cat && AppState[cat.stateKey]) || [];
+
     let html = '';
     options.forEach(function(option) {
         const id = type + '_' + option.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_]/g, '');
+        const checked = selected.indexOf(option) !== -1 ? ' checked' : '';
         html += `
             <div class="dropdown-item" data-value="${escapeHtml(option)}" data-type="${type}">
-                <input type="checkbox" class="dropdown-checkbox" id="${id}" data-value="${escapeHtml(option)}" data-type="${type}">
-                <label for="${id}" class="dropdown-item-text">${escapeHtml(option)}</label>
+                <input type="checkbox" class="dropdown-checkbox" id="${id}" data-value="${escapeHtml(option)}" data-type="${type}"${checked}>
+                <label for="${id}" class="dropdown-item-text">${escapeHtml(term(field, option))}</label>
             </div>
         `;
     });
-    
+
     container.innerHTML = html;
-    
+
+    // Bind once. This function re-runs on a locale change, and these listeners sit on
+    // the container (which survives innerHTML), so re-binding would double-fire (#25).
+    if (container.dataset.wired === '1') return;
+    container.dataset.wired = '1';
+
     // Add event listeners to checkboxes
     container.addEventListener('change', function(e) {
         if (e.target.type === 'checkbox') {
             handleFilterChange(e.target.dataset.type, e.target.dataset.value, e.target.checked);
         }
     });
-    
+
     // Prevent dropdown from closing when clicking inside
     container.addEventListener('click', function(e) {
         e.stopPropagation();
@@ -568,18 +704,19 @@ function closeAllDropdowns() {
  * @param {string} type - Type of dropdown
  */
 function updateDropdownLabel(type) {
-    const mappedType = type === 'body' ? 'bodyParts' : type;
-    const selectedArray = AppState['selected' + mappedType.charAt(0).toUpperCase() + mappedType.slice(1)];
+    // Registry-driven (#8) + localized (#25) — no more body↔bodyParts string munging.
+    const cat = categoryByDomKey(type);
+    const selectedArray = cat ? AppState[cat.stateKey] : null;
     const textElement = DOMElements[type + 'SelectedText'];
-    
+
     if (!textElement || !selectedArray) return;
-    
+
     if (selectedArray.length === 0) {
-        textElement.textContent = 'Select...';
+        textElement.textContent = t('filters.select');
     } else if (selectedArray.length === 1) {
-        textElement.textContent = selectedArray[0];
+        textElement.textContent = term(cat.dataField, selectedArray[0]);
     } else {
-        textElement.textContent = `${selectedArray.length} selected`;
+        textElement.textContent = selectedArray.length + ' ' + t('filters.selectedSuffix');
     }
 }
 
@@ -684,7 +821,7 @@ function updateFilterTags() {
     AppState.selectedDeities.forEach(function(deity) {
         html += `
             <div class="filter-tag deity-tag">
-                <span>${escapeHtml(deity)}</span>
+                <span>${escapeHtml(term('deities', deity))}</span>
                 <button class="filter-tag-close" data-type="deities" data-value="${escapeHtml(deity)}" aria-label="Remove ${escapeHtml(deity)} filter">×</button>
             </div>
         `;
@@ -694,7 +831,7 @@ function updateFilterTags() {
     AppState.selectedDirections.forEach(function(direction) {
         html += `
             <div class="filter-tag direction-tag">
-                <span>${escapeHtml(direction)}</span>
+                <span>${escapeHtml(term('directions', direction))}</span>
                 <button class="filter-tag-close" data-type="directions" data-value="${escapeHtml(direction)}" aria-label="Remove ${escapeHtml(direction)} filter">×</button>
             </div>
         `;
@@ -704,7 +841,7 @@ function updateFilterTags() {
     AppState.selectedBodyParts.forEach(function(bodyPart) {
         html += `
             <div class="filter-tag body-tag">
-                <span>${escapeHtml(bodyPart)}</span>
+                <span>${escapeHtml(term('bodyParts', bodyPart))}</span>
                 <button class="filter-tag-close" data-type="body" data-value="${escapeHtml(bodyPart)}" aria-label="Remove ${escapeHtml(bodyPart)} filter">×</button>
             </div>
         `;
@@ -976,11 +1113,13 @@ function updateDisplayClasses() {
  * @param {string} type - Category type ('deity', 'direction', 'body')
  * @returns {string} - HTML string for tags
  */
-function createTags(items, type) {
+function createTags(items, type, field) {
     if (!items || items.length === 0) return '';
-    
+
     return items.map(function(item) {
-        return `<span class="tag tag--${type}" title="${type}: ${escapeHtml(item)}">${escapeHtml(item)}</span>`;
+        // Display is localized (#25); data-value stays canonical so filtering still matches.
+        const label = term(field, item);
+        return `<span class="tag tag--${type}" data-value="${escapeHtml(item)}" title="${type}: ${escapeHtml(label)}">${escapeHtml(label)}</span>`;
     }).join('');
 }
 
@@ -1116,9 +1255,9 @@ function glyphForVerse(verse) {
  * @returns {string} - HTML string for the verse
  */
 function createVerseHTML(verse) {
-    const deityTags = createTags(verse.deities, 'deity');
-    const directionTags = createTags(verse.directions, 'direction');
-    const bodyTags = createTags(verse.bodyParts, 'body');
+    const deityTags = createTags(verse.deities, 'deity', 'deities');
+    const directionTags = createTags(verse.directions, 'direction', 'directions');
+    const bodyTags = createTags(verse.bodyParts, 'body', 'bodyParts');
     const allTags = deityTags + directionTags + bodyTags;
     
     return `
@@ -1130,7 +1269,7 @@ function createVerseHTML(verse) {
             
             <div class="transliteration" lang="sa-Latn">${formatTextForHTML(verse.transliteration)}</div>
             
-            <div class="translation" lang="en">${formatTextForHTML(verse.translation)}</div>
+            <div class="translation" lang="${I18N.locale}">${formatTextForHTML(verseTranslation(verse))}</div>
             
             ${allTags ? `<div class="tags">${allTags}</div>` : ''}
         </article>
@@ -1306,6 +1445,9 @@ async function initializeApp() {
         // Load configuration (metadata, feature flags, category registry)
         await loadConfig();
 
+        // Load the active locale + its fallback (#25)
+        await loadI18n(resolveLocale());
+
         // Load verse data (single source of truth)
         await loadVerseData();
 
@@ -1317,12 +1459,14 @@ async function initializeApp() {
 
         // Apply configuration now that config, state, and DOM are ready
         applyConfig();
+
+        // Apply UI strings + wire the language switcher (#25)
+        applyI18n();
+        initLanguageSwitcher();
         console.log('Version ' + CONFIG.app.version);
 
-        // Populate dropdowns from the category registry (#8)
-        CONFIG.categories.forEach(function(cat) {
-            populateDropdown(cat.domKey, AppState[cat.allKey]);
-        });
+        // Populate dropdowns from the category registry (#8), locale-aware labels
+        populateAllDropdowns();
         
         // Set up event listeners
         initializeEventListeners();

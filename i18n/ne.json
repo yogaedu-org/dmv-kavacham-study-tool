@@ -1,0 +1,14 @@
+{
+  "locale": "ne",
+  "name": "Nepali",
+  "nativeName": "नेपाली",
+  "dir": "ltr",
+  "status": "draft",
+  "_note": "P2 will populate ui/terms. Empty keys fall back to en.",
+  "ui": {},
+  "terms": {
+    "deities": {},
+    "directions": {},
+    "bodyParts": {}
+  }
+}

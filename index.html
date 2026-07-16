@@ -79,9 +79,10 @@
                     <input 
                         type="search" 
                         id="searchInput" 
-                        class="search-input" 
+                        class="search-input"
                         placeholder="Search..."
                         title="Search by deity name, direction, or body part"
+                        data-i18n-attr="placeholder:search.placeholder;title:search.title"
                         aria-describedby="search-help"
                         autocomplete="off"
                         role="combobox"
@@ -94,20 +95,20 @@
                 </div>
                 
                 <!-- Clear Filters Button -->
-                <button class="clear-btn" id="clearFilters" aria-label="Clear all filters and search">
+                <button class="clear-btn" id="clearFilters" data-i18n="controls.clearFilters" data-i18n-attr="aria-label:controls.clearFilters.aria" aria-label="Clear all filters and search">
                     Clear Filters
                 </button>
                 
                 <!-- Sanskrit Text Toggle -->
                 <div class="checkbox-group">
                     <input type="checkbox" id="sanskritToggle" checked aria-describedby="sanskrit-help">
-                    <label for="sanskritToggle">Show Sanskrit</label>
+                    <label for="sanskritToggle" data-i18n="controls.showSanskrit">Show Sanskrit</label>
                 </div>
                 
                 <!-- Transliteration Toggle -->
                 <div class="checkbox-group">
                     <input type="checkbox" id="transliterationToggle" checked aria-describedby="transliteration-help">
-                    <label for="transliterationToggle">Show Transliteration</label>
+                    <label for="transliterationToggle" data-i18n="controls.showTransliteration">Show Transliteration</label>
                 </div>
                 
                 <!-- Compact Toggle Button -->
@@ -130,13 +131,16 @@
                     <button class="fs-btn fs-btn--sm" id="fontSmaller" type="button" aria-label="Decrease text size" title="Smaller text">A&minus;</button>
                     <button class="fs-btn fs-btn--lg" id="fontLarger" type="button" aria-label="Increase text size" title="Larger text">A+</button>
                 </div>
+
+                <!-- Language switcher (#25) — options injected from config.app.locales -->
+                <select class="locale-select" id="localeSelect" aria-label="Choose language" data-i18n-attr="aria-label:controls.language.aria"></select>
             </div>
             
             <!-- Filter Dropdowns Row -->
             <div class="controls-row filters-row">
                 <!-- Deities Dropdown -->
                 <div class="dropdown-group">
-                    <span class="dropdown-label">Deities:</span>
+                    <span class="dropdown-label" data-i18n="filters.deities">Deities:</span>
                     <div class="custom-dropdown">
                         <button class="dropdown-button" id="deitiesDropdownBtn" aria-expanded="false" aria-haspopup="true">
                             <span id="deitiesSelectedText">Select...</span>
@@ -150,7 +154,7 @@
                 
                 <!-- Directions Dropdown -->
                 <div class="dropdown-group">
-                    <span class="dropdown-label">Directions:</span>
+                    <span class="dropdown-label" data-i18n="filters.directions">Directions:</span>
                     <div class="custom-dropdown">
                         <button class="dropdown-button" id="directionsDropdownBtn" aria-expanded="false" aria-haspopup="true">
                             <span id="directionsSelectedText">Select...</span>
@@ -164,7 +168,7 @@
                 
                 <!-- Body Parts Dropdown -->
                 <div class="dropdown-group">
-                    <span class="dropdown-label">Body:</span>
+                    <span class="dropdown-label" data-i18n="filters.body">Body:</span>
                     <div class="custom-dropdown">
                         <button class="dropdown-button" id="bodyDropdownBtn" aria-expanded="false" aria-haspopup="true">
                             <span id="bodySelectedText">Select...</span>

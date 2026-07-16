@@ -4,7 +4,7 @@
  */
 'use strict';
 
-const CACHE = 'dmv-kavacham-v2';
+const CACHE = 'dmv-kavacham-v3';
 const ASSETS = [
   './',
   './index.html',
@@ -12,6 +12,9 @@ const ASSETS = [
   './styles.css',
   './config.json',
   './data/verses.json',
+  './i18n/en.json',
+  './i18n/ne.json',
+  './i18n/es.json',
   './fonts/NotoSerifDevanagari.woff2',
   './icons/icon-192.png',
   './icons/icon-512.png',

@@ -371,6 +371,24 @@ a:hover {
 .fs-btn--sm { font-size: 0.82rem; }
 .fs-btn--lg { font-size: 1.15rem; }
 
+/* Language switcher (#25) */
+.locale-select {
+  min-height: 44px;
+  padding: 0 0.6rem;
+  border: 1px solid var(--color-accent);
+  border-radius: 10px;
+  background: var(--overlay-1);
+  color: var(--color-text-primary);
+  font-family: var(--font-family-secondary);
+  font-size: 0.86rem;
+  cursor: pointer;
+  margin-left: var(--spacing-xs);
+  transition: border-color var(--transition-fast);
+}
+.locale-select:hover { border-color: var(--color-sanskrit); }
+.locale-select:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+.locale-select option { background: var(--color-secondary); color: var(--color-text-primary); }
+
 .compact-toggle {
   background: var(--overlay-2);
   border: 1px solid var(--color-accent);
