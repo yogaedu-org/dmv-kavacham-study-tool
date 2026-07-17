@@ -13,7 +13,7 @@
     "v10-private-parts": { "decided": "explicit", "by": "KA", "note": "Keep explicit (anus/scrotum/phallus · गुदा/अण्डकोष/लिङ्ग · ano/escroto/falo) — faithful to the Sanskrit. No change." },
     "es-selected-suffix": { "decided": "seleccionadas", "by": "KA-accept", "note": "Accepted as-is; correct for all current (feminine) categories." },
     "all-languages": { "decided": "accepted", "by": "KA 2026-07-17", "note": "KA accepts all ne+es translations. Ship with an in-app AI-translation disclaimer; corrections come via a feedback form (see #26). ne/es status -> accepted." },
-    "v7-epithet": { "decided": "english-is-wrong", "by": "web research", "note": "जिह्वाललनभीषणा = 'terrifying with lolling tongue' (लोलजिह्वा, classic Kali). English 'fearsome to foes' has no textual basis. Fix en, then ne/es follow. Corroborate wording via council before applying." }
+    "v7-epithet": { "decided": "applied", "by": "KA + web research", "note": "APPLIED. जिह्वाललनभीषणा = जिह्वा(tongue)+ललन(lolling)+भीषणा(terrifying) = 'terrifying with her lolling tongue' (classic Kali लोलजिह्वा). Corrected en ('fearsome to foes' → 'terrifying with her lolling tongue'), ne ('शत्रुका निम्ति भयङ्कर' → 'जिब्रो निकालेर भयङ्कर देखिने'), es ('terrible para los enemigos' → 'terrible por su lengua colgante'). Also fixed verse-7 ne prose मुहार→अनुहार." }
   },
   "openForCouncil": ["intercardinals-register", "spanish-quality-pass", "v7-rewording"],
   "flags": [
