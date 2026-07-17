@@ -15,20 +15,14 @@ native Nepali reader has said Sanskritic/tatsama vocabulary reads "too intellect
 so **colloquial Nepali is the target register**. Answer each point in 1–3 sentences and
 **state your confidence**; if you don't know, say so rather than guessing.
 
-1. **"sapro" / "saapro" word.** A native Nepali speaker says that for the *shank/thigh*
-   region (Sanskrit जङ्घा + ऊरु, verse: "उग्रतारा महादेवी जङ्घोरू परिरक्षतु") they
-   naturally use a word that sounds like **"sapro" or "saapro"**, and they don't use
-   ऊरु. What Nepali word is this likely to be? Give the Devanāgarī spelling and its exact
-   meaning (which body part). Is it dialectal or standard?
-
-2. **Intercardinal directions, devotional register.** The Sanskrit names the quarters
+1. **Intercardinal directions, devotional register.** The Sanskrit names the quarters
    आग्नेय्यां (SE), नैरृत्यां (SW), वायव्यां (NW), ऐशान्यां (NE). For a Nepali *devotional*
    audience reading a kavacam, is it better to label the filter tags with the classical
    Sanskrit-derived **आग्नेय / नैर्ऋत्य / वायव्य / ईशान**, or the plain everyday
    **उत्तरपूर्व / उत्तरपश्चिम / दक्षिणपूर्व / दक्षिणपश्चिम**? Recommend one for a *colloquial*
    register and say why.
 
-3. **Verse 7 epithet — is the English wrong?** The line is
+2. **Verse 7 epithet — is the English wrong?** The line is
    "जिह्वां रक्षतु मे देवी जिह्वाललनभीषणा". An older English translation renders the
    epithet जिह्वाललनभीषणा as **"the goddess fearsome to foes."** I believe it actually
    means **"[the goddess] terrifying with her lolling/lapping tongue"** (जिह्वा-ललन-भीषणा,
@@ -36,7 +30,7 @@ so **colloquial Nepali is the target register**. Answer each point in 1–3 sent
    breakdown of जिह्वाललनभीषणा, and a clean English rendering. Then give **colloquial
    Nepali** and **Spanish** renderings of the correct reading.
 
-4. **Spanish quality pass.** Here are the Spanish body-part / direction terms I drafted;
+3. **Spanish quality pass.** Here are the Spanish body-part / direction terms I drafted;
    flag any that a native Spanish speaker would find wrong or unnatural, and for the
    count label "{n} seleccionadas": Ano, Brazos, Sangre, Huesos, Cejas, Pecho, Orejas,
    Ojos, Rostro (face), Dedos (fingers), Carne, Frente, Cabeza, Caderas (hips), Rodillas,

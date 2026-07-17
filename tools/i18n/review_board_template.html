@@ -101,6 +101,10 @@
   .fopt .os.deva{font-family:var(--deva);font-size:1rem;color:var(--gold)}
   .frec{font-size:.82rem;color:var(--add);margin-top:.5rem}
   .frec b{color:var(--add)}
+  .fenref{font-size:.82rem;color:var(--ink);background:var(--surface-2);border:1px solid var(--line);
+    border-radius:8px;padding:.4rem .55rem;margin:.1rem 0 .55rem}
+  .termhead{display:grid;grid-template-columns:1fr 1.2fr;gap:.5rem;padding:.1rem .5rem .3rem;
+    font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
   .termgrid{display:grid;grid-template-columns:1fr;gap:.4rem}
   @media(min-width:640px){.termgrid{grid-template-columns:1fr 1fr}}
   .termrow{display:grid;grid-template-columns:1fr 1.2fr;gap:.5rem;align-items:center;background:var(--surface);
@@ -255,8 +259,10 @@ function renderTerms(){
       return '<div class="termrow"><span class="k">'+esc(t.en)+'</span>'
         + '<input data-f="'+f+'" data-k="'+esc(t.key)+'" class="'+(isDeva?'deva':'')+'" value="'+esc(STATE[active].terms[f][t.key])+'"></div>';
     }).join('');
+    const locName = (DATA.locales.filter(function(l){return l.code===active;})[0]||{}).label || active;
     return '<details'+(f==='deities'?' open':'')+'><summary>'+f+' ('+DATA.terms[active][f].length+')</summary>'
-      + '<div class="termgrid" style="margin-top:.5rem">'+rows+'</div></details>';
+      + '<div class="termhead"><span>English (reference)</span><span>'+esc(locName)+' — editable</span></div>'
+      + '<div class="termgrid">'+rows+'</div></details>';
   }).join('');
   $('terms').querySelectorAll('input').forEach(function(inp){
     inp.addEventListener('input', function(){ STATE[active].terms[inp.dataset.f][inp.dataset.k] = inp.value; });
@@ -294,6 +300,7 @@ function renderFlags(){
       + '<span class="conf">'+f.confidence+' confidence</span>'
       + '<span class="fscope">'+esc(f.scope)+(f.affects?' · '+esc(f.affects.join(', ')):'')+'</span></div>'
       + '<p class="fwhy">'+esc(f.why)+'</p>'
+      + (f.enRef ? '<p class="fenref">'+esc(f.enRef)+'</p>' : '')
       + '<div class="fopts">'+opts+'</div>'
       + '<p class="frec"><b>My suggestion:</b> '+esc(f.recommendation)+'</p></div>';
   }).join('') || '<p class="lede" style="font-size:.9rem">No open flags for this locale.</p>';

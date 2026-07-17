@@ -5,11 +5,11 @@
     "ne-register": { "decided": "colloquial", "by": "KA", "note": "KA understands all the colloquial draft; tatsama reads 'too intellectual' and doesn't sound Nepali. REVERSES my earlier recommendation. All body-part terms stay colloquial." },
     "ne-face-mouth": { "decided": "anuhar-mukh", "by": "KA", "note": "अनुहार = face (standard), मुख = mouth. Apply." },
     "ne-legs-toes": { "decided": "khutta", "by": "KA", "note": "खुट्टा covers leg+foot — that's just how Nepali works; keep the colloquial draft." },
-    "ne-shank-thigh": { "decided": "current", "by": "web+dict", "note": "Sanskrit dicts confirm जङ्घा=shank/calf, ऊरु=thigh. पिँडुला/तिघ्रा correct. NOTE: KA mentioned a colloquial word sounding like 'sapro/saapro' for this region — unresolved, see council prompt." },
+    "ne-shank-thigh": { "decided": "current", "by": "web+dict+KA", "note": "CLOSED. Sanskrit dicts confirm जङ्घा=shank/calf, ऊरु=thigh; KA (native) recognises पिँडुला (shank) and तिघ्रा (thigh) and accepts them. The earlier 'sapro/saapro' was dictation noise — moot, KA is happy with पिँडुला/तिघ्रा." },
     "ne-hips": { "decided": "kammar-but-fix-english", "by": "KA", "note": "KA confirms कम्मर = waist. Verse says कट्यां (कटि = waist/hip). So the ENGLISH tag 'Hips' is the mismatch, not the Nepali. Consider changing the English term to 'Waist' — pending." },
     "v7-epithet": { "decided": "english-is-wrong", "by": "web research", "note": "जिह्वाललनभीषणा = 'terrifying with lolling tongue' (लोलजिह्वा, classic Kali). English 'fearsome to foes' has no textual basis. Fix en, then ne/es follow. Corroborate wording via council before applying." }
   },
-  "openForCouncil": ["sapro-word", "intercardinals-register", "spanish-quality-pass", "v7-rewording"],
+  "openForCouncil": ["intercardinals-register", "spanish-quality-pass", "v7-rewording"],
   "flags": [
     {
       "id": "ne-register",
@@ -31,6 +31,7 @@
       "locale": "ne",
       "scope": "global",
       "confidence": "medium",
+      "enRef": "English reference: every verse ends 'may [Goddess] protect/guard me' (an optative blessing).",
       "title": "Benedictive verb: रक्षा गरून् or रक्षा गरोस्?",
       "why": "Every verse ends 'may X protect me'. I used गरून् (honorific/plural optative) throughout. Strict 3rd-person singular for one goddess is गरोस्. This is one grammatical choice repeated in all 14 verses — worth settling once.",
       "affects": ["all 14 verses"],
@@ -105,6 +106,7 @@
       "locale": "ne",
       "scope": "term",
       "confidence": "medium",
+      "enRef": "English reference: Southeast (आग्नेय), Southwest (नैर्ऋत्य), Northwest (वायव्य), Northeast (ईशान).",
       "title": "Intercardinals: आग्नेय/नैर्ऋत्य/वायव्य/ईशान or plain उत्तरपूर्व?",
       "why": "I used the classical quarter names, which is exactly what the verses say (आग्नेय्यां, नैरृत्यां, वायव्यां, ऐशान्यां). Everyday Nepali would more likely say उत्तर-पूर्व etc.",
       "affects": ["Northeast", "Northwest", "Southeast", "Southwest"],
@@ -135,6 +137,7 @@
       "locale": "es",
       "scope": "ui",
       "confidence": "medium",
+      "enRef": "English reference: the count label '{n} selected' (e.g. '3 selected').",
       "title": "Spanish '{n} seleccionadas' gender agreement",
       "why": "The count suffix follows deidades (f), direcciones (f) and partes del cuerpo (f) — all feminine, so 'seleccionadas' agrees today. It would break if a masculine category is ever added (config makes that easy).",
       "affects": ["filters.selectedSuffix"],
