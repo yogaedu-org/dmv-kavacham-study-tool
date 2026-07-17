@@ -29,7 +29,9 @@
     "filters.selectedSuffix": "selected",
     "verses.loading": "Loading verses...",
     "error.title": "Error Loading Application",
-    "error.body": "Failed to load verse data. Please refresh the page or check your connection."
+    "error.body": "Failed to load verse data. Please refresh the page or check your connection.",
+    "disclaimer.text": "Translation was done by AI. Please pardon any translation errors — feedback from native speakers is welcome, and corrections are applied when offered.",
+    "disclaimer.feedbackLink": "Suggest a correction"
   },
   "terms": {
     "deities": {

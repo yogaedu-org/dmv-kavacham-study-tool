@@ -371,6 +371,23 @@ a:hover {
 .fs-btn--sm { font-size: 0.82rem; }
 .fs-btn--lg { font-size: 1.15rem; }
 
+/* Translation disclaimer (#25) */
+.app-disclaimer {
+  margin-top: var(--spacing-lg);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-top: 1px solid var(--line-color);
+  color: var(--color-text-secondary);
+  font-size: 0.82rem;
+  line-height: 1.5;
+  text-align: center;
+}
+.app-disclaimer .feedback-link {
+  display: inline-block;
+  margin-left: 0.4rem;
+  color: var(--color-accent);
+  font-weight: 600;
+}
+
 /* Language switcher (#25) */
 .locale-select {
   min-height: 44px;

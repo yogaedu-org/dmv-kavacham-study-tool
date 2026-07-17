@@ -10,6 +10,9 @@
     "ne-hips": { "decided": "kammar-but-fix-english", "by": "KA", "note": "KA confirms कम्मर = waist. Verse says कट्यां (कटि = waist/hip). So the ENGLISH tag 'Hips' is the mismatch, not the Nepali. Consider changing the English term to 'Waist' — pending." },
     "ne-benedictive": { "decided": "garun", "by": "KA", "note": "रक्षा गरून् (honorific). Draft already uses it throughout — confirmed, no change." },
     "ne-directions": { "decided": "plain", "by": "KA", "note": "Plain उत्तरपूर्व/उत्तरपश्चिम/दक्षिणपूर्व/दक्षिणपश्चिम, NOT classical आग्नेय/ईशान. Applied to the term map AND the verse-1/2/3 prose for register consistency." },
+    "v10-private-parts": { "decided": "explicit", "by": "KA", "note": "Keep explicit (anus/scrotum/phallus · गुदा/अण्डकोष/लिङ्ग · ano/escroto/falo) — faithful to the Sanskrit. No change." },
+    "es-selected-suffix": { "decided": "seleccionadas", "by": "KA-accept", "note": "Accepted as-is; correct for all current (feminine) categories." },
+    "all-languages": { "decided": "accepted", "by": "KA 2026-07-17", "note": "KA accepts all ne+es translations. Ship with an in-app AI-translation disclaimer; corrections come via a feedback form (see #26). ne/es status -> accepted." },
     "v7-epithet": { "decided": "english-is-wrong", "by": "web research", "note": "जिह्वाललनभीषणा = 'terrifying with lolling tongue' (लोलजिह्वा, classic Kali). English 'fearsome to foes' has no textual basis. Fix en, then ne/es follow. Corroborate wording via council before applying." }
   },
   "openForCouncil": ["intercardinals-register", "spanish-quality-pass", "v7-rewording"],

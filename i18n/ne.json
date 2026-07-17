@@ -3,8 +3,8 @@
   "name": "Nepali",
   "nativeName": "नेपाली",
   "dir": "ltr",
-  "status": "draft",
-  "_note": "DRAFT — drafted by Claude, pending review (#25 P3). Needs a native/scholarly pass more than the Spanish does. Deity names are given in Devanagari (their native form for a Nepali reader).",
+  "status": "accepted",
+  "_note": "Accepted by KA 2026-07-17 (with a native-speaker term pass: register=colloquial, अनुहार, पिडौला/तिघ्रा, plain directions, गरून्). Shipped with an in-app AI-translation disclaimer; corrections welcome via feedback. Deity names in Devanagari.",
   "ui": {
     "search.label": "श्लोक खोज्नुहोस्",
     "search.placeholder": "खोज्नुहोस्...",
@@ -30,7 +30,9 @@
     "filters.selectedSuffix": "छानिएको",
     "verses.loading": "श्लोक लोड हुँदै...",
     "error.title": "एप लोड गर्न सकिएन",
-    "error.body": "श्लोकहरू लोड गर्न सकिएन। पृष्ठ पुनः लोड गर्नुहोस् वा आफ्नो इन्टरनेट जाँच्नुहोस्।"
+    "error.body": "श्लोकहरू लोड गर्न सकिएन। पृष्ठ पुनः लोड गर्नुहोस् वा आफ्नो इन्टरनेट जाँच्नुहोस्।",
+    "disclaimer.text": "यो अनुवाद AI द्वारा गरिएको हो। कुनै त्रुटि भए क्षमा गर्नुहोला — मातृभाषीहरूको सुझाव स्वागत छ, र सुझाव आएपछि सुधार लागू गरिन्छ।",
+    "disclaimer.feedbackLink": "सुधार सुझाउनुहोस्"
   },
   "terms": {
     "deities": {

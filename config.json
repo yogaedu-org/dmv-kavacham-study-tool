@@ -6,6 +6,7 @@
     "version": "2.1.0",
     "locales": ["en", "ne", "es"],
     "defaultLocale": "en",
+    "feedbackUrl": "",
     "links": {
       "org": "https://github.com/yogaedu-org"
     }

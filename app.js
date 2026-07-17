@@ -53,6 +53,7 @@ const DEFAULT_CONFIG = {
         version: '2.1.0',
         locales: ['en', 'ne', 'es'],
         defaultLocale: 'en',
+        feedbackUrl: '',
         links: { org: 'https://github.com/yogaedu-org' }
     },
     features: {
@@ -114,6 +115,17 @@ function applyConfig() {
 
     // Category colors (#8/#17) — from the registry, for the active theme
     applyCategoryColors();
+
+    // Feedback link (#25) — shown only when a form/URL is configured
+    var feedbackLink = document.getElementById('feedbackLink');
+    if (feedbackLink) {
+        if (CONFIG.app.feedbackUrl) {
+            feedbackLink.href = CONFIG.app.feedbackUrl;
+            feedbackLink.hidden = false;
+        } else {
+            feedbackLink.hidden = true;
+        }
+    }
 
     // Version (#9) — keep the debug export in sync with the authoritative value
     if (window.DMVKavacham) window.DMVKavacham.version = CONFIG.app.version;

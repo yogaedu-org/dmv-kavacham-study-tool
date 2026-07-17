@@ -3,8 +3,8 @@
   "name": "Spanish",
   "nativeName": "Español",
   "dir": "ltr",
-  "status": "draft",
-  "_note": "DRAFT — drafted by Claude, pending review (#25 P3). Deity names stay in IAST: Sanskrit proper nouns are not translated in Spanish usage.",
+  "status": "accepted",
+  "_note": "Accepted by KA 2026-07-17. Shipped with an in-app AI-translation disclaimer; corrections welcome via feedback. Deity names stay in IAST (Sanskrit proper nouns are not translated in Spanish usage).",
   "ui": {
     "search.label": "Buscar versos",
     "search.placeholder": "Buscar...",
@@ -30,7 +30,9 @@
     "filters.selectedSuffix": "seleccionadas",
     "verses.loading": "Cargando versos...",
     "error.title": "Error al cargar la aplicación",
-    "error.body": "No se pudieron cargar los versos. Actualiza la página o comprueba tu conexión."
+    "error.body": "No se pudieron cargar los versos. Actualiza la página o comprueba tu conexión.",
+    "disclaimer.text": "La traducción fue realizada por IA. Disculpe cualquier error de traducción — agradecemos los comentarios de hablantes nativos y aplicamos las correcciones que nos envíen.",
+    "disclaimer.feedbackLink": "Sugerir una corrección"
   },
   "terms": {
     "deities": {

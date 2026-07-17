@@ -210,7 +210,13 @@
             <p><strong>Usage:</strong> Use the toggles to show/hide Sanskrit or transliteration text. Search to find specific deities, directions, or body parts across all verses.</p>
             <p><strong>Epithets:</strong> Some goddess names may vary across different recensions and represent regional or textual variations.</p>
         </aside>
-        
+
+        <!-- Translation disclaimer (#25) — localized; feedback link shown if config.app.feedbackUrl set -->
+        <footer class="app-disclaimer" role="contentinfo">
+            <span data-i18n="disclaimer.text">Translation was done by AI. Please pardon any translation errors — feedback from native speakers is welcome, and corrections are applied when offered.</span>
+            <a id="feedbackLink" class="feedback-link" href="#" target="_blank" rel="noopener" data-i18n="disclaimer.feedbackLink" hidden>Suggest a correction</a>
+        </footer>
+
     </div>
     
     <!-- Application JavaScript -->
