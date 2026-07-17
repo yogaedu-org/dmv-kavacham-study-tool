@@ -2,6 +2,7 @@
   "_note": "Points where Claude is NOT confident and wants a targeted human decision (#25 P3). Each flag is a specific choice with options + a recommendation — deliberately NOT 'review this whole line'. Confidence: low = I may well be wrong; medium = probably right, worth confirming.",
   "resolutions": {
     "_source": "KA (native Nepali reader) 2026-07-17 + web research + Sanskrit dictionaries.",
+    "_nepaliCautions": "FALSE FRIEND: Nepali जाँघ (jā̃gh, nasalized) = GROIN, not the shank. It looks like Sanskrit जङ्घा (jaṅghā = shank/calf) but means something else — do NOT use जाँघ for calf/thigh. Settled leg terms: calf=पिडौला, thigh=तिघ्रा, knee=घुँडा, leg/foot=खुट्टा, toes=खुट्टाका औँला.",
     "ne-register": { "decided": "colloquial", "by": "KA", "note": "KA understands all the colloquial draft; tatsama reads 'too intellectual' and doesn't sound Nepali. REVERSES my earlier recommendation. All body-part terms stay colloquial." },
     "ne-face-mouth": { "decided": "anuhar-mukh", "by": "KA", "note": "अनुहार = face (standard), मुख = mouth. Apply." },
     "ne-legs-toes": { "decided": "khutta", "by": "KA", "note": "खुट्टा covers leg+foot — that's just how Nepali works; keep the colloquial draft." },
