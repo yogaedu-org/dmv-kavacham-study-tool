@@ -53,7 +53,7 @@ const DEFAULT_CONFIG = {
         version: '2.1.0',
         locales: ['en', 'ne', 'es'],
         defaultLocale: 'en',
-        feedbackUrl: '',
+        feedbackUrl: 'https://github.com/yogaedu-org/dmv-kavacham-study-tool/issues/new?template=translation-correction.yml',
         links: { org: 'https://github.com/yogaedu-org' }
     },
     features: {
