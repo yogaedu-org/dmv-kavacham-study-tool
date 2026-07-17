@@ -1,0 +1,174 @@
+{
+  "_note": "Points where Claude is NOT confident and wants a targeted human decision (#25 P3). Each flag is a specific choice with options + a recommendation — deliberately NOT 'review this whole line'. Confidence: low = I may well be wrong; medium = probably right, worth confirming.",
+  "resolutions": {
+    "_source": "KA (native Nepali reader) 2026-07-17 + web research + Sanskrit dictionaries.",
+    "_nepaliCautions": "FALSE FRIEND: Nepali जाँघ (jā̃gh, nasalized) = GROIN, not the shank. It looks like Sanskrit जङ्घा (jaṅghā = shank/calf) but means something else — do NOT use जाँघ for calf/thigh. Settled leg terms: calf=पिडौला, thigh=तिघ्रा, knee=घुँडा, leg/foot=खुट्टा, toes=खुट्टाका औँला.",
+    "ne-register": { "decided": "colloquial", "by": "KA", "note": "KA understands all the colloquial draft; tatsama reads 'too intellectual' and doesn't sound Nepali. REVERSES my earlier recommendation. All body-part terms stay colloquial." },
+    "ne-face-mouth": { "decided": "anuhar-mukh", "by": "KA", "note": "अनुहार = face (standard), मुख = mouth. Apply." },
+    "ne-legs-toes": { "decided": "khutta", "by": "KA", "note": "खुट्टा covers leg+foot — that's just how Nepali works; keep the colloquial draft." },
+    "ne-shank-thigh": { "decided": "final", "by": "Nepali speakers via KA", "note": "CLOSED. Thigh = तिघ्रा (confirmed). Calf/shank = पिडौला (native speakers' spelling) — updated from my draft पिँडुला (which had the nasal + short u; theirs has the au diphthong, no nasal). Applied to term map + verse 10 prose. जङ्घा=shank, ऊरु=thigh per dicts." },
+    "ne-hips": { "decided": "kammar-but-fix-english", "by": "KA", "note": "KA confirms कम्मर = waist. Verse says कट्यां (कटि = waist/hip). So the ENGLISH tag 'Hips' is the mismatch, not the Nepali. Consider changing the English term to 'Waist' — pending." },
+    "ne-benedictive": { "decided": "garun", "by": "KA", "note": "रक्षा गरून् (honorific). Draft already uses it throughout — confirmed, no change." },
+    "ne-directions": { "decided": "plain", "by": "KA", "note": "Plain उत्तरपूर्व/उत्तरपश्चिम/दक्षिणपूर्व/दक्षिणपश्चिम, NOT classical आग्नेय/ईशान. Applied to the term map AND the verse-1/2/3 prose for register consistency." },
+    "v10-private-parts": { "decided": "explicit", "by": "KA", "note": "Keep explicit (anus/scrotum/phallus · गुदा/अण्डकोष/लिङ्ग · ano/escroto/falo) — faithful to the Sanskrit. No change." },
+    "es-selected-suffix": { "decided": "seleccionadas", "by": "KA-accept", "note": "Accepted as-is; correct for all current (feminine) categories." },
+    "all-languages": { "decided": "accepted", "by": "KA 2026-07-17", "note": "KA accepts all ne+es translations. Ship with an in-app AI-translation disclaimer; corrections come via a feedback form (see #26). ne/es status -> accepted." },
+    "v7-epithet": { "decided": "applied", "by": "KA + web research", "note": "APPLIED. जिह्वाललनभीषणा = जिह्वा(tongue)+ललन(lolling)+भीषणा(terrifying) = 'terrifying with her lolling tongue' (classic Kali लोलजिह्वा). Corrected en ('fearsome to foes' → 'terrifying with her lolling tongue'), ne ('शत्रुका निम्ति भयङ्कर' → 'जिब्रो निकालेर भयङ्कर देखिने'), es ('terrible para los enemigos' → 'terrible por su lengua colgante'). Also fixed verse-7 ne prose मुहार→अनुहार." }
+  },
+  "openForCouncil": ["intercardinals-register", "spanish-quality-pass", "v7-rewording"],
+  "flags": [
+    {
+      "id": "v10-private-parts",
+      "locale": "both",
+      "scope": "verse",
+      "target": 10,
+      "confidence": "medium",
+      "enRef": "English reference: verse 10 currently reads 'guard the anus, the scrotum, the phallus, and the navel' (Sanskrit गुदं मुष्कं च मेढ्रं च नाभिं च). Tags: Anus, Scrotum, Phallus, Navel.",
+      "title": "Verse 10 private parts: explicit organs, or discreet 'private parts' (गुप्ताङ्ग)?",
+      "why": "The Sanskrit names गुद/मुष्क/मेढ्र (anus/scrotum/phallus) individually and the draft translates them explicitly in all three languages. Many devotional editions use the discreet collective गुप्ताङ्ग ('secret/private parts'). Fidelity vs. discretion — your text, your audience. Note: merging the three organ tags into one changes the data keys AND the body-glyph zones.",
+      "affects": ["Anus", "Scrotum", "Phallus", "verse 10 en/ne/es"],
+      "options": [
+        { "key": "explicit", "label": "Keep explicit — faithful to the Sanskrit", "sample": "anus / scrotum / phallus · गुदा / अण्डकोष / लिङ्ग · ano / escroto / falo" },
+        { "key": "prose-only", "label": "Keep the filter tags explicit, but soften the READING prose to 'the private parts'", "sample": "tags stay granular for study; verse-10 prose reads 'the private parts (गुप्ताङ्ग)'" },
+        { "key": "collective", "label": "Discreet collective everywhere — replaces the three organ tags with one", "sample": "Private parts · गुप्ताङ्ग · partes íntimas" }
+      ],
+      "recommendation": "your call. I lean 'prose-only' — keep the anatomical tags (they're useful, faithful study facets) but let the flowing translation read discreetly as गुप्ताङ्ग / 'the private parts', which is common in devotional editions. 'collective' is cleanest visually but loses fidelity and reworks the body glyph."
+    },
+    {
+      "id": "ne-register",
+      "locale": "ne",
+      "scope": "global",
+      "confidence": "low",
+      "title": "Nepali register: colloquial or Sanskritic (tatsama)?",
+      "why": "This is the single biggest choice, and it cascades to ~10 terms. The Sanskrit being recited uses tatsama words (शीर्षे, भालं, ग्रीवां, उदरं, रक्त, मांस, अस्थि, जिह्वां). I drafted the body parts in everyday colloquial Nepali — more accessible to a general reader, but it drifts from the register of the text it sits beside.",
+      "affects": ["Head", "Forehead", "Neck", "Abdomen", "Blood", "Flesh", "Bones", "Tongue"],
+      "options": [
+        { "key": "colloquial", "label": "Colloquial (what I drafted)", "sample": "टाउको · निधार · घाँटी · पेट · रगत · मासु · हड्डी · जिब्रो" },
+        { "key": "sanskritic", "label": "Sanskritic / tatsama — mirrors the verse", "sample": "शिर · भाल · ग्रीवा · उदर · रक्त · मांस · अस्थि · जिह्वा" },
+        { "key": "mixed", "label": "Mixed — tatsama where the verse uses it, colloquial elsewhere", "sample": "शिर · भाल · ग्रीवा · उदर, but रगत · हड्डी" }
+      ],
+      "recommendation": "sanskritic — a kavacam is liturgical; the tatsama forms match the Sanskrit on the same card and are well understood by Nepali devotees. Your टाउको-vs-शिर instinct was pointing right at this."
+    },
+    {
+      "id": "ne-benedictive",
+      "locale": "ne",
+      "scope": "global",
+      "confidence": "medium",
+      "enRef": "English reference: every verse ends 'may [Goddess] protect/guard me' (an optative blessing).",
+      "title": "Benedictive verb: रक्षा गरून् or रक्षा गरोस्?",
+      "why": "Every verse ends 'may X protect me'. I used गरून् (honorific/plural optative) throughout. Strict 3rd-person singular for one goddess is गरोस्. This is one grammatical choice repeated in all 14 verses — worth settling once.",
+      "affects": ["all 14 verses"],
+      "options": [
+        { "key": "garun", "label": "रक्षा गरून् — honorific (what I drafted)", "sample": "…ताराले मलाई पूर्वमा रक्षा गरून्।" },
+        { "key": "garos", "label": "रक्षा गरोस् — 3rd person singular", "sample": "…ताराले मलाई पूर्वमा रक्षा गरोस्।" }
+      ],
+      "recommendation": "garun — deities normally take the honorific in Nepali devotional prose, but I'd like this confirmed by someone who reads Nepali liturgy."
+    },
+    {
+      "id": "ne-face-mouth",
+      "locale": "ne",
+      "scope": "term",
+      "confidence": "low",
+      "title": "Face and Mouth risk colliding (मुहार / अनुहार / मुख)",
+      "why": "I used मुहार for Face and मुख for Mouth. मुहार is colloquial; अनुहार is standard Nepali for face. And मुख covers BOTH face and mouth — verse 7 guards the face (मुखं) while verse 8 guards the mouth (वदनं), so these two tags must stay clearly distinct.",
+      "affects": ["Face", "Mouth"],
+      "options": [
+        { "key": "muhar-mukh", "label": "Face=मुहार, Mouth=मुख (what I drafted)", "sample": "मुहार / मुख" },
+        { "key": "anuhar-mukh", "label": "Face=अनुहार, Mouth=मुख", "sample": "अनुहार / मुख" },
+        { "key": "mukh-vadan", "label": "Face=मुख, Mouth=वदन — mirrors the Sanskrit", "sample": "मुख / वदन" }
+      ],
+      "recommendation": "anuhar-mukh — अनुहार is unambiguous standard Nepali and leaves मुख free for the mouth."
+    },
+    {
+      "id": "ne-hips",
+      "locale": "ne",
+      "scope": "term",
+      "confidence": "low",
+      "title": "Hips = कम्मर (waist) or नितम्ब?",
+      "why": "Verse 9 reads कट्यां (kaṭi = waist/hip). I used कम्मर, which really means 'waist' in Nepali, while the English tag says 'Hips'. नितम्ब is specifically hips/buttocks.",
+      "affects": ["Hips"],
+      "options": [
+        { "key": "kammar", "label": "कम्मर — waist (what I drafted)", "sample": "कम्मर" },
+        { "key": "nitamba", "label": "नितम्ब — hips", "sample": "नितम्ब" },
+        { "key": "kati", "label": "कटि — tatsama, the verse's own word", "sample": "कटि" }
+      ],
+      "recommendation": "kati — matches the verse and sidesteps the waist/hip mismatch entirely."
+    },
+    {
+      "id": "ne-legs-toes",
+      "locale": "ne",
+      "scope": "term",
+      "confidence": "medium",
+      "title": "खुट्टा means both 'leg' and 'foot'",
+      "why": "I used खुट्टा for Legs and खुट्टाका औँला for Toes. In Nepali खुट्टा covers leg AND foot, so both tags read loosely. Verse 11's Sanskrit is पादाङ्गुलीः (toes).",
+      "affects": ["Legs", "Toes"],
+      "options": [
+        { "key": "khutta", "label": "Legs=खुट्टा, Toes=खुट्टाका औँला (what I drafted)", "sample": "खुट्टा / खुट्टाका औँला" },
+        { "key": "goda", "label": "Legs=गोडा, Toes=खुट्टाका औँला", "sample": "गोडा / खुट्टाका औँला" },
+        { "key": "pada", "label": "Legs=चरण, Toes=पादाङ्गुली — tatsama", "sample": "चरण / पादाङ्गुली" }
+      ],
+      "recommendation": "pada if you choose the Sanskritic register above (keeps it consistent); otherwise khutta is fine."
+    },
+    {
+      "id": "ne-shank-thigh",
+      "locale": "ne",
+      "scope": "term",
+      "confidence": "medium",
+      "title": "Shanks / Thighs mapping (जङ्घा vs ऊरु)",
+      "why": "Verse 10 reads जङ्घोरू = जङ्घा + ऊरु. I read जङ्घा as shank/calf (→पिँडुला) and ऊरु as thigh (→तिघ्रा). I'm fairly confident, but some translators render जङ्घा as 'thigh', which would swap them.",
+      "affects": ["Shanks", "Thighs"],
+      "options": [
+        { "key": "current", "label": "Shanks=पिँडुला, Thighs=तिघ्रा (what I drafted)", "sample": "पिँडुला / तिघ्रा" },
+        { "key": "swap", "label": "Swap them", "sample": "तिघ्रा / पिँडुला" },
+        { "key": "tatsama", "label": "जङ्घा / ऊरु — tatsama", "sample": "जङ्घा / ऊरु" }
+      ],
+      "recommendation": "current — जङ्घा is the shank/calf and ऊरु the thigh in classical usage."
+    },
+    {
+      "id": "ne-directions",
+      "locale": "ne",
+      "scope": "term",
+      "confidence": "medium",
+      "enRef": "English reference: Southeast (आग्नेय), Southwest (नैर्ऋत्य), Northwest (वायव्य), Northeast (ईशान).",
+      "title": "Intercardinals: आग्नेय/नैर्ऋत्य/वायव्य/ईशान or plain उत्तरपूर्व?",
+      "why": "I used the classical quarter names, which is exactly what the verses say (आग्नेय्यां, नैरृत्यां, वायव्यां, ऐशान्यां). Everyday Nepali would more likely say उत्तर-पूर्व etc.",
+      "affects": ["Northeast", "Northwest", "Southeast", "Southwest"],
+      "options": [
+        { "key": "classical", "label": "आग्नेय · नैर्ऋत्य · वायव्य · ईशान (what I drafted)", "sample": "ईशान" },
+        { "key": "plain", "label": "उत्तरपूर्व · उत्तरपश्चिम · दक्षिणपूर्व · दक्षिणपश्चिम", "sample": "उत्तरपूर्व" }
+      ],
+      "recommendation": "classical — mirrors the verse text and is standard in ritual contexts."
+    },
+    {
+      "id": "v7-epithet",
+      "locale": "both",
+      "scope": "verse",
+      "target": 7,
+      "confidence": "low",
+      "title": "Verse 7: the epithet जिह्वाललनभीषणा looks mistranslated in the ENGLISH",
+      "why": "The existing English already hedges — 'the goddess—fearsome to foes'. But the compound parses as जिह्वा-ललन-भीषणा, 'terrifying with a lolling/rolling tongue' (a classic Kālī image), which has nothing to do with foes. My ne/es drafts inherited the English's reading, so if the English is wrong, all three are. This is the one place I think the EXISTING English needs fixing, not just my drafts.",
+      "affects": ["verse 7 — en, ne, es"],
+      "options": [
+        { "key": "keep", "label": "Keep 'fearsome to foes'", "sample": "शत्रुका निम्ति भयङ्कर देवी / la diosa terrible para los enemigos" },
+        { "key": "lolling", "label": "Re-read as 'terrifying with her lolling tongue'", "sample": "जिब्रो निकाली भयङ्कर देखिने देवी / la diosa terrible de lengua colgante" },
+        { "key": "research", "label": "Research the source before deciding", "sample": "—" }
+      ],
+      "recommendation": "research — I'd corroborate this against the sources (as we did for #3) before changing it, because it also changes the English."
+    },
+    {
+      "id": "es-selected-suffix",
+      "locale": "es",
+      "scope": "ui",
+      "confidence": "medium",
+      "enRef": "English reference: the count label '{n} selected' (e.g. '3 selected').",
+      "title": "Spanish '{n} seleccionadas' gender agreement",
+      "why": "The count suffix follows deidades (f), direcciones (f) and partes del cuerpo (f) — all feminine, so 'seleccionadas' agrees today. It would break if a masculine category is ever added (config makes that easy).",
+      "affects": ["filters.selectedSuffix"],
+      "options": [
+        { "key": "seleccionadas", "label": "seleccionadas (what I drafted)", "sample": "3 seleccionadas" },
+        { "key": "neutral", "label": "Gender-neutral phrasing", "sample": "3 en total" }
+      ],
+      "recommendation": "seleccionadas — correct for every current category; revisit only if a masculine one appears."
+    }
+  ]
+}

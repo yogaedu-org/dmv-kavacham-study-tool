@@ -13,7 +13,11 @@
       "number": 1,
       "sanskrit": "ॐ प्राच्यां रक्षतु मे तारा कामरूपनिवासिनी ।\nआग्नेय्यां षोडशी पातु याम्यां धूमावती स्वयम् ॥१॥",
       "transliteration": "Om prācyāṃ rakṣatu me tārā kāmarūpanivāsinī |\nāgneyyāṃ ṣoḍaśī pātu yāmyāṃ dhūmāvatī svayam ||1||",
-      "translation": "May Tārā, who dwells in Kāmarūpa, guard me in the east. In the southeast may Ṣoḍaśī (Tripurasundarī) protect me; in the south, Dhumāvatī herself.",
+      "translations": {
+        "en": "May Tārā, who dwells in Kāmarūpa, guard me in the east. In the southeast may Ṣoḍaśī (Tripurasundarī) protect me; in the south, Dhumāvatī herself.",
+        "ne": "कामरूपमा वास गर्ने ताराले मलाई पूर्वमा रक्षा गरून्। दक्षिणपूर्व कोणमा षोडशी (त्रिपुरसुन्दरी) ले रक्षा गरून्; दक्षिणमा स्वयं धूमावतीले।",
+        "es": "Que Tārā, que mora en Kāmarūpa, me proteja en el este. En el sureste, que Ṣoḍaśī (Tripurasundarī) me proteja; en el sur, Dhūmāvatī misma."
+      },
       "deities": ["Tara", "Sodasi", "Tripurasundari", "Dhumavati"],
       "directions": ["East", "Southeast", "South"],
       "bodyParts": [],
@@ -24,7 +28,11 @@
       "number": 2,
       "sanskrit": "नैरृत्यां भैरवी पातु वारुण्यां भुवनेश्वरी ।\nवायव्यां सततं पातु छिन्नमस्ता महेश्वरी ॥२॥",
       "transliteration": "nairṛtyāṃ bhairavī pātu vāruṇyāṃ bhuvaneśvarī |\nvāyavyāṃ satataṃ pātu chinnamastā maheśvarī ||2||",
-      "translation": "In the southwest may Bhairavī protect; in the west, Bhuvaneśvarī. In the northwest may the great goddess Chinnamastā protect me always.",
+      "translations": {
+        "en": "In the southwest may Bhairavī protect; in the west, Bhuvaneśvarī. In the northwest may the great goddess Chinnamastā protect me always.",
+        "ne": "दक्षिणपश्चिम कोणमा भैरवीले रक्षा गरून्; पश्चिममा भुवनेश्वरीले। उत्तरपश्चिम कोणमा महादेवी छिन्नमस्ताले मलाई सधैँ रक्षा गरून्।",
+        "es": "En el suroeste, que Bhairavī me proteja; en el oeste, Bhuvaneśvarī. En el noroeste, que la gran diosa Chinnamastā me proteja siempre."
+      },
       "deities": ["Bhairavi", "Bhuvaneshvari", "Chinnamasta", "Maheshvari"],
       "directions": ["Southwest", "West", "Northwest"],
       "bodyParts": [],
@@ -35,7 +43,11 @@
       "number": 3,
       "sanskrit": "कौबेर्यां पातु मे देवी श्रीविद्या बगलामुखी ।\nऐशान्यां पातु मे नित्यं महात्रिपुरसुन्दरी ॥३॥",
       "transliteration": "kauberyāṃ pātu me devī śrīvidyā bagalāmukhī |\naiśānyāṃ pātu me nityaṃ mahātripurasundarī ||3||",
-      "translation": "In Kubera's quarter (the north) may the goddess Śrīvidyā—Bagalāmukhī—protect me. In Īśāna's quarter (the northeast) may Mahā‑Tripurasundarī protect me always.",
+      "translations": {
+        "en": "In Kubera's quarter (the north) may the goddess Śrīvidyā—Bagalāmukhī—protect me. In Īśāna's quarter (the northeast) may Mahā‑Tripurasundarī protect me always.",
+        "ne": "कुबेरको दिशा (उत्तर) मा देवी श्रीविद्या—बगलामुखीले मलाई रक्षा गरून्। उत्तरपूर्व कोणमा महात्रिपुरसुन्दरीले मलाई सधैँ रक्षा गरून्।",
+        "es": "En el cuadrante de Kubera (el norte), que la diosa Śrīvidyā—Bagalāmukhī—me proteja. En el cuadrante de Īśāna (el noreste), que Mahā-Tripurasundarī me proteja siempre."
+      },
       "deities": ["Srividya", "Bagalamukhi", "Mahatripurasundari"],
       "directions": ["North", "Northeast"],
       "bodyParts": [],
@@ -46,7 +58,11 @@
       "number": 4,
       "sanskrit": "ऊर्ध्वं रक्षतु मे विद्या मातङ्गीपीठवासिनी ।\nसर्वतः पातु मे नित्यं कामाख्या कालिका स्वयम् ॥४॥",
       "transliteration": "ūrdhvaṃ rakṣatu me vidyā mātaṅgīpīṭhavāsinī |\nsarvataḥ pātu me nityaṃ kāmākhyā kālikā svayam ||4||",
-      "translation": "Above, may Vidyā Mātangī, who abides at her sacred seat, guard me. On all sides may Kālikā of Kāmākhyā protect me always.",
+      "translations": {
+        "en": "Above, may Vidyā Mātangī, who abides at her sacred seat, guard me. On all sides may Kālikā of Kāmākhyā protect me always.",
+        "ne": "माथिबाट आफ्नो पवित्र पीठमा वास गर्ने विद्या मातङ्गीले मलाई रक्षा गरून्। चारैतिरबाट कामाख्याकी कालिकाले मलाई सधैँ रक्षा गरून्।",
+        "es": "Arriba, que Vidyā Mātaṅgī, que habita en su sede sagrada, me guarde. Por todos lados, que Kālikā de Kāmākhyā me proteja siempre."
+      },
       "deities": ["Vidya", "Matangi", "Kamakhya", "Kalika"],
       "directions": ["Above", "All sides"],
       "bodyParts": [],
@@ -57,7 +73,11 @@
       "number": 5,
       "sanskrit": "ब्रह्मरूपा महाविद्या सर्वविद्यामयी स्वयम् ।\nशीर्षे रक्षतु मे दुर्गा भालं श्रीभवगेहिनी ॥५॥",
       "transliteration": "brahmarūpā mahāvidyā sarvavidyāmayī svayam |\nśīrṣe rakṣatu me durgā bhālaṃ śrībhavagehinī ||5||",
-      "translation": "She is the Great Vidyā, of the very form of Brahman, the essence of all knowledges. May Durgā guard my head; may Śrī‑Bhavagehinī guard my forehead.",
+      "translations": {
+        "en": "She is the Great Vidyā, of the very form of Brahman, the essence of all knowledges. May Durgā guard my head; may Śrī‑Bhavagehinī guard my forehead.",
+        "ne": "उनी नै ब्रह्मस्वरूपा महाविद्या हुन्, सम्पूर्ण विद्याको सार। दुर्गाले मेरो टाउकोको रक्षा गरून्; श्रीभवगेहिनीले मेरो निधारको रक्षा गरून्।",
+        "es": "Ella es la Gran Vidyā, de la forma misma del Brahman, la esencia de todos los saberes. Que Durgā guarde mi cabeza; que Śrī-Bhavagehinī guarde mi frente."
+      },
       "deities": ["Mahavidya", "Durga", "Shribhavagahini", "Parvati"],
       "directions": [],
       "bodyParts": ["Head", "Forehead"],
@@ -68,7 +88,11 @@
       "number": 6,
       "sanskrit": "त्रिपुरा भ्रुयुगे पातु शर्वाणी पातु नासिकाम् ।\nचक्षुषी चण्डिका पातु श्रोत्रे नीलसरस्वती ॥६॥",
       "transliteration": "tripurā bhruyuge pātu śarvāṇī pātu nāsikām |\ncakṣuṣī caṇḍikā pātu śrotre nīlasarasvatī ||6||",
-      "translation": "May Tripurā guard my brows; may Śarvaṇī (Pārvatī) guard my nose. May Caṇḍikā guard my eyes; may Nīla‑Sarasvatī guard my ears.",
+      "translations": {
+        "en": "May Tripurā guard my brows; may Śarvaṇī (Pārvatī) guard my nose. May Caṇḍikā guard my eyes; may Nīla‑Sarasvatī guard my ears.",
+        "ne": "त्रिपुराले मेरो आँखीभौँको रक्षा गरून्; शर्वाणी (पार्वती) ले मेरो नाकको रक्षा गरून्। चण्डिकाले मेरा आँखाको रक्षा गरून्; नीलसरस्वतीले मेरा कानको रक्षा गरून्।",
+        "es": "Que Tripurā guarde mis cejas; que Śarvāṇī (Pārvatī) guarde mi nariz. Que Caṇḍikā guarde mis ojos; que Nīla-Sarasvatī guarde mis orejas."
+      },
       "deities": ["Tripura", "Sarvani", "Parvati", "Candika", "Nilasarasvati"],
       "directions": [],
       "bodyParts": ["Brows", "Nose", "Eyes", "Ears"],
@@ -79,7 +103,11 @@
       "number": 7,
       "sanskrit": "मुखं सौम्यमुखी पातु ग्रीवां रक्षतु पार्वती ।\nजिह्वां रक्षतु मे देवी जिह्वाललनभीषणा ॥७॥",
       "transliteration": "mukhaṃ saumyamukhī pātu grīvāṃ rakṣatu pārvatī |\njihvāṃ rakṣatu me devī jihvālalanabhīṣaṇā ||7||",
-      "translation": "May the gentle‑faced One protect my face; may Pārvatī guard my neck. May the goddess—fearsome to foes—guard my tongue.",
+      "translations": {
+        "en": "May the gentle‑faced One protect my face; may Pārvatī guard my neck. May the goddess—terrifying with her lolling tongue—guard my tongue.",
+        "ne": "सौम्य अनुहार भएकी देवीले मेरो अनुहारको रक्षा गरून्; पार्वतीले मेरो घाँटीको रक्षा गरून्। जिब्रो निकालेर भयङ्कर देखिने देवीले मेरो जिब्रोको रक्षा गरून्।",
+        "es": "Que la de rostro apacible proteja mi rostro; que Pārvatī guarde mi cuello. Que la diosa—terrible por su lengua colgante—guarde mi lengua."
+      },
       "deities": ["Saumyamukhi", "Parvati", "Jihvalalanabhisana"],
       "directions": [],
       "bodyParts": ["Face", "Neck", "Tongue"],
@@ -90,7 +118,11 @@
       "number": 8,
       "sanskrit": "वाग्देवी वदनं पातु वक्षः पातु महेश्वरी ।\nबाहू महाभुजा पातु कराङ्गुलीः सुरेश्वरी ॥८॥",
       "transliteration": "vāgdevī vadanaṃ pātu vakṣaḥ pātu maheśvarī |\nbāhū mahābhujā pātu karāṅgulīḥ sureśvarī ||8||",
-      "translation": "May Vāgdevī protect my speech and mouth; may Maheśvarī guard my chest. May the Mighty‑Armed One protect my arms, and the Queen of the gods protect my fingers.",
+      "translations": {
+        "en": "May Vāgdevī protect my speech and mouth; may Maheśvarī guard my chest. May the Mighty‑Armed One protect my arms, and the Queen of the gods protect my fingers.",
+        "ne": "वाग्देवीले मेरो वाणी र मुखको रक्षा गरून्; महेश्वरीले मेरो छातीको रक्षा गरून्। महाभुजाले मेरा पाखुराको र सुरेश्वरीले मेरा औँलाको रक्षा गरून्।",
+        "es": "Que Vāgdevī proteja mi habla y mi boca; que Maheśvarī guarde mi pecho. Que la de Poderosos Brazos proteja mis brazos, y la Reina de los dioses mis dedos."
+      },
       "deities": ["Vagdevi", "Maheshvari", "Mahabhuja", "Sureshvari"],
       "directions": [],
       "bodyParts": ["Speech", "Mouth", "Chest", "Arms", "Fingers"],
@@ -101,7 +133,11 @@
       "number": 9,
       "sanskrit": "पृष्ठतः पातु भीमास्या कट्यां देवी दिगम्बरी ।\nउदरं पातु मे नित्यं महाविद्या महोदरी ॥९॥",
       "transliteration": "pṛṣṭhataḥ pātu bhīmāsyā kaṭyāṃ devī digambarī |\nudaraṃ pātu me nityaṃ mahāvidyā mahodarī ||9||",
-      "translation": "From behind may Bhīmāsyā protect; at the hips, the goddess Digambarī. May the Great Vidyā Mahodari always protect my abdomen.",
+      "translations": {
+        "en": "From behind may Bhīmāsyā protect; at the hips, the goddess Digambarī. May the Great Vidyā Mahodari always protect my abdomen.",
+        "ne": "पछाडिबाट भीमास्याले रक्षा गरून्; कम्मरमा देवी दिगम्बरीले। महाविद्या महोदरीले मेरो पेटको सधैँ रक्षा गरून्।",
+        "es": "Por detrás, que Bhīmāsyā me proteja; en las caderas, la diosa Digambarī. Que la Gran Vidyā Mahodarī proteja siempre mi abdomen."
+      },
       "deities": ["Bhimasya", "Digambari", "Mahavidya", "Mahodari"],
       "directions": ["Behind"],
       "bodyParts": ["Hips", "Abdomen"],
@@ -112,7 +148,11 @@
       "number": 10,
       "sanskrit": "उग्रतारा महादेवी जङ्घोरू परिरक्षतु ।\nउग्रतारा गुदं मुष्कं च मेढ्रं च नाभिं च सुरसुन्दरी ॥१०॥",
       "transliteration": "ugratārā mahādevī jaṅghorū parirakṣatu |\nugratārā gudaṃ muṣkaṃ ca meḍhraṃ ca nābhiṃ ca surasundarī ||10||",
-      "translation": "May the great goddess Ugratārā protect my shanks and thighs. May Ugratārā—Surasundarī—guard the anus, the scrotum, the phallus, and the navel.",
+      "translations": {
+        "en": "May the great goddess Ugratārā protect my shanks and thighs. May Ugratārā—Surasundarī—guard the anus, the scrotum, the phallus, and the navel.",
+        "ne": "महादेवी उग्रताराले मेरा पिडौला र तिघ्राको रक्षा गरून्। उग्रतारा—सुरसुन्दरीले गुदा, अण्डकोष, लिङ्ग र नाभिको रक्षा गरून्।",
+        "es": "Que la gran diosa Ugratārā proteja mis pantorrillas y mis muslos. Que Ugratārā—Surasundarī—guarde el ano, el escroto, el falo y el ombligo."
+      },
       "deities": ["Ugratara", "Mahadevi", "Surasundari"],
       "directions": [],
       "bodyParts": ["Shanks", "Thighs", "Knees", "Legs", "Anus", "Scrotum", "Phallus", "Navel"],
@@ -123,7 +163,11 @@
       "number": 11,
       "sanskrit": "पादाङ्गुलीः सदा पातु भवानी त्रिदशेश्वरी ।\nरक्तमांसास्थिमज्जादीन् पातु देवी शवासना ॥११॥",
       "transliteration": "pādāṅgulīḥ sadā pātu bhavānī tridaśeśvarī |\nraktamāṃsāsthimajjādīn pātu devī śavāsanā ||11||",
-      "translation": "May Bhavānī, queen of the gods, always protect my toes. May the goddess who is seated upon a corpse protect my blood, flesh, bones, marrow, and the rest.",
+      "translations": {
+        "en": "May Bhavānī, queen of the gods, always protect my toes. May the goddess who is seated upon a corpse protect my blood, flesh, bones, marrow, and the rest.",
+        "ne": "त्रिदशेश्वरी भवानीले मेरा खुट्टाका औँलाको सधैँ रक्षा गरून्। शवमाथि विराजमान देवीले मेरो रगत, मासु, हड्डी, मज्जा आदिको रक्षा गरून्।",
+        "es": "Que Bhavānī, reina de los dioses, proteja siempre los dedos de mis pies. Que la diosa sentada sobre un cadáver proteja mi sangre, mi carne, mis huesos, mi médula y lo demás."
+      },
       "deities": ["Bhavani", "Tridaseshvari", "Shavasana"],
       "directions": [],
       "bodyParts": ["Toes", "Blood", "Flesh", "Bones", "Marrow"],
@@ -134,7 +178,11 @@
       "number": 12,
       "sanskrit": "महाभयेषु घोरेषु महाभयनिवारिणी ।\nपातु देवी महामाया कामाख्यापीठवासिनी ॥१२॥",
       "transliteration": "mahābhayeṣu ghoreṣu mahābhayanivāriṇī |\npātu devī mahāmāyā kāmākhyāpīṭhavāsinī ||12||",
-      "translation": "In great and terrible dangers, may the remover of great fear—Mahāmāyā, who dwells at the seat of Kāmākhyā—protect me.",
+      "translations": {
+        "en": "In great and terrible dangers, may the remover of great fear—Mahāmāyā, who dwells at the seat of Kāmākhyā—protect me.",
+        "ne": "ठूला र भयङ्कर सङ्कटमा, महाभय निवारण गर्ने—कामाख्या पीठमा वास गर्ने देवी महामायाले मलाई रक्षा गरून्।",
+        "es": "En los grandes y terribles peligros, que la que disipa el gran miedo—Mahāmāyā, que mora en la sede de Kāmākhyā—me proteja."
+      },
       "deities": ["Mahabhayanivairini", "Mahamaya", "Kamakhyapithvasini"],
       "directions": [],
       "bodyParts": [],
@@ -145,7 +193,11 @@
       "number": 13,
       "sanskrit": "भस्माचलगता दिव्यसिंहासनकृताश्रया ।\nपातु श्रीकालिकादेवी सर्वोत्पातेषु सर्वदा ॥१३॥",
       "transliteration": "bhasmācalagatā divyasiṃhāsanakṛtāśrayā |\npātu śrīkālikādevī sarvotpāteṣu sarvadā ||13||",
-      "translation": "Residing on the mountain of ash, enthroned upon the divine lion seat—may Śrī Kālika‑devī protect me from every calamity, always.",
+      "translations": {
+        "en": "Residing on the mountain of ash, enthroned upon the divine lion seat—may Śrī Kālika‑devī protect me from every calamity, always.",
+        "ne": "भस्माचलमा रहेकी, दिव्य सिंहासनमा विराजमान—श्रीकालिकादेवीले सबै उत्पातबाट मलाई सधैँ रक्षा गरून्।",
+        "es": "Morando en la montaña de ceniza, entronizada sobre el divino asiento del león—que Śrī Kālikā-devī me proteja de toda calamidad, siempre."
+      },
       "deities": ["Shrikalikadevi"],
       "directions": [],
       "bodyParts": [],
@@ -156,7 +208,11 @@
       "number": 14,
       "sanskrit": "रक्षाहीनं तु यत्स्थानं कवचेनापि वर्जितम् ।\nतत्सर्वं सर्वदा पातु सर्वरक्षणकारिणी ॥१४॥",
       "transliteration": "rakṣāhīnaṃ tu yatsthānaṃ kavacenāpi varjitam |\ntatsarvaṃ sarvadā pātu sarvarakṣaṇakāriṇī ||14||",
-      "translation": "And whatever place is left unprotected—omitted even by this armor—may the All‑Protecting Goddess guard all of that, at all times.",
+      "translations": {
+        "en": "And whatever place is left unprotected—omitted even by this armor—may the All‑Protecting Goddess guard all of that, at all times.",
+        "ne": "र जुन ठाउँ रक्षाविहीन रह्यो—यस कवचले पनि छुटाएको—ती सबैको सर्वरक्षणकारिणी देवीले सधैँ रक्षा गरून्।",
+        "es": "Y todo lugar que quede desprotegido—omitido incluso por esta armadura—que la Diosa que todo lo protege lo guarde por completo, en todo momento."
+      },
       "deities": ["Sarvaraksanakarini"],
       "directions": [],
       "bodyParts": [],

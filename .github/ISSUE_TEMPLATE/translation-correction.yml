@@ -1,0 +1,62 @@
+name: Translation correction
+description: Suggest a correction to a Nepali, Spanish, or English translation.
+title: "[i18n] Correction: "
+labels: ["type:content", "area:content"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for helping improve the translations 🙏
+        The **Sanskrit** and **transliteration** are the source text and are never translated — please only suggest changes to a **translation** (English / नेपाली / Español) or a term.
+  - type: dropdown
+    id: language
+    attributes:
+      label: Language
+      description: Which language is the correction for?
+      options:
+        - Nepali (नेपाली)
+        - Spanish (Español)
+        - English
+    validations:
+      required: true
+  - type: dropdown
+    id: verse
+    attributes:
+      label: Verse (or term)
+      description: Which verse — or is it a term (deity / direction / body part)?
+      options:
+        - "Verse 1"
+        - "Verse 2"
+        - "Verse 3"
+        - "Verse 4"
+        - "Verse 5"
+        - "Verse 6"
+        - "Verse 7"
+        - "Verse 8"
+        - "Verse 9"
+        - "Verse 10"
+        - "Verse 11"
+        - "Verse 12"
+        - "Verse 13"
+        - "Verse 14"
+        - "A term (deity / direction / body part)"
+        - "General / other"
+    validations:
+      required: true
+  - type: input
+    id: current
+    attributes:
+      label: Current text
+      description: What does it say now? (copy the phrase or term you'd change)
+  - type: textarea
+    id: correction
+    attributes:
+      label: Suggested correction
+      description: What should it say instead — and, if you can, why.
+    validations:
+      required: true
+  - type: input
+    id: name
+    attributes:
+      label: Your name (optional)
+      description: So we can credit you, if you'd like.

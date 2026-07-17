@@ -1,0 +1,374 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kavacam — Translation Review Board (ne / es)</title>
+<style>
+  :root{
+    --bg:#efe9e4; --surface:#faf7f2; --surface-2:#f1e9dd;
+    --ink:#221d29; --muted:#635c6b; --line:#ddd4cb;
+    --kumkum:#a8352f; --gold:#9a6b28; --add:#2f6f4f; --warn:#a9772f;
+    --shadow:0 1px 2px rgba(36,31,43,.06), 0 8px 24px rgba(36,31,43,.07);
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+    --ui:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    --deva:"Noto Serif Devanagari","Nirmala UI","Kohinoor Devanagari",serif;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{ --bg:#14121c; --surface:#1e1926; --surface-2:#191320; --ink:#ece7ef; --muted:#a99fb2;
+      --line:#332b3e; --kumkum:#d9615a; --gold:#e4b25a; --add:#8fd0a8; --warn:#e0b25a;
+      --shadow:0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.35); }
+  }
+  :root[data-theme="dark"]{ --bg:#14121c; --surface:#1e1926; --surface-2:#191320; --ink:#ece7ef;
+    --muted:#a99fb2; --line:#332b3e; --kumkum:#d9615a; --gold:#e4b25a; --add:#8fd0a8; --warn:#e0b25a; }
+  :root[data-theme="light"]{ --bg:#efe9e4; --surface:#faf7f2; --surface-2:#f1e9dd; --ink:#221d29;
+    --muted:#635c6b; --line:#ddd4cb; --kumkum:#a8352f; --gold:#9a6b28; --add:#2f6f4f; --warn:#a9772f; }
+
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--ui);line-height:1.55;padding-bottom:4rem}
+  .wrap{max-width:900px;margin:0 auto;padding:clamp(1rem,3vw,2rem)}
+  .eyebrow{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:600}
+  h1{font-family:var(--serif);font-weight:600;font-size:clamp(1.6rem,4.5vw,2.3rem);margin:.4rem 0 .3rem;text-wrap:balance}
+  .lede{color:var(--muted);max-width:64ch}
+  .repo-line{margin-top:.6rem;font-size:.78rem;color:var(--muted);display:flex;gap:.5rem;flex-wrap:wrap}
+  .repo-line code{font-family:ui-monospace,Menlo,Consolas,monospace;background:var(--surface-2);padding:.12rem .45rem;border-radius:6px;color:var(--ink)}
+  .warnbar{margin:1rem 0 0;background:color-mix(in srgb,var(--warn) 14%,transparent);border:1px solid var(--warn);
+    border-radius:10px;padding:.6rem .85rem;font-size:.85rem;color:var(--ink)}
+
+  .bar{position:sticky;top:0;z-index:5;background:var(--surface);border:1px solid var(--line);border-radius:14px;
+    box-shadow:var(--shadow);padding:.8rem .9rem;margin:1.2rem 0 1.4rem;display:flex;gap:.7rem;align-items:center;flex-wrap:wrap}
+  .tabs{display:inline-flex;gap:.3rem;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:3px}
+  .tab{font:inherit;font-size:.85rem;font-weight:600;border:0;background:none;color:var(--muted);
+    padding:.45rem .8rem;border-radius:8px;cursor:pointer}
+  .tab[aria-selected="true"]{background:var(--kumkum);color:#fff}
+  :root[data-theme="dark"] .tab[aria-selected="true"]{color:#1a0f0e}
+  .tally{font-size:.85rem;color:var(--muted)}
+  .tally b{font-family:var(--serif);font-size:1.1rem;color:var(--ink);font-variant-numeric:tabular-nums}
+  .spacer{flex:1}
+  .btn{font:inherit;font-size:.85rem;font-weight:600;border:1px solid var(--line);background:var(--surface-2);
+    color:var(--ink);border-radius:9px;padding:.5rem .9rem;cursor:pointer}
+  .btn.primary{background:var(--kumkum);border-color:var(--kumkum);color:#fff}
+  :root[data-theme="dark"] .btn.primary{color:#1a0f0e}
+  .btn:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);
+    padding:1.1rem;margin-bottom:1.1rem}
+  .card[data-state="accept"]{border-color:var(--add)}
+  .card[data-state="rework"]{border-color:var(--warn)}
+  .chead{display:flex;align-items:center;gap:.7rem;margin-bottom:.8rem;flex-wrap:wrap}
+  .badge{font-family:var(--serif);font-weight:600;color:#fff;background:var(--kumkum);border-radius:8px;padding:.1rem .5rem}
+  :root[data-theme="dark"] .badge{color:#1a0f0e}
+  .state{margin-left:auto;font-size:.78rem;font-weight:600;color:var(--muted)}
+  .card[data-state="accept"] .state{color:var(--add)}
+  .card[data-state="rework"] .state{color:var(--warn)}
+
+  .ref{background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:.7rem .8rem;margin-bottom:.7rem}
+  .ref .lab{font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);font-weight:700;display:block;margin-bottom:.25rem}
+  .sa{font-family:var(--deva);font-size:1.25rem;line-height:1.85;color:var(--gold);white-space:pre-line}
+  .iast{font-family:var(--serif);font-style:italic;color:var(--muted);font-size:.92rem;white-space:pre-line;margin-top:.35rem}
+  .en{font-size:.95rem;margin-top:.45rem}
+
+  label.dl{font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700;display:block;margin:.2rem 0 .3rem}
+  textarea{width:100%;font:inherit;font-size:1rem;color:var(--ink);background:var(--surface-2);border:1px solid var(--line);
+    border-radius:9px;padding:.6rem .7rem;resize:vertical;line-height:1.6}
+  textarea.deva{font-family:var(--deva);font-size:1.1rem;line-height:1.8}
+  textarea:focus-visible{outline:2px solid var(--gold);outline-offset:1px}
+  .note{min-height:2.2rem;font-size:.9rem}
+  .acts{display:flex;gap:.5rem;margin-top:.7rem;flex-wrap:wrap}
+  .acts .btn.accept[aria-pressed="true"]{background:var(--add);border-color:var(--add);color:#fff}
+  .acts .btn.rework[aria-pressed="true"]{background:var(--warn);border-color:var(--warn);color:#1a1206}
+  .edited{font-size:.72rem;color:var(--gold);font-weight:600;display:none}
+  .card.is-edited .edited{display:inline}
+
+  h2.sec{font-family:var(--serif);font-size:1.2rem;margin:2rem 0 .6rem}
+  .flagcount{font-family:var(--ui);font-size:.75rem;font-weight:700;color:#fff;background:var(--kumkum);
+    border-radius:999px;padding:.1rem .5rem;vertical-align:middle;margin-left:.4rem}
+  :root[data-theme="dark"] .flagcount{color:#1a0f0e}
+  .flag{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--kumkum);
+    border-radius:12px;padding:.9rem 1rem;margin-bottom:.9rem;box-shadow:var(--shadow)}
+  .flag[data-conf="medium"]{border-left-color:var(--warn)}
+  .flag[data-answered="true"]{border-left-color:var(--add)}
+  .fhead{display:flex;gap:.6rem;align-items:baseline;flex-wrap:wrap;margin-bottom:.35rem}
+  .ftitle{font-family:var(--serif);font-weight:600;font-size:1.02rem}
+  .conf{font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;font-weight:700;
+    border:1px solid currentColor;border-radius:20px;padding:.05rem .45rem;color:var(--kumkum)}
+  .flag[data-conf="medium"] .conf{color:var(--warn)}
+  .fscope{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+  .fwhy{font-size:.88rem;color:var(--muted);margin:.3rem 0 .6rem}
+  .fopts{display:flex;flex-direction:column;gap:.4rem}
+  .fopt{display:flex;gap:.55rem;align-items:flex-start;background:var(--surface-2);border:1px solid var(--line);
+    border-radius:9px;padding:.5rem .6rem;cursor:pointer}
+  .fopt input{margin-top:.25rem}
+  .fopt .ol{font-size:.9rem}
+  .fopt .os{display:block;font-size:.85rem;color:var(--muted);margin-top:.15rem}
+  .fopt .os.deva{font-family:var(--deva);font-size:1rem;color:var(--gold)}
+  .frec{font-size:.82rem;color:var(--add);margin-top:.5rem}
+  .frec b{color:var(--add)}
+  .fenref{font-size:.82rem;color:var(--ink);background:var(--surface-2);border:1px solid var(--line);
+    border-radius:8px;padding:.4rem .55rem;margin:.1rem 0 .55rem}
+  .termhead{display:grid;grid-template-columns:1fr 1.2fr;gap:.5rem;padding:.1rem .5rem .3rem;
+    font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
+  .termgrid{display:grid;grid-template-columns:1fr;gap:.4rem}
+  @media(min-width:640px){.termgrid{grid-template-columns:1fr 1fr}}
+  .termrow{display:grid;grid-template-columns:1fr 1.2fr;gap:.5rem;align-items:center;background:var(--surface);
+    border:1px solid var(--line);border-radius:8px;padding:.35rem .5rem}
+  .termrow .k{font-size:.82rem;color:var(--muted)}
+  .termrow input{font:inherit;font-size:.9rem;width:100%;background:var(--surface-2);color:var(--ink);
+    border:1px solid var(--line);border-radius:6px;padding:.3rem .45rem}
+  .termrow input.deva{font-family:var(--deva)}
+  details{margin-top:.6rem}
+  summary{cursor:pointer;font-size:.9rem;color:var(--gold);font-weight:600}
+
+  .overlay{position:fixed;inset:0;background:rgba(20,16,26,.55);display:none;align-items:center;justify-content:center;padding:1.2rem;z-index:50}
+  .overlay.open{display:flex}
+  .panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);
+    width:min(680px,100%);max-height:82vh;display:flex;flex-direction:column;padding:1.1rem}
+  .panel h3{font-family:var(--serif);margin:0 0 .2rem}
+  .panel p{margin:0 0 .7rem;font-size:.85rem;color:var(--muted)}
+  .panel textarea{flex:1;min-height:320px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.78rem;white-space:pre}
+  .panel-actions{display:flex;gap:.5rem;justify-content:flex-end;margin-top:.8rem}
+  .toast{position:fixed;bottom:1.4rem;left:50%;transform:translateX(-50%) translateY(140%);background:var(--ink);
+    color:var(--bg);padding:.6rem 1.1rem;border-radius:999px;font-size:.85rem;font-weight:600;transition:transform .25s;z-index:60}
+  .toast.show{transform:translateX(-50%) translateY(0)}
+  footer{margin-top:2.5rem;border-top:1px solid var(--line);padding-top:1rem;color:var(--muted);font-size:.8rem}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Daśamahāvidyā Kavacam · Translation review</div>
+    <h1>Sign off the drafts — or fix them in place</h1>
+    <p class="lede">Every Nepali and Spanish string below was <b>drafted by Claude and is unreviewed</b>. The Sanskrit and IAST are shown as reference and are never translated. Edit any draft directly, mark it Accept or Needs&nbsp;work, then <b>Copy JSON</b> and paste it back into the chat.</p>
+    <div class="repo-line">
+      <span>Repo <code>yogaedu-org/dmv-kavacham-study-tool</code></span><span>· Issue <code>#25</code></span><span>· <code>data/verses.json</code> + <code>i18n/&lt;loc&gt;.json</code></span>
+    </div>
+    <div class="warnbar" id="localeNote"></div>
+  </header>
+
+  <div class="bar">
+    <div class="tabs" role="tablist" id="tabs"></div>
+    <div class="tally"><b id="nAccept">0</b> accepted · <b id="nRework">0</b> need work · <b id="nEdited">0</b> edited</div>
+    <span class="spacer"></span>
+    <button class="btn" id="acceptAll" type="button">Accept all</button>
+    <button class="btn primary" id="copyJson" type="button">Copy JSON</button>
+  </div>
+
+  <section id="flagsSection">
+    <h2 class="sec">Where I need your call <span id="flagCount" class="flagcount"></span></h2>
+    <p class="lede" style="font-size:.9rem">These are the specific places I'm <b>not confident</b> — not whole lines to proofread. Each is one choice. Skipping a flag keeps what I drafted.</p>
+    <div id="flags"></div>
+  </section>
+
+  <h2 class="sec">Verses</h2>
+  <main id="verses"></main>
+
+  <h2 class="sec">Terms</h2>
+  <p class="lede" style="font-size:.9rem">Deity names, directions, and body parts for this locale. Edit any cell; blank falls back to English.</p>
+  <div id="terms"></div>
+
+  <footer>Nothing is applied from this page. Your decisions + edits travel back in the JSON · issue&nbsp;#25.</footer>
+</div>
+
+<div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-label="Copy review JSON">
+  <div class="panel">
+    <h3>Review JSON</h3>
+    <p>Copied to your clipboard — if not, select all and copy. Paste it into the chat.</p>
+    <textarea id="jsonOut" readonly spellcheck="false"></textarea>
+    <div class="panel-actions">
+      <button class="btn" id="closePanel" type="button">Close</button>
+      <button class="btn primary" id="copyAgain" type="button">Copy again</button>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+const DATA = /*__DATA__*/null;
+const STATE = {};   // locale -> { verses: {n: {decision, text, note}}, terms: {field: {key: value}} }
+let active = DATA.locales[0].code;
+
+DATA.locales.forEach(function(l){
+  STATE[l.code] = { verses: {}, terms: { deities:{}, directions:{}, bodyParts:{} } };
+  DATA.verses.forEach(function(v){
+    STATE[l.code].verses[v.n] = { decision: 'pending', text: v[l.code] || '', note: '' };
+  });
+  ['deities','directions','bodyParts'].forEach(function(f){
+    DATA.terms[l.code][f].forEach(function(t){ STATE[l.code].terms[f][t.key] = t.draft; });
+  });
+});
+
+const $ = function(id){ return document.getElementById(id); };
+const esc = function(s){ return String(s).replace(/[&<>"']/g, function(c){
+  return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]; }); };
+
+function renderTabs(){
+  $('tabs').innerHTML = DATA.locales.map(function(l){
+    return '<button class="tab" role="tab" data-loc="'+l.code+'" aria-selected="'+(l.code===active)+'">'+esc(l.label)+'</button>';
+  }).join('');
+  $('tabs').querySelectorAll('.tab').forEach(function(b){
+    b.addEventListener('click', function(){ active = b.dataset.loc; renderAll(); });
+  });
+  const note = DATA.locales.filter(function(l){ return l.code===active; })[0].note;
+  $('localeNote').textContent = note || 'Draft — unreviewed.';
+}
+
+function renderVerses(){
+  const isDeva = active === 'ne';
+  $('verses').innerHTML = DATA.verses.map(function(v){
+    const st = STATE[active].verses[v.n];
+    const edited = st.text !== (v[active] || '');
+    return '<article class="card'+(edited?' is-edited':'')+'" data-state="'+st.decision+'" data-n="'+v.n+'">'
+      + '<div class="chead"><span class="badge">Verse '+v.n+'</span>'
+      + '<span class="edited">edited</span>'
+      + '<span class="state">'+(st.decision==='accept'?'Accepted':st.decision==='rework'?'Needs work':'Pending')+'</span></div>'
+      + '<div class="ref"><span class="lab">Sanskrit + IAST — reference, never translated</span>'
+      + '<div class="sa">'+esc(v.sa)+'</div><div class="iast">'+esc(v.iast)+'</div>'
+      + '<div class="en"><b>EN:</b> '+esc(v.en)+'</div></div>'
+      + '<label class="dl" for="t'+v.n+'">Draft translation ('+active+') — editable</label>'
+      + '<textarea id="t'+v.n+'" class="draft'+(isDeva?' deva':'')+'" rows="3">'+esc(st.text)+'</textarea>'
+      + '<label class="dl" for="n'+v.n+'">Note (optional)</label>'
+      + '<textarea id="n'+v.n+'" class="note">'+esc(st.note)+'</textarea>'
+      + '<div class="acts">'
+      + '<button class="btn accept" data-act="accept" aria-pressed="'+(st.decision==='accept')+'">Accept</button>'
+      + '<button class="btn rework" data-act="rework" aria-pressed="'+(st.decision==='rework')+'">Needs work</button>'
+      + '</div></article>';
+  }).join('');
+
+  $('verses').querySelectorAll('.card').forEach(function(card){
+    const n = card.dataset.n;
+    const st = STATE[active].verses[n];
+    card.querySelector('.draft').addEventListener('input', function(e){
+      st.text = e.target.value;
+      card.classList.toggle('is-edited', st.text !== (DATA.verses.filter(function(v){return String(v.n)===n;})[0][active] || ''));
+      tally();
+    });
+    card.querySelector('.note').addEventListener('input', function(e){ st.note = e.target.value; });
+    card.querySelectorAll('.acts .btn').forEach(function(b){
+      b.addEventListener('click', function(){
+        st.decision = (st.decision === b.dataset.act) ? 'pending' : b.dataset.act;
+        card.dataset.state = st.decision;
+        card.querySelector('.state').textContent = st.decision==='accept'?'Accepted':st.decision==='rework'?'Needs work':'Pending';
+        card.querySelectorAll('.acts .btn').forEach(function(x){ x.setAttribute('aria-pressed', String(st.decision===x.dataset.act)); });
+        tally();
+      });
+    });
+  });
+}
+
+function renderTerms(){
+  const isDeva = active === 'ne';
+  $('terms').innerHTML = ['deities','directions','bodyParts'].map(function(f){
+    const rows = DATA.terms[active][f].map(function(t){
+      return '<div class="termrow"><span class="k">'+esc(t.en)+'</span>'
+        + '<input data-f="'+f+'" data-k="'+esc(t.key)+'" class="'+(isDeva?'deva':'')+'" value="'+esc(STATE[active].terms[f][t.key])+'"></div>';
+    }).join('');
+    const locName = (DATA.locales.filter(function(l){return l.code===active;})[0]||{}).label || active;
+    return '<details'+(f==='deities'?' open':'')+'><summary>'+f+' ('+DATA.terms[active][f].length+')</summary>'
+      + '<div class="termhead"><span>English (reference)</span><span>'+esc(locName)+' — editable</span></div>'
+      + '<div class="termgrid">'+rows+'</div></details>';
+  }).join('');
+  $('terms').querySelectorAll('input').forEach(function(inp){
+    inp.addEventListener('input', function(){ STATE[active].terms[inp.dataset.f][inp.dataset.k] = inp.value; });
+  });
+}
+
+function tally(){
+  const vs = STATE[active].verses;
+  let a=0,r=0,e=0;
+  DATA.verses.forEach(function(v){
+    const st = vs[v.n];
+    if(st.decision==='accept') a++;
+    if(st.decision==='rework') r++;
+    if(st.text !== (v[active]||'')) e++;
+  });
+  $('nAccept').textContent=a; $('nRework').textContent=r; $('nEdited').textContent=e;
+}
+
+const FLAGANS = {};   // flag id -> chosen option key
+
+function renderFlags(){
+  const mine = DATA.flags.filter(function(f){ return f.locale === active || f.locale === 'both'; });
+  $('flagCount').textContent = mine.length + ' to decide';
+  $('flags').innerHTML = mine.map(function(f){
+    const isDeva = (f.locale === 'ne' || active === 'ne');
+    const opts = f.options.map(function(o){
+      const checked = FLAGANS[f.id] === o.key ? ' checked' : '';
+      return '<label class="fopt"><input type="radio" name="fl_'+f.id+'" value="'+o.key+'"'+checked+'>'
+        + '<span class="ol">'+esc(o.label)
+        + (o.sample && o.sample !== '—' ? '<span class="os'+(isDeva?' deva':'')+'">'+esc(o.sample)+'</span>' : '')
+        + '</span></label>';
+    }).join('');
+    return '<div class="flag" data-conf="'+f.confidence+'" data-answered="'+(!!FLAGANS[f.id])+'" data-id="'+f.id+'">'
+      + '<div class="fhead"><span class="ftitle">'+esc(f.title)+'</span>'
+      + '<span class="conf">'+f.confidence+' confidence</span>'
+      + '<span class="fscope">'+esc(f.scope)+(f.affects?' · '+esc(f.affects.join(', ')):'')+'</span></div>'
+      + '<p class="fwhy">'+esc(f.why)+'</p>'
+      + (f.enRef ? '<p class="fenref">'+esc(f.enRef)+'</p>' : '')
+      + '<div class="fopts">'+opts+'</div>'
+      + '<p class="frec"><b>My suggestion:</b> '+esc(f.recommendation)+'</p></div>';
+  }).join('') || '<p class="lede" style="font-size:.9rem">No open flags for this locale.</p>';
+
+  $('flags').querySelectorAll('input[type="radio"]').forEach(function(r){
+    r.addEventListener('change', function(){
+      const id = r.closest('.flag').dataset.id;
+      FLAGANS[id] = r.value;
+      r.closest('.flag').dataset.answered = 'true';
+    });
+  });
+}
+
+function renderAll(){ renderTabs(); renderFlags(); renderVerses(); renderTerms(); tally(); }
+
+function buildJSON(){
+  const out = {
+    board: 'dmv-kavacham i18n review',
+    repo: DATA.repo,
+    relatesTo: { issue: DATA.issue },
+    locale: active,
+    generatedAt: new Date().toISOString(),
+    flagDecisions: DATA.flags
+      .filter(function(f){ return (f.locale === active || f.locale === 'both') && FLAGANS[f.id]; })
+      .map(function(f){ return { id: f.id, chose: FLAGANS[f.id], title: f.title }; }),
+    flagsUndecided: DATA.flags
+      .filter(function(f){ return (f.locale === active || f.locale === 'both') && !FLAGANS[f.id]; })
+      .map(function(f){ return f.id; }),
+    verses: DATA.verses.map(function(v){
+      const st = STATE[active].verses[v.n];
+      const o = { n: v.n, decision: st.decision };
+      if (st.text !== (v[active]||'')) { o.editedText = st.text; o.originalDraft = v[active]||''; }
+      if (st.note) o.note = st.note;
+      return o;
+    }),
+    termEdits: {}
+  };
+  ['deities','directions','bodyParts'].forEach(function(f){
+    DATA.terms[active][f].forEach(function(t){
+      const cur = STATE[active].terms[f][t.key];
+      if (cur !== t.draft) {
+        out.termEdits[f] = out.termEdits[f] || {};
+        out.termEdits[f][t.key] = { from: t.draft, to: cur };
+      }
+    });
+  });
+  return JSON.stringify(out, null, 2);
+}
+
+function showToast(m){ const t=$('toast'); t.textContent=m; t.classList.add('show'); setTimeout(function(){t.classList.remove('show');},2600); }
+function openPanel(){
+  const text = buildJSON();
+  $('jsonOut').value = text; $('overlay').classList.add('open'); $('jsonOut').focus(); $('jsonOut').select();
+  (navigator.clipboard && navigator.clipboard.writeText ? navigator.clipboard.writeText(text) : Promise.reject())
+    .then(function(){ showToast('Copied — paste it into the chat'); })
+    .catch(function(){ showToast('Select all & copy (Ctrl/Cmd+C)'); });
+}
+$('copyJson').addEventListener('click', openPanel);
+$('copyAgain').addEventListener('click', function(){ $('jsonOut').select();
+  (navigator.clipboard && navigator.clipboard.writeText ? navigator.clipboard.writeText($('jsonOut').value) : Promise.reject())
+    .then(function(){ showToast('Copied'); }).catch(function(){ showToast('Press Ctrl/Cmd+C'); }); });
+$('closePanel').addEventListener('click', function(){ $('overlay').classList.remove('open'); });
+$('overlay').addEventListener('click', function(e){ if(e.target===$('overlay')) $('overlay').classList.remove('open'); });
+document.addEventListener('keydown', function(e){ if(e.key==='Escape') $('overlay').classList.remove('open'); });
+$('acceptAll').addEventListener('click', function(){
+  DATA.verses.forEach(function(v){ STATE[active].verses[v.n].decision = 'accept'; });
+  renderVerses(); tally(); showToast('All verses marked accepted for ' + active);
+});
+
+renderAll();
+</script>
