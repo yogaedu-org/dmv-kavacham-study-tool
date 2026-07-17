@@ -15,6 +15,23 @@
   "openForCouncil": ["intercardinals-register", "spanish-quality-pass", "v7-rewording"],
   "flags": [
     {
+      "id": "v10-private-parts",
+      "locale": "both",
+      "scope": "verse",
+      "target": 10,
+      "confidence": "medium",
+      "enRef": "English reference: verse 10 currently reads 'guard the anus, the scrotum, the phallus, and the navel' (Sanskrit गुदं मुष्कं च मेढ्रं च नाभिं च). Tags: Anus, Scrotum, Phallus, Navel.",
+      "title": "Verse 10 private parts: explicit organs, or discreet 'private parts' (गुप्ताङ्ग)?",
+      "why": "The Sanskrit names गुद/मुष्क/मेढ्र (anus/scrotum/phallus) individually and the draft translates them explicitly in all three languages. Many devotional editions use the discreet collective गुप्ताङ्ग ('secret/private parts'). Fidelity vs. discretion — your text, your audience. Note: merging the three organ tags into one changes the data keys AND the body-glyph zones.",
+      "affects": ["Anus", "Scrotum", "Phallus", "verse 10 en/ne/es"],
+      "options": [
+        { "key": "explicit", "label": "Keep explicit — faithful to the Sanskrit", "sample": "anus / scrotum / phallus · गुदा / अण्डकोष / लिङ्ग · ano / escroto / falo" },
+        { "key": "prose-only", "label": "Keep the filter tags explicit, but soften the READING prose to 'the private parts'", "sample": "tags stay granular for study; verse-10 prose reads 'the private parts (गुप्ताङ्ग)'" },
+        { "key": "collective", "label": "Discreet collective everywhere — replaces the three organ tags with one", "sample": "Private parts · गुप्ताङ्ग · partes íntimas" }
+      ],
+      "recommendation": "your call. I lean 'prose-only' — keep the anatomical tags (they're useful, faithful study facets) but let the flowing translation read discreetly as गुप्ताङ्ग / 'the private parts', which is common in devotional editions. 'collective' is cleanest visually but loses fidelity and reworks the body glyph."
+    },
+    {
       "id": "ne-register",
       "locale": "ne",
       "scope": "global",
