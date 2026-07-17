@@ -280,6 +280,8 @@ function applyI18n() {
             if (bits.length === 2) el.setAttribute(bits[0].trim(), t(bits[1].trim()));
         });
     });
+    // The pin tooltip is state-dependent, so it's set in JS rather than markup.
+    if (DOMElements && DOMElements.pinToggle) updatePinButton();
 }
 
 /** Re-populate every category dropdown from the registry (locale-aware labels). */
@@ -541,8 +543,20 @@ function toggleCompactMode() {
  */
 function togglePinMode() {
     AppState.isPinned = !AppState.isPinned;
+    // Pinning means "keep the bar handy but out of my way" (#23), so it implies the
+    // slim bar. Previously pinning froze the controls EXPANDED, which ate the screen.
+    if (AppState.isPinned && !AppState.isCompact) {
+        AppState.isCompact = true;
+        updateCompactMode();
+    } else if (!AppState.isPinned && AppState.isCompact &&
+               (window.scrollY || window.pageYOffset) === 0) {
+        // Unpinning at the top restores the full controls right away — otherwise
+        // nothing fires until the next scroll and it looks stuck.
+        AppState.isCompact = false;
+        updateCompactMode();
+    }
     updatePinButton();
-    console.log(`Pin mode: ${AppState.isPinned ? 'PINNED' : 'UNPINNED'}`);
+    console.log(`Pin mode: ${AppState.isPinned ? 'PINNED (slim)' : 'UNPINNED'}`);
 }
 
 /**
@@ -564,12 +578,13 @@ function updateCompactMode() {
 function updatePinButton() {
     if (!DOMElements.pinToggle) return;
     
+    // Localized (#25) and reworded for the new pin meaning (#23).
     if (AppState.isPinned) {
         DOMElements.pinToggle.classList.add('pinned');
-        DOMElements.pinToggle.title = 'Unpin controls (allow auto-collapse)';
+        DOMElements.pinToggle.title = t('controls.pin.on');
     } else {
         DOMElements.pinToggle.classList.remove('pinned');
-        DOMElements.pinToggle.title = 'Pin controls (prevent auto-collapse on scroll)';
+        DOMElements.pinToggle.title = t('controls.pin.off');
     }
 }
 
@@ -577,9 +592,16 @@ function updatePinButton() {
  * Handle scroll events with debouncing for compact mode
  */
 const handleScroll = debounce(function() {
-    // Don't auto-change if pinned
-    if (AppState.isPinned) return;
-    
+    // Pinned = stay slim (#23). Pinning keeps the bar reachable without covering the
+    // verses; the gear is the deliberate way to expand it.
+    if (AppState.isPinned) {
+        if (!AppState.isCompact) {
+            AppState.isCompact = true;
+            updateCompactMode();
+        }
+        return;
+    }
+
     const scrollPosition = window.scrollY || window.pageYOffset;
     
     if (scrollPosition === 0) {
