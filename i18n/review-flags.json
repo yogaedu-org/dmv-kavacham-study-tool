@@ -7,6 +7,8 @@
     "ne-legs-toes": { "decided": "khutta", "by": "KA", "note": "खुट्टा covers leg+foot — that's just how Nepali works; keep the colloquial draft." },
     "ne-shank-thigh": { "decided": "current", "by": "web+dict+KA", "note": "CLOSED. Sanskrit dicts confirm जङ्घा=shank/calf, ऊरु=thigh; KA (native) recognises पिँडुला (shank) and तिघ्रा (thigh) and accepts them. The earlier 'sapro/saapro' was dictation noise — moot, KA is happy with पिँडुला/तिघ्रा." },
     "ne-hips": { "decided": "kammar-but-fix-english", "by": "KA", "note": "KA confirms कम्मर = waist. Verse says कट्यां (कटि = waist/hip). So the ENGLISH tag 'Hips' is the mismatch, not the Nepali. Consider changing the English term to 'Waist' — pending." },
+    "ne-benedictive": { "decided": "garun", "by": "KA", "note": "रक्षा गरून् (honorific). Draft already uses it throughout — confirmed, no change." },
+    "ne-directions": { "decided": "plain", "by": "KA", "note": "Plain उत्तरपूर्व/उत्तरपश्चिम/दक्षिणपूर्व/दक्षिणपश्चिम, NOT classical आग्नेय/ईशान. Applied to the term map AND the verse-1/2/3 prose for register consistency." },
     "v7-epithet": { "decided": "english-is-wrong", "by": "web research", "note": "जिह्वाललनभीषणा = 'terrifying with lolling tongue' (लोलजिह्वा, classic Kali). English 'fearsome to foes' has no textual basis. Fix en, then ne/es follow. Corroborate wording via council before applying." }
   },
   "openForCouncil": ["intercardinals-register", "spanish-quality-pass", "v7-rewording"],

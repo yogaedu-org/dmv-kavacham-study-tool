@@ -15,7 +15,7 @@
       "transliteration": "Om prācyāṃ rakṣatu me tārā kāmarūpanivāsinī |\nāgneyyāṃ ṣoḍaśī pātu yāmyāṃ dhūmāvatī svayam ||1||",
       "translations": {
         "en": "May Tārā, who dwells in Kāmarūpa, guard me in the east. In the southeast may Ṣoḍaśī (Tripurasundarī) protect me; in the south, Dhumāvatī herself.",
-        "ne": "कामरूपमा वास गर्ने ताराले मलाई पूर्वमा रक्षा गरून्। आग्नेय कोणमा षोडशी (त्रिपुरसुन्दरी) ले रक्षा गरून्; दक्षिणमा स्वयं धूमावतीले।",
+        "ne": "कामरूपमा वास गर्ने ताराले मलाई पूर्वमा रक्षा गरून्। दक्षिणपूर्व कोणमा षोडशी (त्रिपुरसुन्दरी) ले रक्षा गरून्; दक्षिणमा स्वयं धूमावतीले।",
         "es": "Que Tārā, que mora en Kāmarūpa, me proteja en el este. En el sureste, que Ṣoḍaśī (Tripurasundarī) me proteja; en el sur, Dhūmāvatī misma."
       },
       "deities": ["Tara", "Sodasi", "Tripurasundari", "Dhumavati"],
@@ -30,7 +30,7 @@
       "transliteration": "nairṛtyāṃ bhairavī pātu vāruṇyāṃ bhuvaneśvarī |\nvāyavyāṃ satataṃ pātu chinnamastā maheśvarī ||2||",
       "translations": {
         "en": "In the southwest may Bhairavī protect; in the west, Bhuvaneśvarī. In the northwest may the great goddess Chinnamastā protect me always.",
-        "ne": "नैर्ऋत्य कोणमा भैरवीले रक्षा गरून्; पश्चिममा भुवनेश्वरीले। वायव्य कोणमा महादेवी छिन्नमस्ताले मलाई सधैँ रक्षा गरून्।",
+        "ne": "दक्षिणपश्चिम कोणमा भैरवीले रक्षा गरून्; पश्चिममा भुवनेश्वरीले। उत्तरपश्चिम कोणमा महादेवी छिन्नमस्ताले मलाई सधैँ रक्षा गरून्।",
         "es": "En el suroeste, que Bhairavī me proteja; en el oeste, Bhuvaneśvarī. En el noroeste, que la gran diosa Chinnamastā me proteja siempre."
       },
       "deities": ["Bhairavi", "Bhuvaneshvari", "Chinnamasta", "Maheshvari"],
@@ -45,7 +45,7 @@
       "transliteration": "kauberyāṃ pātu me devī śrīvidyā bagalāmukhī |\naiśānyāṃ pātu me nityaṃ mahātripurasundarī ||3||",
       "translations": {
         "en": "In Kubera's quarter (the north) may the goddess Śrīvidyā—Bagalāmukhī—protect me. In Īśāna's quarter (the northeast) may Mahā‑Tripurasundarī protect me always.",
-        "ne": "कुबेरको दिशा (उत्तर) मा देवी श्रीविद्या—बगलामुखीले मलाई रक्षा गरून्। ईशान कोणमा महात्रिपुरसुन्दरीले मलाई सधैँ रक्षा गरून्।",
+        "ne": "कुबेरको दिशा (उत्तर) मा देवी श्रीविद्या—बगलामुखीले मलाई रक्षा गरून्। उत्तरपूर्व कोणमा महात्रिपुरसुन्दरीले मलाई सधैँ रक्षा गरून्।",
         "es": "En el cuadrante de Kubera (el norte), que la diosa Śrīvidyā—Bagalāmukhī—me proteja. En el cuadrante de Īśāna (el noreste), que Mahā-Tripurasundarī me proteja siempre."
       },
       "deities": ["Srividya", "Bagalamukhi", "Mahatripurasundari"],

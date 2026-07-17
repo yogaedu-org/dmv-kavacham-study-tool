@@ -83,11 +83,11 @@
       "Behind": "पछाडि",
       "East": "पूर्व",
       "North": "उत्तर",
-      "Northeast": "ईशान",
-      "Northwest": "वायव्य",
+      "Northeast": "उत्तरपूर्व",
+      "Northwest": "उत्तरपश्चिम",
       "South": "दक्षिण",
-      "Southeast": "आग्नेय",
-      "Southwest": "नैर्ऋत्य",
+      "Southeast": "दक्षिणपूर्व",
+      "Southwest": "दक्षिणपश्चिम",
       "West": "पश्चिम"
     },
     "bodyParts": {
