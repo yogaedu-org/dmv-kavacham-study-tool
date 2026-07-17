@@ -12,7 +12,10 @@ for loc in ('ne', 'es'):
     locales[loc] = json.load(io.open('i18n/%s.json' % loc, encoding='utf-8'))
 en = json.load(io.open('i18n/en.json', encoding='utf-8'))
 
-flags = json.load(io.open('i18n/review-flags.json', encoding='utf-8'))['flags']
+_flagdoc = json.load(io.open('i18n/review-flags.json', encoding='utf-8'))
+_resolved = set(_flagdoc.get('resolutions', {}).keys())
+# Only show flags still genuinely open (resolved ones are recorded in review-flags.json).
+flags = [f for f in _flagdoc['flags'] if f['id'] not in _resolved]
 
 DATA = {
     "repo": "yogaedu-org/dmv-kavacham-study-tool",

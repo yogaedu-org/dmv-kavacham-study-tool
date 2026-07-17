@@ -1,5 +1,15 @@
 {
   "_note": "Points where Claude is NOT confident and wants a targeted human decision (#25 P3). Each flag is a specific choice with options + a recommendation — deliberately NOT 'review this whole line'. Confidence: low = I may well be wrong; medium = probably right, worth confirming.",
+  "resolutions": {
+    "_source": "KA (native Nepali reader) 2026-07-17 + web research + Sanskrit dictionaries.",
+    "ne-register": { "decided": "colloquial", "by": "KA", "note": "KA understands all the colloquial draft; tatsama reads 'too intellectual' and doesn't sound Nepali. REVERSES my earlier recommendation. All body-part terms stay colloquial." },
+    "ne-face-mouth": { "decided": "anuhar-mukh", "by": "KA", "note": "अनुहार = face (standard), मुख = mouth. Apply." },
+    "ne-legs-toes": { "decided": "khutta", "by": "KA", "note": "खुट्टा covers leg+foot — that's just how Nepali works; keep the colloquial draft." },
+    "ne-shank-thigh": { "decided": "current", "by": "web+dict", "note": "Sanskrit dicts confirm जङ्घा=shank/calf, ऊरु=thigh. पिँडुला/तिघ्रा correct. NOTE: KA mentioned a colloquial word sounding like 'sapro/saapro' for this region — unresolved, see council prompt." },
+    "ne-hips": { "decided": "kammar-but-fix-english", "by": "KA", "note": "KA confirms कम्मर = waist. Verse says कट्यां (कटि = waist/hip). So the ENGLISH tag 'Hips' is the mismatch, not the Nepali. Consider changing the English term to 'Waist' — pending." },
+    "v7-epithet": { "decided": "english-is-wrong", "by": "web research", "note": "जिह्वाललनभीषणा = 'terrifying with lolling tongue' (लोलजिह्वा, classic Kali). English 'fearsome to foes' has no textual basis. Fix en, then ne/es follow. Corroborate wording via council before applying." }
+  },
+  "openForCouncil": ["sapro-word", "intercardinals-register", "spanish-quality-pass", "v7-rewording"],
   "flags": [
     {
       "id": "ne-register",
