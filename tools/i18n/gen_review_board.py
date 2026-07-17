@@ -12,9 +12,12 @@ for loc in ('ne', 'es'):
     locales[loc] = json.load(io.open('i18n/%s.json' % loc, encoding='utf-8'))
 en = json.load(io.open('i18n/en.json', encoding='utf-8'))
 
+flags = json.load(io.open('i18n/review-flags.json', encoding='utf-8'))['flags']
+
 DATA = {
     "repo": "yogaedu-org/dmv-kavacham-study-tool",
     "issue": 25,
+    "flags": flags,
     "locales": [
         {"code": "ne", "label": "नेपाली (Nepali)", "note": locales['ne'].get('_note', '')},
         {"code": "es", "label": "Español (Spanish)", "note": locales['es'].get('_note', '')},

@@ -78,6 +78,29 @@
   .card.is-edited .edited{display:inline}
 
   h2.sec{font-family:var(--serif);font-size:1.2rem;margin:2rem 0 .6rem}
+  .flagcount{font-family:var(--ui);font-size:.75rem;font-weight:700;color:#fff;background:var(--kumkum);
+    border-radius:999px;padding:.1rem .5rem;vertical-align:middle;margin-left:.4rem}
+  :root[data-theme="dark"] .flagcount{color:#1a0f0e}
+  .flag{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--kumkum);
+    border-radius:12px;padding:.9rem 1rem;margin-bottom:.9rem;box-shadow:var(--shadow)}
+  .flag[data-conf="medium"]{border-left-color:var(--warn)}
+  .flag[data-answered="true"]{border-left-color:var(--add)}
+  .fhead{display:flex;gap:.6rem;align-items:baseline;flex-wrap:wrap;margin-bottom:.35rem}
+  .ftitle{font-family:var(--serif);font-weight:600;font-size:1.02rem}
+  .conf{font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;font-weight:700;
+    border:1px solid currentColor;border-radius:20px;padding:.05rem .45rem;color:var(--kumkum)}
+  .flag[data-conf="medium"] .conf{color:var(--warn)}
+  .fscope{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+  .fwhy{font-size:.88rem;color:var(--muted);margin:.3rem 0 .6rem}
+  .fopts{display:flex;flex-direction:column;gap:.4rem}
+  .fopt{display:flex;gap:.55rem;align-items:flex-start;background:var(--surface-2);border:1px solid var(--line);
+    border-radius:9px;padding:.5rem .6rem;cursor:pointer}
+  .fopt input{margin-top:.25rem}
+  .fopt .ol{font-size:.9rem}
+  .fopt .os{display:block;font-size:.85rem;color:var(--muted);margin-top:.15rem}
+  .fopt .os.deva{font-family:var(--deva);font-size:1rem;color:var(--gold)}
+  .frec{font-size:.82rem;color:var(--add);margin-top:.5rem}
+  .frec b{color:var(--add)}
   .termgrid{display:grid;grid-template-columns:1fr;gap:.4rem}
   @media(min-width:640px){.termgrid{grid-template-columns:1fr 1fr}}
   .termrow{display:grid;grid-template-columns:1fr 1.2fr;gap:.5rem;align-items:center;background:var(--surface);
@@ -123,6 +146,13 @@
     <button class="btn primary" id="copyJson" type="button">Copy JSON</button>
   </div>
 
+  <section id="flagsSection">
+    <h2 class="sec">Where I need your call <span id="flagCount" class="flagcount"></span></h2>
+    <p class="lede" style="font-size:.9rem">These are the specific places I'm <b>not confident</b> — not whole lines to proofread. Each is one choice. Skipping a flag keeps what I drafted.</p>
+    <div id="flags"></div>
+  </section>
+
+  <h2 class="sec">Verses</h2>
   <main id="verses"></main>
 
   <h2 class="sec">Terms</h2>
@@ -245,7 +275,39 @@ function tally(){
   $('nAccept').textContent=a; $('nRework').textContent=r; $('nEdited').textContent=e;
 }
 
-function renderAll(){ renderTabs(); renderVerses(); renderTerms(); tally(); }
+const FLAGANS = {};   // flag id -> chosen option key
+
+function renderFlags(){
+  const mine = DATA.flags.filter(function(f){ return f.locale === active || f.locale === 'both'; });
+  $('flagCount').textContent = mine.length + ' to decide';
+  $('flags').innerHTML = mine.map(function(f){
+    const isDeva = (f.locale === 'ne' || active === 'ne');
+    const opts = f.options.map(function(o){
+      const checked = FLAGANS[f.id] === o.key ? ' checked' : '';
+      return '<label class="fopt"><input type="radio" name="fl_'+f.id+'" value="'+o.key+'"'+checked+'>'
+        + '<span class="ol">'+esc(o.label)
+        + (o.sample && o.sample !== '—' ? '<span class="os'+(isDeva?' deva':'')+'">'+esc(o.sample)+'</span>' : '')
+        + '</span></label>';
+    }).join('');
+    return '<div class="flag" data-conf="'+f.confidence+'" data-answered="'+(!!FLAGANS[f.id])+'" data-id="'+f.id+'">'
+      + '<div class="fhead"><span class="ftitle">'+esc(f.title)+'</span>'
+      + '<span class="conf">'+f.confidence+' confidence</span>'
+      + '<span class="fscope">'+esc(f.scope)+(f.affects?' · '+esc(f.affects.join(', ')):'')+'</span></div>'
+      + '<p class="fwhy">'+esc(f.why)+'</p>'
+      + '<div class="fopts">'+opts+'</div>'
+      + '<p class="frec"><b>My suggestion:</b> '+esc(f.recommendation)+'</p></div>';
+  }).join('') || '<p class="lede" style="font-size:.9rem">No open flags for this locale.</p>';
+
+  $('flags').querySelectorAll('input[type="radio"]').forEach(function(r){
+    r.addEventListener('change', function(){
+      const id = r.closest('.flag').dataset.id;
+      FLAGANS[id] = r.value;
+      r.closest('.flag').dataset.answered = 'true';
+    });
+  });
+}
+
+function renderAll(){ renderTabs(); renderFlags(); renderVerses(); renderTerms(); tally(); }
 
 function buildJSON(){
   const out = {
@@ -254,6 +316,12 @@ function buildJSON(){
     relatesTo: { issue: DATA.issue },
     locale: active,
     generatedAt: new Date().toISOString(),
+    flagDecisions: DATA.flags
+      .filter(function(f){ return (f.locale === active || f.locale === 'both') && FLAGANS[f.id]; })
+      .map(function(f){ return { id: f.id, chose: FLAGANS[f.id], title: f.title }; }),
+    flagsUndecided: DATA.flags
+      .filter(function(f){ return (f.locale === active || f.locale === 'both') && !FLAGANS[f.id]; })
+      .map(function(f){ return f.id; }),
     verses: DATA.verses.map(function(v){
       const st = STATE[active].verses[v.n];
       const o = { n: v.n, decision: st.decision };
