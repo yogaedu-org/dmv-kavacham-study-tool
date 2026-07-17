@@ -11,8 +11,22 @@ An advanced web application for studying the Daśamahāvidyā Kavacam (Armor of 
 ### Text Display Options
 - **Sanskrit Text**: Original Devanāgarī script with proper formatting
 - **Transliteration**: IAST romanization for pronunciation guidance
-- **Translation**: Complete English prose translations
+- **Translation**: Complete prose translations — **English, नेपाली, Español**
 - **Independent Toggles**: Show/hide Sanskrit and transliteration independently
+- **Reader font size**: A− / A+ stepper scales the text (0.8×–2.5×) and remembers your choice
+- **Self-hosted Devanāgarī**: Noto Serif Devanagari ships with the app, so Sanskrit renders identically everywhere
+
+### Languages (i18n)
+- **English / Nepali / Spanish** — switch from the toolbar; the choice persists and sets `<html lang>`
+- Localized UI, deity names, directions and body parts (Nepali uses Devanāgarī forms; Spanish keeps IAST for Sanskrit proper nouns)
+- **Sanskrit and transliteration are never localized** — they are the source text
+- Anything missing in a locale falls back to English, so a partial locale can never blank the UI
+- ⚠️ The Nepali and Spanish translations are currently **unreviewed drafts** (`status: draft` in `i18n/*.json`)
+
+### Appearance & offline
+- **Two themes**: "Manuscript at Dusk" (dark) and Manuscript (light), following your OS with a sun/moon toggle
+- **Orientation glyph** per verse: a direction rosette (v1–4), a body figure — seated or standing (v5–11), or an all-around mandala (v12–14), drawn from each verse's own data
+- **Installable PWA** with offline support via a cache-first service worker
 
 ### Advanced Filtering & Search
 - **Multi-Category Filtering**: Filter by deities, directions, and body parts
@@ -111,7 +125,7 @@ This is a well-crafted, professional educational tool with excellent architectur
 
 #### ✅ Architecture: A+
 - Clean separation of concerns (HTML/CSS/JS in separate files)
-- Smart dual data loading strategy (external JSON + embedded fallback at app.js:164-180)
+- Single source of truth: verses load from `data/verses.json` only (the embedded fallback was removed in #6)
 - Well-organized state management via `AppState` object (app.js:191-292)
 - Proper modularization with logical code sections
 - Enterprise-standard documentation throughout
@@ -119,7 +133,7 @@ This is a well-crafted, professional educational tool with excellent architectur
 #### ✅ JavaScript: A (1,264 lines - app.js)
 - Excellent commenting and documentation
 - Proper use of 'use strict' mode
-- Good error handling with fallback mechanisms
+- Good error handling: a failed data load renders a clear error state rather than failing silently
 - Security-conscious (XSS prevention via `escapeHtml` at app.js:380-389)
 - Debouncing for performance optimization (app.js:363-373)
 - Clear function naming and organization
@@ -167,7 +181,7 @@ This is a well-crafted, professional educational tool with excellent architectur
 - Debounced event handlers for search
 - Efficient filtering algorithms with OR-logic
 - No external dependencies (fast initial load)
-- Smart fallback loading prevents errors
+- Service worker caches the app shell for offline use (installable PWA)
 
 ### Known Issues
 
@@ -209,11 +223,33 @@ This is a well-crafted, professional educational tool with excellent architectur
 ```
 ├── app.js                         # Application logic (1,264 lines)
 ├── styles.css                     # Stylesheet (1,090 lines)
-├── index.html                     # Main HTML structure (204 lines)
+├── index.html                     # Main HTML structure
+├── app.js                         # Application logic (config, i18n, filters, render, PWA)
+├── styles.css                     # Theme tokens + all styling
+├── config.json                    # App metadata, feature flags, locales, category registry
 ├── data/
-│   └── verses.json               # Verse data with metadata (167 lines)
-├── CHANGELOG.md                  # Version history
-└── README.md                     # This documentation
+│   └── verses.json                # Verse data — single source of truth (translations: {en,ne,es})
+├── i18n/
+│   ├── en.json                    # UI strings + term maps (source locale)
+│   ├── ne.json                    # Nepali (DRAFT — unreviewed)
+│   └── es.json                    # Spanish (DRAFT — unreviewed)
+├── fonts/
+│   └── NotoSerifDevanagari.woff2  # Self-hosted Devanāgarī face
+├── icons/                         # PWA icons (192/512, maskable)
+├── manifest.webmanifest           # PWA manifest
+├── sw.js                          # Cache-first service worker (offline app shell)
+├── tests/
+│   └── validate-data.js           # Data + locale validation guard (node tests/validate-data.js)
+├── tools/i18n/                    # Generator for the translation review board
+├── reports/                       # Review reports + boards
+├── CHANGELOG.md                   # Version history
+└── README.md                      # This documentation
+```
+
+### Checks
+
+```bash
+node tests/validate-data.js   # verses.json + config.json + locale files
 ```
 
 ### Technology Stack
@@ -228,7 +264,7 @@ This is a well-crafted, professional educational tool with excellent architectur
 - **New Categories**: Add metadata arrays and update filtering logic
 - **UI Customization**: Modify CSS custom properties in styles.css:18-60
 - **API Integration**: Build on state management layer (AppState object)
-- **Data Loading**: Uses smart fallback from embedded data to external JSON
+- **Data Loading**: Fetches `data/verses.json` (single source of truth); served-only, offline via the service worker
 
 ### Performance Features
 - **Efficient DOM Manipulation**: Cached element references (app.js:303-337)

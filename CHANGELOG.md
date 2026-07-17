@@ -5,6 +5,43 @@ All notable changes to the Daśamahāvidyā Kavacam Interactive Study Tool will 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] - 2026-07-17
+
+### 🌐 Internationalization (#25)
+- **Nepali + Spanish support**: `translation` (string) → `translations` (locale map); `i18n/{en,ne,es}.json` carry UI strings and term maps
+- Language switcher (persists, sets `<html lang>`); localized UI, deity names, directions, body parts
+- Fallback chain (locale → default → raw value) so a partial locale can never blank the UI
+- Sanskrit + transliteration are never localized
+- ⚠️ Nepali/Spanish content is an **unreviewed draft** (`status: draft`); review board at `reports/assets/i18n-review-board.html`
+
+### 📖 Readability & accessibility (#13, #14, #16, #23)
+- Self-hosted **Noto Serif Devanagari** — Sanskrit had been falling back to an OS font (Georgia has no Devanāgarī glyphs)
+- Fluid `clamp()` type scale — Sanskrit now **grows** on small screens instead of shrinking
+- **A− / A+ reader font-size stepper** (0.8×–2.5×, persisted)
+- 44px minimum tap targets
+- Non-breaking space before every daṇḍa (।/॥) and IAST pipe so the mark never wraps away from its word
+
+### 🎨 Design (#17, #22)
+- **"Manuscript at Dusk"** theme-aware palette (dusk/manuscript) with a sun/moon toggle
+- Per-verse **orientation glyph**: direction rosette, seated/standing body figure, or all-around mandala — generated from each verse's data
+- Fixed light-mode washout (surfaces were hardcoded white overlays) and a stale invalid `rgba(var(--color-primary), .95)` control background
+
+### 🏗️ Architecture (#6, #8, #9, #12, #15, #11, #7)
+- **Single source of truth**: removed the embedded verse-data fallback; fetch-only (served-only)
+- **`config.json`** layer: app metadata, feature flags, breakpoints, category registry; single authoritative version
+- Category registry drives dropdowns + colors; removed the `body`↔`bodyParts` munging
+- **PWA**: manifest + cache-first service worker + maskable icons
+- **Data validation guard** (`tests/validate-data.js`) covering verses, config, and locale files
+- Retired the legacy single-file monolith; `index.html` is canonical
+
+### 📜 Content (#3, #5)
+- Verse corrections corroborated by 3 independent sources: V1 `āgneyāṃ`→`āgneyyāṃ`, V5 `स्वयं`→`स्वयम्`, V6 `śarvaṇī`→`śarvāṇī`, V13 metadata typo
+- Restored the missing half-line breaks in verses 2–14 (only verse 1 had one)
+
+### 🖱️ Controls (#23)
+- **Pin now means "keep it slim"** (previously it froze the controls fully expanded, covering the screen); the gear is the deliberate expand
+- Collapsed the phantom empty active-filters band; uniform padding — control panel roughly halved
+
 ## [2.0.0] - 2025-01-28
 
 ### 🏗️ Major Architecture Changes
