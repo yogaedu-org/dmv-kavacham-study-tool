@@ -388,6 +388,20 @@ a:hover {
   font-weight: 600;
 }
 
+/* Build stamp (#30) — very subtle, below the footer line */
+.build-stamp {
+  margin: var(--spacing-sm) 0 0;
+  text-align: center;
+  font-size: 0.68rem;
+  letter-spacing: 0.02em;
+  color: var(--color-text-secondary);
+  opacity: 0.55;
+}
+.build-stamp code {
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 0.66rem;
+}
+
 /* Language switcher (#25) */
 .locale-select {
   min-height: 44px;
