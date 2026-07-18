@@ -103,6 +103,70 @@ locales.forEach((loc) => {
   if (l && typeof l.terms !== 'object') fail(`${rel}: "terms" must be an object`);
 });
 
+/* ---- content regression guards (named failures we've already hit) ---- */
+if (data && Array.isArray(data.verses)) {
+  const v = data.verses;
+  const byNum = (n) => v.find((x) => x.number === n);
+
+  // #28/#4: verse 10 had a duplicated उग्रतारा (dittography). Guard it can't return.
+  const v10 = byNum(10);
+  if (v10 && typeof v10.sanskrit === 'string') {
+    const hits = (v10.sanskrit.match(/उग्रतारा/g) || []).length;
+    if (hits !== 1) fail(`verse 10: expected exactly one "उग्रतारा", found ${hits} (the removed repeat must not return)`);
+    if (!/\nगुदं/.test(v10.sanskrit)) fail('verse 10: line 2 must begin with "गुदं" (no leading उग्रतारा repeat)');
+  }
+
+  // #28: verse 6 chant text follows the निल consensus (short i), not नील.
+  const v6 = byNum(6);
+  if (v6 && typeof v6.sanskrit === 'string') {
+    if (v6.sanskrit.indexOf('निलसरस्वती') === -1) fail('verse 6: chant text must read "निलसरस्वती" (#28 consensus)');
+    if (v6.sanskrit.indexOf('नीलसरस्वती') !== -1) fail('verse 6: chant text must NOT read "नीलसरस्वती" (that was the outlier; #28)');
+  }
+
+  // Format: every verse ends with a double-daṇḍa + Devanāgarī numeral + double-daṇḍa (॥N॥).
+  v.forEach((x) => {
+    if (typeof x.sanskrit === 'string' && !/॥[०-९]+॥\s*$/.test(x.sanskrit.trim())) {
+      fail(`verse ${x.number}: sanskrit must end with ॥<Devanāgarī-numeral>॥`);
+    }
+  });
+}
+
+/* ---- i18n key PARITY across locales (structure must match; prose may lag) ---- */
+(() => {
+  const leaves = (obj, prefix, out) => {
+    Object.keys(obj || {}).forEach((k) => {
+      const val = obj[k];
+      if (val && typeof val === 'object' && !Array.isArray(val)) leaves(val, prefix + k + '.', out);
+      else out.push(prefix + k);
+    });
+    return out;
+  };
+  const ref = readJson(`i18n/${defaultLocale}.json`);
+  if (!ref) return;
+  const refUi = leaves(ref.ui, '', []).sort();
+  const refTerms = leaves(ref.terms, '', []).sort();
+  locales.forEach((loc) => {
+    if (loc === defaultLocale) return;
+    const l = readJson(`i18n/${loc}.json`);
+    if (!l) return;
+    const uiKeys = new Set(leaves(l.ui, '', []));
+    const termKeys = new Set(leaves(l.terms, '', []));
+    refUi.forEach((k) => { if (!uiKeys.has(k)) fail(`i18n/${loc}.json: missing ui key "${k}" (present in ${defaultLocale})`); });
+    refTerms.forEach((k) => { if (!termKeys.has(k)) fail(`i18n/${loc}.json: missing terms key "${k}" (present in ${defaultLocale})`); });
+  });
+})();
+
+/* ---- source drift guard: the #25/#1 translation-search bug must not return ---- */
+(() => {
+  const rel = 'app.js';
+  let src;
+  try { src = fs.readFileSync(path.join(root, rel), 'utf8'); } catch (e) { return; }
+  // verse.translation (singular) is the pre-#25 field; search must use verse.translations.
+  if (/verse\.translation\b(?!s)/.test(src)) {
+    fail('app.js: reference to singular "verse.translation" — field is "translations" (locale map) since #25; search breaks. See #11/#1.');
+  }
+})();
+
 /* ---- report ---- */
 if (localeGaps.length) {
   // Not a failure: draft locales fill in during P2; en always backstops the UI.

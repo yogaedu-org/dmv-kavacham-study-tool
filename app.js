@@ -1002,9 +1002,14 @@ function applyFiltersAndHighlights() {
                                 AppState.selectedDirections.length > 0 || 
                                 AppState.selectedBodyParts.length > 0;
         
-        // Check for text search match
-        const searchMatch = !AppState.searchTerm || 
-            [verse.translation, verse.deities.join(' '), verse.directions.join(' '), verse.bodyParts.join(' ')]
+        // Check for text search match.
+        // #25 replaced the old singular translation field with a verse.translations
+        // locale map; search across ALL locales so an English query matches while viewing ne/es.
+        const translationsText = verse.translations
+            ? Object.keys(verse.translations).map(function (k) { return verse.translations[k]; }).join(' ')
+            : '';
+        const searchMatch = !AppState.searchTerm ||
+            [translationsText, verse.deities.join(' '), verse.directions.join(' '), verse.bodyParts.join(' ')]
             .join(' ').toLowerCase().indexOf(AppState.searchTerm.toLowerCase()) !== -1;
         
         let shouldShow = true;
