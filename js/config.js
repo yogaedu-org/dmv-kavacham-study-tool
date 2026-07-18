@@ -1,17 +1,18 @@
 'use strict';
 
 import { CONFIG, setConfig, DEFAULT_CONFIG, AppState, DOMElements } from './state.js';
+// Build-time import (#33): config.json is inlined into the single-file bundle.
+import configData from '../config.json';
 
 /**
  * Load config.json, shallow-merging over the built-in defaults so a missing
- * or partial file never breaks the app.
+ * or partial file never breaks the app. Resolves from the build-time import
+ * (inlined) instead of a runtime fetch. Async signature preserved.
  * @returns {Promise<void>}
  */
 export async function loadConfig() {
     try {
-        const response = await fetch('config.json');
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const c = await response.json();
+        const c = configData;
         setConfig({
             app:      Object.assign({}, DEFAULT_CONFIG.app, c.app),
             features: Object.assign({}, DEFAULT_CONFIG.features, c.features),

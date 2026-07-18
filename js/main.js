@@ -270,9 +270,14 @@ console.log('DMV Kavacham Study Tool loaded. Access via window.DMVKavacham');
 
 /* ==========================================================================
    SERVICE WORKER (#15)
-   Registers the offline app-shell cache. No-ops on file:// (needs HTTP/HTTPS).
+   Registers the offline app-shell cache in the raw ES-module (dev/hosted) path.
+   Skipped in the single-file build (#33): that bundle has no sw.js to register,
+   and a file:// page can't use a service worker at all — registering would throw.
+   __SINGLEFILE__ is replaced with `true` by Vite at build time; in the un-bundled
+   dev path the identifier is undefined, so `typeof` keeps this guard safe there.
    ========================================================================== */
-if ('serviceWorker' in navigator) {
+var SINGLEFILE_BUILD = (typeof __SINGLEFILE__ !== 'undefined');
+if (!SINGLEFILE_BUILD && 'serviceWorker' in navigator) {
     window.addEventListener('load', function() {
         navigator.serviceWorker.register('sw.js').then(function(reg) {
             console.log('Service worker registered:', reg.scope);

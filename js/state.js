@@ -2,6 +2,11 @@
 
 /* Shared module state: mutated-in-place objects + reassigned live bindings. */
 
+// Build-time import (#33): the bundler inlines data/verses.json into the single
+// file, so no runtime fetch is needed. Vite (dev server + build) resolves JSON
+// imports natively.
+import versesData from '../data/verses.json';
+
 /* ==========================================================================
    VERSE DATA
    Core content for the 14 verses of the Daśamahāvidyā Kavacam
@@ -18,16 +23,12 @@ export function setVerseData(v) { VERSE_DATA = v; }
 
 /**
  * Load verse data from data/verses.json (single source of truth).
- * Throws on failure; initializeApp() renders the error state.
+ * Resolves from the build-time import so the data is inlined into the bundle
+ * (works over file:// too — no fetch). Async signature preserved for callers.
  * @returns {Promise<void>}
  */
 export async function loadVerseData() {
-    const response = await fetch('data/verses.json');
-    if (!response.ok) {
-        throw new Error(`Could not load data/verses.json (HTTP ${response.status}). The app must be served over HTTP(S); opening index.html directly via file:// will not work.`);
-    }
-    const data = await response.json();
-    VERSE_DATA = data.verses;
+    VERSE_DATA = versesData.verses;
     console.log(`Loaded ${VERSE_DATA.length} verses from data/verses.json`);
 }
 

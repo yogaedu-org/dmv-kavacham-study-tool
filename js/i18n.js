@@ -5,6 +5,13 @@ import { LOCALE_NAMES } from './util.js';
 import { updatePinButton } from './controls.js';
 import { populateDropdown, updateFilterTags, applyFiltersAndHighlights } from './filters.js';
 import { renderVerses } from './render.js';
+// Build-time imports (#33): locale files are inlined into the single-file bundle.
+import enLocale from '../i18n/en.json';
+import neLocale from '../i18n/ne.json';
+import esLocale from '../i18n/es.json';
+
+/** Locale bundles keyed by code — resolved at build time (inlined), not fetched. */
+const LOCALE_DATA = { en: enLocale, ne: neLocale, es: esLocale };
 
 /* ==========================================================================
    INTERNATIONALIZATION (#25)
@@ -26,14 +33,12 @@ export function resolveLocale() {
 }
 
 async function fetchLocale(locale) {
-    try {
-        const response = await fetch('i18n/' + locale + '.json');
-        if (!response.ok) throw new Error('HTTP ' + response.status);
-        return await response.json();
-    } catch (error) {
-        console.warn('Locale "' + locale + '" not loaded:', error.message);
+    const data = LOCALE_DATA[locale];
+    if (!data) {
+        console.warn('Locale "' + locale + '" not available');
         return null;
     }
+    return data;
 }
 
 /** Load the default locale (as fallback) plus the active locale. */

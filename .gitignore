@@ -2,3 +2,7 @@
 # scratch + tool artifacts
 .claude/tmp/
 .playwright-mcp/
+
+# build toolchain (#33)
+node_modules/
+dist/
