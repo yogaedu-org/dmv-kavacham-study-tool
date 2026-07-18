@@ -158,12 +158,18 @@ if (data && Array.isArray(data.verses)) {
 
 /* ---- source drift guard: the #25/#1 translation-search bug must not return ---- */
 (() => {
-  const rel = 'app.js';
+  // #10: app.js was split into ES modules under js/; scan them all (concatenated).
+  const dir = path.join(root, 'js');
   let src;
-  try { src = fs.readFileSync(path.join(root, rel), 'utf8'); } catch (e) { return; }
+  try {
+    src = fs.readdirSync(dir)
+      .filter((f) => f.endsWith('.js'))
+      .map((f) => fs.readFileSync(path.join(dir, f), 'utf8'))
+      .join('\n');
+  } catch (e) { return; }
   // verse.translation (singular) is the pre-#25 field; search must use verse.translations.
   if (/verse\.translation\b(?!s)/.test(src)) {
-    fail('app.js: reference to singular "verse.translation" — field is "translations" (locale map) since #25; search breaks. See #11/#1.');
+    fail('js/*.js: reference to singular "verse.translation" — field is "translations" (locale map) since #25; search breaks. See #11/#1.');
   }
 })();
 

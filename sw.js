@@ -13,11 +13,18 @@
  */
 'use strict';
 
-const CACHE = 'dmv-kavacham-v6';
+const CACHE = 'dmv-kavacham-v7';
 const ASSETS = [
   './',
   './index.html',
-  './app.js',
+  './js/main.js',
+  './js/state.js',
+  './js/util.js',
+  './js/config.js',
+  './js/i18n.js',
+  './js/controls.js',
+  './js/filters.js',
+  './js/render.js',
   './styles.css',
   './config.json',
   './data/verses.json',
