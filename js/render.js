@@ -45,77 +45,35 @@ function compassGlyphSVG(directions) {
     return '<svg viewBox="0 0 60 60">' + p + '</svg>';
 }
 
-function bodyZoneSet(parts) {
-    const has = function(w) { return parts.some(function(x) { return x.toLowerCase().indexOf(w) !== -1; }); };
-    const s = {};
-    if (has('head') || has('forehead') || has('crown')) { s.crown = 1; s.head = 1; }
-    if (has('brow') || has('nose') || has('eye') || has('ear') || has('face') || has('mouth') || has('tongue') || has('speech')) s.head = 1;
-    if (has('neck') || has('throat') || has('griva')) s.throat = 1;
-    if (has('chest') || has('arm') || has('finger') || has('back') || has('hand')) s.chest = 1;
-    if (has('hip') || has('abdomen') || has('belly') || has('navel') || has('blood') || has('flesh') || has('bone') || has('marrow')) s.core = 1;
-    if (has('thigh') || has('leg') || has('shank') || has('knee') || has('loin')) s.legs = 1;
-    if (has('toe') || has('foot') || has('feet')) s.feet = 1;
-    return s;
+/* Body-part glyph (#22): a per-verse illustration keyed to the primary guarded
+   region, exported from the Gemini 3 Pro Image sprite sheet (see design/). The
+   figure's matching zone glows. Priority-ordered keyword -> figures/body-<zone>.webp. */
+var _ZONE_KW = [
+    ['toe', 'feet'], ['foot', 'feet'], ['feet', 'feet'],
+    ['thigh', 'legs'], ['shank', 'legs'], ['knee', 'legs'], ['leg', 'legs'],
+    ['hip', 'hips'], ['waist', 'hips'], ['loin', 'hips'],
+    ['behind', 'back'], ['back', 'back'], ['prishtha', 'back'],
+    ['navel', 'belly'], ['belly', 'belly'], ['abdomen', 'belly'],
+    ['blood', 'belly'], ['flesh', 'belly'], ['bone', 'belly'], ['marrow', 'belly'],
+    ['finger', 'hands'], ['hand', 'hands'], ['arm', 'hands'],
+    ['chest', 'chest'],
+    ['neck', 'neck'], ['throat', 'neck'], ['griva', 'neck'],
+    ['tongue', 'face'], ['mouth', 'face'], ['brow', 'face'], ['eye', 'face'],
+    ['ear', 'face'], ['nose', 'face'], ['face', 'face'], ['speech', 'face'],
+    ['forehead', 'head'], ['crown', 'head'], ['head', 'head']
+];
+function bodyZoneFor(parts) {
+    for (var i = 0; i < parts.length; i++) {
+        var s = parts[i].toLowerCase();
+        for (var j = 0; j < _ZONE_KW.length; j++) {
+            if (s.indexOf(_ZONE_KW[j][0]) !== -1) return _ZONE_KW[j][1];
+        }
+    }
+    return 'chest';
 }
-/** True if any guarded part is at the waist or below (#22 — picks the figure). */
-function hasLowerBody(parts) {
-    const kw = ['hip', 'abdomen', 'belly', 'navel', 'waist', 'thigh', 'leg', 'shank', 'knee', 'loin', 'toe', 'foot', 'feet'];
-    return parts.some(function(p) {
-        const s = p.toLowerCase();
-        return kw.some(function(k) { return s.indexOf(k) !== -1; });
-    });
-}
-
-/* Region renderer shared by both figures (#22 SVG upgrade): a filled outline
-   shape per body zone, tinted in --color-body when that zone is guarded, faint
-   otherwise. Manuscript-line-art style traced from the Gemini reference in design/. */
-function _reg(z, k, d, fillOp) {
-    const lit = !!z[k];
-    return '<path d="' + d + '" fill="' + (lit ? 'var(--color-body)' : 'none') +
-        '" fill-opacity="' + (lit ? (fillOp || 0.2) : 0) + '" stroke="' + (lit ? 'var(--color-body)' : 'currentColor') +
-        '" stroke-opacity="' + (lit ? 1 : 0.42) + '" stroke-width="' + (lit ? 1.8 : 1.3) +
-        '" stroke-linejoin="round" stroke-linecap="round"/>';
-}
-function _headEllipse(z, cy) {
-    const lit = !!z.head;
-    return '<ellipse cx="30" cy="' + cy + '" rx="4.3" ry="4.9" fill="' + (lit ? 'var(--color-body)' : 'none') +
-        '" fill-opacity="' + (lit ? 0.28 : 0) + '" stroke="' + (lit ? 'var(--color-body)' : 'currentColor') +
-        '" stroke-opacity="' + (lit ? 1 : 0.42) + '" stroke-width="' + (lit ? 1.8 : 1.3) + '"/>';
-}
-
-/** Standing figure (tāḍāsana) — waist-and-below verses (#22). */
-function standingFigureSVG(parts) {
-    const z = bodyZoneSet(parts);
-    let p = _headEllipse(z, 8.5);
-    p += _reg(z, 'throat', 'M27.6 12.6 L32.4 12.6 L31.7 16 L28.3 16 Z');                      // neck
-    p += _reg(z, 'chest', 'M22 17.6 Q30 15.4 38 17.6 L36.4 29 Q30 31 23.6 29 Z');            // shoulders + upper torso
-    p += _reg(z, 'chest', 'M22.6 18.4 Q17.8 25 18.7 33.2 Q19 34.9 20.7 34.4 Q20.4 26 26 20.4 Z'); // left arm+hand
-    p += _reg(z, 'chest', 'M37.4 18.4 Q42.2 25 41.3 33.2 Q41 34.9 39.3 34.4 Q39.6 26 34 20.4 Z'); // right arm+hand
-    p += _reg(z, 'core', 'M23.8 29 Q30 31 36.2 29 L34.6 38 Q30 40 25.4 38 Z');               // midsection / belly
-    p += _reg(z, 'legs', 'M26 38 Q24.8 46 25 52.6 L26.8 52.6 Q28 46 29.2 38.6 Z');           // left leg
-    p += _reg(z, 'legs', 'M34 38 Q35.2 46 35 52.6 L33.2 52.6 Q32 46 30.8 38.6 Z');           // right leg
-    p += _reg(z, 'feet', 'M25 52.2 L26.9 52.2 L27 54.2 Q22.9 55 22.3 54 Z');                 // left foot
-    p += _reg(z, 'feet', 'M35 52.2 L33.1 52.2 L33 54.2 Q37.1 55 37.7 54 Z');                 // right foot
-    return '<svg viewBox="0 0 60 60">' + p + '</svg>';
-}
-
-/** Seated lotus figure (padmāsana) — upper-body-only verses (#22). */
-function lotusFigureSVG(parts) {
-    const z = bodyZoneSet(parts);
-    let p = _headEllipse(z, 10.5);
-    p += _reg(z, 'throat', 'M27.6 14.6 L32.4 14.6 L31.7 18 L28.3 18 Z');                      // neck
-    p += _reg(z, 'chest', 'M22 19.6 Q30 17.4 38 19.6 L36.4 31 Q30 33 23.6 31 Z');            // shoulders + upper torso
-    p += _reg(z, 'chest', 'M22.6 20.4 Q18 27 19.4 34 Q19.8 35.4 21.3 35 Q21 28 26 22.4 Z');  // left arm
-    p += _reg(z, 'chest', 'M37.4 20.4 Q42 27 40.6 34 Q40.2 35.4 38.7 35 Q39 28 34 22.4 Z');  // right arm
-    p += _reg(z, 'core', 'M23.8 31 Q30 33 36.2 31 L35 39 Q30 41 25 39 Z');                   // midsection
-    // crossed-leg base — static faint (upper-body verses don't light it)
-    p += '<path d="M17 47 Q30 37.5 43 47 Q30 52 17 47 Z" fill="currentColor" fill-opacity="0.14" ' +
-        'stroke="currentColor" stroke-opacity="0.4" stroke-width="1.4" stroke-linejoin="round"/>';
-    return '<svg viewBox="0 0 60 60">' + p + '</svg>';
-}
-
-function bodyGlyphSVG(bodyParts) {
-    return hasLowerBody(bodyParts) ? standingFigureSVG(bodyParts) : lotusFigureSVG(bodyParts);
+function bodyGlyphImg(bodyParts) {
+    var zone = bodyZoneFor(bodyParts);
+    return '<img class="verse-glyph-img" src="figures/body-' + zone + '.webp" alt="" loading="lazy" width="168" height="424">';
 }
 function mandalaGlyphSVG() {
     let p = '';
@@ -125,7 +83,7 @@ function mandalaGlyphSVG() {
     return '<svg viewBox="0 0 60 60">' + p + '</svg>';
 }
 function glyphForVerse(verse) {
-    if (verse.bodyParts && verse.bodyParts.length) return bodyGlyphSVG(verse.bodyParts);
+    if (verse.bodyParts && verse.bodyParts.length) return bodyGlyphImg(verse.bodyParts);
     if (verse.directions && verse.directions.length) return compassGlyphSVG(verse.directions);
     return mandalaGlyphSVG();
 }

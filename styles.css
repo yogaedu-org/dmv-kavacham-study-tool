@@ -621,8 +621,20 @@ a:hover {
   opacity: 0.95;
 }
 .verse-glyph svg { width: 100%; height: 100%; display: block; }
+/* Body-part image glyph (#22): a tall portrait figure, framed as a manuscript inset. */
+.verse-glyph:has(.verse-glyph-img) { width: auto; height: auto; }
+.verse-glyph-img {
+  height: 104px;
+  width: auto;
+  display: block;
+  margin-left: auto;
+  border-radius: 8px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+}
 @media (max-width: 480px) {
   .verse-glyph { width: 42px; height: 42px; top: var(--spacing-md); right: var(--spacing-md); }
+  .verse-glyph:has(.verse-glyph-img) { width: auto; height: auto; }
+  .verse-glyph-img { height: 78px; }
 }
 
 .verse:hover {

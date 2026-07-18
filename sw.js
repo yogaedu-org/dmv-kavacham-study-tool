@@ -13,7 +13,7 @@
  */
 'use strict';
 
-const CACHE = 'dmv-kavacham-v7';
+const CACHE = 'dmv-kavacham-v8';
 const ASSETS = [
   './',
   './index.html',
@@ -26,6 +26,16 @@ const ASSETS = [
   './js/filters.js',
   './js/render.js',
   './styles.css',
+  './figures/body-head.webp',
+  './figures/body-face.webp',
+  './figures/body-neck.webp',
+  './figures/body-chest.webp',
+  './figures/body-hands.webp',
+  './figures/body-belly.webp',
+  './figures/body-back.webp',
+  './figures/body-hips.webp',
+  './figures/body-legs.webp',
+  './figures/body-feet.webp',
   './config.json',
   './data/verses.json',
   './i18n/en.json',
