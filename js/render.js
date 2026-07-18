@@ -66,53 +66,50 @@ function hasLowerBody(parts) {
     });
 }
 
-/* Zone helpers shared by both figures: lit = guarded (body colour), else faint. */
-function _figColor(z, k) { return z[k] ? 'var(--color-body)' : 'currentColor'; }
-function _figOpacity(z, k) { return z[k] ? '1' : '0.4'; }
-function _figWidth(z, k) { return z[k] ? 2.6 : 1.6; }
-function _figHead(z, cy) {
-    return '<circle cx="30" cy="' + cy + '" r="4.6" fill="' + (z.head ? 'var(--color-body)' : 'none') +
-        '" fill-opacity="' + (z.head ? '0.85' : '0') + '" stroke="' + _figColor(z, 'head') +
-        '" stroke-opacity="' + _figOpacity(z, 'head') + '" stroke-width="1.8"/>';
+/* Region renderer shared by both figures (#22 SVG upgrade): a filled outline
+   shape per body zone, tinted in --color-body when that zone is guarded, faint
+   otherwise. Manuscript-line-art style traced from the Gemini reference in design/. */
+function _reg(z, k, d, fillOp) {
+    const lit = !!z[k];
+    return '<path d="' + d + '" fill="' + (lit ? 'var(--color-body)' : 'none') +
+        '" fill-opacity="' + (lit ? (fillOp || 0.2) : 0) + '" stroke="' + (lit ? 'var(--color-body)' : 'currentColor') +
+        '" stroke-opacity="' + (lit ? 1 : 0.42) + '" stroke-width="' + (lit ? 1.8 : 1.3) +
+        '" stroke-linejoin="round" stroke-linecap="round"/>';
 }
-function _figSeg(z, k, x1, y1, x2, y2) {
-    return '<line x1="' + x1 + '" y1="' + y1 + '" x2="' + x2 + '" y2="' + y2 + '" stroke="' +
-        _figColor(z, k) + '" stroke-opacity="' + _figOpacity(z, k) + '" stroke-width="' +
-        _figWidth(z, k) + '" stroke-linecap="round"/>';
+function _headEllipse(z, cy) {
+    const lit = !!z.head;
+    return '<ellipse cx="30" cy="' + cy + '" rx="4.3" ry="4.9" fill="' + (lit ? 'var(--color-body)' : 'none') +
+        '" fill-opacity="' + (lit ? 0.28 : 0) + '" stroke="' + (lit ? 'var(--color-body)' : 'currentColor') +
+        '" stroke-opacity="' + (lit ? 1 : 0.42) + '" stroke-width="' + (lit ? 1.8 : 1.3) + '"/>';
 }
 
 /** Standing figure (tāḍāsana) — waist-and-below verses (#22). */
 function standingFigureSVG(parts) {
     const z = bodyZoneSet(parts);
-    let p = _figHead(z, 9);
-    p += _figSeg(z, 'throat', 30, 13.6, 30, 17);           // neck
-    p += _figSeg(z, 'chest', 23, 19, 37, 19);              // shoulders
-    p += _figSeg(z, 'chest', 23, 19, 21.5, 33);            // left arm
-    p += _figSeg(z, 'chest', 37, 19, 38.5, 33);            // right arm
-    p += _figSeg(z, 'chest', 30, 17, 30, 29);              // upper trunk
-    p += _figSeg(z, 'core', 30, 29, 30, 35);               // lower trunk
-    p += _figSeg(z, 'core', 25.5, 35, 34.5, 35);           // hips
-    p += _figSeg(z, 'legs', 27, 35, 26, 53);               // left leg
-    p += _figSeg(z, 'legs', 33, 35, 34, 53);               // right leg
-    p += _figSeg(z, 'feet', 26, 53, 22.5, 54.8);           // left foot
-    p += _figSeg(z, 'feet', 34, 53, 37.5, 54.8);           // right foot
+    let p = _headEllipse(z, 8.5);
+    p += _reg(z, 'throat', 'M27.6 12.6 L32.4 12.6 L31.7 16 L28.3 16 Z');                      // neck
+    p += _reg(z, 'chest', 'M22 17.6 Q30 15.4 38 17.6 L36.4 29 Q30 31 23.6 29 Z');            // shoulders + upper torso
+    p += _reg(z, 'chest', 'M22.6 18.4 Q17.8 25 18.7 33.2 Q19 34.9 20.7 34.4 Q20.4 26 26 20.4 Z'); // left arm+hand
+    p += _reg(z, 'chest', 'M37.4 18.4 Q42.2 25 41.3 33.2 Q41 34.9 39.3 34.4 Q39.6 26 34 20.4 Z'); // right arm+hand
+    p += _reg(z, 'core', 'M23.8 29 Q30 31 36.2 29 L34.6 38 Q30 40 25.4 38 Z');               // midsection / belly
+    p += _reg(z, 'legs', 'M26 38 Q24.8 46 25 52.6 L26.8 52.6 Q28 46 29.2 38.6 Z');           // left leg
+    p += _reg(z, 'legs', 'M34 38 Q35.2 46 35 52.6 L33.2 52.6 Q32 46 30.8 38.6 Z');           // right leg
+    p += _reg(z, 'feet', 'M25 52.2 L26.9 52.2 L27 54.2 Q22.9 55 22.3 54 Z');                 // left foot
+    p += _reg(z, 'feet', 'M35 52.2 L33.1 52.2 L33 54.2 Q37.1 55 37.7 54 Z');                 // right foot
     return '<svg viewBox="0 0 60 60">' + p + '</svg>';
 }
 
 /** Seated lotus figure (padmāsana) — upper-body-only verses (#22). */
 function lotusFigureSVG(parts) {
     const z = bodyZoneSet(parts);
-    let p = _figHead(z, 11);
-    p += _figSeg(z, 'throat', 30, 15.6, 30, 19);           // neck
-    p += _figSeg(z, 'chest', 23, 21, 37, 21);              // shoulders
-    p += '<path d="M23 21 Q19 30 22 37" fill="none" stroke="' + _figColor(z, 'chest') +
-        '" stroke-opacity="' + _figOpacity(z, 'chest') + '" stroke-width="' + _figWidth(z, 'chest') + '" stroke-linecap="round"/>';
-    p += '<path d="M37 21 Q41 30 38 37" fill="none" stroke="' + _figColor(z, 'chest') +
-        '" stroke-opacity="' + _figOpacity(z, 'chest') + '" stroke-width="' + _figWidth(z, 'chest') + '" stroke-linecap="round"/>';
-    p += _figSeg(z, 'chest', 30, 19, 30, 30);              // upper trunk
-    p += _figSeg(z, 'core', 30, 30, 30, 36);               // lower trunk
-    // crossed-leg base — static, faint (upper-body verses don't light it)
-    p += '<path d="M18 46 Q30 35 42 46 Q30 50 18 46 Z" fill="currentColor" fill-opacity="0.16" ' +
+    let p = _headEllipse(z, 10.5);
+    p += _reg(z, 'throat', 'M27.6 14.6 L32.4 14.6 L31.7 18 L28.3 18 Z');                      // neck
+    p += _reg(z, 'chest', 'M22 19.6 Q30 17.4 38 19.6 L36.4 31 Q30 33 23.6 31 Z');            // shoulders + upper torso
+    p += _reg(z, 'chest', 'M22.6 20.4 Q18 27 19.4 34 Q19.8 35.4 21.3 35 Q21 28 26 22.4 Z');  // left arm
+    p += _reg(z, 'chest', 'M37.4 20.4 Q42 27 40.6 34 Q40.2 35.4 38.7 35 Q39 28 34 22.4 Z');  // right arm
+    p += _reg(z, 'core', 'M23.8 31 Q30 33 36.2 31 L35 39 Q30 41 25 39 Z');                   // midsection
+    // crossed-leg base — static faint (upper-body verses don't light it)
+    p += '<path d="M17 47 Q30 37.5 43 47 Q30 52 17 47 Z" fill="currentColor" fill-opacity="0.14" ' +
         'stroke="currentColor" stroke-opacity="0.4" stroke-width="1.4" stroke-linejoin="round"/>';
     return '<svg viewBox="0 0 60 60">' + p + '</svg>';
 }

@@ -2,3 +2,6 @@
 # scratch + tool artifacts
 .claude/tmp/
 .playwright-mcp/
+
+# secrets — never commit
+.secrets/
