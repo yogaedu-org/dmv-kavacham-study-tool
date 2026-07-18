@@ -173,6 +173,39 @@ if (data && Array.isArray(data.verses)) {
   }
 })();
 
+/* ---- module-graph guard (#10): every js/ import must resolve to a real export ----
+   Named failure: after the ES-module split, renaming/removing an export without
+   updating its importers is a silent runtime break (blank app, console ReferenceError). */
+(() => {
+  const dir = path.join(root, 'js');
+  let files;
+  try { files = fs.readdirSync(dir).filter((f) => f.endsWith('.js')); } catch (e) { return; }
+  const exportsOf = {}, importsOf = {};
+  files.forEach((f) => {
+    const src = fs.readFileSync(path.join(dir, f), 'utf8');
+    const ex = new Set();
+    let m;
+    const reDecl = /export\s+(?:async\s+)?(?:function|const|let|var|class)\s+([A-Za-z0-9_$]+)/g;
+    while ((m = reDecl.exec(src))) ex.add(m[1]);
+    const reList = /export\s*\{([^}]*)\}/g;
+    while ((m = reList.exec(src))) m[1].split(',').forEach((p) => { const n = p.trim().split(/\s+as\s+/).pop().trim(); if (n) ex.add(n); });
+    exportsOf[f] = ex;
+    const imps = [];
+    const reImp = /import\s*\{([^}]*)\}\s*from\s*['"]\.\/([^'"]+)['"]/g;
+    while ((m = reImp.exec(src))) {
+      let target = m[2]; if (!target.endsWith('.js')) target += '.js';
+      m[1].split(',').forEach((p) => { const n = p.trim().split(/\s+as\s+/)[0].trim(); if (n) imps.push([n, target]); });
+    }
+    importsOf[f] = imps;
+  });
+  files.forEach((f) => {
+    importsOf[f].forEach(([name, target]) => {
+      if (!exportsOf[target]) fail(`js/${f}: imports "${name}" from missing module ./${target}`);
+      else if (!exportsOf[target].has(name)) fail(`js/${f}: imports "${name}" from ./${target} — not exported there (refactor drift)`);
+    });
+  });
+})();
+
 /* ---- report ---- */
 if (localeGaps.length) {
   // Not a failure: draft locales fill in during P2; en always backstops the UI.

@@ -5,6 +5,36 @@ All notable changes to the Daśamahāvidyā Kavacam Interactive Study Tool will 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] — on branch `fix/10-es-modules` (ships together on merge)
+
+### 🏗️ Architecture (#10)
+- **Split `app.js` into ES modules** under `js/` (`state`/`util`/`config`/`i18n`/`controls`/`filters`/`render`/`main`), loaded via `<script type="module">`. Parity-verified (search, theme, font, language, 14 verses). A Vite single-file bundle that also runs from `file://` is tracked in #33.
+- Added a **module-graph test guard** (every `js/` import must resolve to a real export) — catches refactor drift where a renamed export silently breaks the app.
+
+### 🐛 Fixed (#32, #34)
+- Keep the **gear + pin buttons right-most** in the minimal/pinned control bar (#34)
+- **Event-listener leaks**: the filter-tag close handler and autocomplete handler were re-bound on every render/keystroke — now bound once (#32)
+
+### 📝 Docs (#32)
+- Added **LICENSE** (MIT); rewrote the stale README (removed a frozen point-in-time audit; documented the module structure)
+
+## [2.1.1] - 2026-07-18
+
+### 📜 Content & provenance (#28, #4)
+- Removed the erroneous **repeated उग्रतारा** in verse 10 (a dittography in the original data, not a variant) — confirmed against the chant slide + 3 published editions
+- Verse 6 chant text **नील→निल** to match the global editorial consensus (translations keep the meaningful "Nīla/blue" name)
+- Committed the **canonical source** (`data/canonical-source.md`) + provenance in `verses.json.metadata` — closing the source-of-truth gap that let the verse-10 error ship
+
+### 🐛 Fixed (#1, #11, #16, #9, #27)
+- **Translation search was broken** — it searched the pre-#25 singular field, so translation prose never matched; now searches across all locale translations
+- Checkbox **tap targets 20→24px** (small-screen audit)
+- Synced the banner version and declared `<meta name="version">` the single source (#9)
+- **Hardened the service worker**: network-first navigation + tolerant precache (#27)
+
+### ✨ Added (#30, #11)
+- Subtle **footer build stamp** (`Last updated · <date> · <commit>`) + deploy protocol (`tools/stamp-version.py`) — the honest "what's live now" marker
+- Extended **test guards**: verse-10 no-repeat, verse-6 निल, ॥N॥ format, i18n key-parity, translation-search drift — each **mutation-verified** to fail on its named failure
+
 ## [2.1.0] - 2026-07-17
 
 ### 🌐 Internationalization (#25)
