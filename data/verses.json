@@ -6,7 +6,16 @@
     "language": "Sanskrit",
     "transliterationSystem": "IAST",
     "version": "1.0",
-    "lastUpdated": "2025-01-28"
+    "lastUpdated": "2026-07-18",
+    "source": {
+      "reference": "data/canonical-source.md",
+      "authority": "Devanagari is authoritative over IAST",
+      "witnesses": [
+        "congregational chant slide (Yoga Das Mahavidya) — primary authority",
+        "drive-corpus: atha śrīmahāvidyākavacam - अथ श्रीमहाविद्याकवचम् (DEV).docx"
+      ],
+      "auditedAgainstCanonical": "2026-07-18 (#28)"
+    }
   },
   "verses": [
     {

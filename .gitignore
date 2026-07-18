@@ -1,0 +1,4 @@
+
+# scratch + tool artifacts
+.claude/tmp/
+.playwright-mcp/
