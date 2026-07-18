@@ -21,10 +21,10 @@
     --muted:#635c6b; --line:#ddd4cb; --kumkum:#a8352f; --gold:#9a6b28; --add:#2f6f4f; --warn:#a9772f; }
   *{box-sizing:border-box}
   body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--ui);line-height:1.55;padding-bottom:4rem}
-  .wrap{max-width:860px;margin:0 auto;padding:clamp(1rem,3vw,2rem)}
+  .wrap{max-width:900px;margin:0 auto;padding:clamp(1rem,3vw,2rem)}
   .eyebrow{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:600}
   h1{font-family:var(--serif);font-weight:600;font-size:clamp(1.6rem,4.5vw,2.3rem);margin:.4rem 0 .3rem;text-wrap:balance}
-  .lede{color:var(--muted);max-width:64ch}
+  .lede{color:var(--muted);max-width:66ch}
   .repo-line{margin-top:.6rem;font-size:.78rem;color:var(--muted);display:flex;gap:.5rem;flex-wrap:wrap}
   .repo-line code{font-family:ui-monospace,Menlo,Consolas,monospace;background:var(--surface-2);padding:.12rem .45rem;border-radius:6px;color:var(--ink)}
   .bar{position:sticky;top:0;z-index:5;background:var(--surface);border:1px solid var(--line);border-radius:14px;
@@ -37,8 +37,13 @@
   :root[data-theme="dark"] .btn.primary{color:#1a0f0e}
   .btn:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 
+  .finding{background:color-mix(in srgb,var(--add) 10%,var(--surface));border:1px solid var(--add);border-left:4px solid var(--add);
+    border-radius:14px;padding:1rem 1.1rem;margin:0 0 1.2rem}
+  .finding b{color:var(--add)}
+  .finding .h{font-family:var(--serif);font-weight:600;font-size:1.05rem;margin-bottom:.3rem;color:var(--ink)}
+
   h2.sec{font-family:var(--serif);font-size:1.15rem;margin:1.8rem 0 .2rem}
-  .sec-note{color:var(--muted);font-size:.86rem;margin:.1rem 0 .8rem;max-width:64ch}
+  .sec-note{color:var(--muted);font-size:.86rem;margin:.1rem 0 .8rem;max-width:66ch}
   .card{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--kumkum);border-radius:14px;
     box-shadow:var(--shadow);padding:1.1rem;margin-bottom:1.1rem}
   .card.info{border-left-color:var(--gold)}
@@ -48,24 +53,28 @@
   :root[data-theme="dark"] .badge{color:#1a0f0e}
   .ttl{font-family:var(--serif);font-weight:600}
   .decide-tag{margin-left:auto;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--kumkum);border:1px solid var(--kumkum);border-radius:20px;padding:.05rem .5rem}
-  .decide-tag.apply{color:var(--add);border-color:var(--add)}
 
-  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin:.5rem 0}
-  @media (max-width:560px){.twocol{grid-template-columns:1fr}}
-  .layer{background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:.55rem .7rem}
-  .layer .ll{font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700;display:block;margin-bottom:.25rem}
-  .layer.ours{border-left:3px solid var(--warn)}
-  .layer.canon{border-left:3px solid var(--add)}
-  .deva{font-family:var(--deva);font-size:1.28rem;line-height:1.7;color:var(--gold)}
-  .mark{color:var(--kumkum);font-weight:700;background:rgba(168,53,47,.16);border-radius:5px;padding:0 .12em}
-  .mark.add{color:var(--add);background:rgba(47,111,79,.16)}
-  .iast{font-family:var(--serif);font-style:italic;color:var(--muted);font-size:.86rem;margin-top:.25rem}
-  .gloss{font-size:.9rem;color:var(--muted);margin:.5rem 0 .3rem}
-  .gloss b{color:var(--ink)}
-  .refs{font-size:.8rem;color:var(--muted);margin:.35rem 0 .2rem;display:flex;gap:.4rem;flex-wrap:wrap;align-items:center}
-  .refs .rl{font-size:.62rem;letter-spacing:.09em;text-transform:uppercase;font-weight:700}
-  .refs a{color:var(--kumkum);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--kumkum) 40%,transparent);padding-bottom:1px}
-  .refs a:hover{border-bottom-color:var(--kumkum)}
+  /* sources */
+  .srcs{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin:.4rem 0 .2rem}
+  @media (max-width:620px){.srcs{grid-template-columns:1fr}}
+  .src{background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:.6rem .75rem;font-size:.85rem}
+  .src .st{font-weight:700;display:block;margin-bottom:.15rem}
+  .src a{color:var(--kumkum);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--kumkum) 40%,transparent)}
+  .src .tag{font-size:.64rem;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+  .src.auth{border-left:3px solid var(--gold)} .src.ed{border-left:3px solid var(--add)}
+
+  /* matrix */
+  .scroll{overflow-x:auto;margin:.4rem 0}
+  table.mx{width:100%;border-collapse:collapse;font-size:.9rem;min-width:640px}
+  table.mx th,table.mx td{padding:.4rem .55rem;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}
+  table.mx th{font-size:.66rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:700;border-bottom:2px solid var(--line)}
+  table.mx .vn{font-family:var(--serif);font-weight:600;color:var(--muted);white-space:nowrap}
+  table.mx .d{font-family:var(--deva);font-size:1.12rem}
+  .ours .d{color:var(--gold)} .slide .d{color:var(--warn)} .ed .d{color:var(--add)}
+  td.ok{color:var(--add);font-weight:700;text-align:center}
+  td.out{color:var(--warn);font-weight:700;text-align:center}
+  .mxlegend{font-size:.78rem;color:var(--muted);margin:.3rem 0 0;display:flex;gap:1rem;flex-wrap:wrap}
+  .dot{display:inline-block;width:.6rem;height:.6rem;border-radius:50%;margin-right:.3rem;vertical-align:middle}
 
   .opts{display:flex;flex-direction:column;gap:.45rem;margin-top:.6rem}
   .opt{display:flex;gap:.55rem;align-items:flex-start;background:var(--surface-2);border:1px solid var(--line);border-radius:9px;padding:.55rem .65rem;cursor:pointer}
@@ -80,15 +89,6 @@
   .note-lab{font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700;display:block;margin-bottom:.3rem}
   .note{width:100%;font:inherit;font-size:.92rem;color:var(--ink);background:var(--surface-2);border:1px solid var(--line);border-radius:9px;padding:.55rem .7rem;resize:vertical;min-height:2.4rem;line-height:1.5}
   .note:focus-visible{outline:2px solid var(--gold);outline-offset:1px}
-
-  table.t1{width:100%;border-collapse:collapse;margin:.4rem 0 .2rem;font-size:.95rem}
-  table.t1 td{padding:.35rem .5rem;border-bottom:1px solid var(--line);vertical-align:middle}
-  table.t1 td.vn{font-family:var(--serif);font-weight:600;color:var(--muted);white-space:nowrap;width:1%}
-  table.t1 td.arrow{color:var(--muted);text-align:center;width:1%}
-  table.t1 .d{font-family:var(--deva);font-size:1.15rem}
-  table.t1 .ours .d{color:var(--warn)}
-  table.t1 .canon .d{color:var(--add)}
-  table.t1 td.g{font-size:.8rem;color:var(--muted)}
 
   .overlay{position:fixed;inset:0;background:rgba(20,16,26,.55);display:none;align-items:center;justify-content:center;padding:1.2rem;z-index:50}
   .overlay.open{display:flex}
@@ -106,97 +106,83 @@
 <div class="wrap">
   <header>
     <div class="eyebrow">Daśamahāvidyā Kavacam · Canonical reconciliation</div>
-    <h1>Our text vs the canonical chant — the divergences</h1>
-    <p class="lede">Two witnesses agree verbatim and are the authority: your <b>congregational chant slide</b> and the <b>drive-corpus docx</b>. Devanāgarī governs over IAST. Below, every place our app text deviates. <b>Tier&nbsp;1</b> (orthographic) I apply outright; <b>Tier&nbsp;2</b> are genuine calls with references; punctuation style you already chose to <b>keep as <span style="font-family:var(--deva)">॥१०॥</span></b>.</p>
-    <div class="repo-line"><span>Repo <code>yogaedu-org/dmv-kavacham-study-tool</code></span><span>· Issue <code>#28</code></span><span>· Source <a href="https://github.com/yogaedu-org/dmv-kavacham-study-tool/blob/fix/28-canonical-audit/data/canonical-source.md" style="color:var(--kumkum)"><code>data/canonical-source.md</code></a></span></div>
+    <h1>Our text vs your chant slide vs three published editions</h1>
+    <p class="lede">Every place our app text diverges from your congregational <b>chant slide</b>, now cross-checked against <b>three independent published editions</b>. “Standard” below means <i>the form these published editions carry</i> — not my assertion. Punctuation style you already chose to keep as <span style="font-family:var(--deva)">॥१०॥</span>.</p>
+    <div class="repo-line"><span>Repo <code>yogaedu-org/dmv-kavacham-study-tool</code></span><span>· Issue <code>#28</code></span><span>· Our source <a href="https://github.com/yogaedu-org/dmv-kavacham-study-tool/blob/fix/28-canonical-audit/data/canonical-source.md" style="color:var(--kumkum)"><code>canonical-source.md</code></a></span></div>
   </header>
 
   <div class="bar">
-    <div class="status" aria-live="polite">Tier-2 decided: <b id="count">0 / 3</b></div>
+    <div class="status" aria-live="polite">Decisions: <b id="count">0 / 2</b></div>
     <span class="spacer"></span>
     <button class="btn primary" id="copyJson" type="button">Copy JSON</button>
   </div>
 
-  <h2 class="sec">Tier 2 — canonical vs standard dictionary Sanskrit</h2>
-  <p class="sec-note">Here the slide differs from dictionary-standard Sanskrit (short vowels, a dropped virāma). Your rule says the canonical governs — but because this is a teaching tool, each is yours to confirm. References open the relevant dictionary entry.</p>
+  <div class="finding">
+    <div class="h">The finding</div>
+    <p style="margin:.2rem 0">On <b>6 of 7</b> disputed spots, our app already matches <b>all three published editions</b> — it is the <b>chant slide</b> that is the outlier there (its anusvāra + short-vowel + word-space forms are that slide’s own typographic style, invisible in pronunciation). The one exception is <b>verse 6</b>, where the slide <i>and</i> all three editions write <span style="font-family:var(--deva)">निल</span> (short) and our app’s <span style="font-family:var(--deva)">नील</span> is the outlier.</p>
+  </div>
 
-  <!-- v4 urdhva -->
-  <article class="card" data-q="v4-urdhva" data-answered="false">
-    <div class="chead"><span class="badge">Verse 4</span><span class="ttl">“upward / above”</span><span class="decide-tag">decide</span></div>
-    <div class="twocol">
-      <div class="layer ours"><span class="ll">Our app (standard)</span><span class="deva"><span class="mark">ऊ</span>र्ध्वं</span><span class="iast">ūrdhvaṁ (long ū)</span></div>
-      <div class="layer canon"><span class="ll">Canonical slide</span><span class="deva"><span class="mark add">उ</span>र्ध्वं</span><span class="iast">urdhvaṁ (short u)</span></div>
+  <h2 class="sec">The three third-party references</h2>
+  <p class="sec-note">All fetched and verified 2026-07-18. The two witnesses for the chant text itself are your chant slide + the drive-corpus docx (recorded in <code>canonical-source.md</code>); these three are the external cross-check you asked for.</p>
+  <div class="srcs">
+    <div class="src ed"><span class="tag">Reputable Sanskrit-docs site</span><span class="st">दशमहाविद्याकवचम् — Sanskrit Documents</span><a href="https://sanskritdocuments.org/doc_devii/dashamahAvidyAkavacham.html" target="_blank" rel="noopener">sanskritdocuments.org/doc_devii/…</a></div>
+    <div class="src ed"><span class="tag">Published edition</span><span class="st">श्री दशमहाविद्या कवचम् — HinduNidhi</span><a href="https://hindunidhi.com/das-mahavidya-kavacham-sanskrit/" target="_blank" rel="noopener">hindunidhi.com/das-mahavidya-kavacham-sanskrit</a></div>
+    <div class="src ed"><span class="tag">Published edition</span><span class="st">महाविद्या कवच — Karmkand Vidhi</span><a href="https://karmkandvidhi.in/mahavidya-kavach/" target="_blank" rel="noopener">karmkandvidhi.in/mahavidya-kavach</a></div>
+    <div class="src auth"><span class="tag">Word-level dictionary (context)</span><span class="st">Monier-Williams via wisdomlib</span><a href="https://www.wisdomlib.org/definition/nila" target="_blank" rel="noopener">nīla</a> · <a href="https://www.wisdomlib.org/definition/urdhva" target="_blank" rel="noopener">ūrdhva</a> · <a href="https://www.wisdomlib.org/definition/majja" target="_blank" rel="noopener">majjā</a></div>
+  </div>
+
+  <h2 class="sec">The comparison matrix</h2>
+  <div class="scroll">
+  <table class="mx">
+    <thead><tr><th>Spot</th><th>Our app</th><th>Chant slide</th><th>Sanskrit&nbsp;Docs</th><th>HinduNidhi</th><th>KarmkandVidhi</th><th>Verdict</th></tr></thead>
+    <tbody>
+      <tr><td class="vn">v4 “upward”</td><td class="ours"><span class="d">ऊर्ध्वं</span></td><td class="slide"><span class="d">उर्ध्वं</span></td><td class="ed"><span class="d">ऊर्ध्वं</span></td><td class="ed"><span class="d">ऊर्ध्वं</span></td><td class="ed"><span class="d">ऊर्ध्वं</span></td><td class="ok">app ✓ = editions</td></tr>
+      <tr><td class="vn">v4 Mātaṅgī</td><td class="ours"><span class="d">मातङ्गी</span></td><td class="slide"><span class="d">मातंगी</span></td><td class="ed"><span class="d">मातङ्गी</span></td><td class="ed"><span class="d">मातङ्गी</span></td><td class="ed"><span class="d">मातङ्गी</span></td><td class="ok">app ✓ = editions</td></tr>
+      <tr><td class="vn">v6 Nīla-Sarasvatī</td><td class="ours"><span class="d">नीलसरस्वती</span></td><td class="slide"><span class="d">निलसरस्वती</span></td><td class="ed"><span class="d">निल…</span></td><td class="ed"><span class="d">निल…</span></td><td class="ed"><span class="d">निल…</span></td><td class="out">app is outlier</td></tr>
+      <tr><td class="vn">v8 “fingers”</td><td class="ours"><span class="d">कराङ्गुलीः</span></td><td class="slide"><span class="d">करांगुलीः</span></td><td class="ed"><span class="d">कराङ्गुलीः</span></td><td class="ed"><span class="d">कराङ्गुलीः</span></td><td class="ed"><span class="d">कराङ्गुलीः</span></td><td class="ok">app ✓ = editions</td></tr>
+      <tr><td class="vn">v10 jaṅghorū</td><td class="ours"><span class="d">जङ्घोरू</span></td><td class="slide"><span class="d">जंघोरू</span></td><td class="ed"><span class="d">जङ्घोरू</span></td><td class="ed"><span class="d">जङ्घोरू</span></td><td class="ed"><span class="d">जङ्घोरू</span></td><td class="ok">app ✓ = editions</td></tr>
+      <tr><td class="vn">v11 majjādīn</td><td class="ours"><span class="d">…मज्जादीन्</span></td><td class="slide"><span class="d">…मज्जादीन</span></td><td class="ed"><span class="d">…मज्जादीन्</span></td><td class="ed"><span class="d">…मज्जादीन्</span></td><td class="ed"><span class="d">…मज्जादीन्</span></td><td class="ok">app ✓ = editions</td></tr>
+      <tr><td class="vn">v13 throne</td><td class="ours"><span class="d">दिव्यसिंहासन</span></td><td class="slide"><span class="d">दिव्य सिंहासन</span></td><td class="ed"><span class="d">दिव्यसिंहासन</span></td><td class="ed"><span class="d">दिव्यसिंहासन</span></td><td class="ed"><span class="d">दिव्यसिंहासन</span></td><td class="ok">app ✓ = editions</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="mxlegend"><span><span class="dot" style="background:var(--gold)"></span>Our app</span><span><span class="dot" style="background:var(--warn)"></span>Chant slide (outlier where noted)</span><span><span class="dot" style="background:var(--add)"></span>Published editions</span></p>
+
+  <h2 class="sec">Your decisions</h2>
+
+  <!-- Decision A: the 6 spots -->
+  <article class="card" data-q="decA" data-answered="false">
+    <div class="chead"><span class="badge">6 spots</span><span class="ttl">Where our app = 3 editions, slide is the outlier</span><span class="decide-tag">decide</span></div>
+    <p class="sec-note" style="margin-top:0">v4 ऊर्ध्वं · v4 मातङ्गी · v8 कराङ्गुलीः · v10 जङ्घोरू · v11 मज्जादीन् · v13 दिव्यसिंहासन. All differences are orthographic/typographic (anusvāra vs conjunct, long vs short vowel, a word-space) — none change how the verse is chanted aloud.</p>
+    <div class="opts" data-name="decA">
+      <label class="opt"><input type="radio" name="decA" value="keep-ours"><span class="ol">Keep our app as-is <span class="od">Stay aligned with all three published editions. No change. (My recommendation.)</span></span></label>
+      <label class="opt"><input type="radio" name="decA" value="match-slide"><span class="ol">Match your chant slide <span class="od">Change these 6 to the slide’s forms (जंघोरू, उर्ध्वं, …), diverging from the editions.</span></span></label>
+      <label class="opt"><input type="radio" name="decA" value="per-item"><span class="ol">Decide per item <span class="od">I’ll list the 6 individually — e.g. match the slide only where you specifically want to.</span></span></label>
     </div>
-    <p class="gloss"><b>Context:</b> “<span style="font-family:var(--deva)">ऊर्ध्वं रक्षतु मे विद्या</span>” — <i>May the Vidyā guard me above</i>. Dictionary form is <span style="font-family:var(--deva)">ऊर्ध्व</span> (ūrdhva, long ū); the slide shortens it.</p>
-    <div class="refs"><span class="rl">Ref</span><a href="https://www.wisdomlib.org/definition/urdhva" target="_blank" rel="noopener">wisdomlib: ūrdhva</a></div>
-    <div class="opts" data-name="v4-urdhva">
-      <label class="opt"><input type="radio" name="v4-urdhva" value="canonical"><span class="ol">Follow canonical — <span class="d">उर्ध्वं</span><span class="od">Match the slide (short u). App text == what you chant.</span></span></label>
-      <label class="opt"><input type="radio" name="v4-urdhva" value="standard"><span class="ol">Keep standard — <span class="d">ऊर्ध्वं</span><span class="od">Dictionary-correct long ū. App diverges from the slide here.</span></span></label>
-    </div>
-    <p class="rec"><b>My take:</b> follow canonical — a common vowel-shortening, and matching the chant matters more here.</p>
-    <label class="note-wrap"><span class="note-lab">Note / feedback</span><textarea class="note" placeholder="anything I should know, or a third option…"></textarea></label>
+    <p class="rec"><b>My recommendation:</b> keep our app. Three editions corroborate it; the slide forms are that slide’s typography and sound identical when chanted. This reverses my earlier “apply the slide” take — the third-party check changed the evidence.</p>
+    <label class="note-wrap"><span class="note-lab">Note / feedback</span><textarea class="note" placeholder="e.g. but I really want the app to mirror the exact slide we project…"></textarea></label>
   </article>
 
-  <!-- v6 nila -->
-  <article class="card" data-q="v6-nila" data-answered="false">
-    <div class="chead"><span class="badge">Verse 6</span><span class="ttl">Nīla-Sarasvatī (the Blue Sarasvatī)</span><span class="decide-tag">decide</span></div>
-    <div class="twocol">
-      <div class="layer ours"><span class="ll">Our app (standard)</span><span class="deva"><span class="mark">नी</span>लसरस्वती</span><span class="iast">nīlasarasvatī (nīla = blue)</span></div>
-      <div class="layer canon"><span class="ll">Canonical slide</span><span class="deva"><span class="mark add">नि</span>लसरस्वती</span><span class="iast">nilasarasvatī (short i)</span></div>
+  <!-- Decision B: v6 nila -->
+  <article class="card" data-q="v6" data-answered="false">
+    <div class="chead"><span class="badge">Verse 6</span><span class="ttl">नील (blue) vs निल — the one real crux</span><span class="decide-tag">decide</span></div>
+    <p class="sec-note" style="margin-top:0">Here <b>every external source</b> — your slide <i>and</i> all three editions — writes <span style="font-family:var(--deva)">निल</span> (short i). But the deity’s name <b>means “blue”</b>: <span style="font-family:var(--deva)">नील</span> (nīla, long ī). So the widely-copied reading (<span style="font-family:var(--deva)">निल</span>) collides with the etymologically-correct name (<span style="font-family:var(--deva)">नील</span>). Our app currently has <span style="font-family:var(--deva)">नील</span>.</p>
+    <div class="refs" style="font-size:.8rem;color:var(--muted);margin:.2rem 0 .4rem"><a href="https://www.wisdomlib.org/definition/nilasarasvati" target="_blank" rel="noopener" style="color:var(--kumkum)">wisdomlib: Nīla-Sarasvatī</a> — “the blue Sarasvatī / Tārā”.</div>
+    <div class="opts" data-name="v6">
+      <label class="opt"><input type="radio" name="v6" value="match-sources"><span class="ol">Match every source — <span class="d">निलसरस्वती</span><span class="od">Short i. What the slide and all three editions actually print.</span></span></label>
+      <label class="opt"><input type="radio" name="v6" value="keep-meaning"><span class="ol">Keep the meaning — <span class="d">नीलसरस्वती</span><span class="od">Long ī = “blue.” The deity’s correct name; a deliberate scholarly correction over the common reading.</span></span></label>
     </div>
-    <p class="gloss"><b>Context:</b> “<span style="font-family:var(--deva)">श्रोत्रे निलसरस्वती</span>” — <i>Nīla-Sarasvatī (a form of Tārā) in the ears</i>. The name means <b>blue</b> (<span style="font-family:var(--deva)">नील</span>, nīla, long ī); the slide shortens to <span style="font-family:var(--deva)">निल</span>. <br><i>Note: this reverses the #4 board’s earlier “keep ours” — that call predated the canonical authority.</i></p>
-    <div class="refs"><span class="rl">Ref</span><a href="https://www.wisdomlib.org/definition/nila" target="_blank" rel="noopener">wisdomlib: nīla</a><a href="https://www.wisdomlib.org/definition/nilasarasvati" target="_blank" rel="noopener">wisdomlib: Nīla-Sarasvatī</a></div>
-    <div class="opts" data-name="v6-nila">
-      <label class="opt"><input type="radio" name="v6-nila" value="canonical"><span class="ol">Follow canonical — <span class="d">निलसरस्वती</span><span class="od">Match the slide (short i).</span></span></label>
-      <label class="opt"><input type="radio" name="v6-nila" value="standard"><span class="ol">Keep standard — <span class="d">नीलसरस्वती</span><span class="od">“Blue” Sarasvatī with the meaningful long ī. App diverges from the slide.</span></span></label>
-    </div>
-    <p class="rec"><b>My take:</b> this one is the weakest case for the slide — <span style="font-family:var(--deva)">नील</span> = “blue” is the deity’s actual name. Reasonable to keep standard. Your rule still says canonical; your call.</p>
-    <label class="note-wrap"><span class="note-lab">Note / feedback</span><textarea class="note" placeholder="anything I should know, or a third option…"></textarea></label>
-  </article>
-
-  <!-- v11 majjadin -->
-  <article class="card" data-q="v11-majjadin" data-answered="false">
-    <div class="chead"><span class="badge">Verse 11</span><span class="ttl">“…blood, flesh, bone, marrow, etc.”</span><span class="decide-tag">decide</span></div>
-    <div class="twocol">
-      <div class="layer ours"><span class="ll">Our app (grammatical)</span><span class="deva">रक्तमांसास्थिमज्जादी<span class="mark">न्</span></span><span class="iast">…majjādīn (acc. pl., virāma)</span></div>
-      <div class="layer canon"><span class="ll">Canonical slide</span><span class="deva">रक्तमांसास्थिमज्जादी<span class="mark add">न</span></span><span class="iast">…majjādīna (no virāma)</span></div>
-    </div>
-    <p class="gloss"><b>Context:</b> the object of “<span style="font-family:var(--deva)">पातु देवी शवासना</span>” — <i>May the corpse-seated Goddess guard [my] blood, flesh, bone, marrow, and the rest</i>. Grammar wants the accusative plural <span style="font-family:var(--deva)">मज्जादीन्</span> (majjādīn, with virāma); the slide drops the virāma, which reads <i>majjādīna</i>. <b>This is the one spot the slide looks like a scribal slip.</b></p>
-    <div class="refs"><span class="rl">Ref</span><a href="https://www.wisdomlib.org/definition/majja" target="_blank" rel="noopener">wisdomlib: majjā (marrow)</a></div>
-    <div class="opts" data-name="v11-majjadin">
-      <label class="opt"><input type="radio" name="v11-majjadin" value="canonical"><span class="ol">Follow canonical — <span class="d">…मज्जादीन</span><span class="od">Match the slide exactly (no virāma).</span></span></label>
-      <label class="opt"><input type="radio" name="v11-majjadin" value="standard"><span class="ol">Keep grammatical — <span class="d">…मज्जादीन्</span><span class="od">Restore the virāma (accusative plural). Diverges from the slide’s typo.</span></span></label>
-    </div>
-    <p class="rec"><b>My take:</b> keep grammatical — a missing virāma is almost certainly a slide typo, and the study tool shouldn’t teach it. Flagging for your call.</p>
-    <label class="note-wrap"><span class="note-lab">Note / feedback</span><textarea class="note" placeholder="anything I should know, or a third option…"></textarea></label>
-  </article>
-
-  <h2 class="sec">Tier 1 — orthographic (canonical governs) · applying</h2>
-  <p class="sec-note">Same sound, different spelling (anusvāra vs. conjunct nasal; a variant vocalic-ṛ; one word-space). The canonical form governs, so these are being applied — logged here for the record with a single veto if you disagree.</p>
-  <article class="card info" data-q="tier1" data-answered="true">
-    <div class="chead"><span class="badge">6 spots</span><span class="ttl">Match the canonical spelling</span><span class="decide-tag apply">applying</span></div>
-    <table class="t1">
-      <tr><td class="vn">v2</td><td class="ours"><span class="d">नैरृत्यां</span></td><td class="arrow">→</td><td class="canon"><span class="d">नैर्ऋत्यां</span></td><td class="g">“in the SW” (nairṛti)</td></tr>
-      <tr><td class="vn">v4</td><td class="ours"><span class="d">मातङ्गी</span></td><td class="arrow">→</td><td class="canon"><span class="d">मातंगी</span></td><td class="g">Mātaṅgī</td></tr>
-      <tr><td class="vn">v8</td><td class="ours"><span class="d">कराङ्गुलीः</span></td><td class="arrow">→</td><td class="canon"><span class="d">करांगुलीः</span></td><td class="g">“fingers”</td></tr>
-      <tr><td class="vn">v10</td><td class="ours"><span class="d">जङ्घोरू</span></td><td class="arrow">→</td><td class="canon"><span class="d">जंघोरू</span></td><td class="g">“shanks &amp; thighs”</td></tr>
-      <tr><td class="vn">v11</td><td class="ours"><span class="d">पादाङ्गुलीः</span></td><td class="arrow">→</td><td class="canon"><span class="d">पादांगुलीः</span></td><td class="g">“toes”</td></tr>
-      <tr><td class="vn">v13</td><td class="ours"><span class="d">दिव्यसिंहासन</span></td><td class="arrow">→</td><td class="canon"><span class="d">दिव्य&nbsp;सिंहासन</span></td><td class="g">“divine lion-throne” (word-space)</td></tr>
-    </table>
-    <div class="opts" data-name="tier1">
-      <label class="opt"><input type="radio" name="tier1" value="apply" checked><span class="ol">Apply all 6 <span class="od">Match the canonical spelling (recommended — your Devanāgarī-absolute rule).</span></span></label>
-      <label class="opt"><input type="radio" name="tier1" value="hold"><span class="ol">Hold — keep ours <span class="od">Don’t change these; I’ll leave the conjunct forms as-is.</span></span></label>
-    </div>
-    <label class="note-wrap"><span class="note-lab">Note / feedback</span><textarea class="note" placeholder="e.g. keep just one of these as conjunct…"></textarea></label>
+    <p class="rec"><b>My take:</b> genuinely your call. If the tool should mirror what’s chanted/printed everywhere → निल. If it should teach the correct name → नील. I lean slightly to keeping नील (it’s the name’s meaning), but I won’t override the unanimous sources without your word.</p>
+    <label class="note-wrap"><span class="note-lab">Note / feedback</span><textarea class="note" placeholder="your call, and why…"></textarea></label>
   </article>
 
   <h2 class="sec">Settled</h2>
   <article class="card info" data-answered="true">
-    <div class="chead"><span class="badge" style="background:var(--add)">✓</span><span class="ttl">Daṇḍa &amp; numeral style</span></div>
-    <p class="gloss">You chose to <b>keep the app style</b> <span style="font-family:var(--deva);color:var(--gold)">॥१०॥</span> (Unicode double-daṇḍa U+0965 + Devanāgarī numerals) rather than the slide’s <span style="font-family:var(--deva)">।।10।।</span> (two single daṇḍas + Latin numerals). Cosmetic — content unaffected. <b>No change.</b></p>
+    <div class="chead"><span class="badge" style="background:var(--add)">✓</span><span class="ttl">Verse-10 repeat &amp; daṇḍa style</span></div>
+    <p class="sec-note" style="margin-top:0"><b>Verse-10 repeated उग्रतारा:</b> removed and <b>deployed</b> — Sanskrit Documents + your slide both begin line 2 with <span style="font-family:var(--deva)">गुदं</span> (no repeat), confirming it was original bad data. <br><b>Daṇḍa &amp; numerals:</b> you chose to keep the app’s <span style="font-family:var(--deva);color:var(--gold)">॥१०॥</span> (U+0965 + Devanāgarī numerals) over the slide’s <span style="font-family:var(--deva)">।।10।।</span>. Cosmetic — no change.</p>
   </article>
 
-  <footer>Nothing is applied from this page. Your Tier-2 choices + any notes travel back in the JSON · issues <a href="https://github.com/yogaedu-org/dmv-kavacham-study-tool/issues/28" style="color:var(--kumkum)">#28</a> / <a href="https://github.com/yogaedu-org/dmv-kavacham-study-tool/issues/4" style="color:var(--kumkum)">#4</a>. References: <a href="https://www.wisdomlib.org/definition/nilasarasvati" style="color:var(--kumkum)">wisdomlib</a>, <a href="https://sanskritdocuments.org/doc_devii/" style="color:var(--kumkum)">sanskritdocuments</a>.</footer>
+  <footer>Nothing is applied from this page — your two choices + notes travel back in the JSON · issues <a href="https://github.com/yogaedu-org/dmv-kavacham-study-tool/issues/28" style="color:var(--kumkum)">#28</a> / <a href="https://github.com/yogaedu-org/dmv-kavacham-study-tool/issues/4" style="color:var(--kumkum)">#4</a>. Sources: <a href="https://sanskritdocuments.org/doc_devii/dashamahAvidyAkavacham.html" style="color:var(--kumkum)">Sanskrit Documents</a>, <a href="https://hindunidhi.com/das-mahavidya-kavacham-sanskrit/" style="color:var(--kumkum)">HinduNidhi</a>, <a href="https://karmkandvidhi.in/mahavidya-kavach/" style="color:var(--kumkum)">Karmkand Vidhi</a>.</footer>
 </div>
 
 <div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-label="Copy decision JSON">
@@ -212,34 +198,30 @@
 <script>
 (function(){
   var $ = function(id){ return document.getElementById(id); };
-  var TIER2 = ['v4-urdhva','v6-nila','v11-majjadin'];
-
+  var QS = ['decA','v6'];
   function cardOf(q){ return document.querySelector('.card[data-q="'+q+'"]'); }
   function chosen(name){ var el = document.querySelector('input[name="'+name+'"]:checked'); return el ? el.value : null; }
   function noteOf(q){ var c = cardOf(q); if(!c) return ''; var t = c.querySelector('.note'); return t ? t.value.trim() : ''; }
-
   function refresh(){
     var n = 0;
-    TIER2.forEach(function(q){
-      var v = chosen(q), c = cardOf(q);
-      if(v){ n++; c.dataset.answered = 'true'; } else { c.dataset.answered = 'false'; }
-    });
-    $('count').textContent = n + ' / 3';
+    QS.forEach(function(q){ var v = chosen(q), c = cardOf(q);
+      if(v){ n++; c.dataset.answered = 'true'; } else { c.dataset.answered = 'false'; } });
+    $('count').textContent = n + ' / 2';
   }
   document.addEventListener('change', function(e){ if(e.target && e.target.type === 'radio') refresh(); });
-
   function buildJSON(){
-    var decisions = TIER2.map(function(q){
-      return { id:q, verse:parseInt(q.match(/^v(\d+)/)[1],10), choice: chosen(q) || 'undecided', note: noteOf(q) };
-    });
-    decisions.push({ id:'tier1-orthographic', verses:[2,4,8,10,11,13], choice: chosen('tier1'), note: noteOf('tier1') });
     return JSON.stringify({
       board: 'dmv-kavacham canonical reconciliation',
       repo: 'yogaedu-org/dmv-kavacham-study-tool',
       relatesTo: { issue: 28, alsoSee: 4 },
-      canonicalSource: 'data/canonical-source.md (chant slide + drive-corpus docx, agree verbatim)',
-      settled: { dandaStyle: 'keep app ॥१०॥ (Devanagari numerals, U+0965)' },
-      decisions: decisions
+      canonicalWitnesses: ['chant slide', 'drive-corpus docx'],
+      thirdPartyRefs: ['sanskritdocuments.org/doc_devii/dashamahAvidyAkavacham.html','hindunidhi.com/das-mahavidya-kavacham-sanskrit','karmkandvidhi.in/mahavidya-kavach'],
+      finding: 'app matches all 3 editions on 6/7 spots; slide is the outlier there; v6 nila is where app is the outlier',
+      settled: { verse10Repeat: 'removed + deployed (all sources: line2 begins गुदं)', dandaStyle: 'keep app ॥१०॥' },
+      decisions: [
+        { id:'decA-six-orthographic', verses:[4,8,10,11,13], choice: chosen('decA') || 'undecided', note: noteOf('decA') },
+        { id:'v6-nila-vs-niila', verse:6, choice: chosen('v6') || 'undecided', note: noteOf('v6') }
+      ]
     }, null, 2);
   }
   function toast(m){ var t=$('toast'); t.textContent=m; t.classList.add('show'); setTimeout(function(){t.classList.remove('show');},2500); }

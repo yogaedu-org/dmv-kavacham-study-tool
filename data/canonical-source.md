@@ -90,9 +90,24 @@ tatsarvaṁ sarvadā pātu sarvarakṣaṇakāriṇī ।।14।।
 
 ## Notes on orthography (for the #28 reconciliation)
 
-The canonical text uses the **anusvāra** (ं) form in several places where classical
-dictionary Sanskrit would use an explicit nasal conjunct (e.g. जंघोरू / मातंगी /
-करांगुलीः / पादांगुलीः rather than जङ्घोरू / मātaṅगी / …). Both render the same
-sound; per the rule above the canonical (anusvāra) form governs. A few spots also
-differ from standard dictionary vowel length (उर्ध्वं vs. ऊर्ध्वं; निलसरस्वती vs.
-नीलसरस्वती) — see #28 for the per-item reconciliation decisions.
+The chant slide uses the **anusvāra** (ं) form and some **short vowels** where our
+app text (and, it turns out, published editions) use a nasal conjunct or long vowel
+— e.g. जंघोरू / मातंगी / करांगुलीः / उर्ध्वं on the slide vs. जङ्घोरू / मातङ्गी /
+कराङ्गुलीः / ऊर्ध्वं in our app.
+
+**Third-party cross-check (2026-07-18, #28).** Three independent published editions
+were compared at every divergent spot:
+
+- [Sanskrit Documents — दशमहाविद्याकवचम्](https://sanskritdocuments.org/doc_devii/dashamahAvidyAkavacham.html)
+- [HinduNidhi — श्री दशमहाविद्या कवचम्](https://hindunidhi.com/das-mahavidya-kavacham-sanskrit/)
+- [Karmkand Vidhi — महाविद्या कवच](https://karmkandvidhi.in/mahavidya-kavach/)
+
+**Result:** on 6 of 7 disputed spots our app already matches **all three editions**,
+and the **chant slide is the outlier** (its anusvāra / short-vowel / word-space forms
+are that slide's own typography, invisible in pronunciation). The one place our app is
+the outlier is **verse 6**, where the slide *and* all three editions write निल (short i)
+against our नील (long ī, = "blue," the deity's name). Because of this, the earlier
+"the slide governs everywhere" reading is **superseded**: the app is kept aligned with
+the editions except where the practitioner decides otherwise. Per-item decisions and the
+evidence matrix live in #28. The verse-10 repeated उग्रतारा (removed) is confirmed by
+all sources: line 2 begins गुदं.
