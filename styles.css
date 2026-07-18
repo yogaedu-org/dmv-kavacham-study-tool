@@ -287,6 +287,11 @@ a:hover {
   margin: 0;
 }
 
+/* #34: keep gear + pin right-most in the minimal/pinned bar.
+   order pushes them past theme/font/language; margin-left:auto pins the pair to the far right. */
+.controls.compact .compact-toggle { order: 10; margin-left: auto; }
+.controls.compact .pin-toggle { order: 11; }
+
 /* Compact mode - show active filters but on second line */
 .controls.compact .active-filters {
   display: flex !important;
