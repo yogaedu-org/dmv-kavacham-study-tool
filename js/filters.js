@@ -256,14 +256,18 @@ export function updateFilterTags() {
     
     DOMElements.activeFilters.innerHTML = html;
     
-    // Add click handlers to close buttons
-    DOMElements.activeFilters.addEventListener('click', function(e) {
-        if (e.target.classList.contains('filter-tag-close')) {
-            const type = e.target.dataset.type;
-            const value = e.target.dataset.value;
-            removeFilterTag(type, value);
-        }
-    });
+    // Delegated close handler — bind ONCE (#32). It was re-added on every render,
+    // leaking listeners and firing removeFilterTag N times for a single click.
+    if (DOMElements.activeFilters.dataset.wired !== '1') {
+        DOMElements.activeFilters.dataset.wired = '1';
+        DOMElements.activeFilters.addEventListener('click', function(e) {
+            if (e.target.classList.contains('filter-tag-close')) {
+                const type = e.target.dataset.type;
+                const value = e.target.dataset.value;
+                removeFilterTag(type, value);
+            }
+        });
+    }
 }
 
 /* ==========================================================================
@@ -323,22 +327,25 @@ export function showAutocomplete(searchTerm) {
     DOMElements.autocompleteDropdown.classList.remove('hidden');
     DOMElements.searchInput.setAttribute('aria-expanded', 'true');
     
-    // Add click handlers to autocomplete items
-    DOMElements.autocompleteDropdown.addEventListener('click', function(e) {
-        const item = e.target.closest('.autocomplete-item');
-        if (item) {
-            const type = item.dataset.type;
-            const value = item.dataset.value;
-            
-            // Clear search input
-            DOMElements.searchInput.value = '';
-            AppState.searchTerm = '';
-            hideAutocomplete();
-            
-            // Add as filter instead
-            addFilterTag(type, value);
-        }
-    });
+    // Delegated item handler — bind ONCE (#32); it was re-added on every keystroke.
+    if (DOMElements.autocompleteDropdown.dataset.wired !== '1') {
+        DOMElements.autocompleteDropdown.dataset.wired = '1';
+        DOMElements.autocompleteDropdown.addEventListener('click', function(e) {
+            const item = e.target.closest('.autocomplete-item');
+            if (item) {
+                const type = item.dataset.type;
+                const value = item.dataset.value;
+
+                // Clear search input
+                DOMElements.searchInput.value = '';
+                AppState.searchTerm = '';
+                hideAutocomplete();
+
+                // Add as filter instead
+                addFilterTag(type, value);
+            }
+        });
+    }
 }
 
 /**
