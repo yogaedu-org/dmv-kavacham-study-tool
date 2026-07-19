@@ -73,7 +73,7 @@ function bodyZoneFor(parts) {
 }
 function bodyGlyphImg(bodyParts) {
     var zone = bodyZoneFor(bodyParts);
-    return '<img class="verse-glyph-img" src="figures/body-' + zone + '.webp" alt="" loading="lazy" width="168" height="424">';
+    return '<img class="verse-glyph-img" src="figures/body-' + zone + '.webp" alt="" loading="lazy" width="200" height="329">';
 }
 function mandalaGlyphSVG() {
     let p = '';
