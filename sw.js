@@ -13,7 +13,7 @@
  */
 'use strict';
 
-const CACHE = 'dmv-kavacham-v9';
+const CACHE = 'dmv-kavacham-v10';
 const ASSETS = [
   './',
   './index.html',
