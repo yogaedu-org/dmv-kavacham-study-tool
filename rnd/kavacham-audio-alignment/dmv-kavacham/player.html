@@ -1,0 +1,701 @@
+<!doctype html><meta charset="utf-8">
+<title>DMV Kavacham — verse-by-verse (all days)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root{--ink:#222;--bg:#fafafa;--card:#fff;--line:#ddd;--accent:#b5651d;--muted:#888;--playing:#2f8f5f}
+@media (prefers-color-scheme:dark){:root{--ink:#e8e6f0;--bg:#15161f;--card:#1d1e2a;--line:#2e3040;--accent:#e0a24a;--muted:#9a97ad;--playing:#4fbf83}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:ui-sans-serif,system-ui,Segoe UI,sans-serif}
+header{padding:16px 20px;border-bottom:1px solid var(--line)}
+header h1{margin:0 0 4px;font-size:19px}
+header p{margin:0;color:var(--muted);font-size:13px}
+.tabs{display:flex;gap:6px;padding:12px 20px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.tab{padding:7px 16px;border:1px solid var(--line);border-radius:16px;background:var(--card);color:var(--ink);
+ cursor:pointer;font-size:13px;font-weight:600}
+.tab.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.panel{padding:16px 20px 60px}
+.dayhead{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.dayhead h2{margin:0;font-size:17px}
+.playall,.stopall{padding:7px 14px;border-radius:8px;border:1px solid var(--line);background:var(--card);
+ color:var(--ink);cursor:pointer;font-size:13px}
+.playall{background:var(--accent);color:#fff;border-color:var(--accent)}
+ol.verses{list-style:none;margin:0;padding:0}
+li.v{display:flex;align-items:center;gap:12px;padding:9px 6px;border-bottom:1px solid var(--line)}
+li.v.low{border-left:3px solid #d9534f}
+li.v.low .score{color:#d9534f;font-weight:600}
+li.v.playing{background:color-mix(in srgb,var(--playing) 12%,transparent)}
+.play{width:30px;height:30px;border-radius:50%;border:1px solid var(--line);background:var(--card);
+ color:var(--ink);cursor:pointer;flex:0 0 auto}
+li.v.playing .play{background:var(--playing);color:#fff;border-color:var(--playing)}
+.num{width:20px;text-align:right;color:var(--muted);font-size:12px;flex:0 0 auto}
+.txt{flex:1;min-width:0}
+.dev{font-size:15px}
+.iast{font-size:12px;color:var(--muted);font-style:italic}
+.padas{margin-top:4px;display:flex;gap:6px;flex-wrap:wrap}
+.pbtn{padding:2px 8px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);
+ cursor:pointer;font-size:11px}
+.pbtn.playing{background:var(--playing);color:#fff;border-color:var(--playing)}
+.score{font-size:11px;color:var(--muted);flex:0 0 auto}
+.loopbar{padding:8px 20px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:8px;font-size:13px}
+.loopbar label{display:flex;align-items:center;gap:6px;cursor:pointer}
+</style>
+<header><h1>DMV Kavacham — verse by verse, all days</h1>
+<p>Auto-advancing playback of each day's actual chant, aligned to the 14 shlokas. Play the whole
+chant, one verse, or (below each verse) line 1 / line 2 alone -- verse 14's L2 also offers its
+first repetition alone, for line-by-line study vs. the full (all-repetitions) chant. A red border
++ score marks a verse the aligner itself is unsure of -- worth checking against the waveform tool
+before trusting it; line/repeat buttons are hidden there since they'd inherit the same bad boundaries.</p></header>
+<div class="loopbar"><label><input type="checkbox" id="loopToggle"> 🔁 Loop whatever I press next (whole chant wraps to verse 1; a verse or line repeats itself)</label></div>
+<div class="tabs"><button class="tab" data-day="1" onclick="showDay(1)">Day 1 ⚠</button><button class="tab" data-day="2" onclick="showDay(2)">Day 2</button><button class="tab" data-day="3" onclick="showDay(3)">Day 3</button><button class="tab" data-day="4" onclick="showDay(4)">Day 4</button><button class="tab" data-day="5" onclick="showDay(5)">Day 5</button><button class="tab" data-day="6" onclick="showDay(6)">Day 6</button></div>
+<div class="panel" id="panel1" style="display:none"><div class="dayhead"><h2>Day 1</h2><button class="playall" onclick="playAll(1)">▶ Play all, verse 1 →14</button><button class="stopall" onclick="stopAll()">■ Stop</button></div><ol class="verses"><li class="v low" data-day="1" data-i="0">
+  <button class="play" onclick="playVerse(1,0,false,3.1)">▶</button>
+  <span class="num">1</span>
+  <div class="txt"><div class="dev">ॐ प्राच्यां रक्षतु मे तारा कामरूपनिवासिनी । आग्नेय्यां षोडशी पातु याम्यां धूमावती स्वयम्</div><div class="iast">oṁ prācyāṁ rakṣatu mē tārā kāmarūpanivāsinī । āgnēyyāṁ ṣōḍaśī pātu yāmyāṁ dhūmāvatī svayam</div>
+  </div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.07 ⚠</span>
+  <audio data-day="1" data-i="0" preload="none" src="audio/day1/verse01.mp3"></audio>
+</li><li class="v low" data-day="1" data-i="1">
+  <button class="play" onclick="playVerse(1,1,false,4.42)">▶</button>
+  <span class="num">2</span>
+  <div class="txt"><div class="dev">नैर्ऋत्यां भैरवी पातु वारुण्यां भुवनेश्वरी । वायव्यां सततं पातु छिन्नमस्ता महेश्वरी</div><div class="iast">nairr̥tyāṁ bhairavī pātu vāruṇyāṁ bhuvanēśvarī । vāyavyāṁ satataṁ pātu chinnamastā mahēśvarī</div>
+  </div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.16 ⚠</span>
+  <audio data-day="1" data-i="1" preload="none" src="audio/day1/verse02.mp3"></audio>
+</li><li class="v low" data-day="1" data-i="2">
+  <button class="play" onclick="playVerse(1,2,false,7.27)">▶</button>
+  <span class="num">3</span>
+  <div class="txt"><div class="dev">कौबेर्यां पातु मे देवी श्रीविद्या बगलामुखी । ऐशान्यां पातु मे नित्यं महात्रिपुरसुन्दरी</div><div class="iast">kaubēryāṁ pātu mē dēvī śrīvidyā bagalāmukhī । aiśānyāṁ pātu mē nityaṁ mahātripurasundarī</div>
+  </div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.84 ⚠</span>
+  <audio data-day="1" data-i="2" preload="none" src="audio/day1/verse03.mp3"></audio>
+</li><li class="v" data-day="1" data-i="3">
+  <button class="play" onclick="playVerse(1,3,false,11.77)">▶</button>
+  <span class="num">4</span>
+  <div class="txt"><div class="dev">उर्ध्वं रक्षतु मे विद्या मातंगीपीठवासिनी । सर्वतः पातु मे नित्यं कामाख्या कालिका स्वयम्</div><div class="iast">urdhvaṁ rakṣatu mē vidyā mātaṁgīpīṭhavāsinī । sarvataḥ pātu mē nityaṁ kāmākhyā kālikā svayam</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(1,3,0.3,5.76,this)">▶ L1</button><button class="pbtn" onclick="playPada(1,3,5.76,11.77,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.94</span>
+  <audio data-day="1" data-i="3" preload="none" src="audio/day1/verse04.mp3"></audio>
+</li><li class="v" data-day="1" data-i="4">
+  <button class="play" onclick="playVerse(1,4,false,11.41)">▶</button>
+  <span class="num">5</span>
+  <div class="txt"><div class="dev">ब्रह्मरूपा महाविद्या सर्वविद्यामयी स्वयम् । शीर्षे रक्षतु मे दुर्गा भालं श्रीभवगेहिनी</div><div class="iast">brahmarūpā mahāvidyā sarvavidyāmayī svayam । śīrṣē rakṣatu mē durgā bhālaṁ śrībhavagēhinī</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(1,4,0.3,5.65,this)">▶ L1</button><button class="pbtn" onclick="playPada(1,4,5.65,11.41,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.95</span>
+  <audio data-day="1" data-i="4" preload="none" src="audio/day1/verse05.mp3"></audio>
+</li><li class="v" data-day="1" data-i="5">
+  <button class="play" onclick="playVerse(1,5,false,12.01)">▶</button>
+  <span class="num">6</span>
+  <div class="txt"><div class="dev">त्रिपुरा भ्रुयुगे पातु शर्वाणी पातु नासिकाम् । चक्षुषी चण्डिका पातु श्रोत्रे निलसरस्वती</div><div class="iast">tripurā bhruyugē pātu śarvāṇī pātu nāsikām । cakṣuṣī caṇḍikā pātu śrōtrē nilasarasvatī</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(1,5,0.3,5.91,this)">▶ L1</button><button class="pbtn" onclick="playPada(1,5,5.91,12.01,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.95</span>
+  <audio data-day="1" data-i="5" preload="none" src="audio/day1/verse06.mp3"></audio>
+</li><li class="v" data-day="1" data-i="6">
+  <button class="play" onclick="playVerse(1,6,false,11.7)">▶</button>
+  <span class="num">7</span>
+  <div class="txt"><div class="dev">मुखं सौम्यमुखी पातु ग्रीवां रक्षतु पार्वती । जिह्वां रक्षतु मे देवी जिह्वाललनभीषणा</div><div class="iast">mukhaṁ saumyamukhī pātu grīvāṁ rakṣatu pārvatī । jihvāṁ rakṣatu mē dēvī jihvālalanabhīṣaṇā</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(1,6,0.32,5.87,this)">▶ L1</button><button class="pbtn" onclick="playPada(1,6,5.87,11.7,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.92</span>
+  <audio data-day="1" data-i="6" preload="none" src="audio/day1/verse07.mp3"></audio>
+</li><li class="v" data-day="1" data-i="7">
+  <button class="play" onclick="playVerse(1,7,false,11.94)">▶</button>
+  <span class="num">8</span>
+  <div class="txt"><div class="dev">वाग्देवी वदनं पातु वक्षः पातु महेश्वरी । बाहू महाभुजा पातु करांगुलीः सुरेश्वरी</div><div class="iast">vāgdēvī vadanaṁ pātu vakṣaḥ pātu mahēśvarī । bāhū mahābhujā pātu karāṁgulīḥ surēśvarī</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(1,7,0.3,5.76,this)">▶ L1</button><button class="pbtn" onclick="playPada(1,7,5.76,11.94,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.90</span>
+  <audio data-day="1" data-i="7" preload="none" src="audio/day1/verse08.mp3"></audio>
+</li><li class="v" data-day="1" data-i="8">
+  <button class="play" onclick="playVerse(1,8,false,11.61)">▶</button>
+  <span class="num">9</span>
+  <div class="txt"><div class="dev">पृष्ठतः पातु भीमास्या कट्यां देवी दिगम्बरी । उदरं पातु मे नित्यं महाविद्या महोदरी</div><div class="iast">pr̥ṣṭhataḥ pātu bhīmāsyā kaṭyāṁ dēvī digambarī । udaraṁ pātu mē nityaṁ mahāvidyā mahōdarī</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(1,8,0.28,5.88,this)">▶ L1</button><button class="pbtn" onclick="playPada(1,8,5.88,11.61,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.93</span>
+  <audio data-day="1" data-i="8" preload="none" src="audio/day1/verse09.mp3"></audio>
+</li><li class="v" data-day="1" data-i="9">
+  <button class="play" onclick="playVerse(1,9,false,11.6)">▶</button>
+  <span class="num">10</span>
+  <div class="txt"><div class="dev">उग्रतारा महादेवी जंघोरू परिरक्षतु । गुदं मुष्कं च मेढ्रं च नाभिं च सुरसुन्दरी</div><div class="iast">ugratārā mahādēvī jaṁghōrū parirakṣatu । gudaṁ muṣkaṁ ca mēḍhraṁ ca nābhiṁ ca surasundarī</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(1,9,0.28,5.71,this)">▶ L1</button><button class="pbtn" onclick="playPada(1,9,5.71,11.6,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.95</span>
+  <audio data-day="1" data-i="9" preload="none" src="audio/day1/verse10.mp3"></audio>
+</li><li class="v" data-day="1" data-i="10">
+  <button class="play" onclick="playVerse(1,10,false,12.45)">▶</button>
+  <span class="num">11</span>
+  <div class="txt"><div class="dev">पादांगुलीः सदा पातु भवानी त्रिदशेश्वरी । रक्तमांसास्थिमज्जादीन पातु देवी शवासना</div><div class="iast">pādāṁgulīḥ sadā pātu bhavānī tridaśēśvarī । raktamāṁsāsthimajjādīna pātu dēvī śavāsanā</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(1,10,0.3,6.01,this)">▶ L1</button><button class="pbtn" onclick="playPada(1,10,6.01,12.45,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.93</span>
+  <audio data-day="1" data-i="10" preload="none" src="audio/day1/verse11.mp3"></audio>
+</li><li class="v" data-day="1" data-i="11">
+  <button class="play" onclick="playVerse(1,11,false,11.92)">▶</button>
+  <span class="num">12</span>
+  <div class="txt"><div class="dev">महाभयेषु घोरेषु महाभयनिवारिणी । पातु देवी महामाया कामाख्यापीठवासिनी</div><div class="iast">mahābhayēṣu ghōrēṣu mahābhayanivāriṇī । pātu dēvī mahāmāyā kāmākhyāpīṭhavāsinī</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(1,11,0.3,5.61,this)">▶ L1</button><button class="pbtn" onclick="playPada(1,11,5.61,11.92,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.94</span>
+  <audio data-day="1" data-i="11" preload="none" src="audio/day1/verse12.mp3"></audio>
+</li><li class="v" data-day="1" data-i="12">
+  <button class="play" onclick="playVerse(1,12,false,12.18)">▶</button>
+  <span class="num">13</span>
+  <div class="txt"><div class="dev">भस्माचलगता दिव्य सिंहासनकृताश्रया । पातु श्रीकालिकादेवी सर्वोत्पातेषु सर्वदा</div><div class="iast">bhasmācalagatā divya siṁhāsanakr̥tāśrayā । pātu śrīkālikādēvī sarvōtpātēṣu sarvadā</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(1,12,0.3,6.02,this)">▶ L1</button><button class="pbtn" onclick="playPada(1,12,6.02,12.18,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.93</span>
+  <audio data-day="1" data-i="12" preload="none" src="audio/day1/verse13.mp3"></audio>
+</li><li class="v" data-day="1" data-i="13">
+  <button class="play" onclick="playVerse(1,13,false,11.82)">▶</button>
+  <span class="num">14</span>
+  <div class="txt"><div class="dev">रक्षाहीनं तु यत्स्थानं कवचेनापि वर्जितम् । तत्सर्वं सर्वदा पातु सर्वरक्षणकारिणी</div><div class="iast">rakṣāhīnaṁ tu yatsthānaṁ kavacēnāpi varjitam । tatsarvaṁ sarvadā pātu sarvarakṣaṇakāriṇī</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(1,13,0.3,6.02,this)">▶ L1</button><button class="pbtn" onclick="playPada(1,13,6.02,11.82,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.96</span>
+  <audio data-day="1" data-i="13" preload="none" src="audio/day1/verse14.mp3"></audio>
+</li></ol></div><div class="panel" id="panel2" style="display:none"><div class="dayhead"><h2>Day 2</h2><button class="playall" onclick="playAll(2)">▶ Play all, verse 1 →14</button><button class="stopall" onclick="stopAll()">■ Stop</button></div><ol class="verses"><li class="v" data-day="2" data-i="0">
+  <button class="play" onclick="playVerse(2,0,false,13.42)">▶</button>
+  <span class="num">1</span>
+  <div class="txt"><div class="dev">ॐ प्राच्यां रक्षतु मे तारा कामरूपनिवासिनी । आग्नेय्यां षोडशी पातु याम्यां धूमावती स्वयम्</div><div class="iast">oṁ prācyāṁ rakṣatu mē tārā kāmarūpanivāsinī । āgnēyyāṁ ṣōḍaśī pātu yāmyāṁ dhūmāvatī svayam</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(2,0,0.62,7.03,this)">▶ L1</button><button class="pbtn" onclick="playPada(2,0,7.03,13.42,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.91</span>
+  <audio data-day="2" data-i="0" preload="none" src="audio/day2/verse01.mp3"></audio>
+</li><li class="v" data-day="2" data-i="1">
+  <button class="play" onclick="playVerse(2,1,false,12.17)">▶</button>
+  <span class="num">2</span>
+  <div class="txt"><div class="dev">नैर्ऋत्यां भैरवी पातु वारुण्यां भुवनेश्वरी । वायव्यां सततं पातु छिन्नमस्ता महेश्वरी</div><div class="iast">nairr̥tyāṁ bhairavī pātu vāruṇyāṁ bhuvanēśvarī । vāyavyāṁ satataṁ pātu chinnamastā mahēśvarī</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(2,1,0.3,6.11,this)">▶ L1</button><button class="pbtn" onclick="playPada(2,1,6.11,12.17,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.91</span>
+  <audio data-day="2" data-i="1" preload="none" src="audio/day2/verse02.mp3"></audio>
+</li><li class="v" data-day="2" data-i="2">
+  <button class="play" onclick="playVerse(2,2,false,11.98)">▶</button>
+  <span class="num">3</span>
+  <div class="txt"><div class="dev">कौबेर्यां पातु मे देवी श्रीविद्या बगलामुखी । ऐशान्यां पातु मे नित्यं महात्रिपुरसुन्दरी</div><div class="iast">kaubēryāṁ pātu mē dēvī śrīvidyā bagalāmukhī । aiśānyāṁ pātu mē nityaṁ mahātripurasundarī</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(2,2,0.3,5.69,this)">▶ L1</button><button class="pbtn" onclick="playPada(2,2,5.69,11.98,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.93</span>
+  <audio data-day="2" data-i="2" preload="none" src="audio/day2/verse03.mp3"></audio>
+</li><li class="v" data-day="2" data-i="3">
+  <button class="play" onclick="playVerse(2,3,false,12.45)">▶</button>
+  <span class="num">4</span>
+  <div class="txt"><div class="dev">उर्ध्वं रक्षतु मे विद्या मातंगीपीठवासिनी । सर्वतः पातु मे नित्यं कामाख्या कालिका स्वयम्</div><div class="iast">urdhvaṁ rakṣatu mē vidyā mātaṁgīpīṭhavāsinī । sarvataḥ pātu mē nityaṁ kāmākhyā kālikā svayam</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(2,3,0.3,6.11,this)">▶ L1</button><button class="pbtn" onclick="playPada(2,3,6.11,12.45,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.94</span>
+  <audio data-day="2" data-i="3" preload="none" src="audio/day2/verse04.mp3"></audio>
+</li><li class="v" data-day="2" data-i="4">
+  <button class="play" onclick="playVerse(2,4,false,11.93)">▶</button>
+  <span class="num">5</span>
+  <div class="txt"><div class="dev">ब्रह्मरूपा महाविद्या सर्वविद्यामयी स्वयम् । शीर्षे रक्षतु मे दुर्गा भालं श्रीभवगेहिनी</div><div class="iast">brahmarūpā mahāvidyā sarvavidyāmayī svayam । śīrṣē rakṣatu mē durgā bhālaṁ śrībhavagēhinī</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(2,4,0.3,5.92,this)">▶ L1</button><button class="pbtn" onclick="playPada(2,4,5.92,11.93,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.95</span>
+  <audio data-day="2" data-i="4" preload="none" src="audio/day2/verse05.mp3"></audio>
+</li><li class="v" data-day="2" data-i="5">
+  <button class="play" onclick="playVerse(2,5,false,12.51)">▶</button>
+  <span class="num">6</span>
+  <div class="txt"><div class="dev">त्रिपुरा भ्रुयुगे पातु शर्वाणी पातु नासिकाम् । चक्षुषी चण्डिका पातु श्रोत्रे निलसरस्वती</div><div class="iast">tripurā bhruyugē pātu śarvāṇī pātu nāsikām । cakṣuṣī caṇḍikā pātu śrōtrē nilasarasvatī</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(2,5,0.28,6.18,this)">▶ L1</button><button class="pbtn" onclick="playPada(2,5,6.18,12.51,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.95</span>
+  <audio data-day="2" data-i="5" preload="none" src="audio/day2/verse06.mp3"></audio>
+</li><li class="v" data-day="2" data-i="6">
+  <button class="play" onclick="playVerse(2,6,false,12.48)">▶</button>
+  <span class="num">7</span>
+  <div class="txt"><div class="dev">मुखं सौम्यमुखी पातु ग्रीवां रक्षतु पार्वती । जिह्वां रक्षतु मे देवी जिह्वाललनभीषणा</div><div class="iast">mukhaṁ saumyamukhī pātu grīvāṁ rakṣatu pārvatī । jihvāṁ rakṣatu mē dēvī jihvālalanabhīṣaṇā</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(2,6,0.28,6.24,this)">▶ L1</button><button class="pbtn" onclick="playPada(2,6,6.24,12.48,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.92</span>
+  <audio data-day="2" data-i="6" preload="none" src="audio/day2/verse07.mp3"></audio>
+</li><li class="v" data-day="2" data-i="7">
+  <button class="play" onclick="playVerse(2,7,false,12.33)">▶</button>
+  <span class="num">8</span>
+  <div class="txt"><div class="dev">वाग्देवी वदनं पातु वक्षः पातु महेश्वरी । बाहू महाभुजा पातु करांगुलीः सुरेश्वरी</div><div class="iast">vāgdēvī vadanaṁ pātu vakṣaḥ pātu mahēśvarī । bāhū mahābhujā pātu karāṁgulīḥ surēśvarī</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(2,7,0.3,6.07,this)">▶ L1</button><button class="pbtn" onclick="playPada(2,7,6.07,12.33,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.91</span>
+  <audio data-day="2" data-i="7" preload="none" src="audio/day2/verse08.mp3"></audio>
+</li><li class="v" data-day="2" data-i="8">
+  <button class="play" onclick="playVerse(2,8,false,12.13)">▶</button>
+  <span class="num">9</span>
+  <div class="txt"><div class="dev">पृष्ठतः पातु भीमास्या कट्यां देवी दिगम्बरी । उदरं पातु मे नित्यं महाविद्या महोदरी</div><div class="iast">pr̥ṣṭhataḥ pātu bhīmāsyā kaṭyāṁ dēvī digambarī । udaraṁ pātu mē nityaṁ mahāvidyā mahōdarī</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(2,8,0.3,6.09,this)">▶ L1</button><button class="pbtn" onclick="playPada(2,8,6.09,12.13,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.93</span>
+  <audio data-day="2" data-i="8" preload="none" src="audio/day2/verse09.mp3"></audio>
+</li><li class="v" data-day="2" data-i="9">
+  <button class="play" onclick="playVerse(2,9,false,12.34)">▶</button>
+  <span class="num">10</span>
+  <div class="txt"><div class="dev">उग्रतारा महादेवी जंघोरू परिरक्षतु । गुदं मुष्कं च मेढ्रं च नाभिं च सुरसुन्दरी</div><div class="iast">ugratārā mahādēvī jaṁghōrū parirakṣatu । gudaṁ muṣkaṁ ca mēḍhraṁ ca nābhiṁ ca surasundarī</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(2,9,0.28,6.02,this)">▶ L1</button><button class="pbtn" onclick="playPada(2,9,6.02,12.34,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.94</span>
+  <audio data-day="2" data-i="9" preload="none" src="audio/day2/verse10.mp3"></audio>
+</li><li class="v" data-day="2" data-i="10">
+  <button class="play" onclick="playVerse(2,10,false,12.06)">▶</button>
+  <span class="num">11</span>
+  <div class="txt"><div class="dev">पादांगुलीः सदा पातु भवानी त्रिदशेश्वरी । रक्तमांसास्थिमज्जादीन पातु देवी शवासना</div><div class="iast">pādāṁgulīḥ sadā pātu bhavānī tridaśēśvarī । raktamāṁsāsthimajjādīna pātu dēvī śavāsanā</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(2,10,0.3,6.05,this)">▶ L1</button><button class="pbtn" onclick="playPada(2,10,6.05,12.06,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.93</span>
+  <audio data-day="2" data-i="10" preload="none" src="audio/day2/verse11.mp3"></audio>
+</li><li class="v" data-day="2" data-i="11">
+  <button class="play" onclick="playVerse(2,11,false,12.0)">▶</button>
+  <span class="num">12</span>
+  <div class="txt"><div class="dev">महाभयेषु घोरेषु महाभयनिवारिणी । पातु देवी महामाया कामाख्यापीठवासिनी</div><div class="iast">mahābhayēṣu ghōrēṣu mahābhayanivāriṇī । pātu dēvī mahāmāyā kāmākhyāpīṭhavāsinī</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(2,11,0.3,5.78,this)">▶ L1</button><button class="pbtn" onclick="playPada(2,11,5.78,12.0,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.93</span>
+  <audio data-day="2" data-i="11" preload="none" src="audio/day2/verse12.mp3"></audio>
+</li><li class="v" data-day="2" data-i="12">
+  <button class="play" onclick="playVerse(2,12,false,12.3)">▶</button>
+  <span class="num">13</span>
+  <div class="txt"><div class="dev">भस्माचलगता दिव्य सिंहासनकृताश्रया । पातु श्रीकालिकादेवी सर्वोत्पातेषु सर्वदा</div><div class="iast">bhasmācalagatā divya siṁhāsanakr̥tāśrayā । pātu śrīkālikādēvī sarvōtpātēṣu sarvadā</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(2,12,0.28,6.14,this)">▶ L1</button><button class="pbtn" onclick="playPada(2,12,6.14,12.3,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.92</span>
+  <audio data-day="2" data-i="12" preload="none" src="audio/day2/verse13.mp3"></audio>
+</li><li class="v" data-day="2" data-i="13">
+  <button class="play" onclick="playVerse(2,13,false,12.06)">▶</button>
+  <span class="num">14</span>
+  <div class="txt"><div class="dev">रक्षाहीनं तु यत्स्थानं कवचेनापि वर्जितम् । तत्सर्वं सर्वदा पातु सर्वरक्षणकारिणी</div><div class="iast">rakṣāhīnaṁ tu yatsthānaṁ kavacēnāpi varjitam । tatsarvaṁ sarvadā pātu sarvarakṣaṇakāriṇī</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(2,13,0.28,6.16,this)">▶ L1</button><button class="pbtn" onclick="playPada(2,13,6.16,12.06,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.95</span>
+  <audio data-day="2" data-i="13" preload="none" src="audio/day2/verse14.mp3"></audio>
+</li></ol></div><div class="panel" id="panel3" style="display:none"><div class="dayhead"><h2>Day 3</h2><button class="playall" onclick="playAll(3)">▶ Play all, verse 1 →14</button><button class="stopall" onclick="stopAll()">■ Stop</button></div><ol class="verses"><li class="v" data-day="3" data-i="0">
+  <button class="play" onclick="playVerse(3,0,false,13.16)">▶</button>
+  <span class="num">1</span>
+  <div class="txt"><div class="dev">ॐ प्राच्यां रक्षतु मे तारा कामरूपनिवासिनी । आग्नेय्यां षोडशी पातु याम्यां धूमावती स्वयम्</div><div class="iast">oṁ prācyāṁ rakṣatu mē tārā kāmarūpanivāsinī । āgnēyyāṁ ṣōḍaśī pātu yāmyāṁ dhūmāvatī svayam</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(3,0,0.64,6.96,this)">▶ L1</button><button class="pbtn" onclick="playPada(3,0,6.96,13.16,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.90</span>
+  <audio data-day="3" data-i="0" preload="none" src="audio/verses/verse01.mp3"></audio>
+</li><li class="v" data-day="3" data-i="1">
+  <button class="play" onclick="playVerse(3,1,false,11.59)">▶</button>
+  <span class="num">2</span>
+  <div class="txt"><div class="dev">नैर्ऋत्यां भैरवी पातु वारुण्यां भुवनेश्वरी । वायव्यां सततं पातु छिन्नमस्ता महेश्वरी</div><div class="iast">nairr̥tyāṁ bhairavī pātu vāruṇyāṁ bhuvanēśvarī । vāyavyāṁ satataṁ pātu chinnamastā mahēśvarī</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(3,1,0.3,5.76,this)">▶ L1</button><button class="pbtn" onclick="playPada(3,1,5.76,11.59,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.87</span>
+  <audio data-day="3" data-i="1" preload="none" src="audio/verses/verse02.mp3"></audio>
+</li><li class="v" data-day="3" data-i="2">
+  <button class="play" onclick="playVerse(3,2,false,11.8)">▶</button>
+  <span class="num">3</span>
+  <div class="txt"><div class="dev">कौबेर्यां पातु मे देवी श्रीविद्या बगलामुखी । ऐशान्यां पातु मे नित्यं महात्रिपुरसुन्दरी</div><div class="iast">kaubēryāṁ pātu mē dēvī śrīvidyā bagalāmukhī । aiśānyāṁ pātu mē nityaṁ mahātripurasundarī</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(3,2,0.3,5.96,this)">▶ L1</button><button class="pbtn" onclick="playPada(3,2,5.96,11.8,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.92</span>
+  <audio data-day="3" data-i="2" preload="none" src="audio/verses/verse03.mp3"></audio>
+</li><li class="v" data-day="3" data-i="3">
+  <button class="play" onclick="playVerse(3,3,false,11.95)">▶</button>
+  <span class="num">4</span>
+  <div class="txt"><div class="dev">उर्ध्वं रक्षतु मे विद्या मातंगीपीठवासिनी । सर्वतः पातु मे नित्यं कामाख्या कालिका स्वयम्</div><div class="iast">urdhvaṁ rakṣatu mē vidyā mātaṁgīpīṭhavāsinī । sarvataḥ pātu mē nityaṁ kāmākhyā kālikā svayam</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(3,3,0.3,5.8,this)">▶ L1</button><button class="pbtn" onclick="playPada(3,3,5.8,11.95,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.94</span>
+  <audio data-day="3" data-i="3" preload="none" src="audio/verses/verse04.mp3"></audio>
+</li><li class="v" data-day="3" data-i="4">
+  <button class="play" onclick="playVerse(3,4,false,12.64)">▶</button>
+  <span class="num">5</span>
+  <div class="txt"><div class="dev">ब्रह्मरूपा महाविद्या सर्वविद्यामयी स्वयम् । शीर्षे रक्षतु मे दुर्गा भालं श्रीभवगेहिनी</div><div class="iast">brahmarūpā mahāvidyā sarvavidyāmayī svayam । śīrṣē rakṣatu mē durgā bhālaṁ śrībhavagēhinī</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(3,4,0.3,5.77,this)">▶ L1</button><button class="pbtn" onclick="playPada(3,4,5.77,12.64,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.92</span>
+  <audio data-day="3" data-i="4" preload="none" src="audio/verses/verse05.mp3"></audio>
+</li><li class="v" data-day="3" data-i="5">
+  <button class="play" onclick="playVerse(3,5,false,12.09)">▶</button>
+  <span class="num">6</span>
+  <div class="txt"><div class="dev">त्रिपुरा भ्रुयुगे पातु शर्वाणी पातु नासिकाम् । चक्षुषी चण्डिका पातु श्रोत्रे निलसरस्वती</div><div class="iast">tripurā bhruyugē pātu śarvāṇī pātu nāsikām । cakṣuṣī caṇḍikā pātu śrōtrē nilasarasvatī</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(3,5,0.3,5.94,this)">▶ L1</button><button class="pbtn" onclick="playPada(3,5,5.94,12.09,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.96</span>
+  <audio data-day="3" data-i="5" preload="none" src="audio/verses/verse06.mp3"></audio>
+</li><li class="v" data-day="3" data-i="6">
+  <button class="play" onclick="playVerse(3,6,false,11.88)">▶</button>
+  <span class="num">7</span>
+  <div class="txt"><div class="dev">मुखं सौम्यमुखी पातु ग्रीवां रक्षतु पार्वती । जिह्वां रक्षतु मे देवी जिह्वाललनभीषणा</div><div class="iast">mukhaṁ saumyamukhī pātu grīvāṁ rakṣatu pārvatī । jihvāṁ rakṣatu mē dēvī jihvālalanabhīṣaṇā</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(3,6,0.3,5.91,this)">▶ L1</button><button class="pbtn" onclick="playPada(3,6,5.91,11.88,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.92</span>
+  <audio data-day="3" data-i="6" preload="none" src="audio/verses/verse07.mp3"></audio>
+</li><li class="v" data-day="3" data-i="7">
+  <button class="play" onclick="playVerse(3,7,false,11.97)">▶</button>
+  <span class="num">8</span>
+  <div class="txt"><div class="dev">वाग्देवी वदनं पातु वक्षः पातु महेश्वरी । बाहू महाभुजा पातु करांगुलीः सुरेश्वरी</div><div class="iast">vāgdēvī vadanaṁ pātu vakṣaḥ pātu mahēśvarī । bāhū mahābhujā pātu karāṁgulīḥ surēśvarī</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(3,7,0.28,5.95,this)">▶ L1</button><button class="pbtn" onclick="playPada(3,7,5.95,11.97,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.89</span>
+  <audio data-day="3" data-i="7" preload="none" src="audio/verses/verse08.mp3"></audio>
+</li><li class="v" data-day="3" data-i="8">
+  <button class="play" onclick="playVerse(3,8,false,11.76)">▶</button>
+  <span class="num">9</span>
+  <div class="txt"><div class="dev">पृष्ठतः पातु भीमास्या कट्यां देवी दिगम्बरी । उदरं पातु मे नित्यं महाविद्या महोदरी</div><div class="iast">pr̥ṣṭhataḥ pātu bhīmāsyā kaṭyāṁ dēvī digambarī । udaraṁ pātu mē nityaṁ mahāvidyā mahōdarī</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(3,8,0.3,5.88,this)">▶ L1</button><button class="pbtn" onclick="playPada(3,8,5.88,11.76,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.93</span>
+  <audio data-day="3" data-i="8" preload="none" src="audio/verses/verse09.mp3"></audio>
+</li><li class="v" data-day="3" data-i="9">
+  <button class="play" onclick="playVerse(3,9,false,11.93)">▶</button>
+  <span class="num">10</span>
+  <div class="txt"><div class="dev">उग्रतारा महादेवी जंघोरू परिरक्षतु । गुदं मुष्कं च मेढ्रं च नाभिं च सुरसुन्दरी</div><div class="iast">ugratārā mahādēvī jaṁghōrū parirakṣatu । gudaṁ muṣkaṁ ca mēḍhraṁ ca nābhiṁ ca surasundarī</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(3,9,0.3,5.83,this)">▶ L1</button><button class="pbtn" onclick="playPada(3,9,5.83,11.93,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.93</span>
+  <audio data-day="3" data-i="9" preload="none" src="audio/verses/verse10.mp3"></audio>
+</li><li class="v" data-day="3" data-i="10">
+  <button class="play" onclick="playVerse(3,10,false,12.25)">▶</button>
+  <span class="num">11</span>
+  <div class="txt"><div class="dev">पादांगुलीः सदा पातु भवानी त्रिदशेश्वरी । रक्तमांसास्थिमज्जादीन पातु देवी शवासना</div><div class="iast">pādāṁgulīḥ sadā pātu bhavānī tridaśēśvarī । raktamāṁsāsthimajjādīna pātu dēvī śavāsanā</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(3,10,0.3,6.08,this)">▶ L1</button><button class="pbtn" onclick="playPada(3,10,6.08,12.25,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.93</span>
+  <audio data-day="3" data-i="10" preload="none" src="audio/verses/verse11.mp3"></audio>
+</li><li class="v" data-day="3" data-i="11">
+  <button class="play" onclick="playVerse(3,11,false,11.96)">▶</button>
+  <span class="num">12</span>
+  <div class="txt"><div class="dev">महाभयेषु घोरेषु महाभयनिवारिणी । पातु देवी महामाया कामाख्यापीठवासिनी</div><div class="iast">mahābhayēṣu ghōrēṣu mahābhayanivāriṇī । pātu dēvī mahāmāyā kāmākhyāpīṭhavāsinī</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(3,11,0.28,5.8,this)">▶ L1</button><button class="pbtn" onclick="playPada(3,11,5.8,11.96,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.91</span>
+  <audio data-day="3" data-i="11" preload="none" src="audio/verses/verse12.mp3"></audio>
+</li><li class="v" data-day="3" data-i="12">
+  <button class="play" onclick="playVerse(3,12,false,12.43)">▶</button>
+  <span class="num">13</span>
+  <div class="txt"><div class="dev">भस्माचलगता दिव्य सिंहासनकृताश्रया । पातु श्रीकालिकादेवी सर्वोत्पातेषु सर्वदा</div><div class="iast">bhasmācalagatā divya siṁhāsanakr̥tāśrayā । pātu śrīkālikādēvī sarvōtpātēṣu sarvadā</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(3,12,0.3,6.03,this)">▶ L1</button><button class="pbtn" onclick="playPada(3,12,6.03,12.43,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.89</span>
+  <audio data-day="3" data-i="12" preload="none" src="audio/verses/verse13.mp3"></audio>
+</li><li class="v" data-day="3" data-i="13">
+  <button class="play" onclick="playVerse(3,13,false,11.73)">▶</button>
+  <span class="num">14</span>
+  <div class="txt"><div class="dev">रक्षाहीनं तु यत्स्थानं कवचेनापि वर्जितम् । तत्सर्वं सर्वदा पातु सर्वरक्षणकारिणी</div><div class="iast">rakṣāhīnaṁ tu yatsthānaṁ kavacēnāpi varjitam । tatsarvaṁ sarvadā pātu sarvarakṣaṇakāriṇī</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(3,13,0.3,6.0,this)">▶ L1</button><button class="pbtn" onclick="playPada(3,13,6.0,11.73,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.94</span>
+  <audio data-day="3" data-i="13" preload="none" src="audio/verses/verse14.mp3"></audio>
+</li></ol></div><div class="panel" id="panel4" style="display:none"><div class="dayhead"><h2>Day 4</h2><button class="playall" onclick="playAll(4)">▶ Play all, verse 1 →14</button><button class="stopall" onclick="stopAll()">■ Stop</button></div><ol class="verses"><li class="v" data-day="4" data-i="0">
+  <button class="play" onclick="playVerse(4,0,false,13.44)">▶</button>
+  <span class="num">1</span>
+  <div class="txt"><div class="dev">ॐ प्राच्यां रक्षतु मे तारा कामरूपनिवासिनी । आग्नेय्यां षोडशी पातु याम्यां धूमावती स्वयम्</div><div class="iast">oṁ prācyāṁ rakṣatu mē tārā kāmarūpanivāsinī । āgnēyyāṁ ṣōḍaśī pātu yāmyāṁ dhūmāvatī svayam</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(4,0,0.62,7.16,this)">▶ L1</button><button class="pbtn" onclick="playPada(4,0,7.16,13.44,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.87</span>
+  <audio data-day="4" data-i="0" preload="none" src="audio/day4/verse01.mp3"></audio>
+</li><li class="v" data-day="4" data-i="1">
+  <button class="play" onclick="playVerse(4,1,false,11.88)">▶</button>
+  <span class="num">2</span>
+  <div class="txt"><div class="dev">नैर्ऋत्यां भैरवी पातु वारुण्यां भुवनेश्वरी । वायव्यां सततं पातु छिन्नमस्ता महेश्वरी</div><div class="iast">nairr̥tyāṁ bhairavī pātu vāruṇyāṁ bhuvanēśvarī । vāyavyāṁ satataṁ pātu chinnamastā mahēśvarī</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(4,1,0.3,5.89,this)">▶ L1</button><button class="pbtn" onclick="playPada(4,1,5.89,11.88,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.88</span>
+  <audio data-day="4" data-i="1" preload="none" src="audio/day4/verse02.mp3"></audio>
+</li><li class="v" data-day="4" data-i="2">
+  <button class="play" onclick="playVerse(4,2,false,12.05)">▶</button>
+  <span class="num">3</span>
+  <div class="txt"><div class="dev">कौबेर्यां पातु मे देवी श्रीविद्या बगलामुखी । ऐशान्यां पातु मे नित्यं महात्रिपुरसुन्दरी</div><div class="iast">kaubēryāṁ pātu mē dēvī śrīvidyā bagalāmukhī । aiśānyāṁ pātu mē nityaṁ mahātripurasundarī</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(4,2,0.3,5.61,this)">▶ L1</button><button class="pbtn" onclick="playPada(4,2,5.61,12.05,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.90</span>
+  <audio data-day="4" data-i="2" preload="none" src="audio/day4/verse03.mp3"></audio>
+</li><li class="v" data-day="4" data-i="3">
+  <button class="play" onclick="playVerse(4,3,false,12.41)">▶</button>
+  <span class="num">4</span>
+  <div class="txt"><div class="dev">उर्ध्वं रक्षतु मे विद्या मातंगीपीठवासिनी । सर्वतः पातु मे नित्यं कामाख्या कालिका स्वयम्</div><div class="iast">urdhvaṁ rakṣatu mē vidyā mātaṁgīpīṭhavāsinī । sarvataḥ pātu mē nityaṁ kāmākhyā kālikā svayam</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(4,3,0.3,6.11,this)">▶ L1</button><button class="pbtn" onclick="playPada(4,3,6.11,12.41,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.92</span>
+  <audio data-day="4" data-i="3" preload="none" src="audio/day4/verse04.mp3"></audio>
+</li><li class="v" data-day="4" data-i="4">
+  <button class="play" onclick="playVerse(4,4,false,11.96)">▶</button>
+  <span class="num">5</span>
+  <div class="txt"><div class="dev">ब्रह्मरूपा महाविद्या सर्वविद्यामयी स्वयम् । शीर्षे रक्षतु मे दुर्गा भालं श्रीभवगेहिनी</div><div class="iast">brahmarūpā mahāvidyā sarvavidyāmayī svayam । śīrṣē rakṣatu mē durgā bhālaṁ śrībhavagēhinī</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(4,4,0.3,5.85,this)">▶ L1</button><button class="pbtn" onclick="playPada(4,4,5.85,11.96,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.92</span>
+  <audio data-day="4" data-i="4" preload="none" src="audio/day4/verse05.mp3"></audio>
+</li><li class="v" data-day="4" data-i="5">
+  <button class="play" onclick="playVerse(4,5,false,14.96)">▶</button>
+  <span class="num">6</span>
+  <div class="txt"><div class="dev">त्रिपुरा भ्रुयुगे पातु शर्वाणी पातु नासिकाम् । चक्षुषी चण्डिका पातु श्रोत्रे निलसरस्वती</div><div class="iast">tripurā bhruyugē pātu śarvāṇī pātu nāsikām । cakṣuṣī caṇḍikā pātu śrōtrē nilasarasvatī</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(4,5,0.3,8.78,this)">▶ L1</button><button class="pbtn" onclick="playPada(4,5,8.78,14.96,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.92</span>
+  <audio data-day="4" data-i="5" preload="none" src="audio/day4/verse06.mp3"></audio>
+</li><li class="v" data-day="4" data-i="6">
+  <button class="play" onclick="playVerse(4,6,false,12.42)">▶</button>
+  <span class="num">7</span>
+  <div class="txt"><div class="dev">मुखं सौम्यमुखी पातु ग्रीवां रक्षतु पार्वती । जिह्वां रक्षतु मे देवी जिह्वाललनभीषणा</div><div class="iast">mukhaṁ saumyamukhī pātu grīvāṁ rakṣatu pārvatī । jihvāṁ rakṣatu mē dēvī jihvālalanabhīṣaṇā</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(4,6,0.3,6.22,this)">▶ L1</button><button class="pbtn" onclick="playPada(4,6,6.22,12.42,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.90</span>
+  <audio data-day="4" data-i="6" preload="none" src="audio/day4/verse07.mp3"></audio>
+</li><li class="v" data-day="4" data-i="7">
+  <button class="play" onclick="playVerse(4,7,false,12.18)">▶</button>
+  <span class="num">8</span>
+  <div class="txt"><div class="dev">वाग्देवी वदनं पातु वक्षः पातु महेश्वरी । बाहू महाभुजा पातु करांगुलीः सुरेश्वरी</div><div class="iast">vāgdēvī vadanaṁ pātu vakṣaḥ pātu mahēśvarī । bāhū mahābhujā pātu karāṁgulīḥ surēśvarī</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(4,7,0.28,5.95,this)">▶ L1</button><button class="pbtn" onclick="playPada(4,7,5.95,12.18,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.88</span>
+  <audio data-day="4" data-i="7" preload="none" src="audio/day4/verse08.mp3"></audio>
+</li><li class="v" data-day="4" data-i="8">
+  <button class="play" onclick="playVerse(4,8,false,11.84)">▶</button>
+  <span class="num">9</span>
+  <div class="txt"><div class="dev">पृष्ठतः पातु भीमास्या कट्यां देवी दिगम्बरी । उदरं पातु मे नित्यं महाविद्या महोदरी</div><div class="iast">pr̥ṣṭhataḥ pātu bhīmāsyā kaṭyāṁ dēvī digambarī । udaraṁ pātu mē nityaṁ mahāvidyā mahōdarī</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(4,8,0.3,5.96,this)">▶ L1</button><button class="pbtn" onclick="playPada(4,8,5.96,11.84,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.91</span>
+  <audio data-day="4" data-i="8" preload="none" src="audio/day4/verse09.mp3"></audio>
+</li><li class="v" data-day="4" data-i="9">
+  <button class="play" onclick="playVerse(4,9,false,11.95)">▶</button>
+  <span class="num">10</span>
+  <div class="txt"><div class="dev">उग्रतारा महादेवी जंघोरू परिरक्षतु । गुदं मुष्कं च मेढ्रं च नाभिं च सुरसुन्दरी</div><div class="iast">ugratārā mahādēvī jaṁghōrū parirakṣatu । gudaṁ muṣkaṁ ca mēḍhraṁ ca nābhiṁ ca surasundarī</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(4,9,0.28,5.79,this)">▶ L1</button><button class="pbtn" onclick="playPada(4,9,5.79,11.95,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.92</span>
+  <audio data-day="4" data-i="9" preload="none" src="audio/day4/verse10.mp3"></audio>
+</li><li class="v" data-day="4" data-i="10">
+  <button class="play" onclick="playVerse(4,10,false,11.97)">▶</button>
+  <span class="num">11</span>
+  <div class="txt"><div class="dev">पादांगुलीः सदा पातु भवानी त्रिदशेश्वरी । रक्तमांसास्थिमज्जादीन पातु देवी शवासना</div><div class="iast">pādāṁgulīḥ sadā pātu bhavānī tridaśēśvarī । raktamāṁsāsthimajjādīna pātu dēvī śavāsanā</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(4,10,0.28,6.0,this)">▶ L1</button><button class="pbtn" onclick="playPada(4,10,6.0,11.97,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.87</span>
+  <audio data-day="4" data-i="10" preload="none" src="audio/day4/verse11.mp3"></audio>
+</li><li class="v" data-day="4" data-i="11">
+  <button class="play" onclick="playVerse(4,11,false,11.73)">▶</button>
+  <span class="num">12</span>
+  <div class="txt"><div class="dev">महाभयेषु घोरेषु महाभयनिवारिणी । पातु देवी महामाया कामाख्यापीठवासिनी</div><div class="iast">mahābhayēṣu ghōrēṣu mahābhayanivāriṇī । pātu dēvī mahāmāyā kāmākhyāpīṭhavāsinī</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(4,11,0.3,5.62,this)">▶ L1</button><button class="pbtn" onclick="playPada(4,11,5.62,11.73,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.86</span>
+  <audio data-day="4" data-i="11" preload="none" src="audio/day4/verse12.mp3"></audio>
+</li><li class="v" data-day="4" data-i="12">
+  <button class="play" onclick="playVerse(4,12,false,12.51)">▶</button>
+  <span class="num">13</span>
+  <div class="txt"><div class="dev">भस्माचलगता दिव्य सिंहासनकृताश्रया । पातु श्रीकालिकादेवी सर्वोत्पातेषु सर्वदा</div><div class="iast">bhasmācalagatā divya siṁhāsanakr̥tāśrayā । pātu śrīkālikādēvī sarvōtpātēṣu sarvadā</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(4,12,0.28,5.96,this)">▶ L1</button><button class="pbtn" onclick="playPada(4,12,5.96,12.51,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.89</span>
+  <audio data-day="4" data-i="12" preload="none" src="audio/day4/verse13.mp3"></audio>
+</li><li class="v" data-day="4" data-i="13">
+  <button class="play" onclick="playVerse(4,13,false,13.2)">▶</button>
+  <span class="num">14</span>
+  <div class="txt"><div class="dev">रक्षाहीनं तु यत्स्थानं कवचेनापि वर्जितम् । तत्सर्वं सर्वदा पातु सर्वरक्षणकारिणी</div><div class="iast">rakṣāhīnaṁ tu yatsthānaṁ kavacēnāpi varjitam । tatsarvaṁ sarvadā pātu sarvarakṣaṇakāriṇī</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(4,13,0.3,7.14,this)">▶ L1</button><button class="pbtn" onclick="playPada(4,13,7.14,13.2,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.88</span>
+  <audio data-day="4" data-i="13" preload="none" src="audio/day4/verse14.mp3"></audio>
+</li></ol></div><div class="panel" id="panel5" style="display:none"><div class="dayhead"><h2>Day 5</h2><button class="playall" onclick="playAll(5)">▶ Play all, verse 1 →14</button><button class="stopall" onclick="stopAll()">■ Stop</button></div><ol class="verses"><li class="v" data-day="5" data-i="0">
+  <button class="play" onclick="playVerse(5,0,false,13.76)">▶</button>
+  <span class="num">1</span>
+  <div class="txt"><div class="dev">ॐ प्राच्यां रक्षतु मे तारा कामरूपनिवासिनी । आग्नेय्यां षोडशी पातु याम्यां धूमावती स्वयम्</div><div class="iast">oṁ prācyāṁ rakṣatu mē tārā kāmarūpanivāsinī । āgnēyyāṁ ṣōḍaśī pātu yāmyāṁ dhūmāvatī svayam</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(5,0,1.15,7.18,this)">▶ L1</button><button class="pbtn" onclick="playPada(5,0,7.18,13.76,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.90</span>
+  <audio data-day="5" data-i="0" preload="none" src="audio/day5/verse01.mp3"></audio>
+</li><li class="v" data-day="5" data-i="1">
+  <button class="play" onclick="playVerse(5,1,false,12.01)">▶</button>
+  <span class="num">2</span>
+  <div class="txt"><div class="dev">नैर्ऋत्यां भैरवी पातु वारुण्यां भुवनेश्वरी । वायव्यां सततं पातु छिन्नमस्ता महेश्वरी</div><div class="iast">nairr̥tyāṁ bhairavī pātu vāruṇyāṁ bhuvanēśvarī । vāyavyāṁ satataṁ pātu chinnamastā mahēśvarī</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(5,1,0.3,6.09,this)">▶ L1</button><button class="pbtn" onclick="playPada(5,1,6.09,12.01,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.90</span>
+  <audio data-day="5" data-i="1" preload="none" src="audio/day5/verse02.mp3"></audio>
+</li><li class="v" data-day="5" data-i="2">
+  <button class="play" onclick="playVerse(5,2,false,12.12)">▶</button>
+  <span class="num">3</span>
+  <div class="txt"><div class="dev">कौबेर्यां पातु मे देवी श्रीविद्या बगलामुखी । ऐशान्यां पातु मे नित्यं महात्रिपुरसुन्दरी</div><div class="iast">kaubēryāṁ pātu mē dēvī śrīvidyā bagalāmukhī । aiśānyāṁ pātu mē nityaṁ mahātripurasundarī</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(5,2,0.3,6.02,this)">▶ L1</button><button class="pbtn" onclick="playPada(5,2,6.02,12.12,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.91</span>
+  <audio data-day="5" data-i="2" preload="none" src="audio/day5/verse03.mp3"></audio>
+</li><li class="v" data-day="5" data-i="3">
+  <button class="play" onclick="playVerse(5,3,false,12.32)">▶</button>
+  <span class="num">4</span>
+  <div class="txt"><div class="dev">उर्ध्वं रक्षतु मे विद्या मातंगीपीठवासिनी । सर्वतः पातु मे नित्यं कामाख्या कालिका स्वयम्</div><div class="iast">urdhvaṁ rakṣatu mē vidyā mātaṁgīpīṭhavāsinī । sarvataḥ pātu mē nityaṁ kāmākhyā kālikā svayam</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(5,3,0.3,6.04,this)">▶ L1</button><button class="pbtn" onclick="playPada(5,3,6.04,12.32,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.94</span>
+  <audio data-day="5" data-i="3" preload="none" src="audio/day5/verse04.mp3"></audio>
+</li><li class="v" data-day="5" data-i="4">
+  <button class="play" onclick="playVerse(5,4,false,11.85)">▶</button>
+  <span class="num">5</span>
+  <div class="txt"><div class="dev">ब्रह्मरूपा महाविद्या सर्वविद्यामयी स्वयम् । शीर्षे रक्षतु मे दुर्गा भालं श्रीभवगेहिनी</div><div class="iast">brahmarūpā mahāvidyā sarvavidyāmayī svayam । śīrṣē rakṣatu mē durgā bhālaṁ śrībhavagēhinī</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(5,4,0.28,5.74,this)">▶ L1</button><button class="pbtn" onclick="playPada(5,4,5.74,11.85,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.94</span>
+  <audio data-day="5" data-i="4" preload="none" src="audio/day5/verse05.mp3"></audio>
+</li><li class="v" data-day="5" data-i="5">
+  <button class="play" onclick="playVerse(5,5,false,12.49)">▶</button>
+  <span class="num">6</span>
+  <div class="txt"><div class="dev">त्रिपुरा भ्रुयुगे पातु शर्वाणी पातु नासिकाम् । चक्षुषी चण्डिका पातु श्रोत्रे निलसरस्वती</div><div class="iast">tripurā bhruyugē pātu śarvāṇī pātu nāsikām । cakṣuṣī caṇḍikā pātu śrōtrē nilasarasvatī</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(5,5,0.3,6.07,this)">▶ L1</button><button class="pbtn" onclick="playPada(5,5,6.07,12.49,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.95</span>
+  <audio data-day="5" data-i="5" preload="none" src="audio/day5/verse06.mp3"></audio>
+</li><li class="v" data-day="5" data-i="6">
+  <button class="play" onclick="playVerse(5,6,false,12.41)">▶</button>
+  <span class="num">7</span>
+  <div class="txt"><div class="dev">मुखं सौम्यमुखी पातु ग्रीवां रक्षतु पार्वती । जिह्वां रक्षतु मे देवी जिह्वाललनभीषणा</div><div class="iast">mukhaṁ saumyamukhī pātu grīvāṁ rakṣatu pārvatī । jihvāṁ rakṣatu mē dēvī jihvālalanabhīṣaṇā</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(5,6,0.28,6.03,this)">▶ L1</button><button class="pbtn" onclick="playPada(5,6,6.03,12.41,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.91</span>
+  <audio data-day="5" data-i="6" preload="none" src="audio/day5/verse07.mp3"></audio>
+</li><li class="v" data-day="5" data-i="7">
+  <button class="play" onclick="playVerse(5,7,false,12.44)">▶</button>
+  <span class="num">8</span>
+  <div class="txt"><div class="dev">वाग्देवी वदनं पातु वक्षः पातु महेश्वरी । बाहू महाभुजा पातु करांगुलीः सुरेश्वरी</div><div class="iast">vāgdēvī vadanaṁ pātu vakṣaḥ pātu mahēśvarī । bāhū mahābhujā pātu karāṁgulīḥ surēśvarī</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(5,7,0.3,5.9,this)">▶ L1</button><button class="pbtn" onclick="playPada(5,7,5.9,12.44,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.89</span>
+  <audio data-day="5" data-i="7" preload="none" src="audio/day5/verse08.mp3"></audio>
+</li><li class="v" data-day="5" data-i="8">
+  <button class="play" onclick="playVerse(5,8,false,12.24)">▶</button>
+  <span class="num">9</span>
+  <div class="txt"><div class="dev">पृष्ठतः पातु भीमास्या कट्यां देवी दिगम्बरी । उदरं पातु मे नित्यं महाविद्या महोदरी</div><div class="iast">pr̥ṣṭhataḥ pātu bhīmāsyā kaṭyāṁ dēvī digambarī । udaraṁ pātu mē nityaṁ mahāvidyā mahōdarī</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(5,8,0.28,6.1,this)">▶ L1</button><button class="pbtn" onclick="playPada(5,8,6.1,12.24,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.93</span>
+  <audio data-day="5" data-i="8" preload="none" src="audio/day5/verse09.mp3"></audio>
+</li><li class="v" data-day="5" data-i="9">
+  <button class="play" onclick="playVerse(5,9,false,12.21)">▶</button>
+  <span class="num">10</span>
+  <div class="txt"><div class="dev">उग्रतारा महादेवी जंघोरू परिरक्षतु । गुदं मुष्कं च मेढ्रं च नाभिं च सुरसुन्दरी</div><div class="iast">ugratārā mahādēvī jaṁghōrū parirakṣatu । gudaṁ muṣkaṁ ca mēḍhraṁ ca nābhiṁ ca surasundarī</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(5,9,0.28,6.06,this)">▶ L1</button><button class="pbtn" onclick="playPada(5,9,6.06,12.21,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.94</span>
+  <audio data-day="5" data-i="9" preload="none" src="audio/day5/verse10.mp3"></audio>
+</li><li class="v" data-day="5" data-i="10">
+  <button class="play" onclick="playVerse(5,10,false,12.48)">▶</button>
+  <span class="num">11</span>
+  <div class="txt"><div class="dev">पादांगुलीः सदा पातु भवानी त्रिदशेश्वरी । रक्तमांसास्थिमज्जादीन पातु देवी शवासना</div><div class="iast">pādāṁgulīḥ sadā pātu bhavānī tridaśēśvarī । raktamāṁsāsthimajjādīna pātu dēvī śavāsanā</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(5,10,0.3,6.09,this)">▶ L1</button><button class="pbtn" onclick="playPada(5,10,6.09,12.48,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.92</span>
+  <audio data-day="5" data-i="10" preload="none" src="audio/day5/verse11.mp3"></audio>
+</li><li class="v" data-day="5" data-i="11">
+  <button class="play" onclick="playVerse(5,11,false,12.52)">▶</button>
+  <span class="num">12</span>
+  <div class="txt"><div class="dev">महाभयेषु घोरेषु महाभयनिवारिणी । पातु देवी महामाया कामाख्यापीठवासिनी</div><div class="iast">mahābhayēṣu ghōrēṣu mahābhayanivāriṇī । pātu dēvī mahāmāyā kāmākhyāpīṭhavāsinī</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(5,11,0.28,5.91,this)">▶ L1</button><button class="pbtn" onclick="playPada(5,11,5.91,12.52,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.94</span>
+  <audio data-day="5" data-i="11" preload="none" src="audio/day5/verse12.mp3"></audio>
+</li><li class="v" data-day="5" data-i="12">
+  <button class="play" onclick="playVerse(5,12,false,12.83)">▶</button>
+  <span class="num">13</span>
+  <div class="txt"><div class="dev">भस्माचलगता दिव्य सिंहासनकृताश्रया । पातु श्रीकालिकादेवी सर्वोत्पातेषु सर्वदा</div><div class="iast">bhasmācalagatā divya siṁhāsanakr̥tāśrayā । pātu śrīkālikādēvī sarvōtpātēṣu sarvadā</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(5,12,0.28,6.19,this)">▶ L1</button><button class="pbtn" onclick="playPada(5,12,6.19,12.83,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.93</span>
+  <audio data-day="5" data-i="12" preload="none" src="audio/day5/verse13.mp3"></audio>
+</li><li class="v" data-day="5" data-i="13">
+  <button class="play" onclick="playVerse(5,13,false,12.3)">▶</button>
+  <span class="num">14</span>
+  <div class="txt"><div class="dev">रक्षाहीनं तु यत्स्थानं कवचेनापि वर्जितम् । तत्सर्वं सर्वदा पातु सर्वरक्षणकारिणी</div><div class="iast">rakṣāhīnaṁ tu yatsthānaṁ kavacēnāpi varjitam । tatsarvaṁ sarvadā pātu sarvarakṣaṇakāriṇī</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(5,13,0.28,6.22,this)">▶ L1</button><button class="pbtn" onclick="playPada(5,13,6.22,12.3,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.95</span>
+  <audio data-day="5" data-i="13" preload="none" src="audio/day5/verse14.mp3"></audio>
+</li></ol></div><div class="panel" id="panel6" style="display:none"><div class="dayhead"><h2>Day 6</h2><button class="playall" onclick="playAll(6)">▶ Play all, verse 1 →14</button><button class="stopall" onclick="stopAll()">■ Stop</button></div><ol class="verses"><li class="v" data-day="6" data-i="0">
+  <button class="play" onclick="playVerse(6,0,false,14.17)">▶</button>
+  <span class="num">1</span>
+  <div class="txt"><div class="dev">ॐ प्राच्यां रक्षतु मे तारा कामरूपनिवासिनी । आग्नेय्यां षोडशी पातु याम्यां धूमावती स्वयम्</div><div class="iast">oṁ prācyāṁ rakṣatu mē tārā kāmarūpanivāsinī । āgnēyyāṁ ṣōḍaśī pātu yāmyāṁ dhūmāvatī svayam</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(6,0,0.64,7.89,this)">▶ L1</button><button class="pbtn" onclick="playPada(6,0,7.89,14.17,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.92</span>
+  <audio data-day="6" data-i="0" preload="none" src="audio/day6/verse01.mp3"></audio>
+</li><li class="v" data-day="6" data-i="1">
+  <button class="play" onclick="playVerse(6,1,false,11.78)">▶</button>
+  <span class="num">2</span>
+  <div class="txt"><div class="dev">नैर्ऋत्यां भैरवी पातु वारुण्यां भुवनेश्वरी । वायव्यां सततं पातु छिन्नमस्ता महेश्वरी</div><div class="iast">nairr̥tyāṁ bhairavī pātu vāruṇyāṁ bhuvanēśvarī । vāyavyāṁ satataṁ pātu chinnamastā mahēśvarī</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(6,1,0.3,5.82,this)">▶ L1</button><button class="pbtn" onclick="playPada(6,1,5.82,11.78,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.91</span>
+  <audio data-day="6" data-i="1" preload="none" src="audio/day6/verse02.mp3"></audio>
+</li><li class="v" data-day="6" data-i="2">
+  <button class="play" onclick="playVerse(6,2,false,11.68)">▶</button>
+  <span class="num">3</span>
+  <div class="txt"><div class="dev">कौबेर्यां पातु मे देवी श्रीविद्या बगलामुखी । ऐशान्यां पातु मे नित्यं महात्रिपुरसुन्दरी</div><div class="iast">kaubēryāṁ pātu mē dēvī śrīvidyā bagalāmukhī । aiśānyāṁ pātu mē nityaṁ mahātripurasundarī</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(6,2,0.3,5.89,this)">▶ L1</button><button class="pbtn" onclick="playPada(6,2,5.89,11.68,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.91</span>
+  <audio data-day="6" data-i="2" preload="none" src="audio/day6/verse03.mp3"></audio>
+</li><li class="v" data-day="6" data-i="3">
+  <button class="play" onclick="playVerse(6,3,false,11.9)">▶</button>
+  <span class="num">4</span>
+  <div class="txt"><div class="dev">उर्ध्वं रक्षतु मे विद्या मातंगीपीठवासिनी । सर्वतः पातु मे नित्यं कामाख्या कालिका स्वयम्</div><div class="iast">urdhvaṁ rakṣatu mē vidyā mātaṁgīpīṭhavāsinī । sarvataḥ pātu mē nityaṁ kāmākhyā kālikā svayam</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(6,3,0.3,5.89,this)">▶ L1</button><button class="pbtn" onclick="playPada(6,3,5.89,11.9,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.95</span>
+  <audio data-day="6" data-i="3" preload="none" src="audio/day6/verse04.mp3"></audio>
+</li><li class="v" data-day="6" data-i="4">
+  <button class="play" onclick="playVerse(6,4,false,13.12)">▶</button>
+  <span class="num">5</span>
+  <div class="txt"><div class="dev">ब्रह्मरूपा महाविद्या सर्वविद्यामयी स्वयम् । शीर्षे रक्षतु मे दुर्गा भालं श्रीभवगेहिनी</div><div class="iast">brahmarūpā mahāvidyā sarvavidyāmayī svayam । śīrṣē rakṣatu mē durgā bhālaṁ śrībhavagēhinī</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(6,4,0.3,5.76,this)">▶ L1</button><button class="pbtn" onclick="playPada(6,4,5.76,13.12,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.93</span>
+  <audio data-day="6" data-i="4" preload="none" src="audio/day6/verse05.mp3"></audio>
+</li><li class="v" data-day="6" data-i="5">
+  <button class="play" onclick="playVerse(6,5,false,11.88)">▶</button>
+  <span class="num">6</span>
+  <div class="txt"><div class="dev">त्रिपुरा भ्रुयुगे पातु शर्वाणी पातु नासिकाम् । चक्षुषी चण्डिका पातु श्रोत्रे निलसरस्वती</div><div class="iast">tripurā bhruyugē pātu śarvāṇī pātu nāsikām । cakṣuṣī caṇḍikā pātu śrōtrē nilasarasvatī</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(6,5,0.28,5.91,this)">▶ L1</button><button class="pbtn" onclick="playPada(6,5,5.91,11.88,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.96</span>
+  <audio data-day="6" data-i="5" preload="none" src="audio/day6/verse06.mp3"></audio>
+</li><li class="v" data-day="6" data-i="6">
+  <button class="play" onclick="playVerse(6,6,false,12.02)">▶</button>
+  <span class="num">7</span>
+  <div class="txt"><div class="dev">मुखं सौम्यमुखी पातु ग्रीवां रक्षतु पार्वती । जिह्वां रक्षतु मे देवी जिह्वाललनभीषणा</div><div class="iast">mukhaṁ saumyamukhī pātu grīvāṁ rakṣatu pārvatī । jihvāṁ rakṣatu mē dēvī jihvālalanabhīṣaṇā</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(6,6,0.28,6.02,this)">▶ L1</button><button class="pbtn" onclick="playPada(6,6,6.02,12.02,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.91</span>
+  <audio data-day="6" data-i="6" preload="none" src="audio/day6/verse07.mp3"></audio>
+</li><li class="v" data-day="6" data-i="7">
+  <button class="play" onclick="playVerse(6,7,false,11.78)">▶</button>
+  <span class="num">8</span>
+  <div class="txt"><div class="dev">वाग्देवी वदनं पातु वक्षः पातु महेश्वरी । बाहू महाभुजा पातु करांगुलीः सुरेश्वरी</div><div class="iast">vāgdēvī vadanaṁ pātu vakṣaḥ pātu mahēśvarī । bāhū mahābhujā pātu karāṁgulīḥ surēśvarī</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(6,7,0.28,5.64,this)">▶ L1</button><button class="pbtn" onclick="playPada(6,7,5.64,11.78,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.93</span>
+  <audio data-day="6" data-i="7" preload="none" src="audio/day6/verse08.mp3"></audio>
+</li><li class="v" data-day="6" data-i="8">
+  <button class="play" onclick="playVerse(6,8,false,12.02)">▶</button>
+  <span class="num">9</span>
+  <div class="txt"><div class="dev">पृष्ठतः पातु भीमास्या कट्यां देवी दिगम्बरी । उदरं पातु मे नित्यं महाविद्या महोदरी</div><div class="iast">pr̥ṣṭhataḥ pātu bhīmāsyā kaṭyāṁ dēvī digambarī । udaraṁ pātu mē nityaṁ mahāvidyā mahōdarī</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(6,8,0.3,6.03,this)">▶ L1</button><button class="pbtn" onclick="playPada(6,8,6.03,12.02,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.93</span>
+  <audio data-day="6" data-i="8" preload="none" src="audio/day6/verse09.mp3"></audio>
+</li><li class="v" data-day="6" data-i="9">
+  <button class="play" onclick="playVerse(6,9,false,11.99)">▶</button>
+  <span class="num">10</span>
+  <div class="txt"><div class="dev">उग्रतारा महादेवी जंघोरू परिरक्षतु । गुदं मुष्कं च मेढ्रं च नाभिं च सुरसुन्दरी</div><div class="iast">ugratārā mahādēvī jaṁghōrū parirakṣatu । gudaṁ muṣkaṁ ca mēḍhraṁ ca nābhiṁ ca surasundarī</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(6,9,0.3,5.9,this)">▶ L1</button><button class="pbtn" onclick="playPada(6,9,5.9,11.99,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.94</span>
+  <audio data-day="6" data-i="9" preload="none" src="audio/day6/verse10.mp3"></audio>
+</li><li class="v" data-day="6" data-i="10">
+  <button class="play" onclick="playVerse(6,10,false,11.9)">▶</button>
+  <span class="num">11</span>
+  <div class="txt"><div class="dev">पादांगुलीः सदा पातु भवानी त्रिदशेश्वरी । रक्तमांसास्थिमज्जादीन पातु देवी शवासना</div><div class="iast">pādāṁgulīḥ sadā pātu bhavānī tridaśēśvarī । raktamāṁsāsthimajjādīna pātu dēvī śavāsanā</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(6,10,0.3,6.16,this)">▶ L1</button><button class="pbtn" onclick="playPada(6,10,6.16,11.9,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.92</span>
+  <audio data-day="6" data-i="10" preload="none" src="audio/day6/verse11.mp3"></audio>
+</li><li class="v" data-day="6" data-i="11">
+  <button class="play" onclick="playVerse(6,11,false,11.99)">▶</button>
+  <span class="num">12</span>
+  <div class="txt"><div class="dev">महाभयेषु घोरेषु महाभयनिवारिणी । पातु देवी महामाया कामाख्यापीठवासिनी</div><div class="iast">mahābhayēṣu ghōrēṣu mahābhayanivāriṇī । pātu dēvī mahāmāyā kāmākhyāpīṭhavāsinī</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(6,11,0.3,5.69,this)">▶ L1</button><button class="pbtn" onclick="playPada(6,11,5.69,11.99,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.94</span>
+  <audio data-day="6" data-i="11" preload="none" src="audio/day6/verse12.mp3"></audio>
+</li><li class="v" data-day="6" data-i="12">
+  <button class="play" onclick="playVerse(6,12,false,11.96)">▶</button>
+  <span class="num">13</span>
+  <div class="txt"><div class="dev">भस्माचलगता दिव्य सिंहासनकृताश्रया । पातु श्रीकालिकादेवी सर्वोत्पातेषु सर्वदा</div><div class="iast">bhasmācalagatā divya siṁhāsanakr̥tāśrayā । pātu śrīkālikādēvī sarvōtpātēṣu sarvadā</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(6,12,0.28,5.96,this)">▶ L1</button><button class="pbtn" onclick="playPada(6,12,5.96,11.96,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.92</span>
+  <audio data-day="6" data-i="12" preload="none" src="audio/day6/verse13.mp3"></audio>
+</li><li class="v" data-day="6" data-i="13">
+  <button class="play" onclick="playVerse(6,13,false,11.7)">▶</button>
+  <span class="num">14</span>
+  <div class="txt"><div class="dev">रक्षाहीनं तु यत्स्थानं कवचेनापि वर्जितम् । तत्सर्वं सर्वदा पातु सर्वरक्षणकारिणी</div><div class="iast">rakṣāhīnaṁ tu yatsthānaṁ kavacēnāpi varjitam । tatsarvaṁ sarvadā pātu sarvarakṣaṇakāriṇī</div>
+  <div class="padas"><button class="pbtn" onclick="playPada(6,13,0.28,5.94,this)">▶ L1</button><button class="pbtn" onclick="playPada(6,13,5.94,11.7,this)">▶ L2</button></div></div>
+  <span class="score" title="alignment confidence -- flagged low, may not match this verse">0.94</span>
+  <audio data-day="6" data-i="13" preload="none" src="audio/day6/verse14.mp3"></audio>
+</li></ol></div>
+<script>
+let current = null; // {day, i}
+function stopAll(){
+  document.querySelectorAll('audio').forEach(a=>{a.pause(); a.currentTime=0;});
+  document.querySelectorAll('li.v.playing').forEach(li=>li.classList.remove('playing'));
+  document.querySelectorAll('.pbtn.playing').forEach(b=>b.classList.remove('playing'));
+  current = null;
+}
+/** Generic range player: seeks the verse's own <audio> to startOffset, stops at endOffset
+ * (or plays to the end if null). This is the whole reusable pattern -- no extra audio files
+ * needed for line/repeat playback, just start/end offsets, same as the JSON's own schema. */
+function playRange(day, i, startOffset, endOffset, chain, btn){
+  stopAll();
+  const a = document.querySelector(`audio[data-day="${day}"][data-i="${i}"]`);
+  if(!a) return;
+  // A previous range on THIS SAME <audio> (e.g. L1 still playing when L2 is clicked) may
+  // still have its old timeupdate listener attached -- stopAll() doesn't know about it,
+  // since it's a closure with no outside reference. Clear it or the stale listener fires
+  // the instant currentTime crosses ITS OWN old endOffset, pausing the new range dead.
+  if(a._onTime){ a.removeEventListener('timeupdate', a._onTime); a._onTime = null; }
+  const li = a.closest('li.v'); li.classList.add('playing');
+  if(btn) btn.classList.add('playing');
+  li.scrollIntoView({block:'center', behavior:'smooth'});
+  current = {day, i};
+  a.currentTime = startOffset || 0;
+  function onTime(){
+    if(endOffset != null && a.currentTime >= endOffset) finish();
+  }
+  function finish(){
+    a.pause();
+    a.removeEventListener('timeupdate', onTime);
+    if(a._onTime === onTime) a._onTime = null;
+    const looping = document.getElementById('loopToggle').checked;
+    if(chain){
+      const items = document.querySelectorAll(`li.v[data-day="${day}"]`);
+      if(i+1 < items.length){ playVerse(day, i+1, true); return; }
+      if(looping){ playVerse(day, 0, true); return; }  // whole chant: wrap back to verse 1
+    } else if(looping){
+      playRange(day, i, startOffset, endOffset, false, btn);  // verse/line: repeat itself
+      return;
+    }
+    li.classList.remove('playing');
+    if(btn) btn.classList.remove('playing');
+  }
+  if(endOffset != null){ a.addEventListener('timeupdate', onTime); a._onTime = onTime; }
+  a.onended = finish;
+  a.play();
+}
+/** chain=true (whole-chant play/loop) plays every recorded repetition (the natural file end);
+ * chain=false (a single verse, played or looped on its own) uses singleEndOffset -- one
+ * occurrence of any repeated line, same as how you'd actually study it verse-by-verse (#9). */
+function playVerse(day, i, chain, singleEndOffset){ playRange(day, i, 0, chain ? null : singleEndOffset, chain); }
+function playPada(day, i, startOffset, endOffset, btn){ playRange(day, i, startOffset, endOffset, false, btn); }
+function playAll(day){ playVerse(day, 0, true); }
+function showDay(n){
+  stopAll();
+  document.querySelectorAll('.panel').forEach(p=>p.style.display='none');
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('panel'+n).style.display='block';
+  document.querySelector(`.tab[data-day="${n}"]`).classList.add('active');
+}
+showDay(6);
+</script>

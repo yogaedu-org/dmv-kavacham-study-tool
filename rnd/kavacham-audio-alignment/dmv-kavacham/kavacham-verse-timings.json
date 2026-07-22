@@ -1,0 +1,328 @@
+{
+ "source": "Day 3 2026-07-17 chant, forced-aligned (torchaudio MMS_FA via Shruti bench/align.py)",
+ "chant_span_abs": [
+  3713.3,
+  3907.0
+ ],
+ "verses": [
+  {
+   "n": 1,
+   "start_abs": 3714.36,
+   "end_abs": 3726.76,
+   "dur_s": 12.4,
+   "align_score": 0.9,
+   "clip": "audio/verses/verse01.mp3",
+   "dev": "ॐ प्राच्यां रक्षतु मे तारा कामरूपनिवासिनी । आग्नेय्यां षोडशी पातु याम्यां धूमावती स्वयम्",
+   "iast": "oṁ prācyāṁ rakṣatu mē tārā kāmarūpanivāsinī । āgnēyyāṁ ṣōḍaśī pātu yāmyāṁ dhūmāvatī svayam",
+   "padas": [
+    {
+     "line": 1,
+     "start_abs": 3714.38,
+     "end_abs": 3720.53,
+     "om_end_abs": 3714.7
+    },
+    {
+     "line": 2,
+     "start_abs": 3721.51,
+     "end_abs": 3726.78
+    }
+   ]
+  },
+  {
+   "n": 2,
+   "start_abs": 3727.66,
+   "end_abs": 3738.48,
+   "dur_s": 10.82,
+   "align_score": 0.873,
+   "clip": "audio/verses/verse02.mp3",
+   "dev": "नैर्ऋत्यां भैरवी पातु वारुण्यां भुवनेश्वरी । वायव्यां सततं पातु छिन्नमस्ता महेश्वरी",
+   "iast": "nairr̥tyāṁ bhairavī pātu vāruṇyāṁ bhuvanēśvarī । vāyavyāṁ satataṁ pātu chinnamastā mahēśvarī",
+   "padas": [
+    {
+     "line": 1,
+     "start_abs": 3727.66,
+     "end_abs": 3732.73
+    },
+    {
+     "line": 2,
+     "start_abs": 3733.51,
+     "end_abs": 3738.5
+    }
+   ]
+  },
+  {
+   "n": 3,
+   "start_abs": 3739.4,
+   "end_abs": 3750.52,
+   "dur_s": 11.12,
+   "align_score": 0.917,
+   "clip": "audio/verses/verse03.mp3",
+   "dev": "कौबेर्यां पातु मे देवी श्रीविद्या बगलामुखी । ऐशान्यां पातु मे नित्यं महात्रिपुरसुन्दरी",
+   "iast": "kaubēryāṁ pātu mē dēvī śrīvidyā bagalāmukhī । aiśānyāṁ pātu mē nityaṁ mahātripurasundarī",
+   "padas": [
+    {
+     "line": 1,
+     "start_abs": 3739.4,
+     "end_abs": 3744.57
+    },
+    {
+     "line": 2,
+     "start_abs": 3745.55,
+     "end_abs": 3750.54
+    }
+   ]
+  },
+  {
+   "n": 4,
+   "start_abs": 3751.26,
+   "end_abs": 3762.51,
+   "dur_s": 11.24,
+   "align_score": 0.937,
+   "clip": "audio/verses/verse04.mp3",
+   "dev": "उर्ध्वं रक्षतु मे विद्या मातंगीपीठवासिनी । सर्वतः पातु मे नित्यं कामाख्या कालिका स्वयम्",
+   "iast": "urdhvaṁ rakṣatu mē vidyā mātaṁgīpīṭhavāsinī । sarvataḥ pātu mē nityaṁ kāmākhyā kālikā svayam",
+   "padas": [
+    {
+     "line": 1,
+     "start_abs": 3751.26,
+     "end_abs": 3756.37
+    },
+    {
+     "line": 2,
+     "start_abs": 3757.14,
+     "end_abs": 3762.51
+    }
+   ]
+  },
+  {
+   "n": 5,
+   "start_abs": 3763.31,
+   "end_abs": 3775.27,
+   "dur_s": 11.96,
+   "align_score": 0.916,
+   "clip": "audio/verses/verse05.mp3",
+   "dev": "ब्रह्मरूपा महाविद्या सर्वविद्यामयी स्वयम् । शीर्षे रक्षतु मे दुर्गा भालं श्रीभवगेहिनी",
+   "iast": "brahmarūpā mahāvidyā sarvavidyāmayī svayam । śīrṣē rakṣatu mē durgā bhālaṁ śrībhavagēhinī",
+   "padas": [
+    {
+     "line": 1,
+     "start_abs": 3763.31,
+     "end_abs": 3768.42
+    },
+    {
+     "line": 2,
+     "start_abs": 3769.14,
+     "end_abs": 3775.27
+    }
+   ]
+  },
+  {
+   "n": 6,
+   "start_abs": 3776.03,
+   "end_abs": 3787.35,
+   "dur_s": 11.32,
+   "align_score": 0.956,
+   "clip": "audio/verses/verse06.mp3",
+   "dev": "त्रिपुरा भ्रुयुगे पातु शर्वाणी पातु नासिकाम् । चक्षुषी चण्डिका पातु श्रोत्रे निलसरस्वती",
+   "iast": "tripurā bhruyugē pātu śarvāṇī pātu nāsikām । cakṣuṣī caṇḍikā pātu śrōtrē nilasarasvatī",
+   "padas": [
+    {
+     "line": 1,
+     "start_abs": 3776.03,
+     "end_abs": 3781.38
+    },
+    {
+     "line": 2,
+     "start_abs": 3781.96,
+     "end_abs": 3787.35
+    }
+   ]
+  },
+  {
+   "n": 7,
+   "start_abs": 3788.29,
+   "end_abs": 3799.51,
+   "dur_s": 11.22,
+   "align_score": 0.923,
+   "clip": "audio/verses/verse07.mp3",
+   "dev": "मुखं सौम्यमुखी पातु ग्रीवां रक्षतु पार्वती । जिह्वां रक्षतु मे देवी जिह्वाललनभीषणा",
+   "iast": "mukhaṁ saumyamukhī pātu grīvāṁ rakṣatu pārvatī । jihvāṁ rakṣatu mē dēvī jihvālalanabhīṣaṇā",
+   "padas": [
+    {
+     "line": 1,
+     "start_abs": 3788.29,
+     "end_abs": 3793.54
+    },
+    {
+     "line": 2,
+     "start_abs": 3794.26,
+     "end_abs": 3799.51
+    }
+   ]
+  },
+  {
+   "n": 8,
+   "start_abs": 3800.25,
+   "end_abs": 3811.61,
+   "dur_s": 11.36,
+   "align_score": 0.894,
+   "clip": "audio/verses/verse08.mp3",
+   "dev": "वाग्देवी वदनं पातु वक्षः पातु महेश्वरी । बाहू महाभुजा पातु करांगुलीः सुरेश्वरी",
+   "iast": "vāgdēvī vadanaṁ pātu vakṣaḥ pātu mahēśvarī । bāhū mahābhujā pātu karāṁgulīḥ surēśvarī",
+   "padas": [
+    {
+     "line": 1,
+     "start_abs": 3800.23,
+     "end_abs": 3805.54
+    },
+    {
+     "line": 2,
+     "start_abs": 3806.26,
+     "end_abs": 3811.49
+    }
+   ]
+  },
+  {
+   "n": 9,
+   "start_abs": 3812.35,
+   "end_abs": 3823.29,
+   "dur_s": 10.94,
+   "align_score": 0.934,
+   "clip": "audio/verses/verse09.mp3",
+   "dev": "पृष्ठतः पातु भीमास्या कट्यां देवी दिगम्बरी । उदरं पातु मे नित्यं महाविद्या महोदरी",
+   "iast": "pr̥ṣṭhataḥ pātu bhīmāsyā kaṭyāṁ dēvī digambarī । udaraṁ pātu mē nityaṁ mahāvidyā mahōdarī",
+   "padas": [
+    {
+     "line": 1,
+     "start_abs": 3812.35,
+     "end_abs": 3817.54
+    },
+    {
+     "line": 2,
+     "start_abs": 3818.32,
+     "end_abs": 3823.29
+    }
+   ]
+  },
+  {
+   "n": 10,
+   "start_abs": 3824.33,
+   "end_abs": 3835.69,
+   "dur_s": 11.36,
+   "align_score": 0.933,
+   "clip": "audio/verses/verse10.mp3",
+   "dev": "उग्रतारा महादेवी जंघोरू परिरक्षतु । गुदं मुष्कं च मेढ्रं च नाभिं च सुरसुन्दरी",
+   "iast": "ugratārā mahādēvī jaṁghōrū parirakṣatu । gudaṁ muṣkaṁ ca mēḍhraṁ ca nābhiṁ ca surasundarī",
+   "padas": [
+    {
+     "line": 1,
+     "start_abs": 3824.33,
+     "end_abs": 3829.42
+    },
+    {
+     "line": 2,
+     "start_abs": 3830.3,
+     "end_abs": 3835.57
+    }
+   ]
+  },
+  {
+   "n": 11,
+   "start_abs": 3836.35,
+   "end_abs": 3847.91,
+   "dur_s": 11.56,
+   "align_score": 0.934,
+   "clip": "audio/verses/verse11.mp3",
+   "dev": "पादांगुलीः सदा पातु भवानी त्रिदशेश्वरी । रक्तमांसास्थिमज्जादीन पातु देवी शवासना",
+   "iast": "pādāṁgulīḥ sadā pātu bhavānī tridaśēśvarī । raktamāṁsāsthimajjādīna pātu dēvī śavāsanā",
+   "padas": [
+    {
+     "line": 1,
+     "start_abs": 3836.35,
+     "end_abs": 3841.76
+    },
+    {
+     "line": 2,
+     "start_abs": 3842.5,
+     "end_abs": 3847.93
+    }
+   ]
+  },
+  {
+   "n": 12,
+   "start_abs": 3848.69,
+   "end_abs": 3859.91,
+   "dur_s": 11.22,
+   "align_score": 0.912,
+   "clip": "audio/verses/verse12.mp3",
+   "dev": "महाभयेषु घोरेषु महाभयनिवारिणी । पातु देवी महामाया कामाख्यापीठवासिनी",
+   "iast": "mahābhayēṣu ghōrēṣu mahābhayanivāriṇī । pātu dēvī mahāmāyā kāmākhyāpīṭhavāsinī",
+   "padas": [
+    {
+     "line": 1,
+     "start_abs": 3848.67,
+     "end_abs": 3853.82
+    },
+    {
+     "line": 2,
+     "start_abs": 3854.55,
+     "end_abs": 3859.9
+    }
+   ]
+  },
+  {
+   "n": 13,
+   "start_abs": 3860.8,
+   "end_abs": 3872.66,
+   "dur_s": 11.86,
+   "align_score": 0.889,
+   "clip": "audio/verses/verse13.mp3",
+   "dev": "भस्माचलगता दिव्य सिंहासनकृताश्रया । पातु श्रीकालिकादेवी सर्वोत्पातेषु सर्वदा",
+   "iast": "bhasmācalagatā divya siṁhāsanakr̥tāśrayā । pātu śrīkālikādēvī sarvōtpātēṣu sarvadā",
+   "padas": [
+    {
+     "line": 1,
+     "start_abs": 3860.8,
+     "end_abs": 3866.14
+    },
+    {
+     "line": 2,
+     "start_abs": 3866.93,
+     "end_abs": 3872.51
+    }
+   ]
+  },
+  {
+   "n": 14,
+   "start_abs": 3873.34,
+   "end_abs": 3890.58,
+   "dur_s": 17.24,
+   "align_score": 0.937,
+   "clip": "audio/verses/verse14.mp3",
+   "dev": "रक्षाहीनं तु यत्स्थानं कवचेनापि वर्जितम् । तत्सर्वं सर्वदा पातु सर्वरक्षणकारिणी",
+   "iast": "rakṣāhīnaṁ tu yatsthānaṁ kavacēnāpi varjitam । tatsarvaṁ sarvadā pātu sarvarakṣaṇakāriṇī",
+   "padas": [
+    {
+     "line": 1,
+     "start_abs": 3873.34,
+     "end_abs": 3878.71
+    },
+    {
+     "line": 2,
+     "start_abs": 3879.37,
+     "end_abs": 3890.56,
+     "repeats": [
+      {
+       "start_abs": 3879.37,
+       "end_abs": 3884.39
+      },
+      {
+       "start_abs": 3885.15,
+       "end_abs": 3890.56
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
