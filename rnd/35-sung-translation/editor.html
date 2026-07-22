@@ -1,0 +1,234 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kavacam — Singable Translation Editor (#35)</title>
+<style>
+  :root{
+    --bg:#efe9e4; --surface:#faf7f2; --surface-2:#f1e9dd; --ink:#221d29; --muted:#635c6b;
+    --line:#ddd4cb; --kumkum:#a8352f; --gold:#9a6b28; --add:#2f6f4f; --warn:#a9772f;
+    --shadow:0 1px 2px rgba(36,31,43,.06), 0 8px 24px rgba(36,31,43,.07);
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+    --ui:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    --mono:ui-monospace,Menlo,Consolas,monospace;
+    --deva:"Noto Serif Devanagari","Nirmala UI","Kohinoor Devanagari",serif;
+  }
+  @media (prefers-color-scheme:dark){:root{
+    --bg:#14121c; --surface:#1e1926; --surface-2:#191320; --ink:#ece7ef; --muted:#a99fb2;
+    --line:#332b3e; --kumkum:#d9615a; --gold:#e4b25a; --add:#8fd0a8; --warn:#e0b25a;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.35);}}
+  :root[data-theme="dark"]{--bg:#14121c; --surface:#1e1926; --surface-2:#191320; --ink:#ece7ef;
+    --muted:#a99fb2; --line:#332b3e; --kumkum:#d9615a; --gold:#e4b25a; --add:#8fd0a8; --warn:#e0b25a;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.35);}
+  :root[data-theme="light"]{--bg:#efe9e4; --surface:#faf7f2; --surface-2:#f1e9dd; --ink:#221d29;
+    --muted:#635c6b; --line:#ddd4cb; --kumkum:#a8352f; --gold:#9a6b28; --add:#2f6f4f; --warn:#a9772f;
+    --shadow:0 1px 2px rgba(36,31,43,.06), 0 8px 24px rgba(36,31,43,.07);}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--ui);line-height:1.5;padding-bottom:4rem}
+  .wrap{max-width:900px;margin:0 auto;padding:clamp(1rem,3vw,2rem)}
+  .eyebrow{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:600}
+  h1{font-family:var(--serif);font-weight:600;font-size:clamp(1.6rem,4.5vw,2.2rem);margin:.35rem 0 .3rem;text-wrap:balance}
+  .lede{color:var(--muted);max-width:64ch;margin:0}
+  .repo-line{margin-top:.55rem;font-size:.78rem;color:var(--muted);display:flex;gap:.5rem;flex-wrap:wrap}
+  .repo-line code{font-family:var(--mono);background:var(--surface-2);padding:.12rem .45rem;border-radius:6px;color:var(--ink)}
+  .bar{position:sticky;top:0;z-index:6;background:var(--surface);border:1px solid var(--line);border-radius:14px;
+    box-shadow:var(--shadow);padding:.7rem .85rem;margin:1.1rem 0 1.3rem;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+  .status{font-size:.85rem;color:var(--muted)} .status b{color:var(--ink)}
+  .spacer{flex:1}
+  .btn{font:inherit;font-size:.85rem;font-weight:600;border:1px solid var(--line);background:var(--surface-2);color:var(--ink);border-radius:9px;padding:.5rem .8rem;cursor:pointer}
+  .btn.primary{background:var(--kumkum);border-color:var(--kumkum);color:#fff}
+  :root[data-theme="dark"] .btn.primary{color:#1a0f0e}
+  .btn:focus-visible,.stamp:focus-visible,textarea:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+  .icon-btn{width:38px;height:38px;padding:0;display:inline-flex;align-items:center;justify-content:center;font-size:1rem}
+  .stamp{font:inherit;font-size:.85rem;border:1px solid var(--line);background:var(--surface-2);color:var(--ink);border-radius:9px;padding:.5rem .6rem;width:9rem}
+
+  .v{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:14px;
+    box-shadow:var(--shadow);padding:1rem 1.1rem;margin-bottom:1rem}
+  .vhead{display:flex;gap:.6rem;align-items:baseline;margin-bottom:.5rem}
+  .badge{font-family:var(--serif);font-weight:600;color:#fff;background:var(--kumkum);border-radius:8px;padding:.05rem .55rem}
+  :root[data-theme="dark"] .badge{color:#1a0f0e}
+  .deva{font-family:var(--deva);font-size:1.28rem;line-height:1.85;color:var(--gold);white-space:pre-line;margin:.1rem 0 .3rem}
+  .iast{font-family:var(--serif);font-style:italic;color:var(--muted);font-size:.86rem;white-space:pre-line;margin-bottom:.5rem}
+  .ref{font-size:.9rem;color:var(--ink);background:var(--surface-2);border:1px solid var(--line);border-radius:9px;padding:.5rem .65rem;margin-bottom:.7rem}
+  .ref .rl{font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700;display:block;margin-bottom:.2rem}
+  .lines{display:flex;flex-direction:column;gap:.4rem}
+  .line{display:flex;gap:.5rem;align-items:stretch}
+  .line textarea{flex:1;font:inherit;font-size:1rem;color:var(--ink);background:var(--surface-2);border:1px solid var(--line);
+    border-radius:9px;padding:.5rem .6rem;resize:vertical;min-height:2.3rem;line-height:1.4}
+  .line.edited textarea{border-color:var(--kumkum)}
+  .syl{flex:0 0 auto;align-self:center;font-family:var(--mono);font-size:.72rem;font-weight:700;min-width:2.6rem;text-align:center;
+    padding:.25rem .3rem;border-radius:7px;background:var(--surface-2);border:1px solid var(--line);color:var(--muted)}
+  .syl.ok{color:var(--add);border-color:var(--add)}
+  .syl.near{color:var(--warn);border-color:var(--warn)}
+
+  h2.sec{font-family:var(--serif);font-size:1.15rem;margin:1.8rem 0 .5rem}
+  .hist details{background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:.55rem .8rem;margin-bottom:.5rem}
+  .hist summary{cursor:pointer;font-size:.9rem;display:flex;gap:.5rem;align-items:baseline;flex-wrap:wrap}
+  .hist summary b{color:var(--ink)} .hist summary .ts{color:var(--muted);font-family:var(--mono);font-size:.75rem}
+  .hist .snap{margin:.5rem 0 0;font-size:.85rem;color:var(--muted)}
+  .hist .snap div{padding:.12rem 0} .hist .snap .n{color:var(--gold);font-weight:700;font-family:var(--serif)}
+
+  .overlay{position:fixed;inset:0;background:rgba(20,16,26,.55);display:none;align-items:center;justify-content:center;padding:1.2rem;z-index:50}
+  .overlay.open{display:flex}
+  .panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);width:min(640px,100%);max-height:82vh;display:flex;flex-direction:column;padding:1.1rem}
+  .panel h3{font-family:var(--serif);margin:0 0 .2rem} .panel p{margin:0 0 .6rem;font-size:.84rem;color:var(--muted)}
+  .panel textarea{flex:1;min-height:240px;font-family:var(--mono);font-size:.78rem;white-space:pre;background:var(--surface-2);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:.7rem}
+  .panel-actions{display:flex;gap:.5rem;justify-content:flex-end;margin-top:.7rem}
+  .toast{position:fixed;bottom:1.4rem;left:50%;transform:translateX(-50%) translateY(140%);background:var(--ink);color:var(--bg);padding:.55rem 1.1rem;border-radius:999px;font-size:.85rem;font-weight:600;transition:transform .25s;z-index:60}
+  .toast.show{transform:translateX(-50%) translateY(0)}
+  footer{margin-top:2rem;border-top:1px solid var(--line);padding-top:1rem;color:var(--muted);font-size:.8rem}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Daśamahāvidyā Kavacam · R&amp;D · sung translation</div>
+    <h1>Singable translation editor</h1>
+    <p class="lede">Edit each verse's <b>singable</b> English (the goal: natural lines that sit on the chant's tune and still carry the meaning). The Devanāgarī, IAST, and the app's meaning-translation are shown for reference and are read-only. Stamp a version, Copy&nbsp;JSON, and paste it back — each round gets committed and appears in the history below.</p>
+    <div class="repo-line"><span>Repo <code>yogaedu-org/dmv-kavacham-study-tool</code></span><span>· Issue <code>#35</code></span><span>· <code>rnd/35-sung-translation/</code></span></div>
+  </header>
+
+  <div class="bar">
+    <div class="status">Editing <b id="editCount">0</b> of <b>56</b> lines</div>
+    <button class="btn icon-btn" id="themeBtn" type="button" title="Toggle light / dark" aria-label="Toggle theme">◐</button>
+    <button class="btn" id="revertBtn" type="button" title="Discard your local edits, restore the current draft">Revert edits</button>
+    <span class="spacer"></span>
+    <input class="stamp" id="stampLabel" placeholder="version, e.g. v0.2" aria-label="Version label">
+    <button class="btn primary" id="copyJson" type="button">Stamp &amp; Copy JSON</button>
+  </div>
+
+  <section id="verses"></section>
+
+  <h2 class="sec">Version history</h2>
+  <div class="hist" id="history"></div>
+
+  <footer>Edits autosave in this browser. Nothing is committed until you Copy the JSON and paste it back — then this file is regenerated with your version added to the history. · R&amp;D for #35.</footer>
+</div>
+
+<div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-label="Copy version JSON">
+  <div class="panel">
+    <h3>Version JSON</h3>
+    <p>Copied to your clipboard. Paste it into the chat — I'll commit it and republish with your version in the history.</p>
+    <textarea id="jsonOut" readonly spellcheck="false"></textarea>
+    <div class="panel-actions"><button class="btn" id="closePanel" type="button">Close</button><button class="btn primary" id="copyAgain" type="button">Copy again</button></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  var DATA = {"repo": "yogaedu-org/dmv-kavacham-study-tool", "issue": 35, "verses": [{"n": 1, "sa": "ॐ प्राच्यां रक्षतु मे तारा कामरूपनिवासिनी ।\nआग्नेय्यां षोडशी पातु याम्यां धूमावती स्वयम् ॥१॥", "it": "Om prācyāṃ rakṣatu me tārā kāmarūpanivāsinī |\nāgneyyāṃ ṣoḍaśī pātu yāmyāṃ dhūmāvatī svayam ||1||", "en": "May Tārā, who dwells in Kāmarūpa, guard me in the east. In the southeast may Ṣoḍaśī (Tripurasundarī) protect me; in the south, Dhumāvatī herself.", "singable": ["In the east, may Tārā keep me,", "she of Kāmarūpa's dwelling;", "southeast, Ṣoḍaśī will guard me,", "in the south, Dhūmāvatī reigns."]}, {"n": 2, "sa": "नैरृत्यां भैरवी पातु वारुण्यां भुवनेश्वरी ।\nवायव्यां सततं पातु छिन्नमस्ता महेश्वरी ॥२॥", "it": "nairṛtyāṃ bhairavī pātu vāruṇyāṃ bhuvaneśvarī |\nvāyavyāṃ satataṃ pātu chinnamastā maheśvarī ||2||", "en": "In the southwest may Bhairavī protect; in the west, Bhuvaneśvarī. In the northwest may the great goddess Chinnamastā protect me always.", "singable": ["Southwest, Bhairavī protects me,", "in the west, Bhuvaneśvarī;", "northwest, mighty Chinnamastā", "shields me ever, Maheśvarī."]}, {"n": 3, "sa": "कौबेर्यां पातु मे देवी श्रीविद्या बगलामुखी ।\nऐशान्यां पातु मे नित्यं महात्रिपुरसुन्दरी ॥३॥", "it": "kauberyāṃ pātu me devī śrīvidyā bagalāmukhī |\naiśānyāṃ pātu me nityaṃ mahātripurasundarī ||3||", "en": "In Kubera's quarter (the north) may the goddess Śrīvidyā—Bagalāmukhī—protect me. In Īśāna's quarter (the northeast) may Mahā‑Tripurasundarī protect me always.", "singable": ["North, may Bagalāmukhī guard,", "Śrīvidyā, in Kubera's realm;", "northeast, Tripurasundarī,", "the Great One, guards me always."]}, {"n": 4, "sa": "ऊर्ध्वं रक्षतु मे विद्या मातङ्गीपीठवासिनी ।\nसर्वतः पातु मे नित्यं कामाख्या कालिका स्वयम् ॥४॥", "it": "ūrdhvaṃ rakṣatu me vidyā mātaṅgīpīṭhavāsinī |\nsarvataḥ pātu me nityaṃ kāmākhyā kālikā svayam ||4||", "en": "Above, may Vidyā Mātangī, who abides at her sacred seat, guard me. On all sides may Kālikā of Kāmākhyā protect me always.", "singable": ["Above, may Mātaṅgī protect,", "Vidyā at her sacred seat;", "all around, forever guarding,", "Kālikā of Kāmākhyā."]}, {"n": 5, "sa": "ब्रह्मरूपा महाविद्या सर्वविद्यामयी स्वयम् ।\nशीर्षे रक्षतु मे दुर्गा भालं श्रीभवगेहिनी ॥५॥", "it": "brahmarūpā mahāvidyā sarvavidyāmayī svayam |\nśīrṣe rakṣatu me durgā bhālaṃ śrībhavagehinī ||5||", "en": "She is the Great Vidyā, of the very form of Brahman, the essence of all knowledges. May Durgā guard my head; may Śrī‑Bhavagehinī guard my forehead.", "singable": ["Brahman's form, the Great Vidyā,", "essence of all knowing, she;", "Durgā, guard my head; my brow,", "Śrī-Bhavagehinī, keep."]}, {"n": 6, "sa": "त्रिपुरा भ्रुयुगे पातु शर्वाणी पातु नासिकाम् ।\nचक्षुषी चण्डिका पातु श्रोत्रे निलसरस्वती ॥६॥", "it": "tripurā bhruyuge pātu śarvāṇī pātu nāsikām |\ncakṣuṣī caṇḍikā pātu śrotre nilasarasvatī ||6||", "en": "May Tripurā guard my brows; may Śarvaṇī (Pārvatī) guard my nose. May Caṇḍikā guard my eyes; may Nīla‑Sarasvatī guard my ears.", "singable": ["Tripurā, guard my two brows;", "Śarvāṇī, protect my nose;", "Caṇḍikā, keep watch my eyes;", "Nīla-Sarasvatī, my ears."]}, {"n": 7, "sa": "मुखं सौम्यमुखी पातु ग्रीवां रक्षतु पार्वती ।\nजिह्वां रक्षतु मे देवी जिह्वाललनभीषणा ॥७॥", "it": "mukhaṃ saumyamukhī pātu grīvāṃ rakṣatu pārvatī |\njihvāṃ rakṣatu me devī jihvālalanabhīṣaṇā ||7||", "en": "May the gentle‑faced One protect my face; may Pārvatī guard my neck. May the goddess—terrifying with her lolling tongue—guard my tongue.", "singable": ["Gentle-faced One, guard my face;", "Pārvatī, protect my neck;", "she of the terrible tongue,", "guard, O goddess, this my tongue."]}, {"n": 8, "sa": "वाग्देवी वदनं पातु वक्षः पातु महेश्वरी ।\nबाहू महाभुजा पातु कराङ्गुलीः सुरेश्वरी ॥८॥", "it": "vāgdevī vadanaṃ pātu vakṣaḥ pātu maheśvarī |\nbāhū mahābhujā pātu karāṅgulīḥ sureśvarī ||8||", "en": "May Vāgdevī protect my speech and mouth; may Maheśvarī guard my chest. May the Mighty‑Armed One protect my arms, and the Queen of the gods protect my fingers.", "singable": ["Vāgdevī, keep speech and mouth;", "Maheśvarī, guard my chest;", "Mighty-Armed, protect my arms;", "Sureśvarī, my fingers."]}, {"n": 9, "sa": "पृष्ठतः पातु भीमास्या कट्यां देवी दिगम्बरी ।\nउदरं पातु मे नित्यं महाविद्या महोदरी ॥९॥", "it": "pṛṣṭhataḥ pātu bhīmāsyā kaṭyāṃ devī digambarī |\nudaraṃ pātu me nityaṃ mahāvidyā mahodarī ||9||", "en": "From behind may Bhīmāsyā protect; at the hips, the goddess Digambarī. May the Great Vidyā Mahodari always protect my abdomen.", "singable": ["From behind, may Bhīmāsyā guard;", "at the hips, Digambarī;", "and my belly, evermore,", "Mahodari, Great Vidyā."]}, {"n": 10, "sa": "उग्रतारा महादेवी जङ्घोरू परिरक्षतु ।\nगुदं मुष्कं च मेढ्रं च नाभिं च सुरसुन्दरी ॥१०॥", "it": "ugratārā mahādevī jaṅghorū parirakṣatu |\ngudaṃ muṣkaṃ ca meḍhraṃ ca nābhiṃ ca surasundarī ||10||", "en": "May the great goddess Ugratārā protect my shanks and thighs. May Ugratārā—Surasundarī—guard the anus, the scrotum, the phallus, and the navel.", "singable": ["Ugratārā, Great Goddess,", "guard my shanks and both my thighs;", "Surasundarī, protect", "groin and navel, all below."]}, {"n": 11, "sa": "पादाङ्गुलीः सदा पातु भवानी त्रिदशेश्वरी ।\nरक्तमांसास्थिमज्जादीन् पातु देवी शवासना ॥११॥", "it": "pādāṅgulīḥ sadā pātu bhavānī tridaśeśvarī |\nraktamāṃsāsthimajjādīn pātu devī śavāsanā ||11||", "en": "May Bhavānī, queen of the gods, always protect my toes. May the goddess who is seated upon a corpse protect my blood, flesh, bones, marrow, and the rest.", "singable": ["Bhavānī, queen of the gods,", "ever guard my very toes;", "corpse-throned goddess, keep my blood,", "flesh and bone and marrow too."]}, {"n": 12, "sa": "महाभयेषु घोरेषु महाभयनिवारिणी ।\nपातु देवी महामाया कामाख्यापीठवासिनी ॥१२॥", "it": "mahābhayeṣu ghoreṣu mahābhayanivāriṇī |\npātu devī mahāmāyā kāmākhyāpīṭhavāsinī ||12||", "en": "In great and terrible dangers, may the remover of great fear—Mahāmāyā, who dwells at the seat of Kāmākhyā—protect me.", "singable": ["In great terrors, dire and vast,", "she who ends the greatest fear—", "Mahāmāyā, guard me well,", "seated at Kāmākhyā's seat."]}, {"n": 13, "sa": "भस्माचलगता दिव्यसिंहासनकृताश्रया ।\nपातु श्रीकालिकादेवी सर्वोत्पातेषु सर्वदा ॥१३॥", "it": "bhasmācalagatā divyasiṃhāsanakṛtāśrayā |\npātu śrīkālikādevī sarvotpāteṣu sarvadā ||13||", "en": "Residing on the mountain of ash, enthroned upon the divine lion seat—may Śrī Kālika‑devī protect me from every calamity, always.", "singable": ["On the mount of ash enthroned,", "on the divine lion-seat,", "Śrī-Kālikā, guard me still", "from all calamity, always."]}, {"n": 14, "sa": "रक्षाहीनं तु यत्स्थानं कवचेनापि वर्जितम् ।\nतत्सर्वं सर्वदा पातु सर्वरक्षणकारिणी ॥१४॥", "it": "rakṣāhīnaṃ tu yatsthānaṃ kavacenāpi varjitam |\ntatsarvaṃ sarvadā pātu sarvarakṣaṇakāriṇī ||14||", "en": "And whatever place is left unprotected—omitted even by this armor—may the All‑Protecting Goddess guard all of that, at all times.", "singable": ["Whatever place is left bare,", "missed even by this armor,", "all of it, forever guard,", "All-Protecting Goddess, keep."]}], "history": [{"version": "v0.1", "ts": "2026-07-22", "note": "Claude first draft — all 14 verses, ~8-syllable lines.", "by": "Claude", "verses": [{"n": 1, "lines": ["In the east, may Tārā keep me,", "she of Kāmarūpa's dwelling;", "southeast, Ṣoḍaśī will guard me,", "in the south, Dhūmāvatī reigns."]}, {"n": 2, "lines": ["Southwest, Bhairavī protects me,", "in the west, Bhuvaneśvarī;", "northwest, mighty Chinnamastā", "shields me ever, Maheśvarī."]}, {"n": 3, "lines": ["North, may Bagalāmukhī guard,", "Śrīvidyā, in Kubera's realm;", "northeast, Tripurasundarī,", "the Great One, guards me always."]}, {"n": 4, "lines": ["Above, may Mātaṅgī protect,", "Vidyā at her sacred seat;", "all around, forever guarding,", "Kālikā of Kāmākhyā."]}, {"n": 5, "lines": ["Brahman's form, the Great Vidyā,", "essence of all knowing, she;", "Durgā, guard my head; my brow,", "Śrī-Bhavagehinī, keep."]}, {"n": 6, "lines": ["Tripurā, guard my two brows;", "Śarvāṇī, protect my nose;", "Caṇḍikā, keep watch my eyes;", "Nīla-Sarasvatī, my ears."]}, {"n": 7, "lines": ["Gentle-faced One, guard my face;", "Pārvatī, protect my neck;", "she of the terrible tongue,", "guard, O goddess, this my tongue."]}, {"n": 8, "lines": ["Vāgdevī, keep speech and mouth;", "Maheśvarī, guard my chest;", "Mighty-Armed, protect my arms;", "Sureśvarī, my fingers."]}, {"n": 9, "lines": ["From behind, may Bhīmāsyā guard;", "at the hips, Digambarī;", "and my belly, evermore,", "Mahodari, Great Vidyā."]}, {"n": 10, "lines": ["Ugratārā, Great Goddess,", "guard my shanks and both my thighs;", "Surasundarī, protect", "groin and navel, all below."]}, {"n": 11, "lines": ["Bhavānī, queen of the gods,", "ever guard my very toes;", "corpse-throned goddess, keep my blood,", "flesh and bone and marrow too."]}, {"n": 12, "lines": ["In great terrors, dire and vast,", "she who ends the greatest fear—", "Mahāmāyā, guard me well,", "seated at Kāmākhyā's seat."]}, {"n": 13, "lines": ["On the mount of ash enthroned,", "on the divine lion-seat,", "Śrī-Kālikā, guard me still", "from all calamity, always."]}, {"n": 14, "lines": ["Whatever place is left bare,", "missed even by this armor,", "all of it, forever guard,", "All-Protecting Goddess, keep."]}]}]};
+  var $ = function(s,r){ return (r||document).querySelector(s); };
+  var LS = 'singable35:';
+
+  // approximate English/IAST syllable count
+  function syllables(s){
+    s = (s||'').toLowerCase().replace(/[’']/g,'').replace(/[^a-zāīūēōṛṃ ]/g,' ');
+    var total = 0;
+    s.split(/\s+/).filter(Boolean).forEach(function(w){
+      var m = w.match(/[aeiouyāīūēōṛ]+/g);
+      var c = m ? m.length : 1;
+      if (w.length > 2 && /e$/.test(w) && !/[aeiouyāīūēōṛ]e$/.test(w)) c = Math.max(1, c-1);
+      total += Math.max(1, c);
+    });
+    return total;
+  }
+  function sylClass(n){ return n===8 ? 'ok' : (n>=7 && n<=9 ? 'near' : ''); }
+
+  function keyFor(n,i){ return LS + n + ':' + i; }
+  function currentLine(n,i,seed){ var v = localStorage.getItem(keyFor(n,i)); return v===null ? seed : v; }
+
+  function render(){
+    var host = $('#verses'); host.innerHTML = '';
+    DATA.verses.forEach(function(v){
+      var art = document.createElement('article'); art.className = 'v'; art.dataset.n = v.n;
+      var deva = v.sa.replace(/\\n/g,'\n');
+      var iast = v.it.replace(/\\n/g,'\n');
+      var html = '<div class="vhead"><span class="badge">' + v.n + '</span></div>'
+        + '<div class="deva">' + esc(deva) + '</div>'
+        + '<div class="iast">' + esc(iast) + '</div>'
+        + '<div class="ref"><span class="rl">Meaning (app translation)</span>' + esc(v.en) + '</div>'
+        + '<div class="lines"></div>';
+      art.innerHTML = html;
+      var lines = $('.lines', art);
+      v.singable.forEach(function(seed, i){
+        var val = currentLine(v.n, i, seed);
+        var row = document.createElement('label'); row.className = 'line';
+        var ta = document.createElement('textarea'); ta.rows = 1; ta.value = val;
+        ta.dataset.n = v.n; ta.dataset.i = i; ta.dataset.seed = seed;
+        var chip = document.createElement('span'); chip.className = 'syl';
+        function upd(){
+          var n = syllables(ta.value); chip.textContent = n + ' syl';
+          chip.className = 'syl ' + sylClass(n);
+          row.classList.toggle('edited', ta.value.trim() !== seed.trim());
+          ta.style.height = 'auto'; ta.style.height = ta.scrollHeight + 'px';
+        }
+        ta.addEventListener('input', function(){ localStorage.setItem(keyFor(v.n,i), ta.value); upd(); updEditCount(); });
+        row.appendChild(ta); row.appendChild(chip); lines.appendChild(row);
+        requestAnimationFrame(upd);
+      });
+      host.appendChild(art);
+    });
+    updEditCount();
+    renderHistory();
+  }
+
+  function updEditCount(){
+    var n = 0;
+    document.querySelectorAll('.line textarea').forEach(function(ta){ if (ta.value.trim() !== ta.dataset.seed.trim()) n++; });
+    $('#editCount').textContent = n;
+  }
+
+  function renderHistory(){
+    var h = $('#history'); h.innerHTML = '';
+    (DATA.history||[]).slice().reverse().forEach(function(e){
+      var d = document.createElement('details');
+      var snap = (e.verses||[]).map(function(v){
+        return '<div><span class="n">' + v.n + '</span> ' + v.lines.map(esc).join(' / ') + '</div>';
+      }).join('');
+      d.innerHTML = '<summary><b>' + esc(e.version) + '</b> <span class="ts">' + esc(e.ts||'') + '</span> · '
+        + esc(e.note||'') + (e.by ? ' <span class="ts">(' + esc(e.by) + ')</span>' : '') + '</summary>'
+        + '<div class="snap">' + snap + '</div>';
+      h.appendChild(d);
+    });
+  }
+
+  function esc(s){ return String(s).replace(/[&<>]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c]; }); }
+
+  function buildJSON(){
+    var label = ($('#stampLabel').value || '').trim() || 'untitled';
+    var verses = DATA.verses.map(function(v){
+      var lines = v.singable.map(function(seed,i){ return currentLine(v.n,i,seed); });
+      return { n: v.n, lines: lines };
+    });
+    return JSON.stringify({
+      board: 'singable-translation-editor', repo: DATA.repo, issue: DATA.issue,
+      version: label, ts: new Date().toISOString(), verses: verses
+    }, null, 2);
+  }
+  function toast(m){ var t=$('#toast'); t.textContent=m; t.classList.add('show'); setTimeout(function(){t.classList.remove('show');},2600); }
+  function openJson(){
+    var text = buildJSON(); $('#jsonOut').value = text; $('#overlay').classList.add('open'); $('#jsonOut').focus(); $('#jsonOut').select();
+    (navigator.clipboard && navigator.clipboard.writeText ? navigator.clipboard.writeText(text) : Promise.reject())
+      .then(function(){ toast('Copied — paste it into the chat'); }).catch(function(){ toast('Select all & copy (Ctrl/Cmd+C)'); });
+  }
+
+  $('#copyJson').addEventListener('click', openJson);
+  $('#copyAgain').addEventListener('click', function(){ $('#jsonOut').select();
+    (navigator.clipboard && navigator.clipboard.writeText ? navigator.clipboard.writeText($('#jsonOut').value) : Promise.reject())
+      .then(function(){ toast('Copied'); }).catch(function(){ toast('Press Ctrl/Cmd+C'); }); });
+  $('#closePanel').addEventListener('click', function(){ $('#overlay').classList.remove('open'); });
+  $('#overlay').addEventListener('click', function(e){ if(e.target===$('#overlay')) $('#overlay').classList.remove('open'); });
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') $('#overlay').classList.remove('open'); });
+  $('#revertBtn').addEventListener('click', function(){
+    if(!confirm('Discard your local edits and restore the current committed draft?')) return;
+    DATA.verses.forEach(function(v){ v.singable.forEach(function(_,i){ localStorage.removeItem(keyFor(v.n,i)); }); });
+    render(); toast('Reverted to the committed draft');
+  });
+  $('#themeBtn').addEventListener('click', function(){
+    var cur = document.documentElement.getAttribute('data-theme');
+    var next = cur === 'dark' ? 'light' : (cur === 'light' ? 'dark' : (matchMedia('(prefers-color-scheme: dark)').matches ? 'light' : 'dark'));
+    document.documentElement.setAttribute('data-theme', next);
+  });
+
+  render();
+})();
+</script>
