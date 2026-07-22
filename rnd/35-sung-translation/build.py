@@ -47,7 +47,7 @@ WORDS = {
      ["कामरूपनिवासिनी",[["kāmarūpa","Kāmarūpa"],["nivāsinī","dwelling-in"]]],
      ["आग्नेय्यां",[["āgneyyāṃ","in-the-southeast"]]],["षोडशी",[["ṣoḍaśī","Ṣoḍaśī"]]],["पातु",[["pātu","may-guard"]]],
      ["याम्यां",[["yāmyāṃ","in-the-south"]]],["धूमावती",[["dhūmāvatī","Dhūmāvatī"]]],["स्वयम्",[["svayam","herself"]]]],
- 2: [["नैर्ऋत्यां",[["nairṛtyāṃ","in-the-southwest"]]],["भैरवी",[["bhairavī","Bhairavī"]]],["पातु",[["pātu","may-guard"]]],
+ 2: [["नैरृत्यां",[["nairṛtyāṃ","in-the-southwest"]]],["भैरवी",[["bhairavī","Bhairavī"]]],["पातु",[["pātu","may-guard"]]],
      ["वारुण्यां",[["vāruṇyāṃ","in-the-west"]]],["भुवनेश्वरी",[["bhuvaneśvarī","Bhuvaneśvarī"]]],
      ["वायव्यां",[["vāyavyāṃ","in-the-northwest"]]],["सततं",[["satataṃ","always"]]],["पातु",[["pātu","may-guard"]]],
      ["छिन्नमस्ता",[["chinnamastā","Chinnamastā"]]],["महेश्वरी",[["maheśvarī","great-goddess"]]]],

@@ -22,9 +22,10 @@ session needs only this file + `gh issue list`.
 - 1min.ai API key: `.secrets/1min-key.txt` (gitignored).
 
 ## Editor features (current)
-14 verses. Per verse: Devanāgarī shown as the two pādas (half-lines) with their daṇḍas
-(toggle **Word-by-word: off ↔ verse** reveals per-word IAST+gloss beneath each word;
-each pāda stays on one line, overflowing horizontally rather than wrapping), app meaning,
+14 verses. Per verse: Devanāgarī shown as the two pādas (half-lines) with their daṇḍas.
+A **Chant View ↔ Study View** slide toggle (active label carries the state colour —
+Chant=kumkum, Study=gold): Study reveals per-word IAST+gloss beneath each word; each pāda
+stays on one line, overflowing horizontally rather than wrapping. Plus app meaning,
 and 4 editable singable lines with syllable counters. **Copy-JSON** round-trips edits;
 paste back → update `singable.json` + append to `history` → rebuild → republish.
 
@@ -32,6 +33,8 @@ paste back → update `singable.json` + append to `history` → rebuild → repu
 - Singable lines are **v0.1 Claude drafts**; user is editing toward natural + on-tune.
 - **Verse 10** singable softened the explicit anatomy — user's call.
 - Word-by-word glosses = Claude's analysis; **cross-check with a Sanskritist** before the live app.
+  **#38** tracks verifying the padaccheda against computational-Sanskrit tools (Heritage /
+  Vidyut / DCS — test locally). Fixed verse 2 `नैर्ऋत्यां`→`नैरृत्यां` (virama+independent → mātrā).
 - Issues: **#21/#24** audio (blocked on `yogic-approach/navaratri-sadhana#1`),
   **#33** Vite single-file, **#36** word-by-word in the live app + i18n-pluggable glosses,
   **#37** community competition (multilingual singable), **#26** Google Form, **#29** master slides,
