@@ -7,6 +7,68 @@
       "sa": "ॐ प्राच्यां रक्षतु मे तारा कामरूपनिवासिनी ।\nआग्नेय्यां षोडशी पातु याम्यां धूमावती स्वयम् ॥१॥",
       "it": "Om prācyāṃ rakṣatu me tārā kāmarūpanivāsinī |\nāgneyyāṃ ṣoḍaśī pātu yāmyāṃ dhūmāvatī svayam ||1||",
       "en": "May Tārā, who dwells in Kāmarūpa, guard me in the east. In the southeast may Ṣoḍaśī (Tripurasundarī) protect me; in the south, Dhumāvatī herself.",
+      "words": [
+        {
+          "sa": "ॐ",
+          "it": "oṃ",
+          "gloss": "the sacred syllable Om"
+        },
+        {
+          "sa": "प्राच्यां",
+          "it": "prācyāṃ",
+          "gloss": "in the east (loc.)"
+        },
+        {
+          "sa": "रक्षतु",
+          "it": "rakṣatu",
+          "gloss": "may (she) protect"
+        },
+        {
+          "sa": "मे",
+          "it": "me",
+          "gloss": "me"
+        },
+        {
+          "sa": "तारा",
+          "it": "tārā",
+          "gloss": "Tārā"
+        },
+        {
+          "sa": "कामरूपनिवासिनी",
+          "it": "kāmarūpa-nivāsinī",
+          "gloss": "dwelling in Kāmarūpa"
+        },
+        {
+          "sa": "आग्नेय्यां",
+          "it": "āgneyyāṃ",
+          "gloss": "in the SE / Agni's quarter (loc.)"
+        },
+        {
+          "sa": "षोडशी",
+          "it": "ṣoḍaśī",
+          "gloss": "Ṣoḍaśī"
+        },
+        {
+          "sa": "पातु",
+          "it": "pātu",
+          "gloss": "may (she) protect"
+        },
+        {
+          "sa": "याम्यां",
+          "it": "yāmyāṃ",
+          "gloss": "in the S / Yama's quarter (loc.)"
+        },
+        {
+          "sa": "धूमावती",
+          "it": "dhūmāvatī",
+          "gloss": "Dhūmāvatī"
+        },
+        {
+          "sa": "स्वयम्",
+          "it": "svayam",
+          "gloss": "herself"
+        }
+      ],
       "singable": [
         "In the east, may Tārā keep me,",
         "she of Kāmarūpa's dwelling;",
@@ -19,6 +81,58 @@
       "sa": "नैरृत्यां भैरवी पातु वारुण्यां भुवनेश्वरी ।\nवायव्यां सततं पातु छिन्नमस्ता महेश्वरी ॥२॥",
       "it": "nairṛtyāṃ bhairavī pātu vāruṇyāṃ bhuvaneśvarī |\nvāyavyāṃ satataṃ pātu chinnamastā maheśvarī ||2||",
       "en": "In the southwest may Bhairavī protect; in the west, Bhuvaneśvarī. In the northwest may the great goddess Chinnamastā protect me always.",
+      "words": [
+        {
+          "sa": "नैर्ऋत्यां",
+          "it": "nairṛtyāṃ",
+          "gloss": "in the SW / Nirṛti's quarter"
+        },
+        {
+          "sa": "भैरवी",
+          "it": "bhairavī",
+          "gloss": "Bhairavī"
+        },
+        {
+          "sa": "पातु",
+          "it": "pātu",
+          "gloss": "may protect"
+        },
+        {
+          "sa": "वारुण्यां",
+          "it": "vāruṇyāṃ",
+          "gloss": "in the W / Varuṇa's quarter"
+        },
+        {
+          "sa": "भुवनेश्वरी",
+          "it": "bhuvaneśvarī",
+          "gloss": "Bhuvaneśvarī"
+        },
+        {
+          "sa": "वायव्यां",
+          "it": "vāyavyāṃ",
+          "gloss": "in the NW / Vāyu's quarter"
+        },
+        {
+          "sa": "सततं",
+          "it": "satataṃ",
+          "gloss": "constantly, always"
+        },
+        {
+          "sa": "पातु",
+          "it": "pātu",
+          "gloss": "may protect"
+        },
+        {
+          "sa": "छिन्नमस्ता",
+          "it": "chinnamastā",
+          "gloss": "Chinnamastā (the severed-headed)"
+        },
+        {
+          "sa": "महेश्वरी",
+          "it": "maheśvarī",
+          "gloss": "the great goddess"
+        }
+      ],
       "singable": [
         "Southwest, Bhairavī protects me,",
         "in the west, Bhuvaneśvarī;",
@@ -31,6 +145,63 @@
       "sa": "कौबेर्यां पातु मे देवी श्रीविद्या बगलामुखी ।\nऐशान्यां पातु मे नित्यं महात्रिपुरसुन्दरी ॥३॥",
       "it": "kauberyāṃ pātu me devī śrīvidyā bagalāmukhī |\naiśānyāṃ pātu me nityaṃ mahātripurasundarī ||3||",
       "en": "In Kubera's quarter (the north) may the goddess Śrīvidyā—Bagalāmukhī—protect me. In Īśāna's quarter (the northeast) may Mahā‑Tripurasundarī protect me always.",
+      "words": [
+        {
+          "sa": "कौबेर्यां",
+          "it": "kauberyāṃ",
+          "gloss": "in the N / Kubera's quarter"
+        },
+        {
+          "sa": "पातु",
+          "it": "pātu",
+          "gloss": "may protect"
+        },
+        {
+          "sa": "मे",
+          "it": "me",
+          "gloss": "me"
+        },
+        {
+          "sa": "देवी",
+          "it": "devī",
+          "gloss": "goddess"
+        },
+        {
+          "sa": "श्रीविद्या",
+          "it": "śrī-vidyā",
+          "gloss": "the auspicious Vidyā"
+        },
+        {
+          "sa": "बगलामुखी",
+          "it": "bagalāmukhī",
+          "gloss": "Bagalāmukhī"
+        },
+        {
+          "sa": "ऐशान्यां",
+          "it": "aiśānyāṃ",
+          "gloss": "in the NE / Īśāna's quarter"
+        },
+        {
+          "sa": "पातु",
+          "it": "pātu",
+          "gloss": "may protect"
+        },
+        {
+          "sa": "मे",
+          "it": "me",
+          "gloss": "me"
+        },
+        {
+          "sa": "नित्यं",
+          "it": "nityaṃ",
+          "gloss": "always"
+        },
+        {
+          "sa": "महात्रिपुरसुन्दरी",
+          "it": "mahā-tripura-sundarī",
+          "gloss": "great Tripurasundarī"
+        }
+      ],
       "singable": [
         "North, may Bagalāmukhī guard,",
         "Śrīvidyā, in Kubera's realm;",
@@ -43,6 +214,68 @@
       "sa": "ऊर्ध्वं रक्षतु मे विद्या मातङ्गीपीठवासिनी ।\nसर्वतः पातु मे नित्यं कामाख्या कालिका स्वयम् ॥४॥",
       "it": "ūrdhvaṃ rakṣatu me vidyā mātaṅgīpīṭhavāsinī |\nsarvataḥ pātu me nityaṃ kāmākhyā kālikā svayam ||4||",
       "en": "Above, may Vidyā Mātangī, who abides at her sacred seat, guard me. On all sides may Kālikā of Kāmākhyā protect me always.",
+      "words": [
+        {
+          "sa": "ऊर्ध्वं",
+          "it": "ūrdhvaṃ",
+          "gloss": "above, upward"
+        },
+        {
+          "sa": "रक्षतु",
+          "it": "rakṣatu",
+          "gloss": "may protect"
+        },
+        {
+          "sa": "मे",
+          "it": "me",
+          "gloss": "me"
+        },
+        {
+          "sa": "विद्या",
+          "it": "vidyā",
+          "gloss": "the Vidyā"
+        },
+        {
+          "sa": "मातङ्गीपीठवासिनी",
+          "it": "mātaṅgī-pīṭha-vāsinī",
+          "gloss": "dwelling at Mātaṅgī's seat"
+        },
+        {
+          "sa": "सर्वतः",
+          "it": "sarvataḥ",
+          "gloss": "on all sides"
+        },
+        {
+          "sa": "पातु",
+          "it": "pātu",
+          "gloss": "may protect"
+        },
+        {
+          "sa": "मे",
+          "it": "me",
+          "gloss": "me"
+        },
+        {
+          "sa": "नित्यं",
+          "it": "nityaṃ",
+          "gloss": "always"
+        },
+        {
+          "sa": "कामाख्या",
+          "it": "kāmākhyā",
+          "gloss": "of Kāmākhyā"
+        },
+        {
+          "sa": "कालिका",
+          "it": "kālikā",
+          "gloss": "Kālikā"
+        },
+        {
+          "sa": "स्वयम्",
+          "it": "svayam",
+          "gloss": "herself"
+        }
+      ],
       "singable": [
         "Above, may Mātaṅgī protect,",
         "Vidyā at her sacred seat;",
@@ -55,6 +288,58 @@
       "sa": "ब्रह्मरूपा महाविद्या सर्वविद्यामयी स्वयम् ।\nशीर्षे रक्षतु मे दुर्गा भालं श्रीभवगेहिनी ॥५॥",
       "it": "brahmarūpā mahāvidyā sarvavidyāmayī svayam |\nśīrṣe rakṣatu me durgā bhālaṃ śrībhavagehinī ||5||",
       "en": "She is the Great Vidyā, of the very form of Brahman, the essence of all knowledges. May Durgā guard my head; may Śrī‑Bhavagehinī guard my forehead.",
+      "words": [
+        {
+          "sa": "ब्रह्मरूपा",
+          "it": "brahma-rūpā",
+          "gloss": "of the form of Brahman"
+        },
+        {
+          "sa": "महाविद्या",
+          "it": "mahā-vidyā",
+          "gloss": "the Great Vidyā"
+        },
+        {
+          "sa": "सर्वविद्यामयी",
+          "it": "sarva-vidyā-mayī",
+          "gloss": "made of all knowledge"
+        },
+        {
+          "sa": "स्वयम्",
+          "it": "svayam",
+          "gloss": "herself"
+        },
+        {
+          "sa": "शीर्षे",
+          "it": "śīrṣe",
+          "gloss": "on the head (loc.)"
+        },
+        {
+          "sa": "रक्षतु",
+          "it": "rakṣatu",
+          "gloss": "may protect"
+        },
+        {
+          "sa": "मे",
+          "it": "me",
+          "gloss": "me"
+        },
+        {
+          "sa": "दुर्गा",
+          "it": "durgā",
+          "gloss": "Durgā"
+        },
+        {
+          "sa": "भालं",
+          "it": "bhālaṃ",
+          "gloss": "the forehead (acc.)"
+        },
+        {
+          "sa": "श्रीभवगेहिनी",
+          "it": "śrī-bhava-gehinī",
+          "gloss": "Śrī-Bhavagehinī (consort of Bhava)"
+        }
+      ],
       "singable": [
         "Brahman's form, the Great Vidyā,",
         "essence of all knowing, she;",
@@ -67,6 +352,63 @@
       "sa": "त्रिपुरा भ्रुयुगे पातु शर्वाणी पातु नासिकाम् ।\nचक्षुषी चण्डिका पातु श्रोत्रे निलसरस्वती ॥६॥",
       "it": "tripurā bhruyuge pātu śarvāṇī pātu nāsikām |\ncakṣuṣī caṇḍikā pātu śrotre nilasarasvatī ||6||",
       "en": "May Tripurā guard my brows; may Śarvaṇī (Pārvatī) guard my nose. May Caṇḍikā guard my eyes; may Nīla‑Sarasvatī guard my ears.",
+      "words": [
+        {
+          "sa": "त्रिपुरा",
+          "it": "tripurā",
+          "gloss": "Tripurā"
+        },
+        {
+          "sa": "भ्रुयुगे",
+          "it": "bhru-yuge",
+          "gloss": "on the pair of brows (loc.)"
+        },
+        {
+          "sa": "पातु",
+          "it": "pātu",
+          "gloss": "may protect"
+        },
+        {
+          "sa": "शर्वाणी",
+          "it": "śarvāṇī",
+          "gloss": "Śarvāṇī (Pārvatī)"
+        },
+        {
+          "sa": "पातु",
+          "it": "pātu",
+          "gloss": "may protect"
+        },
+        {
+          "sa": "नासिकाम्",
+          "it": "nāsikām",
+          "gloss": "the nose (acc.)"
+        },
+        {
+          "sa": "चक्षुषी",
+          "it": "cakṣuṣī",
+          "gloss": "the two eyes (acc. du.)"
+        },
+        {
+          "sa": "चण्डिका",
+          "it": "caṇḍikā",
+          "gloss": "Caṇḍikā"
+        },
+        {
+          "sa": "पातु",
+          "it": "pātu",
+          "gloss": "may protect"
+        },
+        {
+          "sa": "श्रोत्रे",
+          "it": "śrotre",
+          "gloss": "the two ears (du.)"
+        },
+        {
+          "sa": "निलसरस्वती",
+          "it": "nila-sarasvatī",
+          "gloss": "Nīla-Sarasvatī"
+        }
+      ],
       "singable": [
         "Tripurā, guard my two brows;",
         "Śarvāṇī, protect my nose;",
@@ -79,6 +421,63 @@
       "sa": "मुखं सौम्यमुखी पातु ग्रीवां रक्षतु पार्वती ।\nजिह्वां रक्षतु मे देवी जिह्वाललनभीषणा ॥७॥",
       "it": "mukhaṃ saumyamukhī pātu grīvāṃ rakṣatu pārvatī |\njihvāṃ rakṣatu me devī jihvālalanabhīṣaṇā ||7||",
       "en": "May the gentle‑faced One protect my face; may Pārvatī guard my neck. May the goddess—terrifying with her lolling tongue—guard my tongue.",
+      "words": [
+        {
+          "sa": "मुखं",
+          "it": "mukhaṃ",
+          "gloss": "the face (acc.)"
+        },
+        {
+          "sa": "सौम्यमुखी",
+          "it": "saumya-mukhī",
+          "gloss": "the gentle-faced one"
+        },
+        {
+          "sa": "पातु",
+          "it": "pātu",
+          "gloss": "may protect"
+        },
+        {
+          "sa": "ग्रीवां",
+          "it": "grīvāṃ",
+          "gloss": "the neck (acc.)"
+        },
+        {
+          "sa": "रक्षतु",
+          "it": "rakṣatu",
+          "gloss": "may protect"
+        },
+        {
+          "sa": "पार्वती",
+          "it": "pārvatī",
+          "gloss": "Pārvatī"
+        },
+        {
+          "sa": "जिह्वां",
+          "it": "jihvāṃ",
+          "gloss": "the tongue (acc.)"
+        },
+        {
+          "sa": "रक्षतु",
+          "it": "rakṣatu",
+          "gloss": "may protect"
+        },
+        {
+          "sa": "मे",
+          "it": "me",
+          "gloss": "me"
+        },
+        {
+          "sa": "देवी",
+          "it": "devī",
+          "gloss": "goddess"
+        },
+        {
+          "sa": "जिह्वाललनभीषणा",
+          "it": "jihvā-lalana-bhīṣaṇā",
+          "gloss": "terrifying with lolling tongue"
+        }
+      ],
       "singable": [
         "Gentle-faced One, guard my face;",
         "Pārvatī, protect my neck;",
@@ -91,6 +490,63 @@
       "sa": "वाग्देवी वदनं पातु वक्षः पातु महेश्वरी ।\nबाहू महाभुजा पातु कराङ्गुलीः सुरेश्वरी ॥८॥",
       "it": "vāgdevī vadanaṃ pātu vakṣaḥ pātu maheśvarī |\nbāhū mahābhujā pātu karāṅgulīḥ sureśvarī ||8||",
       "en": "May Vāgdevī protect my speech and mouth; may Maheśvarī guard my chest. May the Mighty‑Armed One protect my arms, and the Queen of the gods protect my fingers.",
+      "words": [
+        {
+          "sa": "वाग्देवी",
+          "it": "vāg-devī",
+          "gloss": "goddess of speech"
+        },
+        {
+          "sa": "वदनं",
+          "it": "vadanaṃ",
+          "gloss": "the mouth (acc.)"
+        },
+        {
+          "sa": "पातु",
+          "it": "pātu",
+          "gloss": "may protect"
+        },
+        {
+          "sa": "वक्षः",
+          "it": "vakṣaḥ",
+          "gloss": "the chest (acc.)"
+        },
+        {
+          "sa": "पातु",
+          "it": "pātu",
+          "gloss": "may protect"
+        },
+        {
+          "sa": "महेश्वरी",
+          "it": "maheśvarī",
+          "gloss": "Maheśvarī"
+        },
+        {
+          "sa": "बाहू",
+          "it": "bāhū",
+          "gloss": "the two arms (acc. du.)"
+        },
+        {
+          "sa": "महाभुजा",
+          "it": "mahā-bhujā",
+          "gloss": "the mighty-armed one"
+        },
+        {
+          "sa": "पातु",
+          "it": "pātu",
+          "gloss": "may protect"
+        },
+        {
+          "sa": "कराङ्गुलीः",
+          "it": "kara-aṅgulīḥ",
+          "gloss": "the fingers (acc. pl.)"
+        },
+        {
+          "sa": "सुरेश्वरी",
+          "it": "sureśvarī",
+          "gloss": "queen of the gods"
+        }
+      ],
       "singable": [
         "Vāgdevī, keep speech and mouth;",
         "Maheśvarī, guard my chest;",
@@ -103,6 +559,68 @@
       "sa": "पृष्ठतः पातु भीमास्या कट्यां देवी दिगम्बरी ।\nउदरं पातु मे नित्यं महाविद्या महोदरी ॥९॥",
       "it": "pṛṣṭhataḥ pātu bhīmāsyā kaṭyāṃ devī digambarī |\nudaraṃ pātu me nityaṃ mahāvidyā mahodarī ||9||",
       "en": "From behind may Bhīmāsyā protect; at the hips, the goddess Digambarī. May the Great Vidyā Mahodari always protect my abdomen.",
+      "words": [
+        {
+          "sa": "पृष्ठतः",
+          "it": "pṛṣṭhataḥ",
+          "gloss": "from behind, at the back"
+        },
+        {
+          "sa": "पातु",
+          "it": "pātu",
+          "gloss": "may protect"
+        },
+        {
+          "sa": "भीमास्या",
+          "it": "bhīm-āsyā",
+          "gloss": "the fearsome-faced one"
+        },
+        {
+          "sa": "कट्यां",
+          "it": "kaṭyāṃ",
+          "gloss": "at the hips/waist (loc.)"
+        },
+        {
+          "sa": "देवी",
+          "it": "devī",
+          "gloss": "goddess"
+        },
+        {
+          "sa": "दिगम्बरी",
+          "it": "dig-ambarī",
+          "gloss": "the sky-clad (Digambarī)"
+        },
+        {
+          "sa": "उदरं",
+          "it": "udaraṃ",
+          "gloss": "the belly (acc.)"
+        },
+        {
+          "sa": "पातु",
+          "it": "pātu",
+          "gloss": "may protect"
+        },
+        {
+          "sa": "मे",
+          "it": "me",
+          "gloss": "me"
+        },
+        {
+          "sa": "नित्यं",
+          "it": "nityaṃ",
+          "gloss": "always"
+        },
+        {
+          "sa": "महाविद्या",
+          "it": "mahā-vidyā",
+          "gloss": "the Great Vidyā"
+        },
+        {
+          "sa": "महोदरी",
+          "it": "mah-odarī",
+          "gloss": "the large-bellied (Mahodari)"
+        }
+      ],
       "singable": [
         "From behind, may Bhīmāsyā guard;",
         "at the hips, Digambarī;",
@@ -115,6 +633,68 @@
       "sa": "उग्रतारा महादेवी जङ्घोरू परिरक्षतु ।\nगुदं मुष्कं च मेढ्रं च नाभिं च सुरसुन्दरी ॥१०॥",
       "it": "ugratārā mahādevī jaṅghorū parirakṣatu |\ngudaṃ muṣkaṃ ca meḍhraṃ ca nābhiṃ ca surasundarī ||10||",
       "en": "May the great goddess Ugratārā protect my shanks and thighs. May Ugratārā—Surasundarī—guard the anus, the scrotum, the phallus, and the navel.",
+      "words": [
+        {
+          "sa": "उग्रतारा",
+          "it": "ugra-tārā",
+          "gloss": "Ugra-Tārā (fierce Tārā)"
+        },
+        {
+          "sa": "महादेवी",
+          "it": "mahā-devī",
+          "gloss": "the great goddess"
+        },
+        {
+          "sa": "जङ्घोरू",
+          "it": "jaṅghā-ūru",
+          "gloss": "shanks and thighs (sandhi ā+ū→o)"
+        },
+        {
+          "sa": "परिरक्षतु",
+          "it": "pari-rakṣatu",
+          "gloss": "may protect all around"
+        },
+        {
+          "sa": "गुदं",
+          "it": "gudaṃ",
+          "gloss": "the anus (acc.)"
+        },
+        {
+          "sa": "मुष्कं",
+          "it": "muṣkaṃ",
+          "gloss": "the scrotum (acc.)"
+        },
+        {
+          "sa": "च",
+          "it": "ca",
+          "gloss": "and"
+        },
+        {
+          "sa": "मेढ्रं",
+          "it": "meḍhraṃ",
+          "gloss": "the phallus (acc.)"
+        },
+        {
+          "sa": "च",
+          "it": "ca",
+          "gloss": "and"
+        },
+        {
+          "sa": "नाभिं",
+          "it": "nābhiṃ",
+          "gloss": "the navel (acc.)"
+        },
+        {
+          "sa": "च",
+          "it": "ca",
+          "gloss": "and"
+        },
+        {
+          "sa": "सुरसुन्दरी",
+          "it": "sura-sundarī",
+          "gloss": "Surasundarī"
+        }
+      ],
       "singable": [
         "Ugratārā, Great Goddess,",
         "guard my shanks and both my thighs;",
@@ -127,6 +707,53 @@
       "sa": "पादाङ्गुलीः सदा पातु भवानी त्रिदशेश्वरी ।\nरक्तमांसास्थिमज्जादीन् पातु देवी शवासना ॥११॥",
       "it": "pādāṅgulīḥ sadā pātu bhavānī tridaśeśvarī |\nraktamāṃsāsthimajjādīn pātu devī śavāsanā ||11||",
       "en": "May Bhavānī, queen of the gods, always protect my toes. May the goddess who is seated upon a corpse protect my blood, flesh, bones, marrow, and the rest.",
+      "words": [
+        {
+          "sa": "पादाङ्गुलीः",
+          "it": "pāda-aṅgulīḥ",
+          "gloss": "the toes (acc. pl.)"
+        },
+        {
+          "sa": "सदा",
+          "it": "sadā",
+          "gloss": "always"
+        },
+        {
+          "sa": "पातु",
+          "it": "pātu",
+          "gloss": "may protect"
+        },
+        {
+          "sa": "भवानी",
+          "it": "bhavānī",
+          "gloss": "Bhavānī"
+        },
+        {
+          "sa": "त्रिदशेश्वरी",
+          "it": "tridaśa-īśvarī",
+          "gloss": "queen of the gods"
+        },
+        {
+          "sa": "रक्तमांसास्थिमज्जादीन्",
+          "it": "rakta-māṃsa-asthi-majjā-ādīn",
+          "gloss": "blood, flesh, bone, marrow, etc. (acc. pl.)"
+        },
+        {
+          "sa": "पातु",
+          "it": "pātu",
+          "gloss": "may protect"
+        },
+        {
+          "sa": "देवी",
+          "it": "devī",
+          "gloss": "goddess"
+        },
+        {
+          "sa": "शवासना",
+          "it": "śava-āsanā",
+          "gloss": "she seated on a corpse"
+        }
+      ],
       "singable": [
         "Bhavānī, queen of the gods,",
         "ever guard my very toes;",
@@ -139,6 +766,43 @@
       "sa": "महाभयेषु घोरेषु महाभयनिवारिणी ।\nपातु देवी महामाया कामाख्यापीठवासिनी ॥१२॥",
       "it": "mahābhayeṣu ghoreṣu mahābhayanivāriṇī |\npātu devī mahāmāyā kāmākhyāpīṭhavāsinī ||12||",
       "en": "In great and terrible dangers, may the remover of great fear—Mahāmāyā, who dwells at the seat of Kāmākhyā—protect me.",
+      "words": [
+        {
+          "sa": "महाभयेषु",
+          "it": "mahā-bhayeṣu",
+          "gloss": "in great dangers (loc. pl.)"
+        },
+        {
+          "sa": "घोरेषु",
+          "it": "ghoreṣu",
+          "gloss": "terrible (loc. pl.)"
+        },
+        {
+          "sa": "महाभयनिवारिणी",
+          "it": "mahā-bhaya-nivāriṇī",
+          "gloss": "remover of great fear"
+        },
+        {
+          "sa": "पातु",
+          "it": "pātu",
+          "gloss": "may protect"
+        },
+        {
+          "sa": "देवी",
+          "it": "devī",
+          "gloss": "goddess"
+        },
+        {
+          "sa": "महामाया",
+          "it": "mahā-māyā",
+          "gloss": "Mahāmāyā"
+        },
+        {
+          "sa": "कामाख्यापीठवासिनी",
+          "it": "kāmākhyā-pīṭha-vāsinī",
+          "gloss": "dwelling at Kāmākhyā's seat"
+        }
+      ],
       "singable": [
         "In great terrors, dire and vast,",
         "she who ends the greatest fear—",
@@ -151,6 +815,38 @@
       "sa": "भस्माचलगता दिव्यसिंहासनकृताश्रया ।\nपातु श्रीकालिकादेवी सर्वोत्पातेषु सर्वदा ॥१३॥",
       "it": "bhasmācalagatā divyasiṃhāsanakṛtāśrayā |\npātu śrīkālikādevī sarvotpāteṣu sarvadā ||13||",
       "en": "Residing on the mountain of ash, enthroned upon the divine lion seat—may Śrī Kālika‑devī protect me from every calamity, always.",
+      "words": [
+        {
+          "sa": "भस्माचलगता",
+          "it": "bhasma-acala-gatā",
+          "gloss": "seated on the mountain of ash"
+        },
+        {
+          "sa": "दिव्यसिंहासनकृताश्रया",
+          "it": "divya-siṃhāsana-kṛta-āśrayā",
+          "gloss": "who has taken abode on the divine lion-throne"
+        },
+        {
+          "sa": "पातु",
+          "it": "pātu",
+          "gloss": "may protect"
+        },
+        {
+          "sa": "श्रीकालिकादेवी",
+          "it": "śrī-kālikā-devī",
+          "gloss": "Śrī Kālikā-devī"
+        },
+        {
+          "sa": "सर्वोत्पातेषु",
+          "it": "sarva-utpāteṣu",
+          "gloss": "in all calamities (loc. pl.)"
+        },
+        {
+          "sa": "सर्वदा",
+          "it": "sarvadā",
+          "gloss": "always"
+        }
+      ],
       "singable": [
         "On the mount of ash enthroned,",
         "on the divine lion-seat,",
@@ -163,6 +859,58 @@
       "sa": "रक्षाहीनं तु यत्स्थानं कवचेनापि वर्जितम् ।\nतत्सर्वं सर्वदा पातु सर्वरक्षणकारिणी ॥१४॥",
       "it": "rakṣāhīnaṃ tu yatsthānaṃ kavacenāpi varjitam |\ntatsarvaṃ sarvadā pātu sarvarakṣaṇakāriṇī ||14||",
       "en": "And whatever place is left unprotected—omitted even by this armor—may the All‑Protecting Goddess guard all of that, at all times.",
+      "words": [
+        {
+          "sa": "रक्षाहीनं",
+          "it": "rakṣā-hīnaṃ",
+          "gloss": "devoid of protection"
+        },
+        {
+          "sa": "तु",
+          "it": "tu",
+          "gloss": "but/and"
+        },
+        {
+          "sa": "यत्स्थानं",
+          "it": "yat-sthānaṃ",
+          "gloss": "whatever place"
+        },
+        {
+          "sa": "कवचेन",
+          "it": "kavacena",
+          "gloss": "by the armor (instr.)"
+        },
+        {
+          "sa": "अपि",
+          "it": "api",
+          "gloss": "even (kavacena+api→kavacenāpi)"
+        },
+        {
+          "sa": "वर्जितम्",
+          "it": "varjitam",
+          "gloss": "left out, omitted"
+        },
+        {
+          "sa": "तत्सर्वं",
+          "it": "tat-sarvaṃ",
+          "gloss": "all that"
+        },
+        {
+          "sa": "सर्वदा",
+          "it": "sarvadā",
+          "gloss": "always"
+        },
+        {
+          "sa": "पातु",
+          "it": "pātu",
+          "gloss": "may protect"
+        },
+        {
+          "sa": "सर्वरक्षणकारिणी",
+          "it": "sarva-rakṣaṇa-kāriṇī",
+          "gloss": "she who gives all protection"
+        }
+      ],
       "singable": [
         "Whatever place is left bare,",
         "missed even by this armor,",
