@@ -59,16 +59,21 @@
   .syl.ok{color:var(--add);border-color:var(--add)}
   .syl.near{color:var(--warn);border-color:var(--warn)}
 
-  /* word-by-word (padaccheda) — two views, gloss sits directly under each word */
-  .words{display:none;margin:.15rem 0 .7rem}
-  #verses.words-verse .words{display:flex;flex-wrap:wrap;gap:.5rem .9rem;align-items:flex-start}
-  #verses.words-detailed .words{display:flex;flex-wrap:wrap;gap:.4rem}
+  /* word-by-word (padaccheda): the word row IS the Devanāgarī (no duplicate line).
+     off = plain verse · verse = gloss revealed under each word · detailed = boxed cards. */
+  .words{display:flex;flex-wrap:wrap;gap:.5rem .9rem;align-items:flex-start;margin:.15rem 0 .7rem}
+  #verses.words-detailed .words{gap:.4rem}
   .wcol{display:flex;flex-direction:column;align-items:center;text-align:center}
-  .wdev{font-family:var(--deva);color:var(--gold);font-size:1.12rem;line-height:1.4}
+  .wdev{font-family:var(--deva);color:var(--gold);font-size:1.2rem;line-height:1.5}
   .wtoks{display:flex;gap:.3rem}
   .tk{display:flex;flex-direction:column;align-items:center}
+  .tki,.tkg{display:none}   /* hidden while word-by-word is off */
   .tki{font-family:var(--serif);font-style:italic;font-size:.7rem;color:var(--ink);line-height:1.2}
   .tkg{font-size:.68rem;color:var(--muted);line-height:1.2}
+  #verses.words-verse .tki,#verses.words-verse .tkg,
+  #verses.words-detailed .tki,#verses.words-detailed .tkg{display:block}
+  /* when the breakdown is on, per-word IAST replaces the full transliteration line */
+  #verses.words-verse .iast,#verses.words-detailed .iast{display:none}
   /* detailed view: each word is a boxed card, tokens stacked as IAST — gloss lines */
   #verses.words-detailed .wcol{background:var(--surface-2);border:1px solid var(--line);border-radius:9px;padding:.32rem .5rem;align-items:flex-start;text-align:left}
   #verses.words-detailed .wtoks{flex-direction:column;gap:.05rem;margin-top:.15rem}
@@ -158,10 +163,8 @@
     var host = $('#verses'); host.innerHTML = '';
     DATA.verses.forEach(function(v){
       var art = document.createElement('article'); art.className = 'v'; art.dataset.n = v.n;
-      var deva = v.sa.replace(/\\n/g,'\n');
       var iast = v.it.replace(/\\n/g,'\n');
       var html = '<div class="vhead"><span class="badge">' + v.n + '</span></div>'
-        + '<div class="deva">' + esc(deva) + '</div>'
         + '<div class="iast">' + esc(iast) + '</div>'
         + '<div class="words">' + (v.words||[]).map(function(w){
             var toks = (w.toks||[]).map(function(t){
