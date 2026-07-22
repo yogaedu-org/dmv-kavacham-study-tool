@@ -7,118 +7,128 @@
       "sa": "ॐ प्राच्यां रक्षतु मे तारा कामरूपनिवासिनी ।\nआग्नेय्यां षोडशी पातु याम्यां धूमावती स्वयम् ॥१॥",
       "it": "Om prācyāṃ rakṣatu me tārā kāmarūpanivāsinī |\nāgneyyāṃ ṣoḍaśī pātu yāmyāṃ dhūmāvatī svayam ||1||",
       "en": "May Tārā, who dwells in Kāmarūpa, guard me in the east. In the southeast may Ṣoḍaśī (Tripurasundarī) protect me; in the south, Dhumāvatī herself.",
-      "words": [
+      "padas": [
         {
-          "sa": "ॐ",
-          "toks": [
+          "words": [
             {
-              "it": "oṃ",
-              "g": "Om"
-            }
-          ]
-        },
-        {
-          "sa": "प्राच्यां",
-          "toks": [
-            {
-              "it": "prācyāṃ",
-              "g": "in-the-east"
-            }
-          ]
-        },
-        {
-          "sa": "रक्षतु",
-          "toks": [
-            {
-              "it": "rakṣatu",
-              "g": "may-guard"
-            }
-          ]
-        },
-        {
-          "sa": "मे",
-          "toks": [
-            {
-              "it": "me",
-              "g": "me"
-            }
-          ]
-        },
-        {
-          "sa": "तारा",
-          "toks": [
-            {
-              "it": "tārā",
-              "g": "Tārā"
-            }
-          ]
-        },
-        {
-          "sa": "कामरूपनिवासिनी",
-          "toks": [
-            {
-              "it": "kāmarūpa",
-              "g": "Kāmarūpa"
+              "sa": "ॐ",
+              "toks": [
+                {
+                  "it": "oṃ",
+                  "g": "Om"
+                }
+              ]
             },
             {
-              "it": "nivāsinī",
-              "g": "dwelling-in"
+              "sa": "प्राच्यां",
+              "toks": [
+                {
+                  "it": "prācyāṃ",
+                  "g": "in-the-east"
+                }
+              ]
+            },
+            {
+              "sa": "रक्षतु",
+              "toks": [
+                {
+                  "it": "rakṣatu",
+                  "g": "may-guard"
+                }
+              ]
+            },
+            {
+              "sa": "मे",
+              "toks": [
+                {
+                  "it": "me",
+                  "g": "me"
+                }
+              ]
+            },
+            {
+              "sa": "तारा",
+              "toks": [
+                {
+                  "it": "tārā",
+                  "g": "Tārā"
+                }
+              ]
+            },
+            {
+              "sa": "कामरूपनिवासिनी",
+              "toks": [
+                {
+                  "it": "kāmarūpa",
+                  "g": "Kāmarūpa"
+                },
+                {
+                  "it": "nivāsinī",
+                  "g": "dwelling-in"
+                }
+              ]
             }
-          ]
+          ],
+          "danda": "।"
         },
         {
-          "sa": "आग्नेय्यां",
-          "toks": [
+          "words": [
             {
-              "it": "āgneyyāṃ",
-              "g": "in-the-southeast"
-            }
-          ]
-        },
-        {
-          "sa": "षोडशी",
-          "toks": [
+              "sa": "आग्नेय्यां",
+              "toks": [
+                {
+                  "it": "āgneyyāṃ",
+                  "g": "in-the-southeast"
+                }
+              ]
+            },
             {
-              "it": "ṣoḍaśī",
-              "g": "Ṣoḍaśī"
-            }
-          ]
-        },
-        {
-          "sa": "पातु",
-          "toks": [
+              "sa": "षोडशी",
+              "toks": [
+                {
+                  "it": "ṣoḍaśī",
+                  "g": "Ṣoḍaśī"
+                }
+              ]
+            },
             {
-              "it": "pātu",
-              "g": "may-guard"
-            }
-          ]
-        },
-        {
-          "sa": "याम्यां",
-          "toks": [
+              "sa": "पातु",
+              "toks": [
+                {
+                  "it": "pātu",
+                  "g": "may-guard"
+                }
+              ]
+            },
             {
-              "it": "yāmyāṃ",
-              "g": "in-the-south"
-            }
-          ]
-        },
-        {
-          "sa": "धूमावती",
-          "toks": [
+              "sa": "याम्यां",
+              "toks": [
+                {
+                  "it": "yāmyāṃ",
+                  "g": "in-the-south"
+                }
+              ]
+            },
             {
-              "it": "dhūmāvatī",
-              "g": "Dhūmāvatī"
-            }
-          ]
-        },
-        {
-          "sa": "स्वयम्",
-          "toks": [
+              "sa": "धूमावती",
+              "toks": [
+                {
+                  "it": "dhūmāvatī",
+                  "g": "Dhūmāvatī"
+                }
+              ]
+            },
             {
-              "it": "svayam",
-              "g": "herself"
+              "sa": "स्वयम्",
+              "toks": [
+                {
+                  "it": "svayam",
+                  "g": "herself"
+                }
+              ]
             }
-          ]
+          ],
+          "danda": "॥१॥"
         }
       ],
       "singable": [
@@ -133,96 +143,106 @@
       "sa": "नैरृत्यां भैरवी पातु वारुण्यां भुवनेश्वरी ।\nवायव्यां सततं पातु छिन्नमस्ता महेश्वरी ॥२॥",
       "it": "nairṛtyāṃ bhairavī pātu vāruṇyāṃ bhuvaneśvarī |\nvāyavyāṃ satataṃ pātu chinnamastā maheśvarī ||2||",
       "en": "In the southwest may Bhairavī protect; in the west, Bhuvaneśvarī. In the northwest may the great goddess Chinnamastā protect me always.",
-      "words": [
+      "padas": [
         {
-          "sa": "नैर्ऋत्यां",
-          "toks": [
+          "words": [
             {
-              "it": "nairṛtyāṃ",
-              "g": "in-the-southwest"
+              "sa": "नैर्ऋत्यां",
+              "toks": [
+                {
+                  "it": "nairṛtyāṃ",
+                  "g": "in-the-southwest"
+                }
+              ]
+            },
+            {
+              "sa": "भैरवी",
+              "toks": [
+                {
+                  "it": "bhairavī",
+                  "g": "Bhairavī"
+                }
+              ]
+            },
+            {
+              "sa": "पातु",
+              "toks": [
+                {
+                  "it": "pātu",
+                  "g": "may-guard"
+                }
+              ]
+            },
+            {
+              "sa": "वारुण्यां",
+              "toks": [
+                {
+                  "it": "vāruṇyāṃ",
+                  "g": "in-the-west"
+                }
+              ]
+            },
+            {
+              "sa": "भुवनेश्वरी",
+              "toks": [
+                {
+                  "it": "bhuvaneśvarī",
+                  "g": "Bhuvaneśvarī"
+                }
+              ]
             }
-          ]
+          ],
+          "danda": "।"
         },
         {
-          "sa": "भैरवी",
-          "toks": [
+          "words": [
             {
-              "it": "bhairavī",
-              "g": "Bhairavī"
-            }
-          ]
-        },
-        {
-          "sa": "पातु",
-          "toks": [
+              "sa": "वायव्यां",
+              "toks": [
+                {
+                  "it": "vāyavyāṃ",
+                  "g": "in-the-northwest"
+                }
+              ]
+            },
             {
-              "it": "pātu",
-              "g": "may-guard"
-            }
-          ]
-        },
-        {
-          "sa": "वारुण्यां",
-          "toks": [
+              "sa": "सततं",
+              "toks": [
+                {
+                  "it": "satataṃ",
+                  "g": "always"
+                }
+              ]
+            },
             {
-              "it": "vāruṇyāṃ",
-              "g": "in-the-west"
-            }
-          ]
-        },
-        {
-          "sa": "भुवनेश्वरी",
-          "toks": [
+              "sa": "पातु",
+              "toks": [
+                {
+                  "it": "pātu",
+                  "g": "may-guard"
+                }
+              ]
+            },
             {
-              "it": "bhuvaneśvarī",
-              "g": "Bhuvaneśvarī"
-            }
-          ]
-        },
-        {
-          "sa": "वायव्यां",
-          "toks": [
+              "sa": "छिन्नमस्ता",
+              "toks": [
+                {
+                  "it": "chinnamastā",
+                  "g": "Chinnamastā"
+                }
+              ]
+            },
             {
-              "it": "vāyavyāṃ",
-              "g": "in-the-northwest"
+              "sa": "महेश्वरी",
+              "toks": [
+                {
+                  "it": "maheśvarī",
+                  "g": "great-goddess"
+                }
+              ]
             }
-          ]
-        },
-        {
-          "sa": "सततं",
-          "toks": [
-            {
-              "it": "satataṃ",
-              "g": "always"
-            }
-          ]
-        },
-        {
-          "sa": "पातु",
-          "toks": [
-            {
-              "it": "pātu",
-              "g": "may-guard"
-            }
-          ]
-        },
-        {
-          "sa": "छिन्नमस्ता",
-          "toks": [
-            {
-              "it": "chinnamastā",
-              "g": "Chinnamastā"
-            }
-          ]
-        },
-        {
-          "sa": "महेश्वरी",
-          "toks": [
-            {
-              "it": "maheśvarī",
-              "g": "great-goddess"
-            }
-          ]
+          ],
+          "danda": "॥२॥"
         }
       ],
       "singable": [
@@ -237,109 +257,119 @@
       "sa": "कौबेर्यां पातु मे देवी श्रीविद्या बगलामुखी ।\nऐशान्यां पातु मे नित्यं महात्रिपुरसुन्दरी ॥३॥",
       "it": "kauberyāṃ pātu me devī śrīvidyā bagalāmukhī |\naiśānyāṃ pātu me nityaṃ mahātripurasundarī ||3||",
       "en": "In Kubera's quarter (the north) may the goddess Śrīvidyā—Bagalāmukhī—protect me. In Īśāna's quarter (the northeast) may Mahā‑Tripurasundarī protect me always.",
-      "words": [
+      "padas": [
         {
-          "sa": "कौबेर्यां",
-          "toks": [
+          "words": [
             {
-              "it": "kauberyāṃ",
-              "g": "in-the-north"
-            }
-          ]
-        },
-        {
-          "sa": "पातु",
-          "toks": [
-            {
-              "it": "pātu",
-              "g": "may-guard"
-            }
-          ]
-        },
-        {
-          "sa": "मे",
-          "toks": [
-            {
-              "it": "me",
-              "g": "me"
-            }
-          ]
-        },
-        {
-          "sa": "देवी",
-          "toks": [
-            {
-              "it": "devī",
-              "g": "goddess"
-            }
-          ]
-        },
-        {
-          "sa": "श्रीविद्या",
-          "toks": [
-            {
-              "it": "śrīvidyā",
-              "g": "Śrīvidyā"
-            }
-          ]
-        },
-        {
-          "sa": "बगलामुखी",
-          "toks": [
-            {
-              "it": "bagalāmukhī",
-              "g": "Bagalāmukhī"
-            }
-          ]
-        },
-        {
-          "sa": "ऐशान्यां",
-          "toks": [
-            {
-              "it": "aiśānyāṃ",
-              "g": "in-the-northeast"
-            }
-          ]
-        },
-        {
-          "sa": "पातु",
-          "toks": [
-            {
-              "it": "pātu",
-              "g": "may-guard"
-            }
-          ]
-        },
-        {
-          "sa": "मे",
-          "toks": [
-            {
-              "it": "me",
-              "g": "me"
-            }
-          ]
-        },
-        {
-          "sa": "नित्यं",
-          "toks": [
-            {
-              "it": "nityaṃ",
-              "g": "always"
-            }
-          ]
-        },
-        {
-          "sa": "महात्रिपुरसुन्दरी",
-          "toks": [
-            {
-              "it": "mahā",
-              "g": "great"
+              "sa": "कौबेर्यां",
+              "toks": [
+                {
+                  "it": "kauberyāṃ",
+                  "g": "in-the-north"
+                }
+              ]
             },
             {
-              "it": "tripurasundarī",
-              "g": "Tripurasundarī"
+              "sa": "पातु",
+              "toks": [
+                {
+                  "it": "pātu",
+                  "g": "may-guard"
+                }
+              ]
+            },
+            {
+              "sa": "मे",
+              "toks": [
+                {
+                  "it": "me",
+                  "g": "me"
+                }
+              ]
+            },
+            {
+              "sa": "देवी",
+              "toks": [
+                {
+                  "it": "devī",
+                  "g": "goddess"
+                }
+              ]
+            },
+            {
+              "sa": "श्रीविद्या",
+              "toks": [
+                {
+                  "it": "śrīvidyā",
+                  "g": "Śrīvidyā"
+                }
+              ]
+            },
+            {
+              "sa": "बगलामुखी",
+              "toks": [
+                {
+                  "it": "bagalāmukhī",
+                  "g": "Bagalāmukhī"
+                }
+              ]
             }
-          ]
+          ],
+          "danda": "।"
+        },
+        {
+          "words": [
+            {
+              "sa": "ऐशान्यां",
+              "toks": [
+                {
+                  "it": "aiśānyāṃ",
+                  "g": "in-the-northeast"
+                }
+              ]
+            },
+            {
+              "sa": "पातु",
+              "toks": [
+                {
+                  "it": "pātu",
+                  "g": "may-guard"
+                }
+              ]
+            },
+            {
+              "sa": "मे",
+              "toks": [
+                {
+                  "it": "me",
+                  "g": "me"
+                }
+              ]
+            },
+            {
+              "sa": "नित्यं",
+              "toks": [
+                {
+                  "it": "nityaṃ",
+                  "g": "always"
+                }
+              ]
+            },
+            {
+              "sa": "महात्रिपुरसुन्दरी",
+              "toks": [
+                {
+                  "it": "mahā",
+                  "g": "great"
+                },
+                {
+                  "it": "tripurasundarī",
+                  "g": "Tripurasundarī"
+                }
+              ]
+            }
+          ],
+          "danda": "॥३॥"
         }
       ],
       "singable": [
@@ -354,122 +384,132 @@
       "sa": "ऊर्ध्वं रक्षतु मे विद्या मातङ्गीपीठवासिनी ।\nसर्वतः पातु मे नित्यं कामाख्या कालिका स्वयम् ॥४॥",
       "it": "ūrdhvaṃ rakṣatu me vidyā mātaṅgīpīṭhavāsinī |\nsarvataḥ pātu me nityaṃ kāmākhyā kālikā svayam ||4||",
       "en": "Above, may Vidyā Mātangī, who abides at her sacred seat, guard me. On all sides may Kālikā of Kāmākhyā protect me always.",
-      "words": [
+      "padas": [
         {
-          "sa": "ऊर्ध्वं",
-          "toks": [
+          "words": [
             {
-              "it": "ūrdhvaṃ",
-              "g": "above"
-            }
-          ]
-        },
-        {
-          "sa": "रक्षतु",
-          "toks": [
-            {
-              "it": "rakṣatu",
-              "g": "may-guard"
-            }
-          ]
-        },
-        {
-          "sa": "मे",
-          "toks": [
-            {
-              "it": "me",
-              "g": "me"
-            }
-          ]
-        },
-        {
-          "sa": "विद्या",
-          "toks": [
-            {
-              "it": "vidyā",
-              "g": "the-Vidyā"
-            }
-          ]
-        },
-        {
-          "sa": "मातङ्गीपीठवासिनी",
-          "toks": [
-            {
-              "it": "mātaṅgī",
-              "g": "Mātaṅgī"
+              "sa": "ऊर्ध्वं",
+              "toks": [
+                {
+                  "it": "ūrdhvaṃ",
+                  "g": "above"
+                }
+              ]
             },
             {
-              "it": "pīṭha",
-              "g": "seat"
+              "sa": "रक्षतु",
+              "toks": [
+                {
+                  "it": "rakṣatu",
+                  "g": "may-guard"
+                }
+              ]
             },
             {
-              "it": "vāsinī",
-              "g": "dwelling-at"
+              "sa": "मे",
+              "toks": [
+                {
+                  "it": "me",
+                  "g": "me"
+                }
+              ]
+            },
+            {
+              "sa": "विद्या",
+              "toks": [
+                {
+                  "it": "vidyā",
+                  "g": "the-Vidyā"
+                }
+              ]
+            },
+            {
+              "sa": "मातङ्गीपीठवासिनी",
+              "toks": [
+                {
+                  "it": "mātaṅgī",
+                  "g": "Mātaṅgī"
+                },
+                {
+                  "it": "pīṭha",
+                  "g": "seat"
+                },
+                {
+                  "it": "vāsinī",
+                  "g": "dwelling-at"
+                }
+              ]
             }
-          ]
+          ],
+          "danda": "।"
         },
         {
-          "sa": "सर्वतः",
-          "toks": [
+          "words": [
             {
-              "it": "sarvataḥ",
-              "g": "on-all-sides"
-            }
-          ]
-        },
-        {
-          "sa": "पातु",
-          "toks": [
+              "sa": "सर्वतः",
+              "toks": [
+                {
+                  "it": "sarvataḥ",
+                  "g": "on-all-sides"
+                }
+              ]
+            },
             {
-              "it": "pātu",
-              "g": "may-guard"
-            }
-          ]
-        },
-        {
-          "sa": "मे",
-          "toks": [
+              "sa": "पातु",
+              "toks": [
+                {
+                  "it": "pātu",
+                  "g": "may-guard"
+                }
+              ]
+            },
             {
-              "it": "me",
-              "g": "me"
-            }
-          ]
-        },
-        {
-          "sa": "नित्यं",
-          "toks": [
+              "sa": "मे",
+              "toks": [
+                {
+                  "it": "me",
+                  "g": "me"
+                }
+              ]
+            },
             {
-              "it": "nityaṃ",
-              "g": "always"
-            }
-          ]
-        },
-        {
-          "sa": "कामाख्या",
-          "toks": [
+              "sa": "नित्यं",
+              "toks": [
+                {
+                  "it": "nityaṃ",
+                  "g": "always"
+                }
+              ]
+            },
             {
-              "it": "kāmākhyā",
-              "g": "of-Kāmākhyā"
-            }
-          ]
-        },
-        {
-          "sa": "कालिका",
-          "toks": [
+              "sa": "कामाख्या",
+              "toks": [
+                {
+                  "it": "kāmākhyā",
+                  "g": "of-Kāmākhyā"
+                }
+              ]
+            },
             {
-              "it": "kālikā",
-              "g": "Kālikā"
-            }
-          ]
-        },
-        {
-          "sa": "स्वयम्",
-          "toks": [
+              "sa": "कालिका",
+              "toks": [
+                {
+                  "it": "kālikā",
+                  "g": "Kālikā"
+                }
+              ]
+            },
             {
-              "it": "svayam",
-              "g": "herself"
+              "sa": "स्वयम्",
+              "toks": [
+                {
+                  "it": "svayam",
+                  "g": "herself"
+                }
+              ]
             }
-          ]
+          ],
+          "danda": "॥४॥"
         }
       ],
       "singable": [
@@ -484,120 +524,130 @@
       "sa": "ब्रह्मरूपा महाविद्या सर्वविद्यामयी स्वयम् ।\nशीर्षे रक्षतु मे दुर्गा भालं श्रीभवगेहिनी ॥५॥",
       "it": "brahmarūpā mahāvidyā sarvavidyāmayī svayam |\nśīrṣe rakṣatu me durgā bhālaṃ śrībhavagehinī ||5||",
       "en": "She is the Great Vidyā, of the very form of Brahman, the essence of all knowledges. May Durgā guard my head; may Śrī‑Bhavagehinī guard my forehead.",
-      "words": [
+      "padas": [
         {
-          "sa": "ब्रह्मरूपा",
-          "toks": [
+          "words": [
             {
-              "it": "brahma",
-              "g": "Brahman"
+              "sa": "ब्रह्मरूपा",
+              "toks": [
+                {
+                  "it": "brahma",
+                  "g": "Brahman"
+                },
+                {
+                  "it": "rūpā",
+                  "g": "formed-as"
+                }
+              ]
             },
             {
-              "it": "rūpā",
-              "g": "formed-as"
-            }
-          ]
-        },
-        {
-          "sa": "महाविद्या",
-          "toks": [
-            {
-              "it": "mahā",
-              "g": "great"
+              "sa": "महाविद्या",
+              "toks": [
+                {
+                  "it": "mahā",
+                  "g": "great"
+                },
+                {
+                  "it": "vidyā",
+                  "g": "Vidyā"
+                }
+              ]
             },
             {
-              "it": "vidyā",
-              "g": "Vidyā"
-            }
-          ]
-        },
-        {
-          "sa": "सर्वविद्यामयी",
-          "toks": [
-            {
-              "it": "sarva",
-              "g": "all"
+              "sa": "सर्वविद्यामयी",
+              "toks": [
+                {
+                  "it": "sarva",
+                  "g": "all"
+                },
+                {
+                  "it": "vidyā",
+                  "g": "knowledge"
+                },
+                {
+                  "it": "mayī",
+                  "g": "made-of"
+                }
+              ]
             },
             {
-              "it": "vidyā",
-              "g": "knowledge"
+              "sa": "स्वयम्",
+              "toks": [
+                {
+                  "it": "svayam",
+                  "g": "herself"
+                }
+              ]
+            }
+          ],
+          "danda": "।"
+        },
+        {
+          "words": [
+            {
+              "sa": "शीर्षे",
+              "toks": [
+                {
+                  "it": "śīrṣe",
+                  "g": "on-the-head"
+                }
+              ]
             },
             {
-              "it": "mayī",
-              "g": "made-of"
-            }
-          ]
-        },
-        {
-          "sa": "स्वयम्",
-          "toks": [
-            {
-              "it": "svayam",
-              "g": "herself"
-            }
-          ]
-        },
-        {
-          "sa": "शीर्षे",
-          "toks": [
-            {
-              "it": "śīrṣe",
-              "g": "on-the-head"
-            }
-          ]
-        },
-        {
-          "sa": "रक्षतु",
-          "toks": [
-            {
-              "it": "rakṣatu",
-              "g": "may-guard"
-            }
-          ]
-        },
-        {
-          "sa": "मे",
-          "toks": [
-            {
-              "it": "me",
-              "g": "me"
-            }
-          ]
-        },
-        {
-          "sa": "दुर्गा",
-          "toks": [
-            {
-              "it": "durgā",
-              "g": "Durgā"
-            }
-          ]
-        },
-        {
-          "sa": "भालं",
-          "toks": [
-            {
-              "it": "bhālaṃ",
-              "g": "the-forehead"
-            }
-          ]
-        },
-        {
-          "sa": "श्रीभवगेहिनी",
-          "toks": [
-            {
-              "it": "śrī",
-              "g": "holy"
+              "sa": "रक्षतु",
+              "toks": [
+                {
+                  "it": "rakṣatu",
+                  "g": "may-guard"
+                }
+              ]
             },
             {
-              "it": "bhava",
-              "g": "Bhava's"
+              "sa": "मे",
+              "toks": [
+                {
+                  "it": "me",
+                  "g": "me"
+                }
+              ]
             },
             {
-              "it": "gehinī",
-              "g": "consort"
+              "sa": "दुर्गा",
+              "toks": [
+                {
+                  "it": "durgā",
+                  "g": "Durgā"
+                }
+              ]
+            },
+            {
+              "sa": "भालं",
+              "toks": [
+                {
+                  "it": "bhālaṃ",
+                  "g": "the-forehead"
+                }
+              ]
+            },
+            {
+              "sa": "श्रीभवगेहिनी",
+              "toks": [
+                {
+                  "it": "śrī",
+                  "g": "holy"
+                },
+                {
+                  "it": "bhava",
+                  "g": "Bhava's"
+                },
+                {
+                  "it": "gehinī",
+                  "g": "consort"
+                }
+              ]
             }
-          ]
+          ],
+          "danda": "॥५॥"
         }
       ],
       "singable": [
@@ -612,113 +662,123 @@
       "sa": "त्रिपुरा भ्रुयुगे पातु शर्वाणी पातु नासिकाम् ।\nचक्षुषी चण्डिका पातु श्रोत्रे निलसरस्वती ॥६॥",
       "it": "tripurā bhruyuge pātu śarvāṇī pātu nāsikām |\ncakṣuṣī caṇḍikā pātu śrotre nilasarasvatī ||6||",
       "en": "May Tripurā guard my brows; may Śarvaṇī (Pārvatī) guard my nose. May Caṇḍikā guard my eyes; may Nīla‑Sarasvatī guard my ears.",
-      "words": [
+      "padas": [
         {
-          "sa": "त्रिपुरा",
-          "toks": [
+          "words": [
             {
-              "it": "tripurā",
-              "g": "Tripurā"
-            }
-          ]
-        },
-        {
-          "sa": "भ्रुयुगे",
-          "toks": [
-            {
-              "it": "bhru",
-              "g": "brows"
+              "sa": "त्रिपुरा",
+              "toks": [
+                {
+                  "it": "tripurā",
+                  "g": "Tripurā"
+                }
+              ]
             },
             {
-              "it": "yuge",
-              "g": "on-the-pair"
-            }
-          ]
-        },
-        {
-          "sa": "पातु",
-          "toks": [
-            {
-              "it": "pātu",
-              "g": "may-guard"
-            }
-          ]
-        },
-        {
-          "sa": "शर्वाणी",
-          "toks": [
-            {
-              "it": "śarvāṇī",
-              "g": "Śarvāṇī"
-            }
-          ]
-        },
-        {
-          "sa": "पातु",
-          "toks": [
-            {
-              "it": "pātu",
-              "g": "may-guard"
-            }
-          ]
-        },
-        {
-          "sa": "नासिकाम्",
-          "toks": [
-            {
-              "it": "nāsikām",
-              "g": "the-nose"
-            }
-          ]
-        },
-        {
-          "sa": "चक्षुषी",
-          "toks": [
-            {
-              "it": "cakṣuṣī",
-              "g": "the-two-eyes"
-            }
-          ]
-        },
-        {
-          "sa": "चण्डिका",
-          "toks": [
-            {
-              "it": "caṇḍikā",
-              "g": "Caṇḍikā"
-            }
-          ]
-        },
-        {
-          "sa": "पातु",
-          "toks": [
-            {
-              "it": "pātu",
-              "g": "may-guard"
-            }
-          ]
-        },
-        {
-          "sa": "श्रोत्रे",
-          "toks": [
-            {
-              "it": "śrotre",
-              "g": "the-two-ears"
-            }
-          ]
-        },
-        {
-          "sa": "निलसरस्वती",
-          "toks": [
-            {
-              "it": "nila",
-              "g": "blue"
+              "sa": "भ्रुयुगे",
+              "toks": [
+                {
+                  "it": "bhru",
+                  "g": "brows"
+                },
+                {
+                  "it": "yuge",
+                  "g": "on-the-pair"
+                }
+              ]
             },
             {
-              "it": "sarasvatī",
-              "g": "Sarasvatī"
+              "sa": "पातु",
+              "toks": [
+                {
+                  "it": "pātu",
+                  "g": "may-guard"
+                }
+              ]
+            },
+            {
+              "sa": "शर्वाणी",
+              "toks": [
+                {
+                  "it": "śarvāṇī",
+                  "g": "Śarvāṇī"
+                }
+              ]
+            },
+            {
+              "sa": "पातु",
+              "toks": [
+                {
+                  "it": "pātu",
+                  "g": "may-guard"
+                }
+              ]
+            },
+            {
+              "sa": "नासिकाम्",
+              "toks": [
+                {
+                  "it": "nāsikām",
+                  "g": "the-nose"
+                }
+              ]
             }
-          ]
+          ],
+          "danda": "।"
+        },
+        {
+          "words": [
+            {
+              "sa": "चक्षुषी",
+              "toks": [
+                {
+                  "it": "cakṣuṣī",
+                  "g": "the-two-eyes"
+                }
+              ]
+            },
+            {
+              "sa": "चण्डिका",
+              "toks": [
+                {
+                  "it": "caṇḍikā",
+                  "g": "Caṇḍikā"
+                }
+              ]
+            },
+            {
+              "sa": "पातु",
+              "toks": [
+                {
+                  "it": "pātu",
+                  "g": "may-guard"
+                }
+              ]
+            },
+            {
+              "sa": "श्रोत्रे",
+              "toks": [
+                {
+                  "it": "śrotre",
+                  "g": "the-two-ears"
+                }
+              ]
+            },
+            {
+              "sa": "निलसरस्वती",
+              "toks": [
+                {
+                  "it": "nila",
+                  "g": "blue"
+                },
+                {
+                  "it": "sarasvatī",
+                  "g": "Sarasvatī"
+                }
+              ]
+            }
+          ],
+          "danda": "॥६॥"
         }
       ],
       "singable": [
@@ -733,117 +793,127 @@
       "sa": "मुखं सौम्यमुखी पातु ग्रीवां रक्षतु पार्वती ।\nजिह्वां रक्षतु मे देवी जिह्वाललनभीषणा ॥७॥",
       "it": "mukhaṃ saumyamukhī pātu grīvāṃ rakṣatu pārvatī |\njihvāṃ rakṣatu me devī jihvālalanabhīṣaṇā ||7||",
       "en": "May the gentle‑faced One protect my face; may Pārvatī guard my neck. May the goddess—terrifying with her lolling tongue—guard my tongue.",
-      "words": [
+      "padas": [
         {
-          "sa": "मुखं",
-          "toks": [
+          "words": [
             {
-              "it": "mukhaṃ",
-              "g": "the-face"
-            }
-          ]
-        },
-        {
-          "sa": "सौम्यमुखी",
-          "toks": [
-            {
-              "it": "saumya",
-              "g": "gentle"
+              "sa": "मुखं",
+              "toks": [
+                {
+                  "it": "mukhaṃ",
+                  "g": "the-face"
+                }
+              ]
             },
             {
-              "it": "mukhī",
-              "g": "faced"
-            }
-          ]
-        },
-        {
-          "sa": "पातु",
-          "toks": [
-            {
-              "it": "pātu",
-              "g": "may-guard"
-            }
-          ]
-        },
-        {
-          "sa": "ग्रीवां",
-          "toks": [
-            {
-              "it": "grīvāṃ",
-              "g": "the-neck"
-            }
-          ]
-        },
-        {
-          "sa": "रक्षतु",
-          "toks": [
-            {
-              "it": "rakṣatu",
-              "g": "may-guard"
-            }
-          ]
-        },
-        {
-          "sa": "पार्वती",
-          "toks": [
-            {
-              "it": "pārvatī",
-              "g": "Pārvatī"
-            }
-          ]
-        },
-        {
-          "sa": "जिह्वां",
-          "toks": [
-            {
-              "it": "jihvāṃ",
-              "g": "the-tongue"
-            }
-          ]
-        },
-        {
-          "sa": "रक्षतु",
-          "toks": [
-            {
-              "it": "rakṣatu",
-              "g": "may-guard"
-            }
-          ]
-        },
-        {
-          "sa": "मे",
-          "toks": [
-            {
-              "it": "me",
-              "g": "me"
-            }
-          ]
-        },
-        {
-          "sa": "देवी",
-          "toks": [
-            {
-              "it": "devī",
-              "g": "goddess"
-            }
-          ]
-        },
-        {
-          "sa": "जिह्वाललनभीषणा",
-          "toks": [
-            {
-              "it": "jihvā",
-              "g": "tongue"
+              "sa": "सौम्यमुखी",
+              "toks": [
+                {
+                  "it": "saumya",
+                  "g": "gentle"
+                },
+                {
+                  "it": "mukhī",
+                  "g": "faced"
+                }
+              ]
             },
             {
-              "it": "lalana",
-              "g": "lolling"
+              "sa": "पातु",
+              "toks": [
+                {
+                  "it": "pātu",
+                  "g": "may-guard"
+                }
+              ]
             },
             {
-              "it": "bhīṣaṇā",
-              "g": "terrifying"
+              "sa": "ग्रीवां",
+              "toks": [
+                {
+                  "it": "grīvāṃ",
+                  "g": "the-neck"
+                }
+              ]
+            },
+            {
+              "sa": "रक्षतु",
+              "toks": [
+                {
+                  "it": "rakṣatu",
+                  "g": "may-guard"
+                }
+              ]
+            },
+            {
+              "sa": "पार्वती",
+              "toks": [
+                {
+                  "it": "pārvatī",
+                  "g": "Pārvatī"
+                }
+              ]
             }
-          ]
+          ],
+          "danda": "।"
+        },
+        {
+          "words": [
+            {
+              "sa": "जिह्वां",
+              "toks": [
+                {
+                  "it": "jihvāṃ",
+                  "g": "the-tongue"
+                }
+              ]
+            },
+            {
+              "sa": "रक्षतु",
+              "toks": [
+                {
+                  "it": "rakṣatu",
+                  "g": "may-guard"
+                }
+              ]
+            },
+            {
+              "sa": "मे",
+              "toks": [
+                {
+                  "it": "me",
+                  "g": "me"
+                }
+              ]
+            },
+            {
+              "sa": "देवी",
+              "toks": [
+                {
+                  "it": "devī",
+                  "g": "goddess"
+                }
+              ]
+            },
+            {
+              "sa": "जिह्वाललनभीषणा",
+              "toks": [
+                {
+                  "it": "jihvā",
+                  "g": "tongue"
+                },
+                {
+                  "it": "lalana",
+                  "g": "lolling"
+                },
+                {
+                  "it": "bhīṣaṇā",
+                  "g": "terrifying"
+                }
+              ]
+            }
+          ],
+          "danda": "॥७॥"
         }
       ],
       "singable": [
@@ -858,121 +928,131 @@
       "sa": "वाग्देवी वदनं पातु वक्षः पातु महेश्वरी ।\nबाहू महाभुजा पातु कराङ्गुलीः सुरेश्वरी ॥८॥",
       "it": "vāgdevī vadanaṃ pātu vakṣaḥ pātu maheśvarī |\nbāhū mahābhujā pātu karāṅgulīḥ sureśvarī ||8||",
       "en": "May Vāgdevī protect my speech and mouth; may Maheśvarī guard my chest. May the Mighty‑Armed One protect my arms, and the Queen of the gods protect my fingers.",
-      "words": [
+      "padas": [
         {
-          "sa": "वाग्देवी",
-          "toks": [
+          "words": [
             {
-              "it": "vāc",
-              "g": "speech"
+              "sa": "वाग्देवी",
+              "toks": [
+                {
+                  "it": "vāc",
+                  "g": "speech"
+                },
+                {
+                  "it": "devī",
+                  "g": "goddess"
+                }
+              ]
             },
             {
-              "it": "devī",
-              "g": "goddess"
-            }
-          ]
-        },
-        {
-          "sa": "वदनं",
-          "toks": [
-            {
-              "it": "vadanaṃ",
-              "g": "the-mouth"
-            }
-          ]
-        },
-        {
-          "sa": "पातु",
-          "toks": [
-            {
-              "it": "pātu",
-              "g": "may-guard"
-            }
-          ]
-        },
-        {
-          "sa": "वक्षः",
-          "toks": [
-            {
-              "it": "vakṣaḥ",
-              "g": "the-chest"
-            }
-          ]
-        },
-        {
-          "sa": "पातु",
-          "toks": [
-            {
-              "it": "pātu",
-              "g": "may-guard"
-            }
-          ]
-        },
-        {
-          "sa": "महेश्वरी",
-          "toks": [
-            {
-              "it": "maheśvarī",
-              "g": "Maheśvarī"
-            }
-          ]
-        },
-        {
-          "sa": "बाहू",
-          "toks": [
-            {
-              "it": "bāhū",
-              "g": "the-two-arms"
-            }
-          ]
-        },
-        {
-          "sa": "महाभुजा",
-          "toks": [
-            {
-              "it": "mahā",
-              "g": "mighty"
+              "sa": "वदनं",
+              "toks": [
+                {
+                  "it": "vadanaṃ",
+                  "g": "the-mouth"
+                }
+              ]
             },
             {
-              "it": "bhujā",
-              "g": "armed"
-            }
-          ]
-        },
-        {
-          "sa": "पातु",
-          "toks": [
-            {
-              "it": "pātu",
-              "g": "may-guard"
-            }
-          ]
-        },
-        {
-          "sa": "कराङ्गुलीः",
-          "toks": [
-            {
-              "it": "kara",
-              "g": "hand"
+              "sa": "पातु",
+              "toks": [
+                {
+                  "it": "pātu",
+                  "g": "may-guard"
+                }
+              ]
             },
             {
-              "it": "aṅgulīḥ",
-              "g": "fingers"
-            }
-          ]
-        },
-        {
-          "sa": "सुरेश्वरी",
-          "toks": [
-            {
-              "it": "sura",
-              "g": "gods'"
+              "sa": "वक्षः",
+              "toks": [
+                {
+                  "it": "vakṣaḥ",
+                  "g": "the-chest"
+                }
+              ]
             },
             {
-              "it": "īśvarī",
-              "g": "queen"
+              "sa": "पातु",
+              "toks": [
+                {
+                  "it": "pātu",
+                  "g": "may-guard"
+                }
+              ]
+            },
+            {
+              "sa": "महेश्वरी",
+              "toks": [
+                {
+                  "it": "maheśvarī",
+                  "g": "Maheśvarī"
+                }
+              ]
             }
-          ]
+          ],
+          "danda": "।"
+        },
+        {
+          "words": [
+            {
+              "sa": "बाहू",
+              "toks": [
+                {
+                  "it": "bāhū",
+                  "g": "the-two-arms"
+                }
+              ]
+            },
+            {
+              "sa": "महाभुजा",
+              "toks": [
+                {
+                  "it": "mahā",
+                  "g": "mighty"
+                },
+                {
+                  "it": "bhujā",
+                  "g": "armed"
+                }
+              ]
+            },
+            {
+              "sa": "पातु",
+              "toks": [
+                {
+                  "it": "pātu",
+                  "g": "may-guard"
+                }
+              ]
+            },
+            {
+              "sa": "कराङ्गुलीः",
+              "toks": [
+                {
+                  "it": "kara",
+                  "g": "hand"
+                },
+                {
+                  "it": "aṅgulīḥ",
+                  "g": "fingers"
+                }
+              ]
+            },
+            {
+              "sa": "सुरेश्वरी",
+              "toks": [
+                {
+                  "it": "sura",
+                  "g": "gods'"
+                },
+                {
+                  "it": "īśvarī",
+                  "g": "queen"
+                }
+              ]
+            }
+          ],
+          "danda": "॥८॥"
         }
       ],
       "singable": [
@@ -987,130 +1067,140 @@
       "sa": "पृष्ठतः पातु भीमास्या कट्यां देवी दिगम्बरी ।\nउदरं पातु मे नित्यं महाविद्या महोदरी ॥९॥",
       "it": "pṛṣṭhataḥ pātu bhīmāsyā kaṭyāṃ devī digambarī |\nudaraṃ pātu me nityaṃ mahāvidyā mahodarī ||9||",
       "en": "From behind may Bhīmāsyā protect; at the hips, the goddess Digambarī. May the Great Vidyā Mahodari always protect my abdomen.",
-      "words": [
+      "padas": [
         {
-          "sa": "पृष्ठतः",
-          "toks": [
+          "words": [
             {
-              "it": "pṛṣṭhataḥ",
-              "g": "from-behind"
-            }
-          ]
-        },
-        {
-          "sa": "पातु",
-          "toks": [
-            {
-              "it": "pātu",
-              "g": "may-guard"
-            }
-          ]
-        },
-        {
-          "sa": "भीमास्या",
-          "toks": [
-            {
-              "it": "bhīma",
-              "g": "fearsome"
+              "sa": "पृष्ठतः",
+              "toks": [
+                {
+                  "it": "pṛṣṭhataḥ",
+                  "g": "from-behind"
+                }
+              ]
             },
             {
-              "it": "āsyā",
-              "g": "faced"
-            }
-          ]
-        },
-        {
-          "sa": "कट्यां",
-          "toks": [
-            {
-              "it": "kaṭyāṃ",
-              "g": "at-the-hips"
-            }
-          ]
-        },
-        {
-          "sa": "देवी",
-          "toks": [
-            {
-              "it": "devī",
-              "g": "goddess"
-            }
-          ]
-        },
-        {
-          "sa": "दिगम्बरी",
-          "toks": [
-            {
-              "it": "dik",
-              "g": "sky"
+              "sa": "पातु",
+              "toks": [
+                {
+                  "it": "pātu",
+                  "g": "may-guard"
+                }
+              ]
             },
             {
-              "it": "ambarī",
-              "g": "clad"
-            }
-          ]
-        },
-        {
-          "sa": "उदरं",
-          "toks": [
-            {
-              "it": "udaraṃ",
-              "g": "the-belly"
-            }
-          ]
-        },
-        {
-          "sa": "पातु",
-          "toks": [
-            {
-              "it": "pātu",
-              "g": "may-guard"
-            }
-          ]
-        },
-        {
-          "sa": "मे",
-          "toks": [
-            {
-              "it": "me",
-              "g": "me"
-            }
-          ]
-        },
-        {
-          "sa": "नित्यं",
-          "toks": [
-            {
-              "it": "nityaṃ",
-              "g": "always"
-            }
-          ]
-        },
-        {
-          "sa": "महाविद्या",
-          "toks": [
-            {
-              "it": "mahā",
-              "g": "great"
+              "sa": "भीमास्या",
+              "toks": [
+                {
+                  "it": "bhīma",
+                  "g": "fearsome"
+                },
+                {
+                  "it": "āsyā",
+                  "g": "faced"
+                }
+              ]
             },
             {
-              "it": "vidyā",
-              "g": "Vidyā"
-            }
-          ]
-        },
-        {
-          "sa": "महोदरी",
-          "toks": [
-            {
-              "it": "mahā",
-              "g": "large"
+              "sa": "कट्यां",
+              "toks": [
+                {
+                  "it": "kaṭyāṃ",
+                  "g": "at-the-hips"
+                }
+              ]
             },
             {
-              "it": "udarī",
-              "g": "bellied"
+              "sa": "देवी",
+              "toks": [
+                {
+                  "it": "devī",
+                  "g": "goddess"
+                }
+              ]
+            },
+            {
+              "sa": "दिगम्बरी",
+              "toks": [
+                {
+                  "it": "dik",
+                  "g": "sky"
+                },
+                {
+                  "it": "ambarī",
+                  "g": "clad"
+                }
+              ]
             }
-          ]
+          ],
+          "danda": "।"
+        },
+        {
+          "words": [
+            {
+              "sa": "उदरं",
+              "toks": [
+                {
+                  "it": "udaraṃ",
+                  "g": "the-belly"
+                }
+              ]
+            },
+            {
+              "sa": "पातु",
+              "toks": [
+                {
+                  "it": "pātu",
+                  "g": "may-guard"
+                }
+              ]
+            },
+            {
+              "sa": "मे",
+              "toks": [
+                {
+                  "it": "me",
+                  "g": "me"
+                }
+              ]
+            },
+            {
+              "sa": "नित्यं",
+              "toks": [
+                {
+                  "it": "nityaṃ",
+                  "g": "always"
+                }
+              ]
+            },
+            {
+              "sa": "महाविद्या",
+              "toks": [
+                {
+                  "it": "mahā",
+                  "g": "great"
+                },
+                {
+                  "it": "vidyā",
+                  "g": "Vidyā"
+                }
+              ]
+            },
+            {
+              "sa": "महोदरी",
+              "toks": [
+                {
+                  "it": "mahā",
+                  "g": "large"
+                },
+                {
+                  "it": "udarī",
+                  "g": "bellied"
+                }
+              ]
+            }
+          ],
+          "danda": "॥९॥"
         }
       ],
       "singable": [
@@ -1125,134 +1215,144 @@
       "sa": "उग्रतारा महादेवी जङ्घोरू परिरक्षतु ।\nगुदं मुष्कं च मेढ्रं च नाभिं च सुरसुन्दरी ॥१०॥",
       "it": "ugratārā mahādevī jaṅghorū parirakṣatu |\ngudaṃ muṣkaṃ ca meḍhraṃ ca nābhiṃ ca surasundarī ||10||",
       "en": "May the great goddess Ugratārā protect my shanks and thighs. May Ugratārā—Surasundarī—guard the anus, the scrotum, the phallus, and the navel.",
-      "words": [
+      "padas": [
         {
-          "sa": "उग्रतारा",
-          "toks": [
+          "words": [
             {
-              "it": "ugra",
-              "g": "fierce"
+              "sa": "उग्रतारा",
+              "toks": [
+                {
+                  "it": "ugra",
+                  "g": "fierce"
+                },
+                {
+                  "it": "tārā",
+                  "g": "Tārā"
+                }
+              ]
             },
             {
-              "it": "tārā",
-              "g": "Tārā"
-            }
-          ]
-        },
-        {
-          "sa": "महादेवी",
-          "toks": [
-            {
-              "it": "mahā",
-              "g": "great"
+              "sa": "महादेवी",
+              "toks": [
+                {
+                  "it": "mahā",
+                  "g": "great"
+                },
+                {
+                  "it": "devī",
+                  "g": "goddess"
+                }
+              ]
             },
             {
-              "it": "devī",
-              "g": "goddess"
-            }
-          ]
-        },
-        {
-          "sa": "जङ्घोरू",
-          "toks": [
-            {
-              "it": "jaṅghā",
-              "g": "shanks"
+              "sa": "जङ्घोरू",
+              "toks": [
+                {
+                  "it": "jaṅghā",
+                  "g": "shanks"
+                },
+                {
+                  "it": "ūru",
+                  "g": "thighs"
+                }
+              ]
             },
             {
-              "it": "ūru",
-              "g": "thighs"
+              "sa": "परिरक्षतु",
+              "toks": [
+                {
+                  "it": "pari",
+                  "g": "all-around"
+                },
+                {
+                  "it": "rakṣatu",
+                  "g": "may-guard"
+                }
+              ]
             }
-          ]
+          ],
+          "danda": "।"
         },
         {
-          "sa": "परिरक्षतु",
-          "toks": [
+          "words": [
             {
-              "it": "pari",
-              "g": "all-around"
+              "sa": "गुदं",
+              "toks": [
+                {
+                  "it": "gudaṃ",
+                  "g": "the-anus"
+                }
+              ]
             },
             {
-              "it": "rakṣatu",
-              "g": "may-guard"
-            }
-          ]
-        },
-        {
-          "sa": "गुदं",
-          "toks": [
-            {
-              "it": "gudaṃ",
-              "g": "the-anus"
-            }
-          ]
-        },
-        {
-          "sa": "मुष्कं",
-          "toks": [
-            {
-              "it": "muṣkaṃ",
-              "g": "the-scrotum"
-            }
-          ]
-        },
-        {
-          "sa": "च",
-          "toks": [
-            {
-              "it": "ca",
-              "g": "and"
-            }
-          ]
-        },
-        {
-          "sa": "मेढ्रं",
-          "toks": [
-            {
-              "it": "meḍhraṃ",
-              "g": "the-phallus"
-            }
-          ]
-        },
-        {
-          "sa": "च",
-          "toks": [
-            {
-              "it": "ca",
-              "g": "and"
-            }
-          ]
-        },
-        {
-          "sa": "नाभिं",
-          "toks": [
-            {
-              "it": "nābhiṃ",
-              "g": "the-navel"
-            }
-          ]
-        },
-        {
-          "sa": "च",
-          "toks": [
-            {
-              "it": "ca",
-              "g": "and"
-            }
-          ]
-        },
-        {
-          "sa": "सुरसुन्दरी",
-          "toks": [
-            {
-              "it": "sura",
-              "g": "gods'"
+              "sa": "मुष्कं",
+              "toks": [
+                {
+                  "it": "muṣkaṃ",
+                  "g": "the-scrotum"
+                }
+              ]
             },
             {
-              "it": "sundarī",
-              "g": "beauty"
+              "sa": "च",
+              "toks": [
+                {
+                  "it": "ca",
+                  "g": "and"
+                }
+              ]
+            },
+            {
+              "sa": "मेढ्रं",
+              "toks": [
+                {
+                  "it": "meḍhraṃ",
+                  "g": "the-phallus"
+                }
+              ]
+            },
+            {
+              "sa": "च",
+              "toks": [
+                {
+                  "it": "ca",
+                  "g": "and"
+                }
+              ]
+            },
+            {
+              "sa": "नाभिं",
+              "toks": [
+                {
+                  "it": "nābhiṃ",
+                  "g": "the-navel"
+                }
+              ]
+            },
+            {
+              "sa": "च",
+              "toks": [
+                {
+                  "it": "ca",
+                  "g": "and"
+                }
+              ]
+            },
+            {
+              "sa": "सुरसुन्दरी",
+              "toks": [
+                {
+                  "it": "sura",
+                  "g": "gods'"
+                },
+                {
+                  "it": "sundarī",
+                  "g": "beauty"
+                }
+              ]
             }
-          ]
+          ],
+          "danda": "॥१०॥"
         }
       ],
       "singable": [
@@ -1267,115 +1367,125 @@
       "sa": "पादाङ्गुलीः सदा पातु भवानी त्रिदशेश्वरी ।\nरक्तमांसास्थिमज्जादीन् पातु देवी शवासना ॥११॥",
       "it": "pādāṅgulīḥ sadā pātu bhavānī tridaśeśvarī |\nraktamāṃsāsthimajjādīn pātu devī śavāsanā ||11||",
       "en": "May Bhavānī, queen of the gods, always protect my toes. May the goddess who is seated upon a corpse protect my blood, flesh, bones, marrow, and the rest.",
-      "words": [
+      "padas": [
         {
-          "sa": "पादाङ्गुलीः",
-          "toks": [
+          "words": [
             {
-              "it": "pāda",
-              "g": "foot"
+              "sa": "पादाङ्गुलीः",
+              "toks": [
+                {
+                  "it": "pāda",
+                  "g": "foot"
+                },
+                {
+                  "it": "aṅgulīḥ",
+                  "g": "toes"
+                }
+              ]
             },
             {
-              "it": "aṅgulīḥ",
-              "g": "toes"
-            }
-          ]
-        },
-        {
-          "sa": "सदा",
-          "toks": [
-            {
-              "it": "sadā",
-              "g": "always"
-            }
-          ]
-        },
-        {
-          "sa": "पातु",
-          "toks": [
-            {
-              "it": "pātu",
-              "g": "may-guard"
-            }
-          ]
-        },
-        {
-          "sa": "भवानी",
-          "toks": [
-            {
-              "it": "bhavānī",
-              "g": "Bhavānī"
-            }
-          ]
-        },
-        {
-          "sa": "त्रिदशेश्वरी",
-          "toks": [
-            {
-              "it": "tridaśa",
-              "g": "gods'"
+              "sa": "सदा",
+              "toks": [
+                {
+                  "it": "sadā",
+                  "g": "always"
+                }
+              ]
             },
             {
-              "it": "īśvarī",
-              "g": "queen"
+              "sa": "पातु",
+              "toks": [
+                {
+                  "it": "pātu",
+                  "g": "may-guard"
+                }
+              ]
+            },
+            {
+              "sa": "भवानी",
+              "toks": [
+                {
+                  "it": "bhavānī",
+                  "g": "Bhavānī"
+                }
+              ]
+            },
+            {
+              "sa": "त्रिदशेश्वरी",
+              "toks": [
+                {
+                  "it": "tridaśa",
+                  "g": "gods'"
+                },
+                {
+                  "it": "īśvarī",
+                  "g": "queen"
+                }
+              ]
             }
-          ]
+          ],
+          "danda": "।"
         },
         {
-          "sa": "रक्तमांसास्थिमज्जादीन्",
-          "toks": [
+          "words": [
             {
-              "it": "rakta",
-              "g": "blood"
+              "sa": "रक्तमांसास्थिमज्जादीन्",
+              "toks": [
+                {
+                  "it": "rakta",
+                  "g": "blood"
+                },
+                {
+                  "it": "māṃsa",
+                  "g": "flesh"
+                },
+                {
+                  "it": "asthi",
+                  "g": "bone"
+                },
+                {
+                  "it": "majjā",
+                  "g": "marrow"
+                },
+                {
+                  "it": "ādīn",
+                  "g": "etc."
+                }
+              ]
             },
             {
-              "it": "māṃsa",
-              "g": "flesh"
+              "sa": "पातु",
+              "toks": [
+                {
+                  "it": "pātu",
+                  "g": "may-guard"
+                }
+              ]
             },
             {
-              "it": "asthi",
-              "g": "bone"
+              "sa": "देवी",
+              "toks": [
+                {
+                  "it": "devī",
+                  "g": "goddess"
+                }
+              ]
             },
             {
-              "it": "majjā",
-              "g": "marrow"
-            },
-            {
-              "it": "ādīn",
-              "g": "etc."
+              "sa": "शवासना",
+              "toks": [
+                {
+                  "it": "śava",
+                  "g": "corpse"
+                },
+                {
+                  "it": "āsanā",
+                  "g": "seated-on"
+                }
+              ]
             }
-          ]
-        },
-        {
-          "sa": "पातु",
-          "toks": [
-            {
-              "it": "pātu",
-              "g": "may-guard"
-            }
-          ]
-        },
-        {
-          "sa": "देवी",
-          "toks": [
-            {
-              "it": "devī",
-              "g": "goddess"
-            }
-          ]
-        },
-        {
-          "sa": "शवासना",
-          "toks": [
-            {
-              "it": "śava",
-              "g": "corpse"
-            },
-            {
-              "it": "āsanā",
-              "g": "seated-on"
-            }
-          ]
+          ],
+          "danda": "॥११॥"
         }
       ],
       "singable": [
@@ -1390,93 +1500,103 @@
       "sa": "महाभयेषु घोरेषु महाभयनिवारिणी ।\nपातु देवी महामाया कामाख्यापीठवासिनी ॥१२॥",
       "it": "mahābhayeṣu ghoreṣu mahābhayanivāriṇī |\npātu devī mahāmāyā kāmākhyāpīṭhavāsinī ||12||",
       "en": "In great and terrible dangers, may the remover of great fear—Mahāmāyā, who dwells at the seat of Kāmākhyā—protect me.",
-      "words": [
+      "padas": [
         {
-          "sa": "महाभयेषु",
-          "toks": [
+          "words": [
             {
-              "it": "mahā",
-              "g": "great"
+              "sa": "महाभयेषु",
+              "toks": [
+                {
+                  "it": "mahā",
+                  "g": "great"
+                },
+                {
+                  "it": "bhayeṣu",
+                  "g": "in-dangers"
+                }
+              ]
             },
             {
-              "it": "bhayeṣu",
-              "g": "in-dangers"
-            }
-          ]
-        },
-        {
-          "sa": "घोरेषु",
-          "toks": [
-            {
-              "it": "ghoreṣu",
-              "g": "terrible"
-            }
-          ]
-        },
-        {
-          "sa": "महाभयनिवारिणी",
-          "toks": [
-            {
-              "it": "mahā",
-              "g": "great"
+              "sa": "घोरेषु",
+              "toks": [
+                {
+                  "it": "ghoreṣu",
+                  "g": "terrible"
+                }
+              ]
             },
             {
-              "it": "bhaya",
-              "g": "fear"
-            },
-            {
-              "it": "nivāriṇī",
-              "g": "remover-of"
+              "sa": "महाभयनिवारिणी",
+              "toks": [
+                {
+                  "it": "mahā",
+                  "g": "great"
+                },
+                {
+                  "it": "bhaya",
+                  "g": "fear"
+                },
+                {
+                  "it": "nivāriṇī",
+                  "g": "remover-of"
+                }
+              ]
             }
-          ]
+          ],
+          "danda": "।"
         },
         {
-          "sa": "पातु",
-          "toks": [
+          "words": [
             {
-              "it": "pātu",
-              "g": "may-guard"
-            }
-          ]
-        },
-        {
-          "sa": "देवी",
-          "toks": [
-            {
-              "it": "devī",
-              "g": "goddess"
-            }
-          ]
-        },
-        {
-          "sa": "महामाया",
-          "toks": [
-            {
-              "it": "mahā",
-              "g": "great"
+              "sa": "पातु",
+              "toks": [
+                {
+                  "it": "pātu",
+                  "g": "may-guard"
+                }
+              ]
             },
             {
-              "it": "māyā",
-              "g": "Māyā"
-            }
-          ]
-        },
-        {
-          "sa": "कामाख्यापीठवासिनी",
-          "toks": [
-            {
-              "it": "kāmākhyā",
-              "g": "Kāmākhyā"
+              "sa": "देवी",
+              "toks": [
+                {
+                  "it": "devī",
+                  "g": "goddess"
+                }
+              ]
             },
             {
-              "it": "pīṭha",
-              "g": "seat"
+              "sa": "महामाया",
+              "toks": [
+                {
+                  "it": "mahā",
+                  "g": "great"
+                },
+                {
+                  "it": "māyā",
+                  "g": "Māyā"
+                }
+              ]
             },
             {
-              "it": "vāsinī",
-              "g": "dwelling-at"
+              "sa": "कामाख्यापीठवासिनी",
+              "toks": [
+                {
+                  "it": "kāmākhyā",
+                  "g": "Kāmākhyā"
+                },
+                {
+                  "it": "pīṭha",
+                  "g": "seat"
+                },
+                {
+                  "it": "vāsinī",
+                  "g": "dwelling-at"
+                }
+              ]
             }
-          ]
+          ],
+          "danda": "॥१२॥"
         }
       ],
       "singable": [
@@ -1491,92 +1611,102 @@
       "sa": "भस्माचलगता दिव्यसिंहासनकृताश्रया ।\nपातु श्रीकालिकादेवी सर्वोत्पातेषु सर्वदा ॥१३॥",
       "it": "bhasmācalagatā divyasiṃhāsanakṛtāśrayā |\npātu śrīkālikādevī sarvotpāteṣu sarvadā ||13||",
       "en": "Residing on the mountain of ash, enthroned upon the divine lion seat—may Śrī Kālika‑devī protect me from every calamity, always.",
-      "words": [
+      "padas": [
         {
-          "sa": "भस्माचलगता",
-          "toks": [
+          "words": [
             {
-              "it": "bhasma",
-              "g": "ash"
+              "sa": "भस्माचलगता",
+              "toks": [
+                {
+                  "it": "bhasma",
+                  "g": "ash"
+                },
+                {
+                  "it": "acala",
+                  "g": "mountain"
+                },
+                {
+                  "it": "gatā",
+                  "g": "seated-on"
+                }
+              ]
             },
             {
-              "it": "acala",
-              "g": "mountain"
-            },
-            {
-              "it": "gatā",
-              "g": "seated-on"
+              "sa": "दिव्यसिंहासनकृताश्रया",
+              "toks": [
+                {
+                  "it": "divya",
+                  "g": "divine"
+                },
+                {
+                  "it": "siṃhāsana",
+                  "g": "lion-throne"
+                },
+                {
+                  "it": "kṛta",
+                  "g": "made"
+                },
+                {
+                  "it": "āśrayā",
+                  "g": "abode"
+                }
+              ]
             }
-          ]
+          ],
+          "danda": "।"
         },
         {
-          "sa": "दिव्यसिंहासनकृताश्रया",
-          "toks": [
+          "words": [
             {
-              "it": "divya",
-              "g": "divine"
+              "sa": "पातु",
+              "toks": [
+                {
+                  "it": "pātu",
+                  "g": "may-guard"
+                }
+              ]
             },
             {
-              "it": "siṃhāsana",
-              "g": "lion-throne"
+              "sa": "श्रीकालिकादेवी",
+              "toks": [
+                {
+                  "it": "śrī",
+                  "g": "holy"
+                },
+                {
+                  "it": "kālikā",
+                  "g": "Kālikā"
+                },
+                {
+                  "it": "devī",
+                  "g": "goddess"
+                }
+              ]
             },
             {
-              "it": "kṛta",
-              "g": "made"
+              "sa": "सर्वोत्पातेषु",
+              "toks": [
+                {
+                  "it": "sarva",
+                  "g": "all"
+                },
+                {
+                  "it": "utpāteṣu",
+                  "g": "in-calamities"
+                }
+              ]
             },
             {
-              "it": "āśrayā",
-              "g": "abode"
+              "sa": "सर्वदा",
+              "toks": [
+                {
+                  "it": "sarvadā",
+                  "g": "always"
+                }
+              ]
             }
-          ]
-        },
-        {
-          "sa": "पातु",
-          "toks": [
-            {
-              "it": "pātu",
-              "g": "may-guard"
-            }
-          ]
-        },
-        {
-          "sa": "श्रीकालिकादेवी",
-          "toks": [
-            {
-              "it": "śrī",
-              "g": "holy"
-            },
-            {
-              "it": "kālikā",
-              "g": "Kālikā"
-            },
-            {
-              "it": "devī",
-              "g": "goddess"
-            }
-          ]
-        },
-        {
-          "sa": "सर्वोत्पातेषु",
-          "toks": [
-            {
-              "it": "sarva",
-              "g": "all"
-            },
-            {
-              "it": "utpāteṣu",
-              "g": "in-calamities"
-            }
-          ]
-        },
-        {
-          "sa": "सर्वदा",
-          "toks": [
-            {
-              "it": "sarvadā",
-              "g": "always"
-            }
-          ]
+          ],
+          "danda": "॥१३॥"
         }
       ],
       "singable": [
@@ -1591,116 +1721,126 @@
       "sa": "रक्षाहीनं तु यत्स्थानं कवचेनापि वर्जितम् ।\nतत्सर्वं सर्वदा पातु सर्वरक्षणकारिणी ॥१४॥",
       "it": "rakṣāhīnaṃ tu yatsthānaṃ kavacenāpi varjitam |\ntatsarvaṃ sarvadā pātu sarvarakṣaṇakāriṇī ||14||",
       "en": "And whatever place is left unprotected—omitted even by this armor—may the All‑Protecting Goddess guard all of that, at all times.",
-      "words": [
+      "padas": [
         {
-          "sa": "रक्षाहीनं",
-          "toks": [
+          "words": [
             {
-              "it": "rakṣā",
-              "g": "protection"
+              "sa": "रक्षाहीनं",
+              "toks": [
+                {
+                  "it": "rakṣā",
+                  "g": "protection"
+                },
+                {
+                  "it": "hīnaṃ",
+                  "g": "lacking"
+                }
+              ]
             },
             {
-              "it": "hīnaṃ",
-              "g": "lacking"
-            }
-          ]
-        },
-        {
-          "sa": "तु",
-          "toks": [
-            {
-              "it": "tu",
-              "g": "but"
-            }
-          ]
-        },
-        {
-          "sa": "यत्स्थानं",
-          "toks": [
-            {
-              "it": "yat",
-              "g": "whatever"
+              "sa": "तु",
+              "toks": [
+                {
+                  "it": "tu",
+                  "g": "but"
+                }
+              ]
             },
             {
-              "it": "sthānaṃ",
-              "g": "place"
-            }
-          ]
-        },
-        {
-          "sa": "कवचेन",
-          "toks": [
-            {
-              "it": "kavacena",
-              "g": "by-the-armor"
-            }
-          ]
-        },
-        {
-          "sa": "अपि",
-          "toks": [
-            {
-              "it": "api",
-              "g": "even"
-            }
-          ]
-        },
-        {
-          "sa": "वर्जितम्",
-          "toks": [
-            {
-              "it": "varjitam",
-              "g": "left-out"
-            }
-          ]
-        },
-        {
-          "sa": "तत्सर्वं",
-          "toks": [
-            {
-              "it": "tat",
-              "g": "that"
+              "sa": "यत्स्थानं",
+              "toks": [
+                {
+                  "it": "yat",
+                  "g": "whatever"
+                },
+                {
+                  "it": "sthānaṃ",
+                  "g": "place"
+                }
+              ]
             },
             {
-              "it": "sarvaṃ",
-              "g": "all"
-            }
-          ]
-        },
-        {
-          "sa": "सर्वदा",
-          "toks": [
-            {
-              "it": "sarvadā",
-              "g": "always"
-            }
-          ]
-        },
-        {
-          "sa": "पातु",
-          "toks": [
-            {
-              "it": "pātu",
-              "g": "may-guard"
-            }
-          ]
-        },
-        {
-          "sa": "सर्वरक्षणकारिणी",
-          "toks": [
-            {
-              "it": "sarva",
-              "g": "all"
+              "sa": "कवचेन",
+              "toks": [
+                {
+                  "it": "kavacena",
+                  "g": "by-the-armor"
+                }
+              ]
             },
             {
-              "it": "rakṣaṇa",
-              "g": "protection"
+              "sa": "अपि",
+              "toks": [
+                {
+                  "it": "api",
+                  "g": "even"
+                }
+              ]
             },
             {
-              "it": "kāriṇī",
-              "g": "giver-of"
+              "sa": "वर्जितम्",
+              "toks": [
+                {
+                  "it": "varjitam",
+                  "g": "left-out"
+                }
+              ]
             }
-          ]
+          ],
+          "danda": "।"
+        },
+        {
+          "words": [
+            {
+              "sa": "तत्सर्वं",
+              "toks": [
+                {
+                  "it": "tat",
+                  "g": "that"
+                },
+                {
+                  "it": "sarvaṃ",
+                  "g": "all"
+                }
+              ]
+            },
+            {
+              "sa": "सर्वदा",
+              "toks": [
+                {
+                  "it": "sarvadā",
+                  "g": "always"
+                }
+              ]
+            },
+            {
+              "sa": "पातु",
+              "toks": [
+                {
+                  "it": "pātu",
+                  "g": "may-guard"
+                }
+              ]
+            },
+            {
+              "sa": "सर्वरक्षणकारिणी",
+              "toks": [
+                {
+                  "it": "sarva",
+                  "g": "all"
+                },
+                {
+                  "it": "rakṣaṇa",
+                  "g": "protection"
+                },
+                {
+                  "it": "kāriṇī",
+                  "g": "giver-of"
+                }
+              ]
+            }
+          ],
+          "danda": "॥१४॥"
         }
       ],
       "singable": [

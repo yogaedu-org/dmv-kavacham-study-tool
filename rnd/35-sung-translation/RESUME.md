@@ -10,8 +10,10 @@ session needs only this file + `gh issue list`.
   don't touch the app → no stamp needed.
 - **This R&D** lives in `rnd/35-sung-translation/`:
   - `editor.html` — the published editor artifact → https://claude.ai/code/artifact/82b110cf-c66e-49dc-a59e-27e875225cee
-  - `singable.json` — **source of truth**: per verse `sa/it/en`, `words` (padaccheda,
-    token-level: `{sa, toks:[{it,g}]}`), `singable` (4 lines/verse), `history`.
+  - `singable.json` — **source of truth**: per verse `sa/it/en`, `padas` (the two
+    half-lines, each `{words:[{sa, toks:[{it,g}]}], danda}` — padaccheda, token-level),
+    `singable` (4 lines/verse), `history`. Pāda split lives in `build.py` `PADA1`
+    (can't be re-derived by matching — sandhi + a codepoint variant break it).
   - `build.py` — regenerates `editor.html` from `editor.template.html` + `singable.json`.
     **Iterate loop:** edit `singable.json` (or the `SINGABLE`/`WORDS` dicts in build.py) →
     `python build.py` → re-publish `editor.html` to the SAME artifact URL (pass `url=…`).
@@ -20,8 +22,9 @@ session needs only this file + `gh issue list`.
 - 1min.ai API key: `.secrets/1min-key.txt` (gitignored).
 
 ## Editor features (current)
-14 verses. Per verse: Devanāgarī word-row (toggle **Word-by-word: off/verse/detailed**
-reveals per-word IAST+gloss beneath each word), transliteration line, app meaning,
+14 verses. Per verse: Devanāgarī shown as the two pādas (half-lines) with their daṇḍas
+(toggle **Word-by-word: off ↔ verse** reveals per-word IAST+gloss beneath each word;
+each pāda stays on one line, overflowing horizontally rather than wrapping), app meaning,
 and 4 editable singable lines with syllable counters. **Copy-JSON** round-trips edits;
 paste back → update `singable.json` + append to `history` → rebuild → republish.
 

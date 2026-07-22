@@ -1,7 +1,7 @@
 """#35 singable-editor build. Merges verses_dump.json with the singable drafts +
 version history into singable.json, then injects that into editor.template.html ->
 editor.html (the publishable artifact). Re-run after every accepted edit round."""
-import io, json, sys
+import io, json, re, sys
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
 verses = json.load(io.open("verses_dump.json", encoding="utf-8"))
@@ -105,8 +105,28 @@ WORDS = {
 def words_for(n):
     return [{"sa": w[0], "toks": [{"it": t[0], "g": t[1]} for t in w[1]]} for w in WORDS[n]]
 
+# Pāda (half-line) split: how many padaccheda words fall in the FIRST line of each verse.
+# Can't be re-derived by matching WORDS against `sa` — padaccheda un-does sandhi (v14 कवचेनापि
+# → कवचेन + अपि) and a codepoint variant (v2 नैरृ vs नैर्ऋ), so the boundary is stored, not guessed.
+# Verified against the surface half-lines of every verse (see verses_dump.json `sa`).
+PADA1 = {1: 6, 2: 5, 3: 6, 4: 5, 5: 4, 6: 6, 7: 6, 8: 6, 9: 6, 10: 4, 11: 5, 12: 3, 13: 2, 14: 6}
+
+def dandas_for(sa):
+    """Trailing daṇḍa punctuation of each line, e.g. ['।', '॥१॥']."""
+    out = []
+    for line in sa.split("\n"):
+        m = re.search(r"[।॥][०-९।॥\s]*$", line.strip())
+        out.append(m.group(0).strip() if m else "")
+    return out
+
+def padas_for(n, sa):
+    """Group the flat word list into two pādas, each carrying its closing daṇḍa."""
+    ws, ds, cut = words_for(n), dandas_for(sa), PADA1[n]
+    groups = [ws[:cut], ws[cut:]]
+    return [{"words": g, "danda": ds[i] if i < len(ds) else ""} for i, g in enumerate(groups)]
+
 data_verses = [{"n": v["n"], "sa": v["sa"], "it": v["it"], "en": v["en"],
-                "words": words_for(v["n"]), "singable": SINGABLE[v["n"]]} for v in verses]
+                "padas": padas_for(v["n"], v["sa"]), "singable": SINGABLE[v["n"]]} for v in verses]
 
 # Seed version history (v0.1 snapshot = the first draft above).
 history = [{
