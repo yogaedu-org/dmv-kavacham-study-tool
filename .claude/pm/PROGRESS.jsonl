@@ -1,0 +1,1 @@
+{"ts": "2026-09-07T01:10:00Z", "issue": 32, "repo": "dmv-kavacham-study-tool", "type": "fix", "digest": "autocomplete keyboard path (a11y): ArrowUp/Down/Enter + role=option/aria-activedescendant; regression test on nextActiveIndex; verified in Chromium"}
