@@ -75,7 +75,8 @@ Goddesses invoked include Kālī/Kālikā, Tārā, Tripurasundarī/Ṣoḍaśī,
 
 ### Checks
 ```bash
-node tests/validate-data.js   # schema + content-regression + i18n key-parity + drift guards
+node tests/validate-data.js          # schema + content-regression + i18n key-parity + drift guards
+node tests/autocomplete-keyboard.mjs # autocomplete arrow-key walk: wrap-around + clamping (#32)
 ```
 
 ### Deploy (GitHub Pages, from `main`)
@@ -101,7 +102,7 @@ git commit -am "chore(deploy): stamp version" && git push origin main
 ├── icons/                         # PWA icons (192 / 512)
 ├── manifest.webmanifest           # PWA manifest
 ├── sw.js                          # Service worker (network-first page, cache-first assets)
-├── tests/validate-data.js         # Validation + regression guards
+├── tests/                         # Validation + regression guards (plain Node, no deps)
 ├── tools/                         # stamp-version.py + i18n review-board generator
 ├── reports/                       # Review reports + decision boards
 ├── CHANGELOG.md
