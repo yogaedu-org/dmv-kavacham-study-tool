@@ -1,7 +1,7 @@
 'use strict';
 
 import { AppState, DOMElements, VERSE_DATA } from './state.js';
-import { escapeHtml, debounce } from './util.js';
+import { escapeHtml, debounce, nextActiveIndex } from './util.js';
 import { categoryByDomKey, term, t } from './i18n.js';
 
 /* ==========================================================================
@@ -275,6 +275,11 @@ export function updateFilterTags() {
    Enhanced search with autocomplete and filter integration
    ========================================================================== */
 
+// Keyboard cursor into the open autocomplete list; -1 = nothing selected (#32).
+// Module-local rather than on AppState: it is transient view state, not app state,
+// and it must reset on every re-render of the suggestions.
+let activeAutocompleteIndex = -1;
+
 /**
  * Handle search input with autocomplete
  */
@@ -314,38 +319,107 @@ export function showAutocomplete(searchTerm) {
     }
     
     let html = '';
-    matches.forEach(function(item) {
+    matches.forEach(function(item, i) {
         html += `
-            <div class="autocomplete-item" data-type="${item.type}" data-value="${escapeHtml(item.text)}">
+            <div class="autocomplete-item" id="autocomplete-option-${i}" role="option" aria-selected="false" data-type="${item.type}" data-value="${escapeHtml(item.text)}">
                 <span class="autocomplete-text">${escapeHtml(item.text)}</span>
                 <span class="autocomplete-category ${item.type === 'body' ? 'body' : item.type.slice(0, -1)}">${item.category}</span>
             </div>
         `;
     });
-    
+
     DOMElements.autocompleteDropdown.innerHTML = html;
     DOMElements.autocompleteDropdown.classList.remove('hidden');
     DOMElements.searchInput.setAttribute('aria-expanded', 'true');
-    
+    setActiveAutocompleteItem(-1); // fresh suggestions start with nothing selected
+
     // Delegated item handler — bind ONCE (#32); it was re-added on every keystroke.
     if (DOMElements.autocompleteDropdown.dataset.wired !== '1') {
         DOMElements.autocompleteDropdown.dataset.wired = '1';
         DOMElements.autocompleteDropdown.addEventListener('click', function(e) {
             const item = e.target.closest('.autocomplete-item');
-            if (item) {
-                const type = item.dataset.type;
-                const value = item.dataset.value;
-
-                // Clear search input
-                DOMElements.searchInput.value = '';
-                AppState.searchTerm = '';
-                hideAutocomplete();
-
-                // Add as filter instead
-                addFilterTag(type, value);
-            }
+            if (item) selectAutocompleteItem(item);
         });
     }
+}
+
+/**
+ * Commit one autocomplete suggestion: clear the search box and turn it into a filter.
+ * Shared by the mouse (click) and keyboard (Enter) paths so the two cannot diverge (#32).
+ * @param {HTMLElement} item - The `.autocomplete-item` being chosen
+ */
+function selectAutocompleteItem(item) {
+    const type = item.dataset.type;
+    const value = item.dataset.value;
+
+    // Clear search input
+    DOMElements.searchInput.value = '';
+    AppState.searchTerm = '';
+    hideAutocomplete();
+
+    // Add as filter instead
+    addFilterTag(type, value);
+}
+
+/**
+ * Move the keyboard cursor to one suggestion (#32).
+ * The input keeps DOM focus throughout — `aria-activedescendant` is what tells a
+ * screen reader which option is current, so the options themselves stay unfocusable.
+ * @param {number} index - Index of the item to activate, or -1 for none
+ */
+function setActiveAutocompleteItem(index) {
+    if (!DOMElements.autocompleteDropdown) return;
+
+    const items = DOMElements.autocompleteDropdown.querySelectorAll('.autocomplete-item');
+    activeAutocompleteIndex = index;
+
+    items.forEach(function(item, i) {
+        const isActive = i === index;
+        item.classList.toggle('active', isActive);
+        item.setAttribute('aria-selected', isActive ? 'true' : 'false');
+        if (isActive && item.scrollIntoView) item.scrollIntoView({ block: 'nearest' });
+    });
+
+    if (index >= 0 && items[index]) {
+        DOMElements.searchInput.setAttribute('aria-activedescendant', items[index].id);
+    } else {
+        DOMElements.searchInput.removeAttribute('aria-activedescendant');
+    }
+}
+
+/**
+ * Keyboard handling for the open autocomplete listbox (#32).
+ * Before this, the search box announced `aria-expanded="true"` but only ever handled
+ * Escape — the suggestions were reachable by mouse alone.
+ *
+ * Escape is deliberately NOT handled here. The search box is `<input type="search">`,
+ * which the browser clears natively on Escape *before* any listener can veto it
+ * (verified: with all app JS blocked in the capture phase, the value still cleared).
+ * The existing clear-and-close handler in main.js is already the right behaviour, so
+ * the ARIA two-stage Escape would only add a preventDefault this unit does not need.
+ *
+ * @param {KeyboardEvent} e
+ * @returns {boolean} - true if the key was consumed here (caller should stop)
+ */
+export function handleAutocompleteKeydown(e) {
+    const dropdown = DOMElements.autocompleteDropdown;
+    if (!dropdown || dropdown.classList.contains('hidden')) return false;
+
+    const items = dropdown.querySelectorAll('.autocomplete-item');
+
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        e.preventDefault(); // otherwise the caret jumps to either end of the input
+        setActiveAutocompleteItem(nextActiveIndex(activeAutocompleteIndex, items.length, e.key));
+        return true;
+    }
+
+    if (e.key === 'Enter' && activeAutocompleteIndex >= 0 && items[activeAutocompleteIndex]) {
+        e.preventDefault();
+        selectAutocompleteItem(items[activeAutocompleteIndex]);
+        return true;
+    }
+
+    return false;
 }
 
 /**
@@ -355,6 +429,8 @@ export function hideAutocomplete() {
     if (DOMElements.autocompleteDropdown) {
         DOMElements.autocompleteDropdown.classList.add('hidden');
         DOMElements.searchInput.setAttribute('aria-expanded', 'false');
+        DOMElements.searchInput.removeAttribute('aria-activedescendant');
+        activeAutocompleteIndex = -1;
     }
 }
 

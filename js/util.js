@@ -52,6 +52,25 @@ export function escapeHtml(text) {
     return text.replace(/[&<>"']/g, function(m) { return map[m]; });
 }
 
+/**
+ * Next active index for a keyboard walk through a listbox (#32).
+ * `-1` means "nothing active yet": ArrowDown enters at the first item, ArrowUp at
+ * the last. Both directions wrap, and a stale index (the list shrank under us) is
+ * pulled back into range rather than escaping it. Any other key leaves the cursor
+ * where it is. Kept pure and import-free so tests/autocomplete-keyboard.mjs can
+ * exercise it without a DOM.
+ * @param {number} current - Current active index, or -1 for none
+ * @param {number} count - Number of items in the list
+ * @param {string} key - KeyboardEvent.key
+ * @returns {number} - New active index, or -1 when the list is empty
+ */
+export function nextActiveIndex(current, count, key) {
+    if (count <= 0) return -1;
+    if (key === 'ArrowDown') return current >= count - 1 ? 0 : current + 1;
+    if (key === 'ArrowUp') return current <= 0 || current > count - 1 ? count - 1 : current - 1;
+    return current;
+}
+
 /* ---- Const lookup maps ---- */
 
 export const LOCALE_NAMES = { en: 'English', ne: 'नेपाली', es: 'Español' };

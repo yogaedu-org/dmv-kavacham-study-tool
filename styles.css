@@ -935,6 +935,14 @@ a:hover {
   background: var(--overlay-2);
 }
 
+/* Keyboard cursor (#32) — the arrow-key equivalent of :hover. The input keeps DOM
+   focus, so without this the active option would be invisible to a sighted
+   keyboard user even though aria-activedescendant announces it. */
+.autocomplete-item.active {
+  background: var(--overlay-2);
+  box-shadow: inset 3px 0 0 var(--color-accent);
+}
+
 /* Autocomplete item text */
 .autocomplete-text {
   flex: 1;
