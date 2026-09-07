@@ -77,6 +77,7 @@ Goddesses invoked include Kālī/Kālikā, Tārā, Tripurasundarī/Ṣoḍaśī,
 ```bash
 node tests/validate-data.js          # schema + content-regression + i18n key-parity + drift guards
 node tests/autocomplete-keyboard.mjs # autocomplete arrow-key walk: wrap-around + clamping (#32)
+node tests/category-registry.mjs     # filter state resolves via CONFIG.categories; config.json agrees (#32)
 ```
 
 ### Deploy (GitHub Pages, from `main`)
