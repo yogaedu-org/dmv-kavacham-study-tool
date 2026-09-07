@@ -54,11 +54,6 @@ export function t(key) {
     return I18N.strings[key] || I18N.fallback.ui[key] || key;
 }
 
-/** Look up a category registry entry by its DOM key ('deities'|'directions'|'body'). */
-export function categoryByDomKey(domKey) {
-    return CONFIG.categories.filter(function(c) { return c.domKey === domKey; })[0] || null;
-}
-
 /** Localized category term, falling back to the canonical value. */
 export function term(field, value) {
     const active = I18N.terms[field];

@@ -1,8 +1,8 @@
 'use strict';
 
-import { AppState, DOMElements, VERSE_DATA } from './state.js';
+import { AppState, DOMElements, VERSE_DATA, categoryByDomKey, selectedListFor } from './state.js';
 import { escapeHtml, debounce, nextActiveIndex } from './util.js';
-import { categoryByDomKey, term, t } from './i18n.js';
+import { term, t } from './i18n.js';
 
 /* ==========================================================================
    DROPDOWN FUNCTIONALITY
@@ -139,9 +139,9 @@ export function updateDropdownLabel(type) {
  * @param {boolean} checked - Whether checkbox is checked
  */
 export function handleFilterChange(type, value, checked) {
-    const mappedType = type === 'body' ? 'bodyParts' : type;
-    const selectedArray = AppState['selected' + mappedType.charAt(0).toUpperCase() + mappedType.slice(1)];
-    
+    const selectedArray = selectedListFor(type);
+    if (!selectedArray) return;
+
     if (checked) {
         if (selectedArray.indexOf(value) === -1) {
             selectedArray.push(value);
@@ -165,9 +165,9 @@ export function handleFilterChange(type, value, checked) {
  * @param {string} value - Filter value
  */
 export function addFilterTag(type, value) {
-    const mappedType = type === 'body' ? 'bodyParts' : type;
-    const selectedArray = AppState['selected' + mappedType.charAt(0).toUpperCase() + mappedType.slice(1)];
-    
+    const selectedArray = selectedListFor(type);
+    if (!selectedArray) return;
+
     if (selectedArray.indexOf(value) === -1) {
         selectedArray.push(value);
         
@@ -185,9 +185,9 @@ export function addFilterTag(type, value) {
  * @param {string} value - Filter value
  */
 export function removeFilterTag(type, value) {
-    const mappedType = type === 'body' ? 'bodyParts' : type;
-    const selectedArray = AppState['selected' + mappedType.charAt(0).toUpperCase() + mappedType.slice(1)];
-    
+    const selectedArray = selectedListFor(type);
+    if (!selectedArray) return;
+
     const index = selectedArray.indexOf(value);
     if (index > -1) {
         selectedArray.splice(index, 1);
