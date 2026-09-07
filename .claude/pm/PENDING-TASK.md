@@ -1,41 +1,48 @@
 # PENDING TASK
 
-**Nothing in flight.** Both #32 units are committed on `swarm/20260907-32`
-(local only — swarm agents do not push).
+**Nothing in flight.** #40 is committed on `swarm/20260907-32` (local only — swarm
+agents do not push). #32's two units are on the same branch.
 
 ## What landed on this branch
 
-- `77293ac` fix(#32): keyboard path for the search autocomplete (a11y)
-- `491eb1c` docs(#32): document the autocomplete-keyboard test in README checks
-- `d94ed56` fix(#32): resolve filter state through the category registry
-- `7b22eb4` docs(#32): document the category-registry test in README checks
+| commit | subject | issue |
+|---|---|---|
+| `77293ac` | fix: keyboard path for the search autocomplete (a11y) | #32 |
+| `491eb1c` | docs: document the autocomplete-keyboard test in README checks | #32 |
+| `d94ed56` | fix: resolve filter state through the category registry | #32 |
+| `7b22eb4` | docs: document the category-registry test in README checks | #32 |
+| `8ca56e5` | chore: PM state for the category-registry unit | #32 |
+| `a29e204` | test: guard the CSS custom-property contract | #40 |
+| `e17627c` | docs: document the css-tokens check in README checks | #40 |
 
-Gate run in the same turn as `d94ed56`, all three green:
+Gate run in the same turn as `e17627c`, all four green:
 `node tests/validate-data.js` · `node tests/autocomplete-keyboard.mjs` ·
-`node tests/category-registry.mjs`
-
-Also verified in Chromium against a local server: body + deities checkbox
-add/remove round-trips, autocomplete add, tags/highlights/label all correct,
-0 console errors.
+`node tests/category-registry.mjs` · `node tests/css-tokens.mjs`
 
 ## Waiting on KA
 
 1. Review + push the branch:
    `git push -u origin swarm/20260907-32`
-   Nothing is pushed; `main` is also still **1 commit ahead of origin** from
-   before these runs (`b5e857c`, pre-existing — not a swarm agent's).
-2. **#32 now has no known remaining work.** Do not close until KA has clicked
-   through the filters and the autocomplete in a browser. Anything reaching
-   `main` needs `python tools/stamp-version.py` first (deploy protocol, #30).
+   Nothing is pushed; `main` is also still **1 commit ahead of origin** from before
+   these runs (`b5e857c`, pre-existing — not a swarm agent's).
+2. **#32 has no known remaining work.** Do not close until KA has clicked through
+   the filters and the autocomplete in a browser.
+3. **#40 is a tripwire, not a fix** — it landed green. Close once reviewed.
+4. Anything reaching `main` needs `python tools/stamp-version.py` first (deploy
+   protocol, #30).
 
 ## Next unit (proposed)
 
-Undefined-CSS-variable guard in `tests/`. Named failure, hit for real during the
-autocomplete unit: a rule referencing `var(--accent-color)` (no such token; the
-real one is `--color-accent`) silently renders with no value, so the keyboard
-cursor would have been invisible with nothing failing. `styles.css` is currently
-clean — 40 tokens defined, 39 used, zero undefined — so the guard goes in green.
-Needs an issue first.
+**Wire the four checks into a single command + CI (`no-ci` risk flag).** There is no
+`package.json` and `.github/` holds only `ISSUE_TEMPLATE/`, so the four guards run
+only when someone remembers each filename — and the README **Checks** block is the
+sole record that they exist. Named failure: a change reaches `main` (which
+auto-deploys to Pages) with a red guard, because nothing ran it. Smallest useful
+step is a `tests/run-all.mjs` plus a GitHub Actions workflow on push/PR. Needs an
+issue first. Sonnet / medium.
+
+Note: `CLAUDE.md` points at **#30** for an optional pre-push hook or GH Action, but
+#30 is CLOSED — that pointer dangles and the CI work has no open home.
 
 ## Standing constraints
 
