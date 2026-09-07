@@ -18,7 +18,7 @@ import { getElementById, debounce, escapeHtml } from './util.js';
 import { loadConfig, applyConfig, initThemeToggle } from './config.js';
 import { loadI18n, resolveLocale, applyI18n, initLanguageSwitcher, populateAllDropdowns } from './i18n.js';
 import { initFontScale, toggleCompactMode, togglePinMode, updateCompactMode, updatePinButton, handleScroll, toggleSanskrit, toggleTransliteration, updateDisplayClasses } from './controls.js';
-import { toggleDropdown, closeAllDropdowns, addFilterTag, removeFilterTag, handleSearch, hideAutocomplete, applyFiltersAndHighlights, clearAllFilters } from './filters.js';
+import { toggleDropdown, closeAllDropdowns, addFilterTag, removeFilterTag, handleSearch, hideAutocomplete, handleAutocompleteKeydown, applyFiltersAndHighlights, clearAllFilters } from './filters.js';
 import { renderVerses } from './render.js';
 
 /* ==========================================================================
@@ -44,6 +44,10 @@ function initializeEventListeners() {
         DOMElements.searchInput.addEventListener('input', handleSearch);
         
         DOMElements.searchInput.addEventListener('keydown', function(e) {
+            // Arrow/Enter belong to the suggestion list while it is open (#32).
+            // Escape falls through to the clear-and-close handler below, unchanged.
+            if (handleAutocompleteKeydown(e)) return;
+
             if (e.key === 'Escape') {
                 DOMElements.searchInput.value = '';
                 AppState.searchTerm = '';
