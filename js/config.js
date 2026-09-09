@@ -1,6 +1,7 @@
 'use strict';
 
-import { CONFIG, setConfig, DEFAULT_CONFIG, AppState, DOMElements } from './state.js';
+import { CONFIG, setConfig, DEFAULT_CONFIG, AppState, DOMElements, I18N } from './state.js';
+import { buildFeedbackUrl } from './util.js';
 
 /**
  * Load config.json, shallow-merging over the built-in defaults so a missing
@@ -51,6 +52,7 @@ export function applyConfig() {
         if (CONFIG.app.feedbackUrl) {
             feedbackLink.href = CONFIG.app.feedbackUrl;
             feedbackLink.hidden = false;
+            initFeedbackPrefill(feedbackLink);
         } else {
             feedbackLink.hidden = true;
         }
@@ -58,6 +60,56 @@ export function applyConfig() {
 
     // Version (#9) — keep the debug export in sync with the authoritative value
     if (window.DMVKavacham) window.DMVKavacham.version = CONFIG.app.version;
+}
+
+/* ==========================================================================
+   CORRECTION-FORM PREFILL (#41)
+   The form asks which language and which verse — both of which the page already
+   knows. Resolved at CLICK time, not at load: the reader picks a language and
+   scrolls to a verse long after applyConfig() has run, so a href built once at
+   startup would carry stale state.
+   ========================================================================== */
+
+/**
+ * The verse card nearest the top of the viewport, by number.
+ * Cards hidden by a filter have a zero-size rect and are skipped, as are cards
+ * scrolled fully out of view — so "nothing on screen" honestly returns null.
+ * @returns {number|null} verse number, or null when none is in view
+ */
+function verseNumberInView() {
+    const cards = document.querySelectorAll('.verse[id^="verse-"]');
+    const viewportHeight = window.innerHeight || 0;
+    let best = null, bestDistance = Infinity;
+    cards.forEach(function(card) {
+        const rect = card.getBoundingClientRect();
+        if (rect.height === 0 || rect.bottom <= 0 || rect.top >= viewportHeight) return;
+        const distance = Math.abs(rect.top);
+        if (distance < bestDistance) { bestDistance = distance; best = card; }
+    });
+    if (!best) return null;
+    const number = parseInt(best.id.slice('verse-'.length), 10);
+    return Number.isInteger(number) ? number : null;
+}
+
+/**
+ * Rebuild the feedback href from live state whenever the link is about to be
+ * used. `pointerdown` also covers middle-click and right-click "copy link".
+ * Any failure leaves the bare template URL already on the element — the link
+ * must never break, and a wrong prefill is worse than none.
+ * @param {HTMLAnchorElement} link
+ */
+function initFeedbackPrefill(link) {
+    function refresh() {
+        try {
+            link.href = buildFeedbackUrl(CONFIG.app.feedbackUrl, I18N.locale, verseNumberInView()) ||
+                        CONFIG.app.feedbackUrl;
+        } catch (error) {
+            console.warn('Correction-form prefill skipped:', error.message);
+            link.href = CONFIG.app.feedbackUrl;
+        }
+    }
+    link.addEventListener('pointerdown', refresh);
+    link.addEventListener('click', refresh);
 }
 
 /**
