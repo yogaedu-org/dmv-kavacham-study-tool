@@ -75,7 +75,8 @@ Goddesses invoked include Kālī/Kālikā, Tārā, Tripurasundarī/Ṣoḍaśī,
 
 ### Checks
 ```bash
-node tests/validate-data.js   # schema + content-regression + i18n key-parity + drift guards
+node tests/validate-data.js       # schema + content-regression + i18n key-parity + drift guards
+node tests/feedback-prefill.mjs   # correction-form params are options the issue template offers (#41)
 ```
 
 ### Deploy (GitHub Pages, from `main`)

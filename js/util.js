@@ -52,6 +52,54 @@ export function escapeHtml(text) {
     return text.replace(/[&<>"']/g, function(m) { return map[m]; });
 }
 
+/* ==========================================================================
+   CORRECTION-FORM PREFILL (#41)
+   A GitHub issue *form* prefills a field from a query parameter named after
+   that field's `id` in .github/ISSUE_TEMPLATE/translation-correction.yml. A
+   dropdown only takes the value when it matches one of its `options` EXACTLY —
+   an unmatched value is dropped silently, with no error anywhere. So these
+   strings are a contract with the .yml, guarded by tests/feedback-prefill.mjs.
+   Kept pure and import-free so that test can exercise it without a DOM.
+   ========================================================================== */
+
+/** Locale code -> the exact `language` dropdown option string. */
+export const FEEDBACK_LANGUAGE_OPTIONS = {
+    en: 'English',
+    ne: 'Nepali (नेपाली)',
+    es: 'Spanish (Español)'
+};
+
+/** The `verse` dropdown option used when no verse is resolvable. */
+export const FEEDBACK_VERSE_FALLBACK = 'General / other';
+
+/**
+ * Build the correction-form URL from live UI state (#41).
+ * A wrong prefill is worse than none: an unmappable locale returns the bare
+ * template URL rather than guessing, and an unresolved verse falls back to the
+ * template's own "General / other" option.
+ * @param {string} baseUrl - CONFIG.app.feedbackUrl (the bare template link)
+ * @param {string} locale - active I18N locale code
+ * @param {number|null} verseNumber - verse in view, or null/undefined for none
+ * @returns {string} - prefilled URL, or baseUrl when state cannot be resolved
+ */
+export function buildFeedbackUrl(baseUrl, locale, verseNumber) {
+    if (!baseUrl) return '';
+    const language = FEEDBACK_LANGUAGE_OPTIONS[locale];
+    if (!language) return baseUrl;
+    let url;
+    try {
+        url = new URL(baseUrl);
+    } catch (e) {
+        return baseUrl;
+    }
+    const n = Number(verseNumber);
+    const verse = Number.isInteger(n) && n > 0 ? 'Verse ' + n : FEEDBACK_VERSE_FALLBACK;
+    url.searchParams.set('language', language);
+    url.searchParams.set('verse', verse);
+    url.searchParams.set('title', '[i18n] Correction: ' + language + ' — ' + verse);
+    return url.toString();
+}
+
 /* ---- Const lookup maps ---- */
 
 export const LOCALE_NAMES = { en: 'English', ne: 'नेपाली', es: 'Español' };
