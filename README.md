@@ -1,5 +1,7 @@
 [**🌐 Live Demo**](https://yogaedu-org.github.io/dmv-kavacham-study-tool/) ← Click here to try it
 
+> **Start here:** [Features](#-features) · [Architecture](#%EF%B8%8F-architecture) · [Checks & deploy](#%EF%B8%8F-development) · deploy rules in [`CLAUDE.md`](CLAUDE.md) · history in [`CHANGELOG.md`](CHANGELOG.md) · R&D in `rnd/` · resume pointer `.claude/pm/PENDING-TASK.md`
+
 > Served-only / installable PWA. The app `fetch()`es `data/verses.json` and loads ES modules, so it must be served over HTTP(S) (GitHub Pages) — opening `index.html` directly via `file://` will not work. (A self-contained single-file build that *does* run from `file://` is tracked in #33.)
 
 # श्रीदशमहाविद्याकवचम् — Interactive Study Tool
@@ -77,6 +79,7 @@ Goddesses invoked include Kālī/Kālikā, Tārā, Tripurasundarī/Ṣoḍaśī,
 ```bash
 node tests/validate-data.js   # schema + content-regression + i18n key-parity + drift guards
 node tests/css-tokens.mjs     # every var(--x) is declared in the base :root; config.json cssVar → --color-* (#40)
+python tools/check-doc-links.py   # every relative link/path named in the README, CLAUDE.md, CHANGELOG and rnd READMEs exists
 ```
 
 ### Deploy (GitHub Pages, from `main`)
@@ -102,8 +105,9 @@ git commit -am "chore(deploy): stamp version" && git push origin main
 ├── icons/                         # PWA icons (192 / 512)
 ├── manifest.webmanifest           # PWA manifest
 ├── sw.js                          # Service worker (network-first page, cache-first assets)
-├── tests/validate-data.js         # Validation + regression guards
-├── tools/                         # stamp-version.py + i18n review-board generator
+├── tests/                         # validate-data.js (validation + regression guards), css-tokens.mjs (#40)
+├── tools/                         # stamp-version.py, check-doc-links.py + i18n review-board generator
+├── rnd/                           # R&D units: 35-sung-translation, kavacham-audio-alignment
 ├── reports/                       # Review reports + decision boards
 ├── CHANGELOG.md
 └── LICENSE                        # MIT
