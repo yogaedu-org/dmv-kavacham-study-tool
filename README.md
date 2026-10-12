@@ -76,6 +76,7 @@ Goddesses invoked include Kālī/Kālikā, Tārā, Tripurasundarī/Ṣoḍaśī,
 ### Checks
 ```bash
 node tests/validate-data.js   # schema + content-regression + i18n key-parity + drift guards
+node tests/css-tokens.mjs     # every var(--x) is declared in the base :root; config.json cssVar → --color-* (#40)
 ```
 
 ### Deploy (GitHub Pages, from `main`)

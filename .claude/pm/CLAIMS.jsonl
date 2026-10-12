@@ -1,0 +1,2 @@
+{"ts": "2026-10-12T10:07:02Z", "agent": "swarm 20261012T154840-dmv-kavacham-study-tool", "issue": 40, "status": "claimed", "note": "bring CSS-token guard onto main-based wave branch"}
+{"ts": "2026-10-12T10:07:20Z", "agent": "swarm 20261012T154840-dmv-kavacham-study-tool", "issue": 40, "status": "done", "commit": "f019aed", "branch": "swarm/20261012-wave"}
