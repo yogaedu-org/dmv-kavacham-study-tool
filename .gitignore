@@ -9,3 +9,7 @@
 # R&D scratch audio (regenerable via say.ps1 / pitch_transfer.py)
 rnd/**/refs/
 rnd/**/out/
+
+# estate sync 2026-10-23
+.claude/worktrees/
+graphify-out/
