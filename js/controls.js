@@ -10,7 +10,8 @@ import { t } from './i18n.js';
 export function initFontScale() {
     const KEY = 'dmv-font-scale';
     const MIN = 0.8, MAX = 2.5, STEP = 0.15;  // generous ceiling; the reader is the point (#23)
-    let scale = parseFloat(localStorage.getItem(KEY));
+    let scale;
+    try { scale = parseFloat(localStorage.getItem(KEY)); } catch (e) { /* storage blocked (#50) */ }
     if (!scale || isNaN(scale)) scale = 1;
     const apply = function() {
         scale = Math.min(MAX, Math.max(MIN, scale));
