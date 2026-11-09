@@ -13,7 +13,7 @@
  */
 'use strict';
 
-const CACHE = 'dmv-kavacham-v13';
+const CACHE = 'dmv-kavacham-v14';
 const ASSETS = [
   './',
   './index.html',
@@ -80,8 +80,11 @@ self.addEventListener('fetch', function(event) {
   if (isNavigation(request)) {
     event.respondWith(
       fetch(request).then(function(response) {
-        var clone = response.clone();
-        caches.open(CACHE).then(function(cache) { cache.put(request, clone); });
+        // Only a good page may replace the cached fallback (#50).
+        if (response && response.ok) {
+          var clone = response.clone();
+          caches.open(CACHE).then(function(cache) { return cache.put(request, clone); }).catch(function() {});
+        }
         return response;
       }).catch(function() {
         return caches.match(request).then(function(cached) {
@@ -101,7 +104,7 @@ self.addEventListener('fetch', function(event) {
           caches.open(CACHE).then(function(cache) { cache.put(request, clone); });
         }
         return response;
-      }).catch(function() { return cached; });
+      }).catch(function() { return Response.error(); });
     })
   );
 });
