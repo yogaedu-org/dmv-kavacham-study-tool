@@ -68,6 +68,24 @@ export let CONFIG = DEFAULT_CONFIG;
 /** Setter for the live CONFIG binding (importers cannot reassign it). */
 export function setConfig(v) { CONFIG = v; }
 
+/** Look up a category registry entry by its DOM key ('deities'|'directions'|'body'). */
+export function categoryByDomKey(domKey) {
+    return CONFIG.categories.filter(function(c) { return c.domKey === domKey; })[0] || null;
+}
+
+/**
+ * The AppState array backing a filter dropdown, resolved through the registry (#32).
+ * Never reconstruct this name from the DOM key — the registry is data (config.json
+ * overrides it at runtime), so a renamed or added category must not need a code change.
+ * @param {string} domKey - DOM key of the dropdown ('deities'|'directions'|'body')
+ * @returns {Array|null} the live selection array, or null for an unknown key
+ */
+export function selectedListFor(domKey) {
+    const cat = categoryByDomKey(domKey);
+    const list = cat && AppState[cat.stateKey];
+    return Array.isArray(list) ? list : null;
+}
+
 /* ==========================================================================
    APPLICATION STATE
    Enhanced state management for filters, search, and display options

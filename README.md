@@ -75,9 +75,13 @@ Goddesses invoked include Kālī/Kālikā, Tārā, Tripurasundarī/Ṣoḍaśī,
 
 ### Checks
 ```bash
-node tests/validate-data.js       # schema + content-regression + i18n key-parity + drift guards
-node tests/feedback-prefill.mjs   # correction-form params are options the issue template offers (#41)
-node tests/controls-overflow.mjs  # filter/search popups aren't clipped by .controls; themed backgrounds (#43)
+node tests/validate-data.js          # schema + content-regression + i18n key-parity + drift guards
+node tests/feedback-prefill.mjs      # correction-form params are options the issue template offers (#41)
+node tests/controls-overflow.mjs     # filter/search popups aren't clipped by .controls; themed backgrounds (#43)
+node tests/autocomplete-keyboard.mjs # autocomplete arrow-key walk: wrap-around + clamping (#32)
+node tests/category-registry.mjs     # filter state resolves via CONFIG.categories; config.json agrees (#32)
+node tests/css-tokens.mjs            # every var(--x) is declared in the base :root; config.json cssVar -> --color-* (#40)
+python tools/check-doc-links.py      # every relative link/path named in README, CLAUDE.md, CHANGELOG and rnd READMEs exists (#32)
 ```
 
 ### Deploy (GitHub Pages, from `main`)
@@ -103,8 +107,9 @@ git commit -am "chore(deploy): stamp version" && git push origin main
 ├── icons/                         # PWA icons (192 / 512)
 ├── manifest.webmanifest           # PWA manifest
 ├── sw.js                          # Service worker (network-first page, cache-first assets)
-├── tests/validate-data.js         # Validation + regression guards
-├── tools/                         # stamp-version.py + i18n review-board generator
+├── tests/                         # validate-data.js + the six node checks listed under "Checks"
+├── tools/                         # stamp-version.py, check-doc-links.py + i18n review-board generator
+├── rnd/                           # R&D units: 35-sung-translation, kavacham-audio-alignment
 ├── reports/                       # Review reports + decision boards
 ├── CHANGELOG.md
 └── LICENSE                        # MIT
