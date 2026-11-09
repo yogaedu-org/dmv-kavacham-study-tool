@@ -28,6 +28,7 @@ jobs:
       - run: node tests/category-registry.mjs
       - run: node tests/css-tokens.mjs
       - run: node tests/sw-assets.mjs
+      - run: node tests/font-scale-storage.mjs
       - run: python tools/check-doc-links.py
 
   stamp:
