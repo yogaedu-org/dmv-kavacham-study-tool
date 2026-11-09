@@ -19,7 +19,7 @@
   },
   "verses": [
     {
-      "number": 1,
+      "numberX": 1,
       "sanskrit": "ॐ प्राच्यां रक्षतु मे तारा कामरूपनिवासिनी ।\nआग्नेय्यां षोडशी पातु याम्यां धूमावती स्वयम् ॥१॥",
       "transliteration": "Om prācyāṃ rakṣatu me tārā kāmarūpanivāsinī |\nāgneyyāṃ ṣoḍaśī pātu yāmyāṃ dhūmāvatī svayam ||1||",
       "translations": {
