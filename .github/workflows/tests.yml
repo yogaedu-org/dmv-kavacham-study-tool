@@ -27,6 +27,7 @@ jobs:
       - run: node tests/autocomplete-keyboard.mjs
       - run: node tests/category-registry.mjs
       - run: node tests/css-tokens.mjs
+      - run: node tests/sw-assets.mjs
       - run: python tools/check-doc-links.py
 
   stamp:

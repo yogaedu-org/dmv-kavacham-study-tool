@@ -1,3 +1,5 @@
 {"ts": "2026-11-09T08:29:12Z", "agent": "swarm 20261109T140424-dmv-kavacham-study-tool", "issue": 32, "status": "claimed", "note": "reconcile stranded #32/#40 branches into one PR"}
 {"ts": "2026-11-09T08:30:35Z", "agent": "swarm 20261109T140424-dmv-kavacham-study-tool", "issue": 32, "status": "done", "commit": "64c6eb9", "branch": "wave27/dmv-2", "note": "reconciled #32/#40 branches into one PR"}
 {"ts": "2026-11-09T08:39:13Z", "agent": "swarm 20261109T140424-dmv-kavacham-study-tool", "issue": 46, "status": "done", "commit": "8627218", "branch": "wave27/dmv-2", "note": "tests workflow + stamp check; green PR45, red scratch PR47"}
+{"ts": "2026-11-09T10:14:53Z", "agent": "swarm 20261109T155129-dmv-kavacham-study-tool", "issue": 50, "status": "claimed", "note": "sw.js ASSETS vs disk test"}
+{"ts": "2026-11-09T10:17:04Z", "agent": "swarm 20261109T155129-dmv-kavacham-study-tool", "issue": 50, "status": "done", "commit": "e9f3c70", "branch": "wave28/dmv-3", "note": "sw-assets test"}
