@@ -4,3 +4,4 @@
 {"ts": "2026-11-09T10:14:53Z", "agent": "swarm 20261109T155129-dmv-kavacham-study-tool", "issue": 50, "status": "claimed", "note": "sw.js ASSETS vs disk test"}
 {"ts": "2026-11-09T10:17:04Z", "agent": "swarm 20261109T155129-dmv-kavacham-study-tool", "issue": 50, "status": "done", "commit": "e9f3c70", "branch": "wave28/dmv-3", "note": "sw-assets test"}
 {"ts": "2026-11-09T10:20:49Z", "agent": "swarm 20261109T155129-dmv-kavacham-study-tool", "issue": 50, "status": "done", "commit": "b1c69e1", "branch": "wave28/dmv-1", "note": "font scale storage guard"}
+{"ts": "2026-11-09T10:25:00Z", "agent": "swarm 20261109T155129-dmv-kavacham-study-tool", "issue": 50, "status": "done", "commit": "d036231", "branch": "wave28/dmv-4", "note": "sw fetch hardening"}

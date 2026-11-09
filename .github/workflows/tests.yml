@@ -29,6 +29,7 @@ jobs:
       - run: node tests/css-tokens.mjs
       - run: node tests/sw-assets.mjs
       - run: node tests/font-scale-storage.mjs
+      - run: node tests/sw-fetch.mjs
       - run: python tools/check-doc-links.py
 
   stamp:
