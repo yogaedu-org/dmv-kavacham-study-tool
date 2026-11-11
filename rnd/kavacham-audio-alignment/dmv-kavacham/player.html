@@ -38,6 +38,7 @@ li.v.playing .play{background:var(--playing);color:#fff;border-color:var(--playi
 .score{font-size:11px;color:var(--muted);flex:0 0 auto}
 .loopbar{padding:8px 20px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:8px;font-size:13px}
 .loopbar label{display:flex;align-items:center;gap:6px;cursor:pointer}
+#audioNotice{margin:10px 20px;padding:10px 14px;border:1px solid #c0392b;border-radius:8px;color:#c0392b;font-size:13px}
 </style>
 <header><h1>DMV Kavacham — verse by verse, all days</h1>
 <p>Auto-advancing playback of each day's actual chant, aligned to the 14 shlokas. Play the whole
@@ -46,6 +47,7 @@ first repetition alone, for line-by-line study vs. the full (all-repetitions) ch
 + score marks a verse the aligner itself is unsure of -- worth checking against the waveform tool
 before trusting it; line/repeat buttons are hidden there since they'd inherit the same bad boundaries.</p></header>
 <div class="loopbar"><label><input type="checkbox" id="loopToggle"> 🔁 Loop whatever I press next (whole chant wraps to verse 1; a verse or line repeats itself)</label></div>
+<div id="audioNotice" role="alert" hidden></div>
 <div class="tabs"><button class="tab" data-day="1" onclick="showDay(1)">Day 1 ⚠</button><button class="tab" data-day="2" onclick="showDay(2)">Day 2</button><button class="tab" data-day="3" onclick="showDay(3)">Day 3</button><button class="tab" data-day="4" onclick="showDay(4)">Day 4</button><button class="tab" data-day="5" onclick="showDay(5)">Day 5</button><button class="tab" data-day="6" onclick="showDay(6)">Day 6</button></div>
 <div class="panel" id="panel1" style="display:none"><div class="dayhead"><h2>Day 1</h2><button class="playall" onclick="playAll(1)">▶ Play all, verse 1 →14</button><button class="stopall" onclick="stopAll()">■ Stop</button></div><ol class="verses"><li class="v low" data-day="1" data-i="0">
   <button class="play" onclick="playVerse(1,0,false,3.1)">▶</button>
@@ -637,6 +639,31 @@ before trusting it; line/repeat buttons are hidden there since they'd inherit th
   <audio data-day="6" data-i="13" preload="none" src="audio/day6/verse14.mp3"></audio>
 </li></ol></div>
 <script>
+/* #48: the clips are GitHub release assets, not git files. If the relative audio/ path
+ * resolves (a local copy restored by tools/fetch-rnd-audio.py) it is used as-is; otherwise
+ * (the published site) every clip is pointed at its release asset, found through the
+ * published audio-manifest.json (the single source of truth for path -> asset name). */
+function audioNotice(msg){
+  const n = document.getElementById('audioNotice');
+  n.textContent = msg; n.hidden = false;
+}
+document.querySelectorAll('audio').forEach(a=>a.addEventListener('error',()=>{
+  audioNotice('Audio could not be loaded (' + (a.getAttribute('src') || '').split('/').pop() +
+    '). The clips are hosted as release assets of this repository; if this persists they may not be published yet.');
+}));
+(async function useReleaseAudioIfNeeded(){
+  if(location.protocol === 'file:') return;
+  const clips = [...document.querySelectorAll('audio')];
+  try{ const r = await fetch(clips[0].getAttribute('src'), {method:'HEAD'}); if(r.ok) return; }catch(e){}
+  try{
+    const m = await (await fetch('audio-manifest.json')).json();
+    clips.forEach(a=>{
+      const rel = a.getAttribute('src');
+      const it = m.files.find(f=>f.path.endsWith('/'+rel));
+      if(it) a.src = m.base_url + it.asset; else audioNotice('No release asset listed for ' + rel);
+    });
+  }catch(e){ audioNotice('Audio manifest could not be loaded: ' + e); }
+})();
 let current = null; // {day, i}
 function stopAll(){
   document.querySelectorAll('audio').forEach(a=>{a.pause(); a.currentTime=0;});
