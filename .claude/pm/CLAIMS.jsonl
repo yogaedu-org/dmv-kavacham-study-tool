@@ -1,0 +1,2 @@
+{"ts": "2026-11-09T08:46:02Z", "agent": "swarm 20261109T140424-dmv-kavacham-study-tool", "issue": 48, "status": "claimed", "note": "move rnd audio out of git, sha256 manifest"}
+{"ts": "2026-11-09T08:50:56Z", "agent": "swarm 20261109T140424-dmv-kavacham-study-tool", "issue": 48, "status": "done", "commit": "7aa9ce9", "branch": "wave27/dmv-5", "note": "audio moved to draft release rnd-audio-2026-11"}

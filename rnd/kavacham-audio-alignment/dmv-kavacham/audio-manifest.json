@@ -1,0 +1,531 @@
+{
+ "issue": "yogaedu-org/dmv-kavacham-study-tool#48",
+ "release_tag": "rnd-audio-2026-11",
+ "base_url": "https://github.com/yogaedu-org/dmv-kavacham-study-tool/releases/download/rnd-audio-2026-11/",
+ "count": 87,
+ "total_bytes": 54857307,
+ "files": [
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day1/verse01.mp3",
+   "asset": "day1__verse01.mp3",
+   "bytes": 51128,
+   "sha256": "ffdad196918e381d3c1aac80457295fdd9c752229fb453bade8252ea16fe6b9e"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day1/verse02.mp3",
+   "asset": "day1__verse02.mp3",
+   "bytes": 72026,
+   "sha256": "18acc968d43bdc2ad1f367a9221b2604cdd3fc722cc424843b4c74b24e23e9c0"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day1/verse03.mp3",
+   "asset": "day1__verse03.mp3",
+   "bytes": 167738,
+   "sha256": "348aab0e2df96b2c430263012516797896549b9415b2e67cea0f6badf50fc9d3"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day1/verse04.mp3",
+   "asset": "day1__verse04.mp3",
+   "bytes": 186964,
+   "sha256": "b546041b3dbc7d0feb0ab71d51f0d4b8d30cc2705d4af850b4847cfd2b2c9567"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day1/verse05.mp3",
+   "asset": "day1__verse05.mp3",
+   "bytes": 182785,
+   "sha256": "541853f7accec7fbfc062c6ebebe6f2aaca84d37029306fbb252e352bb9a4bef"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day1/verse06.mp3",
+   "asset": "day1__verse06.mp3",
+   "bytes": 190308,
+   "sha256": "113e5a35d068dfe64b6e1ff09e3ba052b046bc8a0bc4a36a5e126c493fda9989"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day1/verse07.mp3",
+   "asset": "day1__verse07.mp3",
+   "bytes": 187382,
+   "sha256": "078bf4fe8155778d4f38b5f7e39e69f134fbbdc3f66871bb790bc383891c6c20"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day1/verse08.mp3",
+   "asset": "day1__verse08.mp3",
+   "bytes": 188636,
+   "sha256": "631c3b25d2570cc78fb53a7feb1e4b9db881cce86879f7635365531820515aac"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day1/verse09.mp3",
+   "asset": "day1__verse09.mp3",
+   "bytes": 184457,
+   "sha256": "d2e8a0b4b6bb0f9f2114901ed90f1a87ffb1e46970e92471ae470a80a2a045ec"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day1/verse10.mp3",
+   "asset": "day1__verse10.mp3",
+   "bytes": 185292,
+   "sha256": "45ca9849244c6e86d38d3b103853c2c260a120a1f8b73b5f7c31ecb5b6c40e67"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day1/verse11.mp3",
+   "asset": "day1__verse11.mp3",
+   "bytes": 198667,
+   "sha256": "29651696d6d67dffbedc86271731168d119f0935543a2186a81c2633ea0e2ace"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day1/verse12.mp3",
+   "asset": "day1__verse12.mp3",
+   "bytes": 189472,
+   "sha256": "a745b2f447e51d5eb291edd7c2f8b52a2b4483606524c5e415cdda615697e464"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day1/verse13.mp3",
+   "asset": "day1__verse13.mp3",
+   "bytes": 193652,
+   "sha256": "3ff636a66b54647318abb03cc43029027d803d4d6b7216b3d7b27fb292ae0771"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day1/verse14.mp3",
+   "asset": "day1__verse14.mp3",
+   "bytes": 479536,
+   "sha256": "cd254fee70202a0ce5682664ded3f96b028462de8efb15c2f6c2d0e02fc2611c"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day2/verse01.mp3",
+   "asset": "day2__verse01.mp3",
+   "bytes": 212878,
+   "sha256": "ab4f5893c89192be29145cfd3a5a2fd16eb4c90935bf31b0c2c612c5af3de212"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day2/verse02.mp3",
+   "asset": "day2__verse02.mp3",
+   "bytes": 192816,
+   "sha256": "f942fc7e6f7e07fbaf0ca55cc18af6994895d569b0ca0f9a0854a1f6786dd67c"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day2/verse03.mp3",
+   "asset": "day2__verse03.mp3",
+   "bytes": 191144,
+   "sha256": "af6e341b14dd566955c27de2d8ea2465451dc47a1aebbd047299673b0869fdf0"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day2/verse04.mp3",
+   "asset": "day2__verse04.mp3",
+   "bytes": 198249,
+   "sha256": "a3a91f5657bfe6119c6eefab413348ad9098b34996f3d4aab3002ebddda7917d"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day2/verse05.mp3",
+   "asset": "day2__verse05.mp3",
+   "bytes": 191144,
+   "sha256": "8dad5cb8ede9d8397416af9a7368ffa22e456b102fd41645c985b4be6b6a7f89"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day2/verse06.mp3",
+   "asset": "day2__verse06.mp3",
+   "bytes": 199085,
+   "sha256": "5ccd376c3eada10b395f5155d35919c5326111b18749fedd29a33778658f8b15"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day2/verse07.mp3",
+   "asset": "day2__verse07.mp3",
+   "bytes": 199085,
+   "sha256": "229a43a84847eb846710f9411c504288ad04e701b4bce44025c36453045e0d38"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day2/verse08.mp3",
+   "asset": "day2__verse08.mp3",
+   "bytes": 199085,
+   "sha256": "9a8a07c0386aa1fdd44a513438decbfcb87948c286cfa257f73bdace4a877c67"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day2/verse09.mp3",
+   "asset": "day2__verse09.mp3",
+   "bytes": 195324,
+   "sha256": "dc455388d64467fe90c52ebc491c2cfe8b3b7a9e2cc8bdec880cc7ce76b39bf6"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day2/verse10.mp3",
+   "asset": "day2__verse10.mp3",
+   "bytes": 198667,
+   "sha256": "057351132d5ffefa32b26fe90f27e7b0f393ddbdaf519daab618cfbfa8233eed"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day2/verse11.mp3",
+   "asset": "day2__verse11.mp3",
+   "bytes": 193234,
+   "sha256": "72f149ecebbc647a0dbe8cbc6a84425c8bc2b3d5d8d3cc5e31508df4eb7bebe3"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day2/verse12.mp3",
+   "asset": "day2__verse12.mp3",
+   "bytes": 191144,
+   "sha256": "dfe9f7dbe6469b49077acfbfe53a892bfd223ad7428ef3b606d8d5c52130c38a"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day2/verse13.mp3",
+   "asset": "day2__verse13.mp3",
+   "bytes": 196577,
+   "sha256": "36e74b7f69914b216cabaf9c0d160cefd32c31e1726a2b3c0c12ca24e00426e4"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day2/verse14.mp3",
+   "asset": "day2__verse14.mp3",
+   "bytes": 401377,
+   "sha256": "3db79828a4e7ad7aa1dd98dba7c663396dd870f15178f157a8fb9a33889ed1f3"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day3-kavacham-full-chant.mp3",
+   "asset": "day3-kavacham-full-chant.mp3",
+   "bytes": 3100558,
+   "sha256": "f896dca8ad114d546266216db65d55cdac5268a6e5ec201b46f76c68c44f200b"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day4/verse01.mp3",
+   "asset": "day4__verse01.mp3",
+   "bytes": 213714,
+   "sha256": "39dc1ec03c497a036f93149c462c98f30936a6a5bf4a95fda6a76e91a9a15cfb"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day4/verse02.mp3",
+   "asset": "day4__verse02.mp3",
+   "bytes": 190308,
+   "sha256": "f59d62e15a9ad1af328e3afcfba45ba80a782e5c235ea5fbc09410ef1062602b"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day4/verse03.mp3",
+   "asset": "day4__verse03.mp3",
+   "bytes": 191980,
+   "sha256": "c938cf5e2e2be89f52cda24ddf20802fedea069d1f2e96e2d59d98d4b562da8f"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day4/verse04.mp3",
+   "asset": "day4__verse04.mp3",
+   "bytes": 197413,
+   "sha256": "6350070eccc57781009a1b6759fa852a9edc420cf6fc56a24bced4d5fc57e3d0"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day4/verse05.mp3",
+   "asset": "day4__verse05.mp3",
+   "bytes": 191144,
+   "sha256": "b13a9c9de23ea8f2cdbb1f40f4aaee41777e96dd8a3a23955adc2334e7d17ddd"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day4/verse06.mp3",
+   "asset": "day4__verse06.mp3",
+   "bytes": 238791,
+   "sha256": "76d194a2066b1aac77172c13bfd0d18a4ef0a2b60f5c4ae75fb97a5a01f08557"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day4/verse07.mp3",
+   "asset": "day4__verse07.mp3",
+   "bytes": 197831,
+   "sha256": "96aa12dda4042cd5f2cd6c05cfc6840ffb2a1be62990e955fc75199b01aad606"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day4/verse08.mp3",
+   "asset": "day4__verse08.mp3",
+   "bytes": 196159,
+   "sha256": "bd9356d834cae8ebc97387e012216fe47cbaa59a0be27695563610768c77c7fe"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day4/verse09.mp3",
+   "asset": "day4__verse09.mp3",
+   "bytes": 188218,
+   "sha256": "5ab72055c132156f4883352d9ca53209b2eb599088e8467c37cfce1cb1824f6f"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day4/verse10.mp3",
+   "asset": "day4__verse10.mp3",
+   "bytes": 189890,
+   "sha256": "90873f5687ddbd18664859e5166140852f53fdd5eb274e516c9a8aa86e4ff2ca"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day4/verse11.mp3",
+   "asset": "day4__verse11.mp3",
+   "bytes": 191980,
+   "sha256": "1355c7b06b6d1fc8ad7a890b0f1fcb93db5ac3275b054658862675bd23b683e7"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day4/verse12.mp3",
+   "asset": "day4__verse12.mp3",
+   "bytes": 186964,
+   "sha256": "847a8100285b899a881b77f5cd31b2d9fbcbcc066e06205e89ff5d34880fbe74"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day4/verse13.mp3",
+   "asset": "day4__verse13.mp3",
+   "bytes": 199085,
+   "sha256": "062faf5cb0043ab6e00b5f4c8e2d0ac78313f1b873ff9eec61cc842c9726646f"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day4/verse14.mp3",
+   "asset": "day4__verse14.mp3",
+   "bytes": 409319,
+   "sha256": "4d2a2460e47e0a51360767b4d63ba2068745f65a125589ac5612fa7d18100cf4"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day5-kavacham-full-chant.wav",
+   "asset": "day5-kavacham-full-chant.wav",
+   "bytes": 17466324,
+   "sha256": "6123cdd2d22e7ac2c48bf6671d40767542a1c658da59a67b04b5293fda749877"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day5/verse01.mp3",
+   "asset": "day5__verse01.mp3",
+   "bytes": 223745,
+   "sha256": "e4c8fcbd2e51b56ec306d8d7d6de136257f649f95d3384e076ed51e1150b2498"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day5/verse02.mp3",
+   "asset": "day5__verse02.mp3",
+   "bytes": 192398,
+   "sha256": "658f37c1fe9d3cbb33003d9cfb7b41e1b6b04690ecd32c0f48d3576413235c10"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day5/verse03.mp3",
+   "asset": "day5__verse03.mp3",
+   "bytes": 196577,
+   "sha256": "af808a7fb0c23adc5e6ae62f1d78dddbf481ef298b0f3b483077d06c5e131b84"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day5/verse04.mp3",
+   "asset": "day5__verse04.mp3",
+   "bytes": 200339,
+   "sha256": "5c39096d9d1435c01a10beca5047860b12534472fc150d42279d6babdc25a134"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day5/verse05.mp3",
+   "asset": "day5__verse05.mp3",
+   "bytes": 193234,
+   "sha256": "b04811dd082b02dead7ca1ac73db4cbc4aada634aee50ed2e19db2c290d166fd"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day5/verse06.mp3",
+   "asset": "day5__verse06.mp3",
+   "bytes": 202429,
+   "sha256": "ae937e0d8e65dc4d39e1ab9ca9612decc524eb459bda04db11f4775ff9e6cc47"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day5/verse07.mp3",
+   "asset": "day5__verse07.mp3",
+   "bytes": 201175,
+   "sha256": "ee7b71395d14cec01e2c6de549935eef53365d12e55272d64a50b9fe882bf3e9"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day5/verse08.mp3",
+   "asset": "day5__verse08.mp3",
+   "bytes": 199503,
+   "sha256": "b4b31ee075d18e237e44634e6c6caf463eec9e4398edcc76033d22e95f396460"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day5/verse09.mp3",
+   "asset": "day5__verse09.mp3",
+   "bytes": 199503,
+   "sha256": "0cb211b179edd3755947c8f653a2433e48f6a63d3470b26849d5e3f051ff506e"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day5/verse10.mp3",
+   "asset": "day5__verse10.mp3",
+   "bytes": 196159,
+   "sha256": "1bbba370b77f90abaac4f0d5ffa69376913df9ddc03945dc80418a922fb85138"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day5/verse11.mp3",
+   "asset": "day5__verse11.mp3",
+   "bytes": 203265,
+   "sha256": "380fa3716cb019799296350ca8ecd53cefacc70561ae2f3403d5e435f099638b"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day5/verse12.mp3",
+   "asset": "day5__verse12.mp3",
+   "bytes": 204101,
+   "sha256": "fac8959b7ba67a0e69689aa7c4c6ca2e62db996b0bd678b951fe01877e61ff2b"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day5/verse13.mp3",
+   "asset": "day5__verse13.mp3",
+   "bytes": 208698,
+   "sha256": "cad53518427ed1f2e0f9dadb37e28351c720973ed6aa7cb323a38a8adba1bc4e"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day5/verse14.mp3",
+   "asset": "day5__verse14.mp3",
+   "bytes": 310262,
+   "sha256": "50647afa3d070e760a1e711f7d1e25a65f7b12e5e3830844c5ff71fac34c6020"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day6-kavacham-full-chant.wav",
+   "asset": "day6-kavacham-full-chant.wav",
+   "bytes": 17038554,
+   "sha256": "9c593975beaa3bb6fbd04d2618c2906783155d32a92bfb420bca32ede2cb283f"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day6/verse01.mp3",
+   "asset": "day6__verse01.mp3",
+   "bytes": 225417,
+   "sha256": "965a317750429dcee15195ca56369c25a8ccc7dce02b0a7c93ca1a5b3b4b2a6b"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day6/verse02.mp3",
+   "asset": "day6__verse02.mp3",
+   "bytes": 189472,
+   "sha256": "0d1fba542219cc11813a5a1e6ece9c06700a3c2fbb7338ccc470c90bb292c67b"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day6/verse03.mp3",
+   "asset": "day6__verse03.mp3",
+   "bytes": 186964,
+   "sha256": "562d937a08af30153e293fb5783b3bbe9b6ad673536fe10a75aaca6b86ad2fcf"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day6/verse04.mp3",
+   "asset": "day6__verse04.mp3",
+   "bytes": 190726,
+   "sha256": "1a1e88ffdd7786c92c89252da977086fd5e338e4d958fe9ba7b4b7ebb9aedf11"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day6/verse05.mp3",
+   "asset": "day6__verse05.mp3",
+   "bytes": 211206,
+   "sha256": "2f923d272c9fbce437c1c9bffbdd29926e27125924714c9a348dcec5ab3fc2f5"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day6/verse06.mp3",
+   "asset": "day6__verse06.mp3",
+   "bytes": 189890,
+   "sha256": "09c89a527e35ba8fceab76012b4dd81d891dd17b4cd63fe29d5c38fdf4a7d3a8"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day6/verse07.mp3",
+   "asset": "day6__verse07.mp3",
+   "bytes": 192398,
+   "sha256": "d663f9822f526a9354f525dbe6dad4f127038825dc9734d791aac30a42b70ecb"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day6/verse08.mp3",
+   "asset": "day6__verse08.mp3",
+   "bytes": 188218,
+   "sha256": "6a70ae721a769595b228f568e0fb9d51ea6357be60236d1ce1e421753a63c982"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day6/verse09.mp3",
+   "asset": "day6__verse09.mp3",
+   "bytes": 191144,
+   "sha256": "d9ac253e559dd1eadbd0dd9becbd9ad260492588753c684f572a8a0e52894930"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day6/verse10.mp3",
+   "asset": "day6__verse10.mp3",
+   "bytes": 194488,
+   "sha256": "6243a2e744d20567c115e1f4b507cb8a3383c007f4112f0bfb83482a8b32abc3"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day6/verse11.mp3",
+   "asset": "day6__verse11.mp3",
+   "bytes": 191144,
+   "sha256": "6fe7c0c01b10f1b1558bdbcd97dacdf33f27e8c3a4924bebb63874225751cc3a"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day6/verse12.mp3",
+   "asset": "day6__verse12.mp3",
+   "bytes": 190308,
+   "sha256": "72f502989516ee73c5dab3b5ae696b3e9265b7c67341543c5ef1e56c2031f0f1"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day6/verse13.mp3",
+   "asset": "day6__verse13.mp3",
+   "bytes": 191144,
+   "sha256": "d3cc08ec21b62214108f9a3f683c25381ea1b8c5e6d6e892fa89cb569f5a4e98"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/day6/verse14.mp3",
+   "asset": "day6__verse14.mp3",
+   "bytes": 386749,
+   "sha256": "e07e82bdfb2eb200a0c9a94cb6fe735326a20ed516f40cc3d5a08c7558d517be"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/verses/verse01.mp3",
+   "asset": "verses__verse01.mp3",
+   "bytes": 209116,
+   "sha256": "7517c8921995314345936f708e608b8a9b103646d6e608e9940dab5b350c0c9c"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/verses/verse02.mp3",
+   "asset": "verses__verse02.mp3",
+   "bytes": 184039,
+   "sha256": "2b71324cf4ce31d3c82e057b446f0568ad838df2172b407e1854c3609937f78f"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/verses/verse03.mp3",
+   "asset": "verses__verse03.mp3",
+   "bytes": 188636,
+   "sha256": "fb925065501f6fbf1d54d4c42129c028648dcb8825ae39acc4eb43b4f13f071d"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/verses/verse04.mp3",
+   "asset": "verses__verse04.mp3",
+   "bytes": 190726,
+   "sha256": "625b46ce8e48ed9d018fb5931292c4e418fa48fbdb96b1efcb45d8d7c07f385f"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/verses/verse05.mp3",
+   "asset": "verses__verse05.mp3",
+   "bytes": 202011,
+   "sha256": "dc573f847cd1a6c3b9482e84da7f317e449bacbd0e8b8bb72971f21aad4c39de"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/verses/verse06.mp3",
+   "asset": "verses__verse06.mp3",
+   "bytes": 191980,
+   "sha256": "10538286203b7215116e8acd72d5cff4609dbf66e01b991e72ade02ef7e5f3b0"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/verses/verse07.mp3",
+   "asset": "verses__verse07.mp3",
+   "bytes": 190308,
+   "sha256": "8f9fe60bb83e1a74502de1083e493c56f3a49fa5644647bc990b0c4a8b5c9004"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/verses/verse08.mp3",
+   "asset": "verses__verse08.mp3",
+   "bytes": 192398,
+   "sha256": "a2df4bbf292fd0da40913a810ce59855c9f57856689741e72fe1d5a576c67c46"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/verses/verse09.mp3",
+   "asset": "verses__verse09.mp3",
+   "bytes": 185710,
+   "sha256": "b0e35ef4a6644d2ea1b2e2badf72f37e22f225a79aa45539bdbffe74da293c92"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/verses/verse10.mp3",
+   "asset": "verses__verse10.mp3",
+   "bytes": 192398,
+   "sha256": "b053814a3242e36dfd9f5f8678236922841b1daa4fc060038c61a297fc607436"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/verses/verse11.mp3",
+   "asset": "verses__verse11.mp3",
+   "bytes": 195741,
+   "sha256": "0be725bf2c23c88e074bebd944deae7d3dc7491fa2caf2a88b73e01e2abf06a4"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/verses/verse12.mp3",
+   "asset": "verses__verse12.mp3",
+   "bytes": 190308,
+   "sha256": "320ff2234f38c1babf835967804fdf985f6f2dda4ac8a64b03ecfd0e73e57b01"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/verses/verse13.mp3",
+   "asset": "verses__verse13.mp3",
+   "bytes": 200757,
+   "sha256": "dee241197dc7edf6ceebb9856df80b6f020a0fdce8ca1b627a621f58c76e50d7"
+  },
+  {
+   "path": "rnd/kavacham-audio-alignment/dmv-kavacham/audio/verses/verse14.mp3",
+   "asset": "verses__verse14.mp3",
+   "bytes": 286439,
+   "sha256": "c9c5d319e99397700cb23c4d6c8a06aaeebecccd1705247f295ee73deb06a6ea"
+  }
+ ]
+}

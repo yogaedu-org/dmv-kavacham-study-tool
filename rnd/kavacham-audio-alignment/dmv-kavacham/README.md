@@ -3,6 +3,17 @@
 Audio + canonical text for the **Das Mahāvidyā Kavacham** (the protective armour invoking the ten
 wisdom goddesses across the directions and the body), gathered for a **DMV study tool**.
 
+## Audio is NOT in git (#48)
+
+The 87 clips under `audio/` (day1-6 verse clips, `audio/verses/`, two full-chant wavs; ~55 MB) are GitHub release assets, listed with size and sha256 in `audio-manifest.json`. Restore them before opening `player.html`:
+
+```bash
+python tools/fetch-rnd-audio.py          # download + verify every sha256
+python tools/fetch-rnd-audio.py --check  # verify only
+```
+
+`audio/` is gitignored. New audio: add it to the release (`gh release upload rnd-audio-2026-11 <file>`) and the manifest.
+
 ## What's here
 | file | committed? | notes |
 |---|---|---|

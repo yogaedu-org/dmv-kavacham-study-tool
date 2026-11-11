@@ -13,3 +13,6 @@ rnd/**/out/
 # estate sync 2026-10-23
 .claude/worktrees/
 graphify-out/
+
+# R&D audio lives in release assets (#48); restore with tools/fetch-rnd-audio.py
+rnd/**/audio/
