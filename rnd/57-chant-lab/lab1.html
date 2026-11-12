@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex">
+<link rel="icon" href="data:,">
+<title>Lab 1: record and play back</title>
+<script>try{var t=JSON.parse(localStorage.getItem('chantlab57:theme'));if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="stylesheet" href="css/lab.css">
+</head>
+<body data-page="lab1">
+<main>
+<div class="col">
+<h1>Lab 1: record and play back</h1>
+<p class="lede">Record yourself chanting a verse, or load a recording you already have, and hear it back. Nothing leaves this device.</p>
+<p>Read from the ribbon, press the reference play button to hear the verse first if you like, then press Record. This lab only records and shows the sound. <a href="lab2.html">Lab 2</a> compares it with the reference. The background is in <a href="ch2.html">chapter 2</a>.</p>
+</div>
+
+<div class="stage">
+  <div class="controls">
+    <label>Verse <select id="verse"></select></label>
+    <span class="badge" id="badge">looking for audio</span>
+  </div>
+  <div id="ribbon"></div>
+  <p class="small mute" style="margin:.2rem 0 0">The reference, to read along with</p>
+  <audio id="audio" controls preload="auto" aria-label="Reference recording of the verse"></audio>
+  <p class="status" id="status" role="status"></p>
+  <p class="summary" id="summary" data-summary></p>
+  <div data-fb="lab1.ribbon" data-label="the ribbon as a reading guide"></div>
+</div>
+
+<div class="stage">
+  <h2 style="margin-top:0">Your take</h2>
+  <div class="controls">
+    <button type="button" class="primary" id="rec">Record</button>
+    <button type="button" id="stop" disabled>Stop</button>
+    <label>or load a file <input type="file" id="file" accept="audio/*"></label>
+  </div>
+  <p class="status" id="recstatus" role="status"></p>
+  <p class="summary" id="micinfo"></p>
+  <audio id="takeaudio" controls hidden aria-label="Your take"></audio>
+  <canvas class="chart" id="wave" hidden role="img" aria-label="Waveform and loudness of your take, with pauses shaded"></canvas>
+  <p class="summary" id="wave-summary" data-summary></p>
+  <p id="next" hidden><a href="lab2.html" id="tolab2">Compare this take with the reference in Lab 2</a></p>
+  <div data-fb="lab1.record" data-label="the record button and its messages"></div>
+  <div data-fb="lab1.wave" data-label="the waveform of your take"></div>
+</div>
+
+<div class="col">
+<div class="cannot">
+  <h3>What this can and cannot tell you</h3>
+  <p>It can show that the recording worked, how long it is, whether the microphone settings the browser actually used are the ones we asked for, and where your pauses are. It cannot tell you anything about correctness: that is Lab 2. Your take is kept in this browser only; on an iPhone, Safari deletes stored data after 7 days without a visit, so keep a copy of anything you want to keep.</p>
+</div>
+<nav data-pager></nav>
+</div>
+</main>
+<script type="module" src="js/p-lab1.js"></script>
+</body>
+</html>

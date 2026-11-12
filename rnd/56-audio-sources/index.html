@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>TEST PAGE: swappable audio sources + record/compare (dmv #56 #57)</title>
+<style>
+  :root { --bg:#f6f4ef; --fg:#1d1b18; --mute:#6b655c; --card:#fff; --line:#ddd6c8; --acc:#8a2f1d; --ok:#2e6b3a; --warn:#9a6a00; --bad:#a4262c; --ref:#2b5d9b; --take:#c2631a; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg:#171513; --fg:#ece7de; --mute:#a39b8e; --card:#221f1c; --line:#3a352f; --acc:#e08a6f; --ok:#79c58a; --warn:#e0b34f; --bad:#ef7f84; --ref:#7fb0ea; --take:#f0a05c; } }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg); font:16px/1.45 system-ui, "Noto Sans Devanagari", sans-serif; }
+  main { max-width: 860px; margin: 0 auto; padding: 12px 16px 64px; }
+  .banner { background:var(--acc); color:#fff; padding:10px 16px; font-weight:600; }
+  .banner small { display:block; font-weight:400; opacity:.9; }
+  h1 { font-size:1.25rem; margin:.8rem 0 .2rem; } h2 { font-size:1.1rem; margin:1.4rem 0 .4rem; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:12px 14px; margin:10px 0; }
+  .row { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+  .mute { color:var(--mute); font-size:.9rem; }
+  fieldset { border:1px solid var(--line); border-radius:10px; padding:8px 12px; margin:10px 0; }
+  legend { padding:0 6px; font-weight:600; }
+  label.opt { margin-right:14px; white-space:nowrap; }
+  button, select, input[type=text] { font:inherit; padding:8px 14px; min-height:44px; border-radius:8px; border:1px solid var(--line); background:var(--card); color:var(--fg); }
+  button { cursor:pointer; } button.primary { background:var(--acc); color:#fff; border-color:var(--acc); }
+  button[disabled] { opacity:.5; cursor:default; }
+  .drop { border:2px dashed var(--line); border-radius:10px; padding:12px; text-align:center; margin-top:8px; }
+  .drop.over { border-color:var(--acc); background:rgba(138,47,29,.08); }
+  .verse .dev { font-size:1.15rem; line-height:1.7; white-space:pre-line; }
+  .verse .iast { color:var(--mute); white-space:pre-line; font-size:.95rem; }
+  .verse header { display:flex; gap:10px; align-items:center; justify-content:space-between; flex-wrap:wrap; }
+  .num { font-weight:700; }
+  .played { font-size:.9rem; margin-top:6px; min-height:1.3em; } .played.err { color:var(--bad); } .played[data-source] { color:var(--ok); }
+  .chip { display:inline-block; padding:2px 9px; border-radius:99px; font-size:.85rem; border:1px solid var(--line); }
+  .chip.hi { color:var(--ok); border-color:var(--ok); } .chip.mid { color:var(--warn); border-color:var(--warn); } .chip.lo { color:var(--bad); border-color:var(--bad); }
+  .rnd { border:2px solid var(--warn); border-radius:12px; padding:4px 14px 14px; margin-top:28px; }
+  .rnd > h2 { margin-top:.6rem; }
+  .caveat { border-left:4px solid var(--warn); background:rgba(154,106,0,.1); padding:8px 12px; border-radius:6px; font-size:.92rem; }
+  canvas { width:100%; height:170px; background:var(--card); border:1px solid var(--line); border-radius:8px; display:block; }
+  .tablewrap { overflow-x:auto; } table { border-collapse:collapse; width:100%; font-size:.9rem; }
+  th, td { padding:4px 8px; border-bottom:1px solid var(--line); text-align:left; white-space:nowrap; } tr.flag td { background:rgba(164,38,44,.12); }
+  .sw { display:inline-block; width:12px; height:12px; border-radius:2px; vertical-align:-1px; }
+  pre { white-space:pre-wrap; font-size:.85rem; }
+  audio { width:100%; }
+</style>
+</head>
+<body>
+<div class="banner">TEST PAGE, not part of the app. <small>R&amp;D side page for #56 (swappable audio source) and #57 (record and compare). Nothing here is verified; the live app does not link to it.</small></div>
+<main>
+  <h1>Verse player: one swappable audio source</h1>
+  <p class="mute" id="setline">Loading...</p>
+  <div class="card" id="overall"></div>
+
+  <fieldset>
+    <legend>Audio source</legend>
+    <label class="opt"><input type="radio" name="mode" value="auto" checked> auto (custom, offline, cloud)</label>
+    <label class="opt"><input type="radio" name="mode" value="cloud"> cloud</label>
+    <label class="opt"><input type="radio" name="mode" value="offline"> offline</label>
+    <label class="opt"><input type="radio" name="mode" value="custom"> custom</label>
+    <div class="mute" id="srcinfo"></div>
+    <div class="drop" id="drop">
+      Custom files: drop audio files here or
+      <input type="file" id="files" accept="audio/*" multiple>
+      <div class="mute">Matched to verses by the number in the file name (<code>verse-07.mp3</code>, <code>07.wav</code>). Kept for this session only.</div>
+      <div id="customlist" class="mute" aria-live="polite"></div>
+    </div>
+    <div class="row" style="margin-top:8px">
+      <label for="cfgurl" class="mute">Manifest:</label>
+      <input type="text" id="cfgurl" size="34" aria-label="manifest URL">
+      <button id="cfgload" type="button">Load manifest</button>
+    </div>
+  </fieldset>
+
+  <div id="verses"></div>
+  <audio id="player" controls preload="none"></audio>
+
+  <section class="rnd" id="rnd57">
+    <h2>R&amp;D (#57): record your chanting and compare it to the reference</h2>
+    <p class="mute">Separate from the player above. Stage 1 only: no model download, everything runs in this page. Reference = the Day 2 clip of the chosen verse, read through the same audio source.</p>
+    <div class="row">
+      <label for="takeverse">Verse</label>
+      <select id="takeverse" aria-label="verse to record"></select>
+      <button id="rec" class="primary" type="button">Record</button>
+      <button id="recstop" type="button" disabled>Stop</button>
+      <label class="mute" style="cursor:pointer">or a file <input type="file" id="takefile" accept="audio/*"></label>
+    </div>
+    <p class="mute" id="micinfo" aria-live="polite"></p>
+    <audio id="takeaudio" controls hidden></audio>
+    <div class="row" style="margin-top:8px"><button id="analyse" type="button" disabled>Compare to the reference</button><span id="status" class="mute" aria-live="polite"></span></div>
+    <div id="result" hidden>
+      <h3 style="margin-bottom:4px">Result</h3>
+      <div id="overallscore" class="card"></div>
+      <p class="mute"><span class="sw" style="background:var(--ref)"></span> reference (Day 2) &nbsp; <span class="sw" style="background:var(--take)"></span> your take, stretched onto the reference timeline &nbsp; red band = flagged akshara</p>
+      <canvas id="overlay" aria-label="waveform overlay of the reference and your take"></canvas>
+      <div class="tablewrap"><table id="aktable"></table></div>
+    </div>
+    <div class="row" style="margin-top:12px"><button id="calib" type="button">Run the calibration check</button><span id="calibstatus" class="mute" aria-live="polite"></span></div>
+    <pre id="calibout"></pre>
+    <div class="caveat" id="caveat">
+      <strong>What this can and cannot tell you</strong>
+      <ul>
+        <li><b>Hypothesis:</b> the timing ratio, spectral mismatch and pitch deviation below are computed from a speech-style alignment (MFCC and DTW) of your take against one reference clip. None of the thresholds was fitted to human judgements of right and wrong chanting.</li>
+        <li><b>Hypothesis:</b> a flag means "this akshara differs from the Day 2 clip", not "you chanted it wrongly". A different but valid way of chanting, a different breath or a different mic can flag too.</li>
+        <li>The confidence beside each number is an estimate of how much evidence it rests on (how long the akshara is, how many voiced frames, how well it matched), not a probability.</li>
+        <li>Pitch is shown relative to your own key: the whole-take offset is removed so a different voice is not an error. A real octave change is not told apart from a key change.</li>
+        <li>Verse 14: its closing line repeats a variable number of times, so only line 1 is compared.</li>
+        <li>The calibration check below is a smoke test on synthetic edits of the reference itself, not a measure of how well it works on real mistakes.</li>
+      </ul>
+    </div>
+  </section>
+</main>
+<script type="module" src="page.js"></script>
+</body>
+</html>

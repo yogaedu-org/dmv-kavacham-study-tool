@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex">
+<link rel="icon" href="data:,">
+<title>Chapter 7: How well it works so far</title>
+<script>try{var t=JSON.parse(localStorage.getItem('chantlab57:theme'));if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="stylesheet" href="css/lab.css">
+</head>
+<body data-page="ch7">
+<main>
+<div class="col">
+<h1>How well it works so far</h1>
+<p class="lede">Well on the one voice tested, and unknown on every other. Here is the test and what it showed.</p>
+
+<h2>The planted-slip test</h2>
+<p>We took Day 5, verses 1 to 13, and damaged each in two ways at a random spot: two syllables left out, or two syllables replaced by the two that come six later. That made 26 slips. The 13 untouched takes were kept as clean controls, and Day 2 was the reference. Both checks were asked: which syllable do you mark most strongly?</p>
+
+<h2>What happened</h2>
+<p>Both put their strongest mark on the slip almost every time: 26 times out of 26 for the quick check and 25 out of 26 for the deeper check.</p>
+<p>But a mark on the right syllable is not the same as a score that stands out. For the quick check, only 19 of the 26 slips scored higher than the highest score any clean take got. For the other seven you could not have told from the score alone that anything was wrong. That is why every mark in this book is a lead to listen to, not a verdict.</p>
+
+<h2>Look at each verse</h2>
+<p>In the pictures each verse has a clean take (hollow circle), an omission (round dot) and a substitution (diamond). The dashed line is the highest score a clean take got. A slip is easy to separate when its dot is far above the line.</p>
+</div>
+
+<div class="stage">
+  <canvas class="chart" id="splice1" role="img" aria-label="Quick check scores per verse for clean takes and planted slips"></canvas>
+  <p class="summary" id="splice1-summary" data-summary></p>
+  <canvas class="chart" id="splice2" role="img" aria-label="Deeper check scores per verse for clean takes and planted slips" style="margin-top:1rem"></canvas>
+  <p class="summary" id="splice2-summary" data-summary></p>
+  <div data-fb="ch7.charts" data-label="the planted-slip charts"></div>
+</div>
+
+<div class="col">
+<h2>Where the slip was</h2>
+<p>Pick a verse and a kind of slip. The ribbon marks the syllables that were damaged and the syllable the chosen check marked most strongly. The timings are the reference's; the damaged take was Day 5.</p>
+</div>
+
+<div class="stage">
+  <div class="controls">
+    <label>Verse <select id="verse"></select></label>
+    <label>Slip <select id="kind"><option value="omission">omission</option><option value="substitution">substitution</option></select></label>
+    <label>Check <select id="tier"><option value="dtw">Quick check</option><option value="zipa">Deeper check</option></select></label>
+    <span class="badge" id="badge">looking for audio</span>
+  </div>
+  <div id="ribbon"></div>
+  <audio id="audio" controls preload="auto" aria-label="Reference recording of the verse"></audio>
+  <p class="status" id="status" role="status"></p>
+  <p class="summary" id="summary" data-summary></p>
+  <p class="summary" id="slip-summary" data-summary></p>
+  <div data-fb="ch7.slips" data-label="the slip locator"></div>
+</div>
+
+<div class="col">
+<div class="cannot">
+  <h3>What this can and cannot tell you</h3>
+  <p>It can tell you how the method did on slips planted into one chanter's takes. It cannot tell you how it will do on your voice, or on a real mistake rather than a splice. The limits are in <a href="ch8.html">chapter 8</a>.</p>
+</div>
+<div class="tryit">
+  <h2>Try it</h2>
+  <p>Plant a slip yourself and watch it get caught or missed, with a running tally: <a href="lab3.html">open Lab 3</a>.</p>
+</div>
+
+<details class="deep">
+<summary>For the technically curious</summary>
+<div class="tablewrap"><table>
+<thead><tr><th></th><th>Quick check (DTW)</th><th>Deeper check (ZIPA)</th></tr></thead>
+<tbody>
+<tr><td>Top flag within one before to two after the slip</td><td>omissions 13 of 13, substitutions 13 of 13</td><td>omissions 12 of 13, substitutions 13 of 13</td></tr>
+<tr><td>Also above the worst clean take</td><td>11 of 13 and 8 of 13 (worst clean take 4.49, median 3.17)</td><td>0 of 26: one clean take spikes at 6.87 nats on its first syllable. Above the second-worst clean take (2.79): 12 of 13 and 8 of 13</td></tr>
+<tr><td>Time</td><td>0.22 s per verse pair (NumPy)</td><td>0.55 s per 13.2 s verse, one thread, native</td></tr>
+</tbody></table></div>
+<p>Neither time was measured in the browser. Splice positions used the seed 20261112. Sources: <a href="sources.html#r1">report 1</a>, "Local evidence", measured 2026-11-12; per-verse numbers in <a href="sources.html#p1">dtw_probe.json</a> and <a href="sources.html#p2">zipa_gop_probe.json</a>.</p>
+</details>
+<nav data-pager></nav>
+</div>
+</main>
+<script type="module" src="js/p-ch7.js"></script>
+</body>
+</html>

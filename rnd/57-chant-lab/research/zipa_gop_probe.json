@@ -1,0 +1,448 @@
+{
+ "summary": {
+  "omission": {
+   "n": 13,
+   "top1": 12,
+   "above_max_control": 0
+  },
+  "substitution": {
+   "n": 13,
+   "top1": 13,
+   "above_max_control": 0
+  },
+  "control_top_z_max": 6.871207873026529,
+  "control_top_z_median": 1.339572270711263,
+  "wall_s": 31.231309700000565
+ },
+ "rows": [
+  {
+   "verse": 1,
+   "kind": "control",
+   "slip": [
+    22,
+    23
+   ],
+   "top": 0,
+   "top_z": 0.8368873596191406,
+   "hit": false
+  },
+  {
+   "verse": 1,
+   "kind": "omission",
+   "slip": [
+    22,
+    23
+   ],
+   "top": 24,
+   "top_z": 5.669173240661621,
+   "hit": true
+  },
+  {
+   "verse": 1,
+   "kind": "substitution",
+   "slip": [
+    22,
+    23
+   ],
+   "top": 23,
+   "top_z": 2.57151206334432,
+   "hit": true
+  },
+  {
+   "verse": 2,
+   "kind": "control",
+   "slip": [
+    19,
+    20
+   ],
+   "top": 0,
+   "top_z": 2.2121105194091797,
+   "hit": false
+  },
+  {
+   "verse": 2,
+   "kind": "omission",
+   "slip": [
+    19,
+    20
+   ],
+   "top": 20,
+   "top_z": 4.430919647216797,
+   "hit": true
+  },
+  {
+   "verse": 2,
+   "kind": "substitution",
+   "slip": [
+    19,
+    20
+   ],
+   "top": 20,
+   "top_z": 4.27705192565918,
+   "hit": true
+  },
+  {
+   "verse": 3,
+   "kind": "control",
+   "slip": [
+    11,
+    12
+   ],
+   "top": 0,
+   "top_z": 2.791990439097086,
+   "hit": false
+  },
+  {
+   "verse": 3,
+   "kind": "omission",
+   "slip": [
+    11,
+    12
+   ],
+   "top": 11,
+   "top_z": 4.109725475311279,
+   "hit": true
+  },
+  {
+   "verse": 3,
+   "kind": "substitution",
+   "slip": [
+    11,
+    12
+   ],
+   "top": 11,
+   "top_z": 2.323899030685425,
+   "hit": true
+  },
+  {
+   "verse": 4,
+   "kind": "control",
+   "slip": [
+    4,
+    5
+   ],
+   "top": 8,
+   "top_z": 0.538470188776652,
+   "hit": false
+  },
+  {
+   "verse": 4,
+   "kind": "omission",
+   "slip": [
+    4,
+    5
+   ],
+   "top": 6,
+   "top_z": 5.252988755702972,
+   "hit": true
+  },
+  {
+   "verse": 4,
+   "kind": "substitution",
+   "slip": [
+    4,
+    5
+   ],
+   "top": 5,
+   "top_z": 3.7538147568702698,
+   "hit": true
+  },
+  {
+   "verse": 5,
+   "kind": "control",
+   "slip": [
+    21,
+    22
+   ],
+   "top": 25,
+   "top_z": 0.6857840220133463,
+   "hit": false
+  },
+  {
+   "verse": 5,
+   "kind": "omission",
+   "slip": [
+    21,
+    22
+   ],
+   "top": 21,
+   "top_z": 4.650230884552002,
+   "hit": true
+  },
+  {
+   "verse": 5,
+   "kind": "substitution",
+   "slip": [
+    21,
+    22
+   ],
+   "top": 21,
+   "top_z": 2.7140567302703857,
+   "hit": true
+  },
+  {
+   "verse": 6,
+   "kind": "control",
+   "slip": [
+    9,
+    10
+   ],
+   "top": 20,
+   "top_z": 1.0225247542063394,
+   "hit": false
+  },
+  {
+   "verse": 6,
+   "kind": "omission",
+   "slip": [
+    9,
+    10
+   ],
+   "top": 9,
+   "top_z": 3.303089916706085,
+   "hit": true
+  },
+  {
+   "verse": 6,
+   "kind": "substitution",
+   "slip": [
+    9,
+    10
+   ],
+   "top": 10,
+   "top_z": 2.6392168998718266,
+   "hit": true
+  },
+  {
+   "verse": 7,
+   "kind": "control",
+   "slip": [
+    13,
+    14
+   ],
+   "top": 8,
+   "top_z": 1.339572270711263,
+   "hit": false
+  },
+  {
+   "verse": 7,
+   "kind": "omission",
+   "slip": [
+    13,
+    14
+   ],
+   "top": 14,
+   "top_z": 6.421555201212565,
+   "hit": true
+  },
+  {
+   "verse": 7,
+   "kind": "substitution",
+   "slip": [
+    13,
+    14
+   ],
+   "top": 14,
+   "top_z": 6.654156684875488,
+   "hit": true
+  },
+  {
+   "verse": 8,
+   "kind": "control",
+   "slip": [
+    19,
+    20
+   ],
+   "top": 0,
+   "top_z": 6.871207873026529,
+   "hit": false
+  },
+  {
+   "verse": 8,
+   "kind": "omission",
+   "slip": [
+    19,
+    20
+   ],
+   "top": 0,
+   "top_z": 6.563286145528158,
+   "hit": false
+  },
+  {
+   "verse": 8,
+   "kind": "substitution",
+   "slip": [
+    19,
+    20
+   ],
+   "top": 20,
+   "top_z": 3.191846211751302,
+   "hit": true
+  },
+  {
+   "verse": 9,
+   "kind": "control",
+   "slip": [
+    5,
+    6
+   ],
+   "top": 15,
+   "top_z": 0.07969490687052411,
+   "hit": false
+  },
+  {
+   "verse": 9,
+   "kind": "omission",
+   "slip": [
+    5,
+    6
+   ],
+   "top": 6,
+   "top_z": 4.549476146697998,
+   "hit": true
+  },
+  {
+   "verse": 9,
+   "kind": "substitution",
+   "slip": [
+    5,
+    6
+   ],
+   "top": 6,
+   "top_z": 4.741517782211304,
+   "hit": true
+  },
+  {
+   "verse": 10,
+   "kind": "control",
+   "slip": [
+    5,
+    6
+   ],
+   "top": 8,
+   "top_z": 0.8383016288280487,
+   "hit": false
+  },
+  {
+   "verse": 10,
+   "kind": "omission",
+   "slip": [
+    5,
+    6
+   ],
+   "top": 6,
+   "top_z": 5.6365227699279785,
+   "hit": true
+  },
+  {
+   "verse": 10,
+   "kind": "substitution",
+   "slip": [
+    5,
+    6
+   ],
+   "top": 6,
+   "top_z": 5.246889511744182,
+   "hit": true
+  },
+  {
+   "verse": 11,
+   "kind": "control",
+   "slip": [
+    4,
+    5
+   ],
+   "top": 8,
+   "top_z": 1.423854112625122,
+   "hit": false
+  },
+  {
+   "verse": 11,
+   "kind": "omission",
+   "slip": [
+    4,
+    5
+   ],
+   "top": 6,
+   "top_z": 4.755388180414836,
+   "hit": true
+  },
+  {
+   "verse": 11,
+   "kind": "substitution",
+   "slip": [
+    4,
+    5
+   ],
+   "top": 5,
+   "top_z": 3.609864870707194,
+   "hit": true
+  },
+  {
+   "verse": 12,
+   "kind": "control",
+   "slip": [
+    9,
+    10
+   ],
+   "top": 13,
+   "top_z": 2.046112259229024,
+   "hit": false
+  },
+  {
+   "verse": 12,
+   "kind": "omission",
+   "slip": [
+    9,
+    10
+   ],
+   "top": 10,
+   "top_z": 4.899352590243021,
+   "hit": true
+  },
+  {
+   "verse": 12,
+   "kind": "substitution",
+   "slip": [
+    9,
+    10
+   ],
+   "top": 9,
+   "top_z": 2.725886265436808,
+   "hit": true
+  },
+  {
+   "verse": 13,
+   "kind": "control",
+   "slip": [
+    17,
+    18
+   ],
+   "top": 23,
+   "top_z": 1.5198822021484375,
+   "hit": false
+  },
+  {
+   "verse": 13,
+   "kind": "omission",
+   "slip": [
+    17,
+    18
+   ],
+   "top": 17,
+   "top_z": 6.29448390007019,
+   "hit": true
+  },
+  {
+   "verse": 13,
+   "kind": "substitution",
+   "slip": [
+    17,
+    18
+   ],
+   "top": 18,
+   "top_z": 3.4797977209091187,
+   "hit": true
+  }
+ ]
+}

@@ -16,3 +16,11 @@ graphify-out/
 
 # R&D audio lives in release assets (#48); restore with tools/fetch-rnd-audio.py
 rnd/**/audio/
+
+# #56 side page: local audio is never committed (#48)
+rnd/56-audio-sources/local-audio/
+__pycache__/
+.pytest_cache/
+
+# #57 chant lab: local audio is never committed (#48)
+rnd/57-chant-lab/local-audio/

@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex">
+<link rel="icon" href="data:,">
+<title>Chapter 1: What "correct" can mean for a chant</title>
+<script>try{var t=JSON.parse(localStorage.getItem('chantlab57:theme'));if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="stylesheet" href="css/lab.css">
+</head>
+<body data-page="ch1">
+<main>
+<div class="col">
+<h1>What "correct" can mean for a chant</h1>
+<p class="lede">Ask three chanters whether a verse was chanted correctly and you may get three different questions. Here are the three a machine can work with, and what it cannot do.</p>
+
+<h2>Three things you can check</h2>
+<ul>
+  <li><b>Which syllables.</b> Every one is there, in order, and sounds like itself. The slips are an omission, a substitution (<i>tha</i> for <i>ta</i>, or <i>&#347;</i> for <i>s</i>) and an insertion.</li>
+  <li><b>How long.</b> A pause in the wrong place, a rushed line or a held syllable all show up as timing.</li>
+  <li><b>What pitch.</b> How the voice moves, measured against the key you chose, not against a fixed note (chapter 4).</li>
+</ul>
+
+<h2>What a machine can and cannot hear</h2>
+<p>It can compare your sound with a reference take, syllable by syllable, and say where it differs and how much evidence that rests on. It cannot know what you meant to chant, or that the reference is right: the written verse is assumed to be what the chanter intended. It was built on speech, not chanting. And a difference that shows up on most days may be the tool's habit or simply your way of saying that syllable; only you can tell. So every mark in this book is a <a class="term" href="glossary.html#hypothesis">hypothesis</a> until a listener listens.</p>
+
+<h2>The evidence we start from</h2>
+<p>One chanter recorded all 14 verses on each of six days. Three automatic checks compared every take with the written verse, and the results were combined into a confidence for each line. Day 2 came out best, so it is the reference here. The scores are estimates, not measured probabilities.</p>
+</div>
+
+<div class="stage">
+  <canvas class="chart" id="days" role="img" aria-label="Bar chart of mean confidence per day"></canvas>
+  <p class="summary" id="days-summary" data-summary></p>
+  <div data-fb="ch1.days" data-label="the day-by-day chart"></div>
+</div>
+
+<div class="col">
+<h2>Hear it</h2>
+<p>Pick a verse. The first player is Day 2, and its ribbon lights up as it plays. The second is Day 5 of the same verse. Listen for where they differ.</p>
+</div>
+
+<div class="stage">
+  <div class="controls"><label>Verse <select id="verse"></select></label><span class="badge" id="badge">looking for audio</span></div>
+  <div id="ribbon"></div>
+  <p class="small mute" style="margin:.2rem 0 0">Day 2, the reference</p>
+  <audio id="audio" controls preload="auto" aria-label="Day 2 reference recording"></audio>
+  <p class="small mute" style="margin:.4rem 0 0">Day 5, the same verse</p>
+  <audio id="audio2" controls preload="none" aria-label="Day 5 recording of the same verse"></audio>
+  <p class="status" id="status" role="status"></p>
+  <p class="summary" id="summary" data-summary></p>
+  <div data-fb="ch1.sample" data-label="the two-day sample"></div>
+</div>
+
+<div class="col">
+<div class="tryit">
+  <h2>Try it</h2>
+  <p>Chant the verse you just heard and listen to yourself next to it: <a href="lab1.html">open Lab 1</a> to record a take.</p>
+</div>
+
+<details class="deep">
+<summary>For the technically curious</summary>
+<p>The three automatic checks were a forced aligner (torchaudio MMS_FA), a letter reader on the same pass, and faster-whisper large-v2. A syllable is flagged at 0.4 times or less, or 2.0 times or more, of its usual length. A pause is 0.30 seconds or longer. Day 1 verses 1 and 2 were cut wrongly in the recording and are not scored. Day 2: mean 89.6 with every line at 70 or more in all 14 verses; Day 5 and Day 6: 85.5; Day 1: 86.1 over 11 scored verses; Day 3: 85.3; Day 4: 80.2. The weights behind the scores were chosen by the analyst, not fitted, because no human-labelled correct and incorrect takes exist (<a href="sources.html#r3">method</a>, 2026-11-11; slip types and thresholds, <a href="sources.html#r1">report 1</a>).</p>
+</details>
+<nav data-pager></nav>
+</div>
+</main>
+<script type="module" src="js/p-ch1.js"></script>
+</body>
+</html>

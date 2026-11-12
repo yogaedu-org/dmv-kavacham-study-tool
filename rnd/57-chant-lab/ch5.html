@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex">
+<link rel="icon" href="data:,">
+<title>Chapter 5: How apps score pronunciation</title>
+<script>try{var t=JSON.parse(localStorage.getItem('chantlab57:theme'));if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="stylesheet" href="css/lab.css">
+</head>
+<body data-page="ch5">
+<main>
+<div class="col">
+<h1>How apps score pronunciation</h1>
+<p class="lede">Language apps have scored pronunciation for years. This is a short tour of the idea behind it and of what the products say about themselves.</p>
+
+<h2>The core idea</h2>
+<p>A speech model listens to the sound and says, for every moment, how likely each speech sound is. The classic score, goodness of pronunciation or GOP, asks one question of each syllable: how clearly was the sound that should be there actually heard, compared with the best competing sound? A low score means the model heard something else.</p>
+<p>Detecting a learner's mistakes this way is hard even for English. The research systems the reports found get roughly six or seven in ten right on that kind of test, where ten in ten would be perfect, so they find many mistakes but not all, and raise some false alarms. The exact figures are below. Treat any such score as a lead to listen to.</p>
+
+<h2>Walk through a score</h2>
+<p>Step through how a score is made, with the verse on the ribbon below.</p>
+</div>
+
+<div class="stage">
+  <ol class="pipe" id="pipe" aria-label="Steps of a pronunciation score">
+    <li data-step="0"><b>Your recording</b></li>
+    <li data-step="1"><b>The model listens</b></li>
+    <li data-step="2"><b>Match to the verse</b></li>
+    <li data-step="3"><b>A score per syllable</b></li>
+  </ol>
+  <p class="pipe-text" id="pipe-text" role="status"></p>
+  <div class="controls"><button type="button" id="back">Back</button><button type="button" class="primary" id="next">Next step</button></div>
+  <div id="ribbon"></div>
+  <audio id="audio" controls preload="auto" aria-label="Reference recording of verse 1"></audio>
+  <p class="status" id="status" role="status"></p>
+  <p class="summary" id="summary" data-summary></p>
+  <div data-fb="ch5.pipeline" data-label="the step-by-step score"></div>
+</div>
+
+<div class="col">
+<h2>What good means for a chant</h2>
+<p>Borrowing from the apps: accuracy of each syllable, completeness (nothing left out or added), fluency (pauses and pace) and prosody (the pitch contour). None of the products below lists Sanskrit.</p>
+
+<h2>What the products say</h2>
+<ul>
+  <li><b>Duolingo.</b> No public description of the app's speaking scorer was found. Its English test uses a model trained on thousands of human-rated answers, and it agrees well with experts (<a href="sources.html#s12">source</a>).</li>
+  <li><b>Azure.</b> Scores for accuracy, fluency, completeness and, for US English only, prosody, and it names omissions, insertions and mispronunciations (<a href="sources.html#s14">source</a>).</li>
+  <li><b>Speechace.</b> A score for each sound, syllable and word, and for fluency (<a href="sources.html#s15">source</a>).</li>
+  <li><b>ELSA.</b> Claims high agreement with human levels but has not published how it was measured (<a href="sources.html#s16">source</a>).</li>
+</ul>
+<p>Closer to chant: Tarteel reports missed, wrong and extra words in Quran recitation and is closed (<a href="sources.html#s17">source</a>); Quran-muaalem is an open model built for recitation, the closest analogue found (<a href="sources.html#s18">source</a>). No open-source browser tool for Vedic chant was found.</p>
+
+<div class="cannot">
+  <h3>What this can and cannot tell you</h3>
+  <p>It tells you what exists and what the products publish. It cannot tell you that any of it works for Sanskrit: none of these vendors lists it.</p>
+</div>
+<div class="tryit">
+  <h2>Try it</h2>
+  <p>Next, the sound model this book would use for Sanskrit, and what it hears: <a href="ch6.html">chapter 6</a>.</p>
+</div>
+
+<details class="deep">
+<summary>For the technically curious</summary>
+<p>Two recent papers adapt GOP to CTC models: one without a separate alignment step (<a href="sources.html#s8">Cao et al., arXiv 2507.16838</a>, July 2025) and one limited to plausible confusions (<a href="sources.html#s9">Parikh et al., Interspeech 2025</a>). On English learners' speech a wav2vec2 system reached an F1 of 0.610 (<a href="sources.html#s10">Xu et al. 2021</a>) and a training-free retrieval method reported 69.6 % (<a href="sources.html#s11">arXiv 2511.20107</a>, November 2025); the splits differ, so these are not a leaderboard. The Duolingo English Test scorer has a Spearman correlation of 0.82 with experts and beat GOP, Whisper confidence and a Microsoft tool, by the authors' own comparison (<a href="sources.html#s13">paper</a>). Azure's accuracy is per sound, word and text, and per syllable for US English only (<a href="sources.html#s14">docs, updated 2026-07-03</a>). ELSA claims 93.88 % agreement within one level. Speechace reports fluency as words correct per minute, pauses and articulation rate. Quran-muaalem: 848 hours, Tajweed F1 75.8 % (<a href="sources.html#s18">2025-08-27</a>). OpenPronounce uses wav2vec2 plus DTW for English (<a href="sources.html#s19">source</a>).</p>
+</details>
+<nav data-pager></nav>
+</div>
+</main>
+<script type="module" src="js/p-ch5.js"></script>
+</body>
+</html>
