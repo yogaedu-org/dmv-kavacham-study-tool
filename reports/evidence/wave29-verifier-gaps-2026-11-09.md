@@ -47,7 +47,7 @@ It stays class-C-style prepared-only: KA publishes it (or not) himself; PR #49 m
 ## 5. Process notes from the verifier (acknowledged, not code)
 
 - **Scratch outside the repo (global §8).** Launch 1 wrote `/tmp/dmv43.md` and `/tmp/check-stamp.py`; launch 2 wrote
-  `/tmp/b.md` (issue body). On this machine they resolve to `C:/Users/kaanchan/AppData/Local/Temp/{dmv43.md,check-stamp.py,b.md}`
+  `/tmp/b.md` (issue body). On this machine they resolve to `<temp-dir>/{dmv43.md,check-stamp.py,b.md}`
   (verified present, 1282 / 2197 / 740 bytes). Content is an issue/comment body and a script copy, no secrets. This run
   does not delete them (outside the managed area); KA may delete them.
 - **Denied tool call not reported (launch 2).** A Bash heredoc write plus `rm -rf` of a scratch dir was permission-denied;

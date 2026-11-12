@@ -28,6 +28,6 @@ exit=0
 $ node <worktree@2e510ac>/tests/sw-fetch.mjs
 ok sw-fetch: non-OK navigation not cached; offline miss returns a Response
 exit=0
-$ C:/Users/kaanchan/.pyenv/pyenv-win/versions/3.12.2/python3.exe <worktree@2e510ac>/tools/check-doc-links.py
+$ <python3.12> <worktree@2e510ac>/tools/check-doc-links.py
 broken=0 checked=43
 exit=0
