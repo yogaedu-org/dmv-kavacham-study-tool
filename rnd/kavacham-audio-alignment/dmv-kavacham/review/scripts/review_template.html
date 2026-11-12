@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>__TITLE__ chant review</title>
+<link rel="stylesheet" href="../shared/chant-nav.css">
+<script src="../shared/chant-nav.js" data-page="review"></script>
+<style>
+:root{--bg:#fbfaf7;--fg:#1d1b18;--mut:#6b655c;--card:#ffffff;--line:#ddd6c9;--accent:#8a3b12;
+--good:#cfe8cf;--good2:#e4f2d6;--warn:#fbe3a6;--bad:#f3b3a6;--gray:#d9d9d9;--ink-bad:#b3261e;--ink-warn:#9a6a00;--ink-gray:#666}
+@media (prefers-color-scheme:dark){:root{--bg:#171512;--fg:#ece7de;--mut:#a39b8d;--card:#201d19;--line:#3a352d;--accent:#e8a46f;
+--good:#27472b;--good2:#33482a;--warn:#5a4712;--bad:#6b2a20;--gray:#3b3b3b;--ink-bad:#ff8f84;--ink-warn:#f0c15a;--ink-gray:#aaa}}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+body{padding:0 16px 120px;max-width:1100px;margin:0 auto;overflow-wrap:anywhere}
+h1{font-size:1.5rem;margin:20px 0 4px}h2{font-size:1.15rem;margin:0 0 8px}h3{font-size:1rem;margin:12px 0 4px}
+p{margin:6px 0}.mut{color:var(--mut)}.small{font-size:.86rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:14px 0}
+.rec{border-left:6px solid var(--accent)}
+.big{font-size:1.25rem;font-weight:650}
+.caveat{border-left:6px solid var(--ink-warn)}
+button{font:inherit;cursor:pointer;border:1px solid var(--line);background:var(--card);color:var(--fg);border-radius:8px;padding:6px 10px;min-height:38px}
+button:hover{border-color:var(--accent)}button:focus-visible,summary:focus-visible,a:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.btn-play{background:var(--accent);color:#fff;border-color:var(--accent)}
+.vbtn[aria-pressed=true].right{background:var(--good);border-color:#4a8a4a}
+.vbtn[aria-pressed=true].wrong{background:var(--bad);border-color:#b34a3a}
+.vbtn[aria-pressed=true].unsure{background:var(--warn);border-color:#b8891a}
+.gridwrap{overflow-x:auto}
+table.grid{border-collapse:separate;border-spacing:3px;width:100%;table-layout:fixed}
+.grid th:first-child{width:34px;white-space:nowrap;text-align:left}
+.grid th{font-weight:600;font-size:.85rem;color:var(--mut);padding:2px}
+.grid td{padding:0}
+.cell{display:block;width:100%;min-height:46px;border-radius:8px;border:2px solid transparent;text-align:center;padding:2px 1px;font-size:.72rem;line-height:1.2}
+.cell b{font-size:.95rem}
+.c-clean{background:var(--good)}.c-notes{background:var(--good2)}.c-warn{background:var(--warn)}.c-bad{background:var(--bad)}
+.c-defect{background:repeating-linear-gradient(45deg,var(--gray),var(--gray) 6px,transparent 6px,transparent 12px);border-color:var(--gray)}
+.plan{border-color:var(--fg)!important;box-shadow:0 0 0 2px var(--accent)}
+.legend span{display:inline-block;padding:2px 8px;border-radius:6px;margin:2px 6px 2px 0;font-size:.8rem}
+details.verse{background:var(--card);border:1px solid var(--line);border-radius:10px;margin:10px 0}
+details.verse>summary{cursor:pointer;padding:12px 16px;font-weight:600;list-style:none;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+details.verse>summary::-webkit-details-marker{display:none}
+details.verse>summary:before{content:"\25B8";color:var(--accent)}details.verse[open]>summary:before{content:"\25BE"}
+.vbody{padding:0 16px 14px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.tab{min-width:64px;text-align:center;border-width:2px}.tab[aria-selected=true]{border-color:var(--fg);font-weight:700}
+.tab.plan{box-shadow:0 0 0 2px var(--accent)}
+.text{font-size:1.3rem;line-height:2;margin:6px 0}
+.text.ro{font-size:1rem;line-height:1.9;color:var(--mut)}
+.s{padding:1px 1px;border-radius:4px}
+.s.t-probable{background:var(--bad);outline:2px solid var(--ink-bad)}
+.s.t-judge{background:var(--warn)}
+.s.t-defect{background:var(--gray)}
+.s.on{outline:3px solid var(--accent)}
+.find{border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin:8px 0}
+.find.t-probable{border-left:6px solid var(--ink-bad)}.find.t-judge{border-left:6px solid var(--ink-warn)}.find.t-defect{border-left:6px solid var(--ink-gray)}
+.badge{display:inline-block;font-size:.76rem;font-weight:650;padding:1px 8px;border-radius:999px;border:1px solid var(--line);margin-right:6px}
+.badge.probable{color:var(--ink-bad);border-color:var(--ink-bad)}.badge.judge{color:var(--ink-warn);border-color:var(--ink-warn)}.badge.defect{color:var(--ink-gray)}
+.ev{margin:4px 0 4px 0;font-size:.88rem;color:var(--mut)}
+.ev code,.kv code{font-family:ui-monospace,Consolas,monospace;background:rgba(127,127,127,.15);padding:0 4px;border-radius:4px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:6px}
+input.note{flex:1 1 200px;min-width:0;font:inherit;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg)}
+.bar{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--line);padding:8px 16px;display:flex;gap:10px;align-items:center;z-index:5}
+.bar audio{display:none}
+#status{flex:1;font-size:.86rem;min-width:0}
+ul.tight{margin:4px 0;padding-left:20px}
+table.sum{border-collapse:collapse;width:100%;font-size:.9rem}.sum td,.sum th{border-bottom:1px solid var(--line);padding:4px 6px;text-align:left;vertical-align:top}
+@media (max-width:520px){body{padding:0 12px 130px}.text{font-size:1.15rem}.tab{min-width:48px;padding:6px 6px}}
+.pill{display:inline-block;padding:1px 10px;border-radius:999px;font-weight:650;border:1px solid var(--line)}
+.lbars{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin:6px 0}
+.lc{display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 2px;border-radius:8px;border:2px solid transparent}
+.lc.best{border-color:var(--fg)}.lc.planday{background:rgba(138,59,18,.08)}
+.lc .ln{font-size:.75rem;color:var(--mut)}.lc .lnum{font-weight:700}
+.vbar{width:70%;max-width:34px;height:64px;border-radius:6px;position:relative;background:rgba(127,127,127,.12);overflow:hidden;display:flex;align-items:flex-end;justify-content:center}
+.vbar::before{content:"";position:absolute;left:0;right:0;bottom:0;height:var(--h);background:var(--barc,var(--good));border-radius:6px}
+.vbar.c-clean{--barc:#4f9a55}.vbar.c-notes{--barc:#9bbf5a}.vbar.c-warn{--barc:#e0a92a}.vbar.c-bad{--barc:#d4543f}.vbar.c-defect{background:repeating-linear-gradient(45deg,var(--gray),var(--gray) 5px,transparent 5px,transparent 10px)}
+.vbar span{position:relative;font-size:.62rem;align-self:center}
+button.pl{min-height:32px;padding:2px 6px;font-size:.8rem}
+.lineblk{margin:10px 0}
+details.how{margin-top:8px}details.how>summary{cursor:pointer;font-weight:600;color:var(--accent)}
+.find.ign .vbtn.tool[aria-pressed=true]{background:var(--good);border-color:#4a8a4a}.find.ign .vbtn.mine[aria-pressed=true]{background:var(--warn);border-color:#b8891a}
+table.daytab td,table.daytab th{white-space:nowrap}
+.tab small{font-weight:400}
+</style>
+</head>
+<body>
+<h1>__TITLE__: how accurately each verse was chanted</h1>
+<p class="mut small" id="subtitle">Loading the review data.</p>
+
+<div id="summary"></div>
+
+<div class="card">
+<h2>Grid: verse by day</h2>
+<p class="small mut">Number = confidence that the verse was chanted as written (0 to 100, an estimate), with the weakest line underneath. The outlined cell is the take recommended for that verse. Tap a cell to open it.</p>
+<div class="legend small" id="legend"></div>
+<div class="gridwrap"><table class="grid" id="grid" aria-label="Verse by day accuracy grid"></table></div>
+</div>
+
+<div id="verses"></div>
+
+<div class="card">
+<h2>Your answers</h2>
+<p class="small mut">Right = the tool caught a real slip. Wrong = the tool is mistaken, the chanting was fine. Unsure = come back to it. Saved in this browser only. Copy the JSON to send them back.</p>
+<div class="row"><button id="copy" class="btn-play">Copy answers as JSON</button><button id="clear">Clear all answers</button><span id="count" class="small mut"></span></div>
+<textarea id="jsonout" rows="5" style="width:100%;margin-top:8px;display:none" aria-label="answers JSON"></textarea>
+<details class="how"><summary>Import answers saved in another browser or address</summary><p class="small mut">Answers are kept per browser and per address. To bring them here, press &ldquo;Copy answers as JSON&rdquo; where they are, paste the JSON below and merge. Answers already given here are never overwritten.</p><textarea id="jsonin" rows="4" style="width:100%" aria-label="answers JSON to import"></textarea><div class="row"><button id="doimport">Merge into this browser</button></div></details>
+</div>
+
+<div class="bar"><button id="stop" aria-label="Stop playback">Stop</button><div id="status" role="status" aria-live="polite">Press a play button next to a finding.</div><audio id="player" preload="auto"></audio></div>
+
+<script>
+"use strict";
+/* R = results.json, CFG = chant.json (both read in boot(), at the bottom); everything else derives from them. */
+var R=null, CFG=null, DAYS=[], VERSES=[], CF=null, DW='Day';
+var KEY='dmvChantReview.v1';   /* replaced by chant.json review_storage_key in boot(): KA's saved answers live under it */
+var store={};
+function save(){try{localStorage.setItem(KEY,JSON.stringify(store))}catch(e){}updateCount()}
+function pad(n){return (n<10?'0':'')+n}
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function take(d,v){return R.takes[d+'.'+v]}
+function tierClass(t){return t==='probable slip'?'probable':(t==='listen and judge'?'judge':'defect')}
+
+/* ---------- confidence (mirrors step3_merge.py; checked against it in the browser test) ---------- */
+function togOf(v){var out=[];(R.consistent_differences[String(v)]||[]).forEach(function(n){var s=store['ign.'+v+'.'+n.syll];if(s&&s.v==='mine')out.push(n.syll)});return out}
+function padaConf(p,tog){
+  if(p.na)return null;
+  var n=p.syl.length,i,sB=0,sC=0,cleanB=true,cleanC=true,tg=0;
+  for(i=0;i<n;i++){
+    var inT=tog.indexOf(p.syl[i])>=0, xB=p.exclB[i]&&!inT, xC=p.exclC[i]&&!inT;
+    if(!xB)sB+=Math.min(1,p.costB[i]); if(!xC)sC+=Math.min(1,p.costC[i]);
+    if(p.costB[i]>=1&&!xB)cleanB=false; if(p.costC[i]>=1&&!xC)cleanC=false;
+    if(inT&&(p.costB[i]>=1||p.costC[i]>=1)&&(p.exclB[i]||p.exclC[i]))tg++;
+  }
+  var D=((1-sB/n)+(1-sC/n))/2, runs=[cleanB,cleanC]; if(p.a_ran)runs.push(!p.a_flag);
+  var N=runs.filter(Boolean).length/runs.length, wP=(p.P===null)?0:CF.w_P;
+  var base=(wP*(p.P||0)+CF.w_D*D+CF.w_N*N)/(wP+CF.w_D+CF.w_N);
+  var pen=Math.min(CF.pen_cap,CF.pen_probable*p.pen.probable+CF.pen_judge*(p.pen.judge+tg));
+  return Math.max(0,Math.min(CF.cap,100*base-pen));
+}
+function verseConf(d,v){
+  var t=take(d,v),tog=togOf(v),cs=t.padas.map(function(p){return padaConf(p,tog)});
+  var na=t.padas.filter(function(p){return p.na})[0];
+  if(na)return {mean:null,min:null,na:na.na,lines:cs};
+  var m=cs.reduce(function(a,b){return a+b},0)/cs.length;
+  return {mean:m,min:Math.min.apply(null,cs),na:null,lines:cs};
+}
+function dayConf(d){
+  var s=0,n=0,ab=0;VERSES.forEach(function(v){var c=verseConf(d,v);if(c.mean!==null){s+=c.mean;n++;if(c.min>=CF.thresh)ab++}});
+  return {mean:n?s/n:null,n:n,above:ab};
+}
+function band(x){return x===null?'c-defect':(x>=85?'c-clean':(x>=70?'c-notes':(x>=50?'c-warn':'c-bad')))}
+function fmt(x){return x===null?'n/a':String(Math.round(x))}
+function lineWord(q){return 'Line '+(q+1)}
+
+var player=document.getElementById('player'), statusEl=document.getElementById('status'), stopAt=null;
+function setStatus(s){statusEl.textContent=s}
+player.addEventListener('timeupdate',function(){if(stopAt!==null&&player.currentTime>=stopAt){player.pause();stopAt=null}});
+function playFrom(day,verse,t,len){
+  ChantNav.audioSrc(ChantNav.audioPath(day,verse)).then(function(src){playSrc(src,day,verse,t,len)});
+}
+function playSrc(src,day,verse,t,len){
+  var start=len?Math.max(0,t):Math.max(0,t-2);
+  var go=function(){
+    try{player.currentTime=start}catch(e){}
+    stopAt=len?start+len:null;
+    var p=player.play(); if(p&&p.catch)p.catch(function(e){setStatus('Could not play '+src+' ('+e.name+'). Open this page through the preview server so the audio is reachable.')});
+    setStatus('Playing '+DW.toLowerCase()+' '+day+', verse '+verse+' from '+start.toFixed(1)+' s'+(len?' for '+len+' s':''));
+  };
+  if(player.getAttribute('data-src')!==src){
+    player.setAttribute('data-src',src);
+    player.onerror=function(){setStatus('Audio file not found: '+src+'. Open this page through the preview server.')};
+    player.addEventListener('loadedmetadata',go,{once:true});
+    player.src=src; player.load();
+  } else go();
+}
+document.getElementById('stop').onclick=function(){player.pause();stopAt=null;setStatus('Stopped.')};
+
+function howHtml(){
+  var sc=R.synth_conf||[];
+  var cal=sc.map(function(r){return r.kind+' (line '+r.line+'): '+Math.round(r.unspliced)+' &rarr; '+Math.round(r.spliced)}).join('; ');
+  return '<details class="how"><summary>How is this number made?</summary><div class="small">'+
+  '<p><b>An estimate of the confidence that a line (pada) was chanted as written, 0 to 100. It is not a measured probability.</b> It is built per line, per take:</p>'+
+  '<ul class="tight"><li><b>Timing fit ('+Math.round(CF.w_P*100)+'%)</b>: mean alignment posterior of the line&rsquo;s syllables, compared with the same line on the other days after removing each day&rsquo;s own level. Same as the other days = '+Math.round(CF.P_mid*100)+'%, '+CF.P_span+' better = 100%. Not available for the repeated closing line of verse 14.</li>'+
+  '<li><b>Decode agreement ('+Math.round(CF.w_D*100)+'%)</b>: 1 minus the share of syllables the letter-level decode (CTC) and Whisper disagree with the text on (average of the two; syllables set aside as same-on-most-days do not count).</li>'+
+  '<li><b>Clean passes ('+Math.round(CF.w_N*100)+'%)</b>: how many of the three listeners (timing, CTC letters, Whisper) found nothing in the line.</li></ul>'+
+  '<p>Then minus '+CF.pen_probable+' for each probable slip in the line and minus '+CF.pen_judge+' for each listen-and-judge finding (total penalty capped at '+CF.pen_cap+'), and the result is capped at '+CF.cap+' because the listeners are imperfect. Verse = mean of its two lines (the weakest line is shown too). Day = mean over the verses that have a number, plus the count of verses whose weakest line is at least '+CF.thresh+'.</p>'+
+  '<p><b>n/a</b> means there is not enough evidence: the clip is cut wrongly, a listener failed, or syllables are missing because the clip starts or ends mid-sound. No number is invented for those.</p>'+
+  '<p><b>Calibration.</b> Five slips were spliced into Day 2 lines: both listeners found '+R.calibration.detected+' of '+R.calibration.n+' at the right place. Confidence of the spliced line &rarr; same line unspliced: '+cal+'. (Unspliced lines scored about 90; the spliced repeat was not caught, so a repeated stretch can still score high.) Five clips is a smoke test, not a measured accuracy.</p></div></details>';
+}
+
+function renderSummary(){
+  var best=R.recommended_day, probList=[];
+  VERSES.forEach(function(v){DAYS.forEach(function(d){take(d,v).findings.forEach(function(f){if(f.tier==='probable slip')probList.push([d,v,f])})})});
+  var dc={};DAYS.forEach(function(d){dc[d]=dayConf(d)});
+  var topConf=DAYS.slice().sort(function(a,b){return dc[b].mean-dc[a].mean})[0];
+  var h='<div class="card rec"><div class="big">Recommended: use '+DW+' '+best+' for all '+VERSES.length+' verses</div>';
+  h+='<p>'+DW+' '+best+': confidence <b>'+fmt(dc[best].mean)+'</b> (average over '+dc[best].n+' verses), '+dc[best].above+' of '+dc[best].n+' verses with every line at '+CF.thresh+' or more, '+R.clean_count_by_day[best]+' of '+VERSES.length+' with no probable slip. ';
+  if(!R.swaps.length)h+='No swaps are needed. ';
+  else h+='Swap these verses: '+R.swaps.map(function(s){return 'verse '+s.verse+' from '+DW.toLowerCase()+' '+s.to_day}).join(', ')+'. ';
+  if(!R.no_clean_take.length)h+='Every verse has at least one clean take. ';
+  else h+='No clean take at all for: '+R.no_clean_take.map(function(n){return 'verse '+n.verse+' (least bad: '+DW.toLowerCase()+' '+n.least_bad_day+')'}).join(', ')+'. ';
+  if(topConf!==best)h+='Note: '+DW+' '+topConf+' has the higher average confidence ('+fmt(dc[topConf].mean)+'), so look at both. ';
+  h+='</p><p class="small">If a verse on '+DW+' '+best+' sounds wrong to you, open that verse: it lists the confidence for every line on every day side by side, and the alternates (voice match first).</p></div>';
+  h+='<div class="card"><h2>Confidence by day</h2><div class="gridwrap"><table class="sum daytab"><tr><th>Day</th><th>Confidence</th><th>Verses with every line &ge; '+CF.thresh+'</th><th>Clean verses</th><th></th></tr>';
+  DAYS.forEach(function(d){var c=dc[d],na=VERSES.length-c.n;
+    h+='<tr><td><b>'+DW+' '+d+'</b></td><td><span class="pill '+band(c.mean)+'">'+fmt(c.mean)+'</span></td><td>'+c.above+' of '+c.n+(na?' <span class="mut">('+na+' n/a)</span>':'')+'</td><td>'+R.clean_count_by_day[d]+' of '+VERSES.length+'</td><td>'+(d===best?'<span class="badge probable" style="color:var(--accent);border-color:var(--accent)">recommended</span>':'')+'</td></tr>'});
+  h+='</table></div><p class="small mut">Day confidence = average of the verse numbers. An estimate, not a probability.</p>'+howHtml()+'</div>';
+  h+='<div class="card caveat"><h2>How far to trust this</h2><p class="small">Three automatic listeners were used: a forced aligner (timing and confidence), a letter-level speech model with no script (CTC), and Whisper large-v2 with no script. They are not human ears and they hear chanting worse than speech. A finding seen by one listener is only &ldquo;listen and judge&rdquo;. Two or more agreeing is a &ldquo;probable slip&rdquo;, which is still a lead, not proof. A slip the tool cannot hear will not appear, so a high number means &ldquo;nothing found&rdquo;, not &ldquo;perfect&rdquo;. In a test with five slips spliced into your own recordings, '+R.calibration.detected+' of '+R.calibration.n+' were found by both listeners at the right place'+(R.calibration.note?'; '+esc(R.calibration.note):'')+'. A syllable the tool &ldquo;mishears&rdquo; on four or more of the six days is not counted against the verse unless you tell the page it is how you say it (see &ldquo;Same on most days&rdquo; inside each verse).</p></div>';
+  h+='<div class="card"><h2>The '+probList.length+' probable slips</h2>';
+  if(!probList.length) h+='<p class="small">None.</p>'; else {
+    h+='<div class="gridwrap"><table class="sum"><tr><th>Take</th><th>Where</th><th>Expected</th><th>Heard</th></tr>';
+    probList.forEach(function(x){var d=x[0],v=x[1],f=x[2];
+      h+='<tr><td><a href="#v'+v+'" data-day="'+d+'" data-verse="'+v+'" class="jump">'+DW+' '+d+' v'+v+'</a>'+(d===best?' <b>(recommended day)</b>':'')+'</td><td>'+f.t_start.toFixed(1)+' s, '+esc(f.kind)+'</td><td>'+esc(f.expected_deva||f.expected)+'</td><td>'+esc(String(f.heard||'').slice(0,60))+'</td></tr>'});
+    h+='</table></div>';
+  }
+  h+='</div>';
+  var rec=[];VERSES.forEach(function(v){var t=take(best,v);var j=t.findings.filter(function(f){return f.tier==='listen and judge'||f.tier==='probable slip'});if(j.length)rec.push([v,j.length])});
+  h+='<div class="card"><h2>On '+DW+' '+best+', worth one listen</h2><p class="small">'+(rec.length?rec.map(function(r){return '<a href="#v'+r[0]+'" class="jump" data-day="'+best+'" data-verse="'+r[0]+'">verse '+r[0]+'</a> ('+r[1]+')'}).join(', '):'Nothing to check.')+'</p></div>';
+  document.getElementById('summary').innerHTML=h;
+}
+
+function renderGrid(){
+  var g=document.getElementById('grid');
+  var h='<tr><th></th>'+DAYS.map(function(d){return '<th>'+DW+' '+d+(d===R.recommended_day?' *':'')+'</th>'}).join('')+'</tr>';
+  VERSES.forEach(function(v){
+    h+='<tr><th scope="row">V'+v+'</th>';
+    DAYS.forEach(function(d){
+      var t=take(d,v), c=verseConf(d,v), isPlan=R.plan[String(v)]===d;
+      var tt=''+DW+' '+d+' verse '+v+': confidence '+fmt(c.mean)+(c.na?' (n/a: '+c.na+')':' (weakest line '+fmt(c.min)+'; lines '+c.lines.map(fmt).join(' / ')+')')+'; '+t.probable+' probable, '+t.judge+' to judge'+(t.defect_edges?', '+t.defect_edges+' cut edge(s)':'');
+      h+='<td><button class="cell '+band(c.mean)+(isPlan?' plan':'')+'" data-day="'+d+'" data-verse="'+v+'" title="'+esc(tt)+'" aria-label="'+esc(tt)+'"><b>'+fmt(c.mean)+'</b><br>'+(c.na?'':'low '+fmt(c.min))+(t.defect_edges&&!t.defect_whole?' &#9986;':'')+'</button></td>';
+    });
+    h+='</tr>';
+  });
+  g.innerHTML=h;
+  document.getElementById('legend').innerHTML='<span class="c-clean">85+ high</span><span class="c-notes">70 to 84</span><span class="c-warn">50 to 69</span><span class="c-bad">under 50</span><span class="c-defect">n/a (not enough evidence)</span><span style="border:2px solid var(--fg);box-shadow:0 0 0 2px var(--accent)">recommended take</span><span>&#9986; clip starts or ends mid-sound</span>';
+  g.onclick=function(e){var b=e.target.closest('button.cell');if(!b)return;openVerse(+b.dataset.verse,+b.dataset.day,true)};
+}
+
+var sel={};
+function syllText(v,d,kind){
+  var sy=R.syllables[String(v)], fl=take(d,v).findings, mark={};
+  fl.forEach(function(f){ if(!f.syll)return; for(var k=f.syll[0];k<=f.syll[1];k++){ var c=tierClass(f.tier); if(!mark[k]||(c==='probable')||(c==='judge'&&mark[k]==='defect'))mark[k]=c } });
+  var out='';
+  sy.forEach(function(s,i){
+    if(i>0&&s.line!==sy[i-1].line)out+=(kind==='deva'?' &#2404; ':' | ');
+    else if(i>0&&s.word!==sy[i-1].word)out+=' ';
+    var t=kind==='deva'?s.deva:s.iast;
+    out+='<span class="s'+(mark[i]?' t-'+mark[i]:'')+'" data-i="'+i+'">'+esc(t)+'</span>';
+  });
+  return out;
+}
+function lineText(v,q){var o='',pw=null;R.syllables[String(v)].filter(function(s){return s.line===q}).forEach(function(s){if(pw!==null&&s.word!==pw)o+=' ';o+=s.deva;pw=s.word});return o}
+function lineBars(v){
+  var h='<h3>Confidence by line, every day</h3><p class="small mut">Taller bar = more confident this line was chanted as written. The outlined day is the best take for that line. &#9654; plays the line.</p>';
+  [0,1].forEach(function(q){
+    var vals=DAYS.map(function(d){return verseConf(d,v).lines[q]}), best=null;
+    DAYS.forEach(function(d,i){if(vals[i]!==null&&(best===null||vals[i]>vals[best]+0.05||(Math.abs(vals[i]-vals[best])<=0.05&&Math.abs(d-R.recommended_day)<Math.abs(DAYS[best]-R.recommended_day)))) best=i});
+    h+='<div class="lineblk"><div class="small"><b>'+lineWord(q)+'</b> <span lang="sa">'+esc(lineText(v,q))+'</span>'+(best!==null?' &middot; best take: '+DW+' '+DAYS[best]+' ('+fmt(vals[best])+')':'')+'</div><div class="lbars" style="grid-template-columns:repeat('+DAYS.length+',1fr)">';
+    var nas=[];
+    DAYS.forEach(function(d,i){
+      var p=take(d,v).padas[q], c=vals[i];
+      h+='<div class="lc'+(i===best?' best':'')+(R.plan[String(v)]===d?' planday':'')+'"><div class="ln">D'+d+'</div><div class="lnum">'+fmt(c)+'</div><div class="vbar '+band(c)+'" style="--h:'+(c===null?0:Math.max(4,c))+'%">'+(c===null?'<span>n/a</span>':'')+'</div><button class="play pl" data-day="'+d+'" data-verse="'+v+'" data-t="'+(p.t0+2)+'" title="Play line '+(q+1)+' of '+DW.toLowerCase()+' '+d+'" aria-label="Play line '+(q+1)+' of '+DW.toLowerCase()+' '+d+'">&#9654;</button></div>';
+      if(p.na)nas.push(''+DW+' '+d+': '+p.na);
+    });
+    h+='</div>'+(nas.length?'<p class="small mut">n/a: '+esc(nas.join('; '))+'</p>':'')+'</div>';
+  });
+  return h;
+}
+function ignoredHtml(v){
+  var cn=(R.consistent_differences[String(v)]||[]);
+  if(!cn.length)return '';
+  var h='<h3>Same on most days: the tool, or you?</h3><p class="small mut">The tool heard something other than the text on four or more days. That is either the tool&rsquo;s habit or how you say it. Play each day around the syllable and decide by ear. These are not counted against the verse unless you pick &ldquo;That&rsquo;s how I say it&rdquo;; then every confidence number on this page is recomputed as if they counted.</p>';
+  cn.forEach(function(n){
+    var id='ign.'+v+'.'+n.syll, st=store[id]||{};
+    var meta=JSON.stringify({type:'same-on-most-days',verse:v,syll_index:n.syll,expected_deva:n.deva,expected:n.expected,heard:n.heard});
+    h+='<div class="find t-judge ign" data-id="'+esc(id)+'" data-meta="'+esc(meta)+'"><div><b lang="sa">'+esc(n.deva)+'</b> <code>'+esc(n.iast)+'</code> ('+lineWord(n.line)+') &middot; the text expects <code>'+esc(n.expected)+'</code></div>';
+    h+='<div class="gridwrap"><table class="sum ign-t"><tr><th>Day</th><th>CTC letters heard</th><th>Whisper heard</th><th>Play</th></tr>';
+    DAYS.forEach(function(d){var pd=n.per_day[String(d)],mid=(pd.t[0]+pd.t[1])/2;
+      h+='<tr><td>'+DW+' '+d+'</td><td>'+(pd.B?'<code>'+esc(pd.B)+'</code>':'<span class="mut">(nothing)</span>')+(pd.flagB?' &ne;':' =')+'</td><td>'+(pd.C===null?'<span class="mut">n/a</span>':(pd.C?'<code>'+esc(pd.C)+'</code>':'<span class="mut">(nothing)</span>')+(pd.flagC?' &ne;':' ='))+'</td><td><button class="play pl" data-day="'+d+'" data-verse="'+v+'" data-t="'+Math.max(0,mid-0.75)+'" data-len="1.5" aria-label="Play '+DW.toLowerCase()+' '+d+' around this syllable">&#9654; 1.5 s</button></td></tr>'});
+    h+='</table></div><p class="small mut">&ne; = the tool disagrees with the text on that day; = means it agrees.</p>';
+    h+='<div class="row"><button class="vbtn tool" data-k="tool" aria-pressed="'+(st.v==='tool')+'">That&rsquo;s the tool</button><button class="vbtn mine" data-k="mine" aria-pressed="'+(st.v==='mine')+'">That&rsquo;s how I say it</button><input class="note" type="text" placeholder="note" aria-label="note" value="'+esc(st.n||'')+'"></div></div>';
+  });
+  return h;
+}
+function findHtml(d,v,f,idx){
+  var id=d+'.'+v+'.'+f.kind+'.'+f.t_start, c=tierClass(f.tier), st=store[id]||{};
+  var meta=JSON.stringify({day:d,verse:v,kind:f.kind,tier:f.tier,t_start:f.t_start,t_end:f.t_end,expected:f.expected_deva||f.expected||'',heard:String(f.heard||'').slice(0,90),passes:f.passes});
+  var h='<div class="find t-'+c+'" id="f-'+esc(id)+'" data-meta="'+esc(meta)+'" data-id="'+esc(id)+'" data-s0="'+(f.syll?f.syll[0]:'')+'" data-s1="'+(f.syll?f.syll[1]:'')+'">';
+  h+='<div><span class="badge '+c+'">'+esc(f.tier)+'</span><b>'+esc(f.kind)+'</b> at '+f.t_start.toFixed(1)+'&ndash;'+f.t_end.toFixed(1)+' s'+(f.passes&&f.passes.length?' &middot; '+f.passes.length+' of 3 listeners agree ('+f.passes.map(function(p){return {A:'timing',B:'CTC letters',C:'Whisper'}[p]}).join(', ')+')':'')+(f.signal?' &middot; confirmed by the silence meter':'')+'</div>';
+  if(f.expected&&f.kind!=='audio defect'||(f.expected&&f.cut_edge)){
+    h+='<div class="kv small">Text expects <b>'+esc(f.expected_deva||'')+'</b> <code>'+esc(f.expected)+'</code>';
+    if(f.heard)h+=' &middot; heard <code>'+esc(String(f.heard).slice(0,90))+'</code>';
+    h+='</div>';
+  } else if(f.heard){h+='<div class="kv small">'+esc(f.heard)+'</div>'}
+  if(f.evidence){var ek=Object.keys(f.evidence);if(ek.length){h+='<div class="ev">Evidence: '+ek.map(function(k){return '<b>'+({A:'timing',B:'CTC letters',C:'Whisper',signal:'signal'}[k]||k)+'</b>: '+esc((f.evidence[k]||[]).join('; '))}).join(' &middot; ')+'</div>'}}
+  h+='<div class="row"><button class="btn-play play" data-day="'+d+'" data-verse="'+v+'" data-t="'+f.t_start+'">&#9654; Play from 2 s before</button><a class="chant-xlink" href="'+esc(ChantNav.buildLink('player',{verse:v,day:d,t:f.t_start,s:f.syll}))+'">Open in player</a>';
+  ['right','wrong','unsure'].forEach(function(k){h+='<button class="vbtn '+k+'" data-k="'+k+'" aria-pressed="'+(st.v===k)+'">'+k.charAt(0).toUpperCase()+k.slice(1)+'</button>'});
+  h+='<input class="note" type="text" placeholder="note" aria-label="note" value="'+esc(st.n||'')+'"></div></div>';
+  return h;
+}
+function renderPanel(v){
+  var d=sel[v], t=take(d,v), box=document.getElementById('vb'+v), vc=verseConf(d,v);
+  var h=lineBars(v);
+  h+='<h3>Take details</h3><div class="tabs" role="tablist">'+DAYS.map(function(x){var c=verseConf(x,v);return '<button role="tab" class="tab '+band(c.mean)+(R.plan[String(v)]===x?' plan':'')+'" aria-selected="'+(x===d)+'" data-day="'+x+'">'+DW+' '+x+'<br><small>'+fmt(c.mean)+'</small></button>'}).join('')+'</div>';
+  h+='<p class="small mut">'+DW+' '+d+': '+t.dur_s.toFixed(1)+' s, verse confidence '+fmt(vc.mean)+(vc.na?' (n/a: '+esc(vc.na)+')':' (lines '+vc.lines.map(fmt).join(' and ')+')')+(t.defect_whole?', <b>this clip is cut wrongly (audio defect), not a chanting problem</b>':'')+'. <button class="play" data-day="'+d+'" data-verse="'+v+'" data-t="2">&#9654; Whole take</button> <a class="chant-xlink" href="'+esc(ChantNav.buildLink('player',{verse:v,day:d}))+'">Open this take in the player</a></p>';
+  h+='<div class="text" lang="sa">'+syllText(v,d,'deva')+'</div><div class="text ro">'+syllText(v,d,'iast')+'</div>';
+  var fl=t.findings.slice().sort(function(a,b){return a.t_start-b.t_start});
+  if(!fl.length)h+='<p>No findings on this take.</p>';
+  fl.forEach(function(f,i){h+=findHtml(d,v,f,i)});
+  var alt=R.alternates[String(v)];
+  h+='<h3>Alternates for verse '+v+'</h3><p class="small">In order of preference after '+DW+' '+R.recommended_day+' (clean first, then nearest day for voice match): '+alt.map(function(x){var tk=take(x,v);return '<a href="#v'+v+'" class="jump" data-day="'+x+'" data-verse="'+v+'">'+DW+' '+x+'</a> ('+(tk.defect_whole?'bad cut':(tk.clean?'clean':'has probable slip'))+', confidence '+fmt(verseConf(x,v).mean)+')'}).join(', ')+'.</p>';
+  h+=ignoredHtml(v);
+  if(t.whisper)h+='<details class="small"><summary>What Whisper heard on this take</summary><p lang="hi">'+esc(t.whisper.slice(0,300))+'</p></details>';
+  box.innerHTML=h;
+}
+function renderVerseHeads(){
+  VERSES.forEach(function(v){
+    var d=R.plan[String(v)],c=verseConf(d,v),el=document.getElementById('vh'+v);
+    if(el)el.innerHTML='Verse '+v+' <span class="pill '+band(c.mean)+'">'+DW.toLowerCase()+' '+d+': '+fmt(c.mean)+'</span>'+(c.min!==null?' <span class="small mut">weakest line '+fmt(c.min)+'</span>':'');
+  });
+}
+function renderVerses(){
+  var h='';
+  VERSES.forEach(function(v){
+    sel[v]=R.plan[String(v)];
+    h+='<details class="verse" id="v'+v+'"><summary id="vh'+v+'"></summary><div class="vbody" id="vb'+v+'"></div></details>';
+  });
+  document.getElementById('verses').innerHTML=h;
+  VERSES.forEach(function(v){
+    var det=document.getElementById('v'+v);
+    det.addEventListener('toggle',function(){if(det.open&&!document.getElementById('vb'+v).innerHTML)renderPanel(v)});
+  });
+  renderVerseHeads();
+}
+function openVerse(v,d,scroll){
+  sel[v]=d;var det=document.getElementById('v'+v);det.open=true;renderPanel(v);
+  if(scroll)det.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function refreshAll(){
+  renderSummary();renderGrid();renderVerseHeads();
+  VERSES.forEach(function(v){var b=document.getElementById('vb'+v);if(b&&b.innerHTML)renderPanel(v)});
+}
+document.addEventListener('click',function(e){
+  var j=e.target.closest('a.jump');if(j){e.preventDefault();openVerse(+j.dataset.verse,+j.dataset.day,true);return}
+  var pl=e.target.closest('button.play');if(pl){playFrom(+pl.dataset.day,+pl.dataset.verse,+pl.dataset.t,pl.dataset.len?+pl.dataset.len:0);return}
+  var tab=e.target.closest('button.tab');if(tab){var v=+tab.closest('.vbody').id.slice(2);sel[v]=+tab.dataset.day;renderPanel(v);return}
+  var vb=e.target.closest('button.vbtn');if(vb){
+    var f=vb.closest('.find'),id=f.dataset.id,cur=store[id]||{};
+    cur.v=(cur.v===vb.dataset.k)?'':vb.dataset.k;cur.m=JSON.parse(f.dataset.meta);store[id]=cur;save();
+    f.querySelectorAll('.vbtn').forEach(function(b){b.setAttribute('aria-pressed',String(cur.v===b.dataset.k))});
+    if(f.classList.contains('ign')){var sy=window.scrollY;refreshAll();window.scrollTo(0,sy)}
+    return}
+  var s=e.target.closest('.s');if(s){var box=s.closest('.vbody');var i=+s.dataset.i;box.querySelectorAll('.find').forEach(function(f){var a=f.dataset.s0,b=f.dataset.s1;if(a!==''&&i>=+a&&i<=+b)f.scrollIntoView({behavior:'smooth',block:'center'})})}
+});
+document.addEventListener('input',function(e){
+  if(e.target.classList.contains('note')){var f=e.target.closest('.find'),id=f.dataset.id,cur=store[id]||{};cur.n=e.target.value;cur.m=JSON.parse(f.dataset.meta);store[id]=cur;save()}
+});
+function updateCount(){var n=Object.keys(store).filter(function(k){return store[k].v||store[k].n}).length;document.getElementById('count').textContent=n+' answered'}
+function exportJson(){
+  var out=[];Object.keys(store).forEach(function(id){var s=store[id];if(!(s.v||s.n))return;out.push({finding:id,answer:s.v||'',note:s.n||'',details:s.m||null})});
+  return JSON.stringify({reviewed:'2026-11-11',source:'dmv-chant-accuracy review.html',answers:out},null,1);
+}
+document.getElementById('copy').onclick=function(){
+  var j=exportJson(),ta=document.getElementById('jsonout');ta.value=j;ta.style.display='block';ta.select();
+  var done=function(){setStatus('Answers copied ('+j.length+' characters).')};
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(j).then(done,function(){try{document.execCommand('copy');done()}catch(e){}});
+  else{try{document.execCommand('copy');done()}catch(e){}}
+};
+document.getElementById('doimport').onclick=function(){
+  var inp=document.getElementById('jsonin').value.trim(),j;
+  try{j=JSON.parse(inp)}catch(e){setStatus('That is not valid JSON: '+e.message);return}
+  var list=j&&j.answers;if(!Array.isArray(list)){setStatus('No "answers" list found in that JSON.');return}
+  var added=0,kept=0,bad=0;
+  list.forEach(function(a){
+    if(!a||typeof a.finding!=='string'){bad++;return}
+    var cur=store[a.finding];if(cur&&(cur.v||cur.n)){kept++;return}
+    store[a.finding]={v:a.answer||'',n:a.note||'',m:a.details||null};added++;
+  });
+  save();refreshAll();
+  setStatus('Imported '+added+' answer(s); '+kept+' already answered here (kept as they were)'+(bad?'; '+bad+' unreadable':'')+'.');
+};
+document.getElementById('clear').onclick=function(){if(confirm('Clear every saved answer?')){store={};save();refreshAll()}};
+
+/* ---------- deep link: review.html#verse=7&day=2&t=4.2 opens that verse, that take, and the finding at t ---------- */
+function applyLink(link){
+  if(!link||link.error||link.verse==null)return;
+  var d=link.day!=null?link.day:R.plan[String(link.verse)];
+  openVerse(link.verse,d,true);
+  document.querySelectorAll('.chant-target').forEach(function(e){e.classList.remove('chant-target')});
+  if(link.t==null)return;
+  var best=null,bd=1e9;
+  take(d,link.verse).findings.forEach(function(f){
+    var dist=(link.t>=f.t_start-0.05&&link.t<=f.t_end+0.05)?0:Math.min(Math.abs(link.t-f.t_start),Math.abs(link.t-f.t_end));
+    if(dist<bd){bd=dist;best=f}
+  });
+  if(best&&bd<=1.5){
+    var el=document.getElementById('f-'+d+'.'+link.verse+'.'+best.kind+'.'+best.t_start);
+    if(el){el.classList.add('chant-target');setTimeout(function(){el.scrollIntoView({block:'center'})},350)}
+  }
+}
+function boot(cfg,res){
+  CFG=cfg;R=res;DW=cfg.set_word||'Day';CF=R.conf_params;
+  DAYS=cfg.sets.map(function(x){return x.id});
+  VERSES=[];for(var i=1;i<=cfg.verse_count;i++)VERSES.push(i);
+  KEY=cfg.review_storage_key||('chantReview.'+cfg.id+'.v1');
+  try{store=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){store={}}
+  var nTakes=Object.keys(R.takes).length;
+  document.getElementById('subtitle').textContent=VERSES.length+' verses x '+DAYS.length+' recordings ('+nTakes+' takes). Automatic review, '+R.generated+'. Everything on this page is a lead to listen to, not a verdict.';
+  renderSummary();renderGrid();renderVerses();updateCount();
+  ChantNav.onLink(applyLink);
+}
+Promise.all([ChantNav.ready,ChantNav.loadResults()]).then(function(a){boot(a[0],a[1])},function(e){
+  document.getElementById('subtitle').textContent='';
+  document.getElementById('summary').innerHTML='<div class="card caveat"><p>The review data could not be loaded ('+esc(e.message)+'). Open this page through a web server (not as a file), next to chant.json and results.json.</p></div>';
+});
+</script>
+</body>
+</html>

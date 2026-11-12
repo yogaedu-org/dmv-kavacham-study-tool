@@ -1,6 +1,8 @@
 <!doctype html><meta charset="utf-8">
 <title>DMV Kavacham — verse-by-verse (all days)</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../shared/chant-nav.css">
+<script src="../shared/chant-nav.js" data-page="player"></script>
 <style>
 :root{--ink:#222;--bg:#fafafa;--card:#fff;--line:#ddd;--accent:#b5651d;--muted:#888;--playing:#2f8f5f}
 @media (prefers-color-scheme:dark){:root{--ink:#e8e6f0;--bg:#15161f;--card:#1d1e2a;--line:#2e3040;--accent:#e0a24a;--muted:#9a97ad;--playing:#4fbf83}}
@@ -651,7 +653,7 @@ document.querySelectorAll('audio').forEach(a=>a.addEventListener('error',()=>{
   audioNotice('Audio could not be loaded (' + (a.getAttribute('src') || '').split('/').pop() +
     '). The clips are hosted as release assets of this repository; if this persists they may not be published yet.');
 }));
-(async function useReleaseAudioIfNeeded(){
+window.audioReady = (async function useReleaseAudioIfNeeded(){
   if(location.protocol === 'file:') return;
   const clips = [...document.querySelectorAll('audio')];
   try{ const r = await fetch(clips[0].getAttribute('src'), {method:'HEAD'}); if(r.ok) return; }catch(e){}
@@ -726,3 +728,4 @@ function showDay(n){
 }
 showDay(6);
 </script>
+<script src="../shared/chant-player-link.js"></script>

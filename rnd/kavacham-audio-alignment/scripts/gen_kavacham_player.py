@@ -8,22 +8,24 @@ at an offset, no extra file cutting needed (#9).
 
   python gen_kavacham_player.py
 
-Reads reference/chants/dmv-kavacham/kavacham-verse-timings.json (Day 3) and
-kavacham-verse-timings-dayN.json (other days, once aligned) -- skips any day not yet aligned.
-Writes reference/chants/dmv-kavacham/player.html, sitting next to audio/day3, audio/day1, etc so
-relative paths resolve. LOCAL FILE, not a published artifact (large local audio, private QA use).
+Reads the chant folder's chant.json (title, and per set: id, label, timings file) and each set's
+timings JSON -- skips any set whose timings file does not exist yet.
+Writes player.html into the chant folder (default: ../dmv-kavacham, or pass the folder as argv[1]),
+sitting next to audio/ so relative paths resolve. The page links the shared tab bar and the
+player <-> accuracy-review links (../shared/chant-nav.js, chant-player-link.js; #55).
 Run with PYTHONIOENCODING=utf-8 PYTHONUTF8=1
 """
 import json, sys
 from pathlib import Path
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
-REPO = Path(__file__).resolve().parents[2]
-KAV = REPO / "reference" / "chants" / "dmv-kavacham"
+KAV = Path(sys.argv[1]).resolve() if len(sys.argv) > 1 else Path(__file__).resolve().parents[1] / "dmv-kavacham"
+CFG = json.loads((KAV / "chant.json").read_text(encoding="utf-8"))
+TITLE = CFG.get("title", "Chant")
 
 
 def load_day(n):
-    p = KAV / ("kavacham-verse-timings.json" if n == 3 else f"kavacham-verse-timings-day{n}.json")
+    p = KAV / next(s["timings"] for s in CFG["sets"] if s["id"] == n)
     if not p.exists():
         return None
     d = json.loads(p.read_text(encoding="utf-8"))
@@ -114,7 +116,7 @@ def compute_ranges(verses):
 
 
 days = {}
-for n in range(1, 7):
+for n in [s["id"] for s in CFG["sets"]]:
     verses = load_day(n)
     if verses:
         days[n] = verses
@@ -165,8 +167,10 @@ for n, verses in sorted(days.items()):
                   f'<ol class="verses">{rows}</ol></div>')
 
 HTML = f"""<!doctype html><meta charset="utf-8">
-<title>DMV Kavacham — verse-by-verse (all days)</title>
+<title>{TITLE} — verse-by-verse (all days)</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../shared/chant-nav.css">
+<script src="../shared/chant-nav.js" data-page="player"></script>
 <style>
 :root{{--ink:#222;--bg:#fafafa;--card:#fff;--line:#ddd;--accent:#b5651d;--muted:#888;--playing:#2f8f5f}}
 @media (prefers-color-scheme:dark){{:root{{--ink:#e8e6f0;--bg:#15161f;--card:#1d1e2a;--line:#2e3040;--accent:#e0a24a;--muted:#9a97ad;--playing:#4fbf83}}}}
@@ -206,7 +210,7 @@ li.v.playing .play{{background:var(--playing);color:#fff;border-color:var(--play
 .loopbar label{{display:flex;align-items:center;gap:6px;cursor:pointer}}
 #audioNotice{{margin:10px 20px;padding:10px 14px;border:1px solid #c0392b;border-radius:8px;color:#c0392b;font-size:13px}}
 </style>
-<header><h1>DMV Kavacham — verse by verse, all days</h1>
+<header><h1>{TITLE} — verse by verse, all days</h1>
 <p>Auto-advancing playback of each day's actual chant, aligned to the 14 shlokas. Play the whole
 chant, one verse, or (below each verse) line 1 / line 2 alone -- verse 14's L2 also offers its
 first repetition alone, for line-by-line study vs. the full (all-repetitions) chant. A red border
@@ -229,7 +233,7 @@ document.querySelectorAll('audio').forEach(a=>a.addEventListener('error',()=>{{
   audioNotice('Audio could not be loaded (' + (a.getAttribute('src') || '').split('/').pop() +
     '). The clips are hosted as release assets of this repository; if this persists they may not be published yet.');
 }}));
-(async function useReleaseAudioIfNeeded(){{
+window.audioReady = (async function useReleaseAudioIfNeeded(){{
   if(location.protocol === 'file:') return;
   const clips = [...document.querySelectorAll('audio')];
   try{{ const r = await fetch(clips[0].getAttribute('src'), {{method:'HEAD'}}); if(r.ok) return; }}catch(e){{}}
@@ -303,7 +307,8 @@ function showDay(n){{
   document.querySelector(`.tab[data-day="${{n}}"]`).classList.add('active');
 }}
 showDay({best_day if best_day else 'null'});
-</script>"""
+</script>
+<script src="../shared/chant-player-link.js"></script>"""
 
 OUT = KAV / "player.html"
 OUT.write_text(HTML, encoding="utf-8", newline="\n")

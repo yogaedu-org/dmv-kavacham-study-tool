@@ -1,0 +1,25 @@
+{
+  "id": "dmv-kavacham",
+  "title": "DMV Kavacham",
+  "verses": "kavacham-verses.json",
+  "verse_count": 14,
+  "set_word": "Day",
+  "sets": [
+    {"id": 1, "label": "Day 1", "timings": "kavacham-verse-timings-day1.json", "audio": "audio/day1/verse{vv}.mp3"},
+    {"id": 2, "label": "Day 2", "timings": "kavacham-verse-timings-day2.json", "audio": "audio/day2/verse{vv}.mp3"},
+    {"id": 3, "label": "Day 3", "timings": "kavacham-verse-timings.json", "audio": "audio/verses/verse{vv}.mp3"},
+    {"id": 4, "label": "Day 4", "timings": "kavacham-verse-timings-day4.json", "audio": "audio/day4/verse{vv}.mp3"},
+    {"id": 5, "label": "Day 5", "timings": "kavacham-verse-timings-day5.json", "audio": "audio/day5/verse{vv}.mp3"},
+    {"id": 6, "label": "Day 6", "timings": "kavacham-verse-timings-day6.json", "audio": "audio/day6/verse{vv}.mp3"}
+  ],
+  "recommended_set": 2,
+  "results": "results.json",
+  "audio_manifest": "audio-manifest.json",
+  "review_storage_key": "dmvChantReview.v1",
+  "lead_in_s": 1,
+  "pages": {"player": "player.html", "review": "review.html"},
+  "tabs": [
+    {"id": "player", "label": "Player", "href": "player.html"},
+    {"id": "review", "label": "Accuracy review", "href": "review.html"}
+  ]
+}
