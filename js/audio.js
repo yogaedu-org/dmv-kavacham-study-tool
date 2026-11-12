@@ -4,6 +4,7 @@ import { CONFIG } from './state.js';
 import { escapeHtml } from './util.js';
 import { t } from './i18n.js';
 import { createAudioSource } from './audio-source.js';
+import { loadTimings, setTimings, attachKaraoke, initFollowControls, stop as stopFollow } from './karaoke.js';
 
 /* ==========================================================================
    VERSE AUDIO (#56)
@@ -77,6 +78,7 @@ async function useSet(set) {
     current = set;
     const cfg = sourceConfig(set, manifest, manifestUrl);
     if (source) source.setConfig(cfg); else source = createAudioSource(cfg);
+    setTimings(await loadTimings(manifestUrl, manifest, set.id));      // follow-along times (#61): none = plays without highlight
 }
 
 function savedSetId() { try { return localStorage.getItem(SET_KEY); } catch (e) { return null; } }
@@ -145,6 +147,7 @@ function paintButton(btn, on) {
 
 export function stopAudio() {
     const a = audioEl();
+    stopFollow();
     if (a) { a.pause(); a.removeAttribute('src'); delete a.dataset.sourceUrl; a.load(); }
     playingVerse = null;
     syncAudioButtons();
@@ -182,6 +185,8 @@ export function initAudioControls() {
     fillSetSelect();
     const a = audioEl();
     if (a) {
+        attachKaraoke(a, function() { return playingVerse; });
+        initFollowControls();
         a.addEventListener('ended', function() { playingVerse = null; syncAudioButtons(); });
         a.addEventListener('error', function() {
             if (playingVerse == null || !a.getAttribute('src')) return;

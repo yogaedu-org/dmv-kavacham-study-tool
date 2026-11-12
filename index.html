@@ -141,6 +141,16 @@
                     <label for="audioSetSelect" class="audioset-label" data-i18n="controls.audioSet.label">Recitation</label>
                     <select class="locale-select" id="audioSetSelect" title="Choose the recitation to listen to" data-i18n-attr="title:controls.audioSet.title"></select>
                 </div>
+
+                <!-- Follow-along highlighting while a verse plays (#61); shown only when audio is available -->
+                <div class="follow-group" id="followGroup" hidden>
+                    <input type="checkbox" id="followToggle" checked>
+                    <label for="followToggle" data-i18n="controls.follow.label" data-i18n-attr="title:controls.follow.title" title="Highlight the text in time with the recitation">Follow along</label>
+                    <select class="locale-select" id="followUnit" data-i18n-attr="aria-label:controls.follow.unit.aria" aria-label="Highlight by">
+                        <option value="syllable" data-i18n="controls.follow.syllable">Syllable</option>
+                        <option value="word" data-i18n="controls.follow.word">Word</option>
+                    </select>
+                </div>
             </div>
             
             <!-- Filter Dropdowns Row -->

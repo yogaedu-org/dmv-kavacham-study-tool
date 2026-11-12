@@ -24,6 +24,8 @@
   --color-text-primary: #ece7ef;      /* Light ink */
   --color-text-secondary: #a99fb2;    /* Muted */
   --color-sanskrit: #e4b25a;          /* Goldleaf */
+--follow-word-bg: rgba(228, 178, 90, 0.16);   /* follow-along (#61) */
+--follow-akshara-bg: rgba(228, 178, 90, 0.42);
   --color-transliteration: #cba789;   /* Sandal */
   --color-deity: #d9615a;             /* Kumkum (config-driven per theme) */
   --color-direction: #7d9bd0;         /* Indigo (config-driven per theme) */
@@ -90,6 +92,7 @@
     --color-text-primary: #221d29; --color-text-secondary: #635c6b;
     --overlay-1: #faf7f2; --overlay-2: #f1e9dd; --overlay-3: #e7dccc;
     --line-color: rgba(20, 18, 28, 0.13); --placeholder-color: rgba(34, 29, 41, 0.55);
+    --follow-word-bg: rgba(154, 107, 40, 0.15); --follow-akshara-bg: rgba(154, 107, 40, 0.32);
   }
 }
 :root[data-theme="light"] {
@@ -102,12 +105,14 @@
   --color-text-primary: #221d29; --color-text-secondary: #635c6b;
   --overlay-1: #faf7f2; --overlay-2: #f1e9dd; --overlay-3: #e7dccc;
   --line-color: rgba(20, 18, 28, 0.13); --placeholder-color: rgba(34, 29, 41, 0.55);
+  --follow-word-bg: rgba(154, 107, 40, 0.15); --follow-akshara-bg: rgba(154, 107, 40, 0.32);
 }
 :root[data-theme="dark"] {
   --color-primary: #14121c; --color-secondary: #1e1926; --color-accent: #e4b25a;
   --color-text-primary: #ece7ef; --color-text-secondary: #a99fb2;
   --color-sanskrit: #e4b25a; --color-transliteration: #cba789;
   --color-deity: #d9615a; --color-direction: #7d9bd0; --color-body: #c9a886;
+  --follow-word-bg: rgba(228, 178, 90, 0.16); --follow-akshara-bg: rgba(228, 178, 90, 0.42);
 }
 
 /* ==========================================================================
@@ -454,6 +459,27 @@ a:hover {
 .verse-audio-status { font-size: 0.86rem; color: var(--color-text-secondary); margin-bottom: var(--spacing-sm); }
 .verse-audio-status:empty { display: none; }
 .verse-audio-status--error { color: var(--color-deity); }
+
+/* Follow-along (#61): the controls, and the highlight while a verse plays. The spans exist only while it plays and add no
+   margin, padding or weight, so the text does not move. Not colour alone: the akshara also gets an underline, the word a tint. */
+.follow-group { display: inline-flex; align-items: center; gap: var(--spacing-xs); }
+.follow-group[hidden] { display: none; }
+.follow-group label { font-size: 0.86rem; color: var(--color-text-secondary); cursor: pointer; }
+.follow-group select:disabled { opacity: 0.5; }
+.kw.is-word { background: var(--follow-word-bg); border-radius: 3px; }
+.ka.is-akshara {
+  background: var(--follow-akshara-bg);
+  color: var(--color-text-primary);
+  border-radius: 3px;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-decoration-color: var(--color-accent);
+  text-underline-offset: 0.18em;
+}
+@media (forced-colors: active) {
+  .kw.is-word { outline: 1px solid Highlight; }
+  .ka.is-akshara { background: Highlight; color: HighlightText; }
+}
 
 .compact-toggle {
   background: var(--overlay-2);

@@ -5,6 +5,7 @@ import { DOMElements, VERSE_DATA, I18N } from './state.js';
 import { verseTranslation } from './i18n.js';
 import { createTags } from './filters.js';
 import { audioButtonHTML, syncAudioButtons } from './audio.js';
+import { refreshFollow } from './karaoke.js';
 
 /* ==========================================================================
    RENDERING FUNCTIONS
@@ -141,4 +142,5 @@ export function renderVerses() {
     // Update container content
     DOMElements.versesContainer.innerHTML = versesHTML;
     syncAudioButtons();
+    refreshFollow();
 }

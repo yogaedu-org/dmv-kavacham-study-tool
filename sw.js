@@ -13,7 +13,7 @@
  */
 'use strict';
 
-const CACHE = 'dmv-kavacham-v12';
+const CACHE = 'dmv-kavacham-v13';
 // Downloaded verse audio (a later offline-download feature, #56) lives in caches named 'dmv-audio-<set>@<version>'.
 // The cleanup below must never delete them, so an app update does not erase a reader's offline audio.
 const AUDIO_CACHE_PREFIX = 'dmv-audio-';
@@ -30,6 +30,7 @@ const ASSETS = [
   './js/render.js',
   './js/audio.js',
   './js/audio-source.js',
+  './js/karaoke.js',
   './styles.css',
   './figures/body-head.webp',
   './figures/body-face.webp',
@@ -43,6 +44,7 @@ const ASSETS = [
   './figures/body-feet.webp',
   './config.json',
   './data/verses.json',
+  './audio/sets/day2/timings.json',
   './i18n/en.json',
   './i18n/ne.json',
   './i18n/es.json',
