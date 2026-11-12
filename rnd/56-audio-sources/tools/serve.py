@@ -109,7 +109,7 @@ def make_handler(root, cors, maps=None, ranges=True):
                             break
                         self.wfile.write(chunk)
                         left -= len(chunk)
-            except (BrokenPipeError, ConnectionResetError):
+            except ConnectionError:
                 pass  # the browser aborted a media request (seek); not an error
 
         def do_GET(self):

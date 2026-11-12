@@ -59,12 +59,12 @@ export function initRecordSection({ src, pageData, getMode }) {
       await new Promise((r) => setTimeout(r, 20));          // let the status paint before the (about 1 s) computation
       const full = compare(takePcm, ref.pcm, verse());   // the importable entry point; the page draws its `details`
       window.__lastCompare = full;
-      showResult(full.details, ref.from);
+      showResult(full.details, ref.from, full);
       status(`Done. Reference from ${ref.from}.`);
     } catch (e) { status(e.message, true); }
   });
 
-  function showResult(res, refFrom) {
+  function showResult(res, refFrom, full) {
     $("result").hidden = false;
     const o = res.overall, flagged = res.aksharas.filter((a) => a.flagged);
     $("overallscore").innerHTML = `<b>Overall similarity to the Day 2 reference: ${o.score} / 100</b> <span class="chip ${band(o.confidence)}">confidence ${o.confidence}</span><br>
@@ -73,6 +73,15 @@ export function initRecordSection({ src, pageData, getMode }) {
       `<tr class="${a.flagged ? "flag" : ""}" data-i="${a.i}" data-flagged="${a.flagged ? 1 : 0}"><td>${a.i + 1}</td><td lang="sa">${esc(a.deva)} ${esc(a.iast)}</td>
         <td>${a.ratio.toFixed(2)} ${cchip("c", a.conf.timing)}</td><td>${a.cents === null ? "n/a" : Math.round(a.cents)} ${cchip("c", a.conf.pitch)}</td>
         <td>${a.z.toFixed(1)} ${cchip("c", a.conf.match)}</td><td>${esc(a.flags.join("; ")) || "-"}</td></tr>`).join("");
+    const row = (label, x, extra) => `<tr><td>${label}</td><td>${x.score} / 100</td><td><span class="chip ${band(x.confidence)}">confidence ${x.confidence}</span></td><td>${extra}</td></tr>`;
+    $("levels").innerHTML = `<tr><th>Level</th><th>Score</th><th>Confidence</th><th>Flagged</th></tr>` +
+      row("Overall", full.overall, `${flagged.length} of ${res.aksharas.length} aksharas`) +
+      row("Verse", full.verse, `${full.verse.flagged} of ${full.verse.of}`) +
+      full.lines.map((l) => row(`Line ${l.line + 1} (aksharas ${l.from + 1}-${l.to + 1})`, l, `${l.flagged} of ${l.of}`)).join("");
+    const poor = res.fitFactor < 1 ? `<br><b>Poor overall match:</b> the take is far from the reference sound (median spectral distance ${res.medianCost}; ordinary takes sit near 0.6-0.7), so every score is scaled down (x${res.fitFactor}).` : "";
+    $("overallscore").insertAdjacentHTML("beforeend", poor);
+    const low = o.confidence < 30 ? `<br><b>Low confidence (${o.confidence}):</b> the take did not align well to the reference, so the score and the flags are not meaningful for this recording.` : "";
+    $("overallscore").insertAdjacentHTML("beforeend", low);
     drawOverlay(res);
   }
 

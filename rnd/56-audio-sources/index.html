@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
+<link rel="icon" href="data:,">
 <title>TEST PAGE: swappable audio sources + record/compare (dmv #56 #57)</title>
 <style>
   :root { --bg:#f6f4ef; --fg:#1d1b18; --mute:#6b655c; --card:#fff; --line:#ddd6c8; --acc:#8a2f1d; --ok:#2e6b3a; --warn:#9a6a00; --bad:#a4262c; --ref:#2b5d9b; --take:#c2631a; }
@@ -89,6 +90,8 @@
     <div id="result" hidden>
       <h3 style="margin-bottom:4px">Result</h3>
       <div id="overallscore" class="card"></div>
+      <div class="tablewrap"><table id="levels" aria-label="score and confidence per verse and per line"></table></div>
+      <p class="caveat" id="explain"><b>Score</b> (0-100) is how close your take is to the Day 2 reference. <b>Confidence</b> (0-100) is how sure the measurement is: it falls when the take did not line up with the reference, or the aksharas are too short or unvoiced to measure. A low score with a low confidence usually means the recording did not match this verse (noise, silence, or a different verse): that is expected, and it is not a verdict on your chanting.</p>
       <p class="mute"><span class="sw" style="background:var(--ref)"></span> reference (Day 2) &nbsp; <span class="sw" style="background:var(--take)"></span> your take, stretched onto the reference timeline &nbsp; red band = flagged akshara</p>
       <canvas id="overlay" aria-label="waveform overlay of the reference and your take"></canvas>
       <div class="tablewrap"><table id="aktable"></table></div>
