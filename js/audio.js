@@ -25,6 +25,7 @@ let current = null;       // the set whose manifest is loaded into `source`
 let manifest = null;      // its manifest
 let source = null;        // audio-source.js instance
 let loadError = null;     // last failure to reach the host (null = fine)
+let lostSet = null;       // a remembered set that is not in the (reachable) indexes: { label, host }
 let playingVerse = null;
 let isPlaying = false;
 
@@ -48,16 +49,19 @@ export function audioButtonHTML(verseNumber) {
 function labelFor(key, n) { return escapeHtml(t(key).replace('{n}', n)); }
 
 async function getJson(url) {
-    const r = await fetch(url);
-    if (!r.ok) throw new Error(url + ': HTTP ' + r.status);
+    let r;
+    try { r = await fetch(url); } catch (e) { const err = new Error(url + ': unreachable'); err.url = url; throw err; }
+    if (!r.ok) { const err = new Error(url + ': HTTP ' + r.status); err.url = url; throw err; }
     return r.json();
 }
 
 const absRoot = function(base) { return new URL(base.charAt(base.length - 1) === '/' ? base : base + '/', document.baseURI).href; };
-let indexUrl = null, indexRoot = null;
+let indexUrl = null, indexRoot = null, extraFailedHosts = [];
 
-/** Host named in the "could not be loaded" message. */
+/** Host named in the "could not be loaded" message: the host of the request that FAILED (a fixture set's host is not the public host). */
 function hostLabel() {
+    const failed = loadError && loadError.url;
+    if (failed) { try { return new URL(failed).host; } catch (e) { /* fall through */ } }
     const base = (CONFIG.audio || {}).cloudBase || (CONFIG.audio || {}).offlineBase || '';
     try { return new URL(absRoot(base)).host; } catch (e) { return base; }
 }
@@ -89,7 +93,8 @@ async function useSet(set) {
 }
 
 function savedSetId() { try { return localStorage.getItem(SET_KEY); } catch (e) { return null; } }
-function saveSetId(id) { try { localStorage.setItem(SET_KEY, id); } catch (e) { /* private mode */ } }
+function saveSetId(set) { try { localStorage.setItem(SET_KEY, set.id); localStorage.setItem(SET_KEY + '-label', set.label || set.id); } catch (e) { /* private mode */ } }
+function savedSetLabel(id) { try { return localStorage.getItem(SET_KEY + '-label') || id; } catch (e) { return id; } }
 
 async function loadIndex() {
     const roots = [CONFIG.audio.cloudBase, CONFIG.audio.offlineBase].filter(Boolean).map(absRoot);
@@ -102,6 +107,7 @@ async function loadIndex() {
     const list = (index.sets || []).filter(function(s) { return s && s.id && s.manifest; });
     if (!list.length) throw new Error('no sets in ' + indexUrl);
     // Preview/test hook: extra index files (empty in the committed config) add sets, for example a local fixture set.
+    extraFailedHosts = [];
     for (const url of (CONFIG.audio.extraIndexes || [])) {
         const full = new URL(url, document.baseURI).href;
         try {
@@ -109,14 +115,17 @@ async function loadIndex() {
             (extra.sets || []).forEach(function(s) {
                 if (s && s.id && s.manifest && !list.some(function(x) { return x.id === s.id; })) list.push(Object.assign({}, s, { _indexUrl: full, recommended: false }));
             });
-        } catch (e) { console.warn('Extra audio index not loaded:', full, e.message); }
+        } catch (e) { console.warn('Extra audio index not loaded:', full, e.message); extraFailedHosts.push(new URL(full).host); }
     }
     sets = list;
 }
 
 function pickDefault() {
     const saved = savedSetId();
-    return sets.filter(function(s) { return s.id === saved; })[0] || sets.filter(function(s) { return s.recommended; })[0] || sets[0];
+    const found = sets.filter(function(s) { return s.id === saved; })[0];
+    lostSet = null;
+    if (!found && saved && extraFailedHosts.length) lostSet = { label: savedSetLabel(saved), host: extraFailedHosts[0] };   // remembered set lives on a host that did not answer
+    return found || sets.filter(function(s) { return s.recommended; })[0] || sets[0];
 }
 
 /** Make sure the index and the CHOSEN set's manifest are loaded; throws if the host cannot be reached. */
@@ -153,16 +162,18 @@ function fillSetSelect() {
 function renderNotice() {
     const box = document.getElementById('audioNotice'), text = document.getElementById('audioNoticeText');
     if (!box || !text) return;
-    box.hidden = !loadError;
+    box.hidden = !loadError && !lostSet;
     if (loadError) text.textContent = t('audio.hostDown').replace('{host}', hostLabel());
+    else if (lostSet) text.textContent = t('audio.setLost').replace('{set}', lostSet.label).replace('{host}', lostSet.host).replace('{fallback}', (chosen && chosen.label) || '');
 }
 
 /** Retry loading (Retry button, the browser coming back online). Resolves true on success. */
 export async function retryAudio() {
     if (!audioEnabled()) return false;
+    if (lostSet) { sets = []; chosen = null; }                         // re-read the indexes so the remembered set can come back
     try { await ensureLoaded(); } catch (error) { loadError = error; console.warn('Verse audio unavailable:', error.message); }
     fillSetSelect(); renderNotice();
-    return !loadError;
+    return !loadError && !lostSet;
 }
 
 function statusEl(n) { return document.getElementById('audioStatus-' + n); }
@@ -172,6 +183,7 @@ function setStatus(n, text, isError) {
     if (!el) return;
     el.textContent = text || '';
     el.classList.toggle('verse-audio-status--error', !!isError);
+    if (isError && el.scrollIntoView) el.scrollIntoView({ block: 'center', behavior: 'instant' });   // an error under a verse at the screen edge must be seen
 }
 
 function paintPlayingStatus() {
@@ -209,7 +221,7 @@ async function playVerse(n) {
     syncAudioButtons();
     try { await ensureLoaded(); renderNotice(); fillSetSelect(); } catch (error) {
         loadError = error; console.warn('Verse audio unavailable:', error.message);
-        if (playingVerse === n) { playingVerse = null; syncAudioButtons(); setStatus(n, t('audio.unavailable'), true); }
+        if (playingVerse === n) { playingVerse = null; syncAudioButtons(); setStatus(n, t('audio.unavailable').replace('{host}', hostLabel()), true); }
         renderNotice(); fillSetSelect();
         return;
     }
@@ -256,7 +268,7 @@ export function initAudioControls() {
     if (select) select.addEventListener('change', async function() {
         const set = sets.filter(function(s) { return s.id === select.value; })[0];
         if (!set) return;
-        chosen = set; saveSetId(set.id);                              // the reader's choice stands whether or not the host answers
+        chosen = set; saveSetId(set); lostSet = null;                 // the reader's choice stands whether or not the host answers
         stopAudio();
         document.querySelectorAll('.verse-audio-status').forEach(function(el) { el.textContent = ''; });
         try { await ensureLoaded(); } catch (error) { loadError = error; console.warn('Could not load set ' + set.id + ':', error.message); }

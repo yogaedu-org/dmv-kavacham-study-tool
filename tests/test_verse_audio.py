@@ -444,3 +444,89 @@ def test_cloud_that_ignores_range_plays_from_a_blob_url_and_a_corrupt_clip_is_re
         ctx.close()
     finally:
         open(clip, "wb").write(good)
+
+
+def fixture_host(env):
+    """A second origin (B) holding a fixture set 'day5-local', listed through audio.extraIndexes; the main mock cloud (A) stays up."""
+    port = free_port()
+    fx = os.path.join(env["cloud_dir"], "fixture-sets")
+    os.makedirs(fx, exist_ok=True)
+    json.dump({"schema": 1, "sets": [{"id": "day5-local", "label": "Day 5 (local test)", "recommended": False, "manifest": "../sets/day5/manifest.json"}]}, open(os.path.join(fx, "index.json"), "w"))
+    c = json.load(open(os.path.join(env["site"], "config.json"), encoding="utf-8"))
+    c["audio"]["extraIndexes"] = ["http://127.0.0.1:%d/fixture-sets/index.json" % port]
+    json.dump(c, open(os.path.join(env["site"], "config.json"), "w"))
+    return port
+
+
+def test_message_names_the_host_of_the_set_that_failed_not_the_main_host(browser, env):
+    """Failure caught: the unreachable-host message says pages.dev (the main host) when the fixture set's host failed."""
+    port = fixture_host(env)
+    srv_b = serve.start(env["cloud_dir"], port, cors=True, ranges=False)
+    try:
+        ctx = browser.new_context(); pg = ctx.new_page()
+        pg.goto(env["app"]); pg.wait_for_selector("article.verse")
+        pg.select_option("#audioSetSelect", "day5-local")
+        srv_b.shutdown(); srv_b.server_close(); srv_b = None                  # host B goes away; host A stays up
+        pg.select_option("#audioSetSelect", "day2")
+        pg.select_option("#audioSetSelect", "day5-local")
+        pg.wait_for_selector("#audioNotice", state="visible")
+        text = pg.locator("#audioNotice").inner_text()
+        assert "127.0.0.1:%d" % port in text, text
+        assert env["cloud"].replace("http://", "").rstrip("/") not in text, text   # not host A
+        ctx.close()
+    finally:
+        if srv_b:
+            srv_b.shutdown(); srv_b.server_close()
+        env["write_config"](env["cloud"])
+
+
+def test_reload_with_the_remembered_set_unreachable_says_so_and_plays_day_2_instead(browser, env):
+    """Failure caught: a remembered set is silently dropped on reload and Day 2 plays as if nothing happened."""
+    port = fixture_host(env)
+    srv_b = serve.start(env["cloud_dir"], port, cors=True, ranges=False)
+    try:
+        ctx = browser.new_context(); pg = ctx.new_page()
+        pg.goto(env["app"]); pg.wait_for_selector("article.verse")
+        pg.select_option("#audioSetSelect", "day5-local")                      # remembered (id and label)
+        srv_b.shutdown(); srv_b.server_close(); srv_b = None
+        pg.reload(); pg.wait_for_selector("article.verse")
+        notice = pg.locator("#audioNotice")
+        assert notice.is_visible()
+        assert notice.inner_text().startswith("Day 5 (local test) could not be loaded from 127.0.0.1:%d; playing Day 2" % port), notice.inner_text()
+        assert pg.locator("#audioSetSelect").input_value() == "day2"
+        assert pg.evaluate("localStorage.getItem('dmv-audio-set')") == "day5-local"   # still remembered for the next visit
+        pg.click(".verse-play[data-verse='1']")
+        playing(pg, "/sets/day2/verse-01.wav")
+        srv_b = serve.start(env["cloud_dir"], port, cors=True, ranges=False)          # the host returns: Retry brings the remembered set back
+        pg.click("#audioRetry")
+        pg.wait_for_selector("#audioNotice", state="hidden")
+        assert pg.locator("#audioSetSelect").input_value() == "day5-local"
+        ctx.close()
+    finally:
+        if srv_b:
+            srv_b.shutdown(); srv_b.server_close()
+        env["write_config"](env["cloud"])
+
+
+def test_pressing_play_while_the_host_is_blocked_shows_a_message_at_the_verse_in_view(browser, env):
+    """Failure caught: the only message is in the controls area, off-screen when the reader is down the page."""
+    port = free_port()
+    srv = serve.start(env["cloud_dir"], port, cors=True, ranges=False)
+    env["write_config"]("http://127.0.0.1:%d/" % port)
+    try:
+        ctx = browser.new_context(viewport={"width": 390, "height": 700}); pg = ctx.new_page()
+        pg.goto(env["app"]); pg.wait_for_selector("article.verse")
+        srv.shutdown(); srv.server_close(); srv = None                           # blocked after load
+        pg.select_option("#audioSetSelect", "day5")                             # a set whose manifest cannot be fetched now
+        pg.locator("#verse-14").scroll_into_view_if_needed()
+        pg.click(".verse-play[data-verse='14']")
+        pg.wait_for_function("() => document.getElementById('audioStatus-14').textContent.length > 0")
+        status = pg.locator("#audioStatus-14")
+        assert "127.0.0.1:%d" % port in status.inner_text() and "unavailable" in status.inner_text().lower(), status.inner_text()
+        box = status.bounding_box()
+        assert box and 0 <= box["y"] and box["y"] + box["height"] <= 700, box      # inside the viewport, not up in the controls
+        ctx.close()
+    finally:
+        if srv:
+            srv.shutdown(); srv.server_close()
+        env["write_config"](env["cloud"])
