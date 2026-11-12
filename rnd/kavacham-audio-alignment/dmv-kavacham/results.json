@@ -3260,7 +3260,8 @@
      "tier": "defect",
      "severity": 0,
      "passes_agreeing": 0,
-     "defect_sev": "high"
+     "defect_sev": "high",
+     "fconf": 95
     },
     {
      "kind": "audio defect",
@@ -3278,7 +3279,8 @@
      "tier": "defect",
      "severity": 0,
      "passes_agreeing": 0,
-     "defect_sev": "low"
+     "defect_sev": "low",
+     "fconf": 95
     },
     {
      "kind": "audio defect",
@@ -3296,7 +3298,8 @@
      "tier": "defect",
      "severity": 0,
      "passes_agreeing": 0,
-     "defect_sev": "low"
+     "defect_sev": "low",
+     "fconf": 95
     }
    ],
    "model_habit": [],
@@ -3686,7 +3689,8 @@
      "tier": "defect",
      "severity": 0,
      "passes_agreeing": 0,
-     "defect_sev": "high"
+     "defect_sev": "high",
+     "fconf": 95
     }
    ],
    "model_habit": [],
@@ -4091,7 +4095,8 @@
      "cut_edge": true,
      "passes_agreeing": 3,
      "tier": "defect",
-     "severity": 0
+     "severity": 0,
+     "fconf": 95
     },
     {
      "kind": "audio defect",
@@ -4109,7 +4114,8 @@
      "tier": "defect",
      "severity": 0,
      "passes_agreeing": 0,
-     "defect_sev": "low"
+     "defect_sev": "low",
+     "fconf": 95
     }
    ],
    "model_habit": [
@@ -4876,7 +4882,8 @@
      "passes_agreeing": 1,
      "agreeing_sources": 1,
      "tier": "listen and judge",
-     "severity": 0.5
+     "severity": 0.5,
+     "fconf": 33
     }
    ],
    "model_habit": [
@@ -5284,7 +5291,8 @@
      "passes_agreeing": 2,
      "agreeing_sources": 2,
      "tier": "probable slip",
-     "severity": 2.0
+     "severity": 2.0,
+     "fconf": 67
     }
    ],
    "model_habit": [],
@@ -6434,7 +6442,8 @@
      "passes_agreeing": 1,
      "agreeing_sources": 1,
      "tier": "listen and judge",
-     "severity": 1.0
+     "severity": 1.0,
+     "fconf": 33
     }
    ],
    "model_habit": [
@@ -7203,7 +7212,8 @@
      "tier": "defect",
      "severity": 0,
      "passes_agreeing": 0,
-     "defect_sev": "low"
+     "defect_sev": "low",
+     "fconf": 95
     }
    ],
    "model_habit": [
@@ -7612,7 +7622,8 @@
      "passes_agreeing": 1,
      "agreeing_sources": 1,
      "tier": "listen and judge",
-     "severity": 1.0
+     "severity": 1.0,
+     "fconf": 33
     }
    ],
    "model_habit": [],
@@ -7993,7 +8004,8 @@
      "tier": "defect",
      "severity": 0,
      "passes_agreeing": 0,
-     "defect_sev": "low"
+     "defect_sev": "low",
+     "fconf": 95
     }
    ],
    "model_habit": [],
@@ -8384,7 +8396,8 @@
      "passes_agreeing": 1,
      "agreeing_sources": 1,
      "tier": "listen and judge",
-     "severity": 0.5
+     "severity": 0.5,
+     "fconf": 50
     },
     {
      "kind": "substitution",
@@ -8413,7 +8426,8 @@
      "passes_agreeing": 1,
      "agreeing_sources": 1,
      "tier": "listen and judge",
-     "severity": 1.0
+     "severity": 1.0,
+     "fconf": 50
     },
     {
      "kind": "substitution",
@@ -8442,7 +8456,8 @@
      "passes_agreeing": 1,
      "agreeing_sources": 1,
      "tier": "listen and judge",
-     "severity": 1.0
+     "severity": 1.0,
+     "fconf": 50
     }
    ],
    "model_habit": [
@@ -10361,7 +10376,8 @@
      "passes_agreeing": 1,
      "agreeing_sources": 1,
      "tier": "listen and judge",
-     "severity": 0.5
+     "severity": 0.5,
+     "fconf": 33
     }
    ],
    "model_habit": [],
@@ -10742,7 +10758,8 @@
      "tier": "defect",
      "severity": 0,
      "passes_agreeing": 0,
-     "defect_sev": "low"
+     "defect_sev": "low",
+     "fconf": 95
     }
    ],
    "model_habit": [],
@@ -12624,7 +12641,8 @@
      "tier": "defect",
      "severity": 0,
      "passes_agreeing": 0,
-     "defect_sev": "low"
+     "defect_sev": "low",
+     "fconf": 95
     }
    ],
    "model_habit": [
@@ -13033,7 +13051,8 @@
      "passes_agreeing": 1,
      "agreeing_sources": 1,
      "tier": "listen and judge",
-     "severity": 1.0
+     "severity": 1.0,
+     "fconf": 33
     }
    ],
    "model_habit": [],
@@ -15328,7 +15347,8 @@
      "passes_agreeing": 2,
      "agreeing_sources": 2,
      "tier": "probable slip",
-     "severity": 2.0
+     "severity": 2.0,
+     "fconf": 67
     }
    ],
    "model_habit": [],
@@ -15719,7 +15739,8 @@
      "passes_agreeing": 1,
      "agreeing_sources": 1,
      "tier": "listen and judge",
-     "severity": 0.5
+     "severity": 0.5,
+     "fconf": 33
     },
     {
      "kind": "timing",
@@ -15747,7 +15768,8 @@
      "passes_agreeing": 1,
      "agreeing_sources": 1,
      "tier": "listen and judge",
-     "severity": 0.25
+     "severity": 0.25,
+     "fconf": 33
     }
    ],
    "model_habit": [
@@ -16141,7 +16163,8 @@
      "tier": "defect",
      "severity": 0,
      "passes_agreeing": 0,
-     "defect_sev": "low"
+     "defect_sev": "low",
+     "fconf": 95
     }
    ],
    "model_habit": [],
@@ -16522,7 +16545,8 @@
      "tier": "defect",
      "severity": 0,
      "passes_agreeing": 0,
-     "defect_sev": "low"
+     "defect_sev": "low",
+     "fconf": 95
     }
    ],
    "model_habit": [
@@ -17315,7 +17339,8 @@
      "passes_agreeing": 1,
      "agreeing_sources": 1,
      "tier": "listen and judge",
-     "severity": 0.5
+     "severity": 0.5,
+     "fconf": 33
     },
     {
      "kind": "timing",
@@ -17343,7 +17368,8 @@
      "passes_agreeing": 1,
      "agreeing_sources": 1,
      "tier": "listen and judge",
-     "severity": 0.25
+     "severity": 0.25,
+     "fconf": 33
     },
     {
      "kind": "audio defect",
@@ -17361,7 +17387,8 @@
      "tier": "defect",
      "severity": 0,
      "passes_agreeing": 0,
-     "defect_sev": "low"
+     "defect_sev": "low",
+     "fconf": 95
     }
    ],
    "model_habit": [
@@ -18129,7 +18156,8 @@
      "passes_agreeing": 1,
      "agreeing_sources": 1,
      "tier": "listen and judge",
-     "severity": 1.0
+     "severity": 1.0,
+     "fconf": 33
     },
     {
      "kind": "audio defect",
@@ -18147,7 +18175,8 @@
      "tier": "defect",
      "severity": 0,
      "passes_agreeing": 0,
-     "defect_sev": "low"
+     "defect_sev": "low",
+     "fconf": 95
     }
    ],
    "model_habit": [],
@@ -18542,7 +18571,8 @@
      "passes_agreeing": 1,
      "agreeing_sources": 1,
      "tier": "listen and judge",
-     "severity": 1.0
+     "severity": 1.0,
+     "fconf": 33
     }
    ],
    "model_habit": [],
@@ -19290,7 +19320,8 @@
      "passes_agreeing": 1,
      "agreeing_sources": 1,
      "tier": "listen and judge",
-     "severity": 1.0
+     "severity": 1.0,
+     "fconf": 33
     },
     {
      "kind": "audio defect",
@@ -19308,7 +19339,8 @@
      "tier": "defect",
      "severity": 0,
      "passes_agreeing": 0,
-     "defect_sev": "low"
+     "defect_sev": "low",
+     "fconf": 95
     }
    ],
    "model_habit": [
@@ -19717,7 +19749,8 @@
      "passes_agreeing": 2,
      "agreeing_sources": 2,
      "tier": "probable slip",
-     "severity": 2.0
+     "severity": 2.0,
+     "fconf": 67
     }
    ],
    "model_habit": [
@@ -20143,7 +20176,8 @@
      "passes_agreeing": 1,
      "agreeing_sources": 1,
      "tier": "listen and judge",
-     "severity": 0.5
+     "severity": 0.5,
+     "fconf": 33
     }
    ],
    "model_habit": [
@@ -21299,7 +21333,8 @@
      "passes_agreeing": 1,
      "agreeing_sources": 1,
      "tier": "listen and judge",
-     "severity": 0.5
+     "severity": 0.5,
+     "fconf": 33
     },
     {
      "kind": "substitution",
@@ -21335,7 +21370,8 @@
      "passes_agreeing": 3,
      "agreeing_sources": 3,
      "tier": "probable slip",
-     "severity": 2.0
+     "severity": 2.0,
+     "fconf": 95
     }
    ],
    "model_habit": [
@@ -21743,7 +21779,8 @@
      "passes_agreeing": 1,
      "agreeing_sources": 2,
      "tier": "probable slip",
-     "severity": 1.0
+     "severity": 1.0,
+     "fconf": 50
     },
     {
      "kind": "repeat/restart",
@@ -21770,7 +21807,8 @@
      "passes_agreeing": 2,
      "agreeing_sources": 2,
      "tier": "probable slip",
-     "severity": 8.0
+     "severity": 8.0,
+     "fconf": 67
     }
    ],
    "model_habit": [],
@@ -23670,7 +23708,8 @@
      "passes_agreeing": 1,
      "agreeing_sources": 1,
      "tier": "listen and judge",
-     "severity": 1.0
+     "severity": 1.0,
+     "fconf": 33
     }
    ],
    "model_habit": [
@@ -24083,7 +24122,8 @@
      "passes_agreeing": 2,
      "agreeing_sources": 2,
      "tier": "probable slip",
-     "severity": 4.0
+     "severity": 4.0,
+     "fconf": 67
     }
    ],
    "model_habit": [],
@@ -24474,7 +24514,8 @@
      "passes_agreeing": 1,
      "agreeing_sources": 1,
      "tier": "listen and judge",
-     "severity": 0.5
+     "severity": 0.5,
+     "fconf": 33
     }
    ],
    "model_habit": [],
@@ -24869,7 +24910,8 @@
      "passes_agreeing": 1,
      "agreeing_sources": 2,
      "tier": "probable slip",
-     "severity": 1.0
+     "severity": 1.0,
+     "fconf": 50
     },
     {
      "kind": "substitution",
@@ -24897,7 +24939,8 @@
      "passes_agreeing": 1,
      "agreeing_sources": 1,
      "tier": "listen and judge",
-     "severity": 0.5
+     "severity": 0.5,
+     "fconf": 50
     }
    ],
    "model_habit": [
@@ -25304,7 +25347,8 @@
      "passes_agreeing": 1,
      "agreeing_sources": 1,
      "tier": "listen and judge",
-     "severity": 0.5
+     "severity": 0.5,
+     "fconf": 33
     }
    ],
    "model_habit": [
@@ -26094,7 +26138,8 @@
      "passes_agreeing": 1,
      "agreeing_sources": 1,
      "tier": "listen and judge",
-     "severity": 0.5
+     "severity": 0.5,
+     "fconf": 33
     }
    ],
    "model_habit": [
@@ -26512,7 +26557,8 @@
      "passes_agreeing": 1,
      "agreeing_sources": 1,
      "tier": "listen and judge",
-     "severity": 0.5
+     "severity": 0.5,
+     "fconf": 33
     }
    ],
    "model_habit": [],
@@ -26905,7 +26951,8 @@
      "passes_agreeing": 1,
      "agreeing_sources": 1,
      "tier": "listen and judge",
-     "severity": 0.5
+     "severity": 0.5,
+     "fconf": 33
     },
     {
      "kind": "substitution",
@@ -26933,7 +26980,8 @@
      "passes_agreeing": 1,
      "agreeing_sources": 1,
      "tier": "listen and judge",
-     "severity": 0.5
+     "severity": 0.5,
+     "fconf": 33
     },
     {
      "kind": "substitution",
@@ -26961,7 +27009,8 @@
      "passes_agreeing": 1,
      "agreeing_sources": 1,
      "tier": "listen and judge",
-     "severity": 0.5
+     "severity": 0.5,
+     "fconf": 33
     }
    ],
    "model_habit": [],
@@ -28115,7 +28164,8 @@
      "passes_agreeing": 1,
      "agreeing_sources": 1,
      "tier": "listen and judge",
-     "severity": 0.5
+     "severity": 0.5,
+     "fconf": 33
     }
    ],
    "model_habit": [],
@@ -28881,7 +28931,8 @@
      "passes_agreeing": 1,
      "agreeing_sources": 1,
      "tier": "listen and judge",
-     "severity": 0.5
+     "severity": 0.5,
+     "fconf": 33
     }
    ],
    "model_habit": [],
@@ -29652,7 +29703,8 @@
      "passes_agreeing": 1,
      "agreeing_sources": 1,
      "tier": "listen and judge",
-     "severity": 1.0
+     "severity": 1.0,
+     "fconf": 33
     }
    ],
    "model_habit": [],
@@ -30784,7 +30836,8 @@
      "passes_agreeing": 2,
      "agreeing_sources": 2,
      "tier": "probable slip",
-     "severity": 2.0
+     "severity": 2.0,
+     "fconf": 67
     },
     {
      "kind": "substitution",
@@ -30812,7 +30865,8 @@
      "passes_agreeing": 1,
      "agreeing_sources": 1,
      "tier": "listen and judge",
-     "severity": 0.5
+     "severity": 0.5,
+     "fconf": 33
     }
    ],
    "model_habit": [
@@ -31238,7 +31292,8 @@
      "passes_agreeing": 1,
      "agreeing_sources": 1,
      "tier": "listen and judge",
-     "severity": 0.5
+     "severity": 0.5,
+     "fconf": 33
     }
    ],
    "model_habit": [
@@ -32396,7 +32451,8 @@
      "passes_agreeing": 1,
      "agreeing_sources": 1,
      "tier": "listen and judge",
-     "severity": 0.5
+     "severity": 0.5,
+     "fconf": 33
     },
     {
      "kind": "timing",
@@ -32424,7 +32480,8 @@
      "passes_agreeing": 1,
      "agreeing_sources": 1,
      "tier": "listen and judge",
-     "severity": 0.25
+     "severity": 0.25,
+     "fconf": 33
     },
     {
      "kind": "substitution",
@@ -32452,7 +32509,8 @@
      "passes_agreeing": 1,
      "agreeing_sources": 1,
      "tier": "listen and judge",
-     "severity": 0.5
+     "severity": 0.5,
+     "fconf": 33
     }
    ],
    "model_habit": [],
@@ -35454,7 +35512,8 @@
      "tier": "defect",
      "severity": 0,
      "passes_agreeing": 0,
-     "defect_sev": "low"
+     "defect_sev": "low",
+     "fconf": 95
     }
    ],
    "model_habit": [],
@@ -37594,7 +37653,7 @@
     "located_by_C": true
    }
   ],
-  "note": "the spliced repeat was heard by both listeners but placed several syllables away, so it would be a listen-and-judge lead"
+  "note": "the spliced repeat was heard by both letter-level listeners (CTC letters and Whisper) but placed several syllables away, so it would be a listen-and-judge lead"
  },
  "synth_conf": [
   {

@@ -13,10 +13,10 @@ Method and numbers: `METHOD.md` (this folder). The review is a lead to listen to
 
 | file | generated? | from what |
 |---|---|---|
-| `../chant.json` | no (edited by hand) | the ONE config per chant: title, verses file, sets (days) with labels / timings / audio location, results file, recommended set, tabs |
+| `../chant.json` | no (edited by hand) | the ONE config per chant: title, favicon, verses file, sets (days) with labels / timings / audio location, results file, recommended set (the player opens on it and marks it), tabs |
 | `../player.html` | yes | `python rnd/kavacham-audio-alignment/scripts/gen_kavacham_player.py [chant folder]` from `chant.json` + the per-day `kavacham-verse-timings*.json` |
 | `../review.html` | yes | `python scripts/build_review.py [chant folder]` from `scripts/review_template.html` + `chant.json` (only the title is filled in; the page reads `chant.json` and `results.json` at run time) |
-| `../results.json` | yes (analysis output) | `scripts/step3_merge.py`; `build_review.py` merges the known-slip calibration (`synth_*`) into it |
+| `../results.json` | yes (analysis output) | `scripts/step3_merge.py`; `build_review.py` merges the known-slip calibration (`synth_*`) into it and adds `fconf`, the confidence of each finding (formula in `METHOD.md`) |
 | `../synth_conf.json`, `../synth_fa.json` | yes | `scripts/synth_conf.py`, `scripts/synth_fa.py` (known-slip calibration) |
 | `scripts/*.py` | no | the analysis pipeline, in order: `step0_decode.py` (mp3 to 16 kHz wav), `step1_prescreen.py` (signal), `step2ab_ctc.py` (CTC alignment + greedy decode, GPU), `step2c_whisper.py` (Whisper, GPU), `step3_merge.py` (merge, confidence), `synth_make.py` / `synth_gpu.py` / `synth_fa.py` / `synth_check.py` / `synth_conf.py` (calibration), `build_review.py` |
 | `work/` | scratch, gitignored | wavs, pass outputs; `$DMV_REVIEW_WORK` moves it |

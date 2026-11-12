@@ -59,3 +59,16 @@ Where the numbers live: `results.json` (`takes[day.verse].padas[]` has the compo
 Recommended day after the confidence numbers: unchanged, Day 2 (mean confidence 89.6, 14 of 14 verses with every line at 70 or more; next Day 5 and Day 6 at 85.5, Day 1 86.1 over 11 scored verses, Day 3 85.3, Day 4 80.2).
 
 Outputs of this update are `results.json`, `synth_conf.json`, `synth_fa.json` and `review.html` in the chant folder (#55 moved them into the repo, beside the player).
+
+## Confidence of a single finding (added #55, every finding carries a number)
+Each finding in `results.json` has `fconf` (0 to 95), written by `scripts/build_review.py` from fields the merge already stored; nothing is measured again.
+
+`fconf = min(95, round(100 * A / N))` where
+- `A` = the sources that flagged the finding: `agreeing_sources` (the passes that agree, plus the silence meter when it confirmed the finding), else `passes_agreeing`;
+- `N` = the sources that could have flagged it on that line: pass A (timing) only if it ran on that line, pass B (CTC letters), pass C (Whisper) unless it looped on the clip (day 6 verse 9), plus 1 when the silence meter confirmed it.
+
+So 1 of 3 = 33, 2 of 3 = 67, 3 of 3 = 95 (capped, as for the line scores); a long pause confirmed by the silence meter is 2 of 4 = 50. An audio defect that no pass flagged (a clip cut wrongly, a loud first or last 40 ms) is a direct measurement and counts 1 of 1, so 95. This number says how sure the tool is that something is there; it does not say how bad it sounds, and it is not the line confidence (which is how likely the line was chanted as written).
+
+"Listeners" everywhere means the three passes A, B, C. The known-slip calibration above ran only the two letter-level listeners (B, C); pass A was assumed clean on the spliced clips, and the page says so.
+
+Not scored: a take whose clip is cut wrongly (day 1 verses 1 and 2), whose line is missing syllables because the clip starts or ends mid-sound (day 1 verse 3) or where Whisper looped (day 6 verse 9) shows "n/a" with the reason under it ("bad cut", "cut edge", "looped"), never an empty cell.

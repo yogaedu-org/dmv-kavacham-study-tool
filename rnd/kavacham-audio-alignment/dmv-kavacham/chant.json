@@ -16,6 +16,7 @@
   "results": "results.json",
   "audio_manifest": "audio-manifest.json",
   "review_storage_key": "dmvChantReview.v1",
+  "favicon": "../../../icons/icon-192.png",
   "lead_in_s": 1,
   "pages": {"player": "player.html", "review": "review.html"},
   "tabs": [

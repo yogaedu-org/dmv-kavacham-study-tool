@@ -12,8 +12,29 @@
   "use strict";
   var N = window.ChantNav;
 
+  /* each day's review score on its button and header, and the "recommended" mark (chant.json recommended_set) */
+  function decorateDays(cfg, R) {
+    var dc = (R && R.day_conf) || {}, thresh = R && R.conf_params ? R.conf_params.thresh : 70;
+    function mk(cls, text, title) { var e = document.createElement("span"); e.className = cls; e.textContent = text; if (title) e.title = title; return e; }
+    document.querySelectorAll(".tab[data-day]").forEach(function (btn) {
+      var d = +btn.getAttribute("data-day"), c = dc[d];
+      if (c && c.mean != null) btn.appendChild(mk("chant-dscore", "· " + Math.round(c.mean),
+        "Accuracy review: average confidence " + c.mean + " over " + c.n_scored + " scored verses"));
+      if (d === cfg.recommended_set) btn.appendChild(mk("chant-rec", "recommended", "The accuracy review recommends this take for the whole chant"));
+    });
+    document.querySelectorAll(".panel[id^='panel']").forEach(function (p) {
+      var d = +p.id.replace("panel", ""), c = dc[d], h = p.querySelector(".dayhead h2");
+      if (!h) return;
+      var t = "";
+      if (c && c.mean != null) t = " accuracy review: confidence " + Math.round(c.mean) + " (" + c.n_scored + " verses scored, " + c.n_above + " with every line at " + thresh + " or more)";
+      if (d === cfg.recommended_set) t += (t ? ", " : " ") + "recommended";
+      if (t) h.appendChild(mk("chant-dnote", " —" + t));
+    });
+  }
+
   N.ready.then(function (cfg) {
     N.loadResults().catch(function () { return null; }).then(function (R) {
+      decorateDays(cfg, R);
       document.querySelectorAll("li.v").forEach(function (li) {
         var day = +li.getAttribute("data-day"), verse = +li.getAttribute("data-i") + 1;
         var row = document.createElement("div");

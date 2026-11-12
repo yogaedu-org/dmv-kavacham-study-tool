@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>DMV Kavacham chant review</title>
+<link rel="icon" href="../../../icons/icon-192.png">
 <link rel="stylesheet" href="../shared/chant-nav.css">
 <script src="../shared/chant-nav.js" data-page="review"></script>
 <style>
@@ -60,11 +61,22 @@ details.verse>summary:before{content:"\25B8";color:var(--accent)}details.verse[o
 .ev code,.kv code{font-family:ui-monospace,Consolas,monospace;background:rgba(127,127,127,.15);padding:0 4px;border-radius:4px}
 .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:6px}
 input.note{flex:1 1 200px;min-width:0;font:inherit;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg)}
-.bar{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--line);padding:8px 16px;display:flex;gap:10px;align-items:center;z-index:5}
+.bar{display:none;position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--line);padding:8px 16px;gap:10px;align-items:center;z-index:5}
 .bar audio{display:none}
 #status{flex:1;font-size:.86rem;min-width:0}
 ul.tight{margin:4px 0;padding-left:20px}
 table.sum{border-collapse:collapse;width:100%;font-size:.9rem}.sum td,.sum th{border-bottom:1px solid var(--line);padding:4px 6px;text-align:left;vertical-align:top}
+.bar.on{display:flex}
+.nawhy{font-size:.66rem;line-height:1.1}
+.badge.fconf{color:var(--fg);border-color:var(--fg)}
+.find .fconf-note{font-size:.8rem;color:var(--mut)}
+@media (max-width:600px){
+ table.daytab,.daytab tbody,.daytab tr,.daytab td{display:block;white-space:normal}
+ .daytab tr:first-child{display:none}
+ .daytab tr{border:1px solid var(--line);border-radius:8px;padding:6px 10px;margin:8px 0}
+ .daytab td{border:0;padding:2px 0}
+ .daytab td[data-label]:before{content:attr(data-label) ": ";color:var(--mut);font-size:.82rem}
+}
 @media (max-width:520px){body{padding:0 12px 130px}.text{font-size:1.15rem}.tab{min-width:48px;padding:6px 6px}}
 .pill{display:inline-block;padding:1px 10px;border-radius:999px;font-weight:650;border:1px solid var(--line)}
 .lbars{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin:6px 0}
@@ -150,10 +162,14 @@ function dayConf(d){
 }
 function band(x){return x===null?'c-defect':(x>=85?'c-clean':(x>=70?'c-notes':(x>=50?'c-warn':'c-bad')))}
 function fmt(x){return x===null?'n/a':String(Math.round(x))}
+function naShort(r){r=String(r||'');return /cut wrongly/.test(r)?'bad cut':(/loop/.test(r)?'looped':(/mid-sound|missing/.test(r)?'cut edge':'no data'))}
 function lineWord(q){return 'Line '+(q+1)}
 
 var player=document.getElementById('player'), statusEl=document.getElementById('status'), stopAt=null;
-function setStatus(s){statusEl.textContent=s}
+var barEl=document.querySelector('.bar');
+function syncBar(){document.body.style.paddingBottom=barEl.classList.contains('on')?(barEl.offsetHeight+16)+'px':''}
+function setStatus(s){statusEl.textContent=s;barEl.classList.add('on');syncBar()}
+window.addEventListener('resize',syncBar);
 player.addEventListener('timeupdate',function(){if(stopAt!==null&&player.currentTime>=stopAt){player.pause();stopAt=null}});
 function playFrom(day,verse,t,len){
   ChantNav.audioSrc(ChantNav.audioPath(day,verse)).then(function(src){playSrc(src,day,verse,t,len)});
@@ -173,7 +189,7 @@ function playSrc(src,day,verse,t,len){
     player.src=src; player.load();
   } else go();
 }
-document.getElementById('stop').onclick=function(){player.pause();stopAt=null;setStatus('Stopped.')};
+document.getElementById('stop').onclick=function(){player.pause();stopAt=null;statusEl.textContent='Stopped.';barEl.classList.remove('on');syncBar()};
 
 function howHtml(){
   var sc=R.synth_conf||[];
@@ -184,8 +200,8 @@ function howHtml(){
   '<li><b>Decode agreement ('+Math.round(CF.w_D*100)+'%)</b>: 1 minus the share of syllables the letter-level decode (CTC) and Whisper disagree with the text on (average of the two; syllables set aside as same-on-most-days do not count).</li>'+
   '<li><b>Clean passes ('+Math.round(CF.w_N*100)+'%)</b>: how many of the three listeners (timing, CTC letters, Whisper) found nothing in the line.</li></ul>'+
   '<p>Then minus '+CF.pen_probable+' for each probable slip in the line and minus '+CF.pen_judge+' for each listen-and-judge finding (total penalty capped at '+CF.pen_cap+'), and the result is capped at '+CF.cap+' because the listeners are imperfect. Verse = mean of its two lines (the weakest line is shown too). Day = mean over the verses that have a number, plus the count of verses whose weakest line is at least '+CF.thresh+'.</p>'+
-  '<p><b>n/a</b> means there is not enough evidence: the clip is cut wrongly, a listener failed, or syllables are missing because the clip starts or ends mid-sound. No number is invented for those.</p>'+
-  '<p><b>Calibration.</b> Five slips were spliced into Day 2 lines: both listeners found '+R.calibration.detected+' of '+R.calibration.n+' at the right place. Confidence of the spliced line &rarr; same line unspliced: '+cal+'. (Unspliced lines scored about 90; the spliced repeat was not caught, so a repeated stretch can still score high.) Five clips is a smoke test, not a measured accuracy.</p></div></details>';
+  '<p><b>Confidence of a single finding</b> (the number on each finding): 100 &times; the listeners that flagged it &divide; the listeners that could have (timing if it ran on that line, CTC letters, Whisper unless it looped on the clip, plus the silence meter when it confirmed the finding), capped at '+CF.cap+'. 1 of 3 = 33, 2 of 3 = 67, 3 of 3 = '+CF.cap+'. An audio defect no listener flagged is a direct measurement (duration against the other days, loud first or last 40 ms), so it counts 1 of 1. It says how sure the tool is that something is there, not how bad it sounds.</p><p><b>n/a</b> means there is not enough evidence: the clip is cut wrongly, a listener failed, or syllables are missing because the clip starts or ends mid-sound. No number is invented for those.</p>'+
+  '<p><b>Calibration.</b> Five slips were spliced into Day 2 lines: both letter-level listeners (CTC letters and Whisper; the timing listener was assumed clean for the spliced clips) found '+R.calibration.detected+' of '+R.calibration.n+' at the right place. Confidence of the spliced line &rarr; same line unspliced: '+cal+'. (Unspliced lines scored about 90; the spliced repeat was not caught, so a repeated stretch can still score high.) Five clips is a smoke test, not a measured accuracy.</p></div></details>';
 }
 
 function renderSummary(){
@@ -203,9 +219,9 @@ function renderSummary(){
   h+='</p><p class="small">If a verse on '+DW+' '+best+' sounds wrong to you, open that verse: it lists the confidence for every line on every day side by side, and the alternates (voice match first).</p></div>';
   h+='<div class="card"><h2>Confidence by day</h2><div class="gridwrap"><table class="sum daytab"><tr><th>Day</th><th>Confidence</th><th>Verses with every line &ge; '+CF.thresh+'</th><th>Clean verses</th><th></th></tr>';
   DAYS.forEach(function(d){var c=dc[d],na=VERSES.length-c.n;
-    h+='<tr><td><b>'+DW+' '+d+'</b></td><td><span class="pill '+band(c.mean)+'">'+fmt(c.mean)+'</span></td><td>'+c.above+' of '+c.n+(na?' <span class="mut">('+na+' n/a)</span>':'')+'</td><td>'+R.clean_count_by_day[d]+' of '+VERSES.length+'</td><td>'+(d===best?'<span class="badge probable" style="color:var(--accent);border-color:var(--accent)">recommended</span>':'')+'</td></tr>'});
+    h+='<tr><td><b>'+DW+' '+d+'</b></td><td data-label="Confidence"><span class="pill '+band(c.mean)+'">'+fmt(c.mean)+'</span></td><td data-label="Verses with every line at '+CF.thresh+' or more">'+c.above+' of '+c.n+(na?' <span class="mut">('+na+' n/a)</span>':'')+'</td><td data-label="Clean verses">'+R.clean_count_by_day[d]+' of '+VERSES.length+'</td><td>'+(d===best?'<span class="badge probable" style="color:var(--accent);border-color:var(--accent)">recommended</span>':'')+'</td></tr>'});
   h+='</table></div><p class="small mut">Day confidence = average of the verse numbers. An estimate, not a probability.</p>'+howHtml()+'</div>';
-  h+='<div class="card caveat"><h2>How far to trust this</h2><p class="small">Three automatic listeners were used: a forced aligner (timing and confidence), a letter-level speech model with no script (CTC), and Whisper large-v2 with no script. They are not human ears and they hear chanting worse than speech. A finding seen by one listener is only &ldquo;listen and judge&rdquo;. Two or more agreeing is a &ldquo;probable slip&rdquo;, which is still a lead, not proof. A slip the tool cannot hear will not appear, so a high number means &ldquo;nothing found&rdquo;, not &ldquo;perfect&rdquo;. In a test with five slips spliced into your own recordings, '+R.calibration.detected+' of '+R.calibration.n+' were found by both listeners at the right place'+(R.calibration.note?'; '+esc(R.calibration.note):'')+'. A syllable the tool &ldquo;mishears&rdquo; on four or more of the six days is not counted against the verse unless you tell the page it is how you say it (see &ldquo;Same on most days&rdquo; inside each verse).</p></div>';
+  h+='<div class="card caveat"><h2>How far to trust this</h2><p class="small">Three automatic listeners were used: a forced aligner (timing and confidence), a letter-level speech model with no script (CTC), and Whisper large-v2 with no script. They are not human ears and they hear chanting worse than speech. A finding seen by one listener is only &ldquo;listen and judge&rdquo;. Two or more agreeing is a &ldquo;probable slip&rdquo;, which is still a lead, not proof. A slip the tool cannot hear will not appear, so a high number means &ldquo;nothing found&rdquo;, not &ldquo;perfect&rdquo;. In a test with five slips spliced into your own recordings, '+R.calibration.detected+' of '+R.calibration.n+' were found by both letter-level listeners (CTC letters and Whisper) at the right place'+(R.calibration.note?'; '+esc(R.calibration.note):'')+'. A syllable the tool &ldquo;mishears&rdquo; on four or more of the six days is not counted against the verse unless you tell the page it is how you say it (see &ldquo;Same on most days&rdquo; inside each verse).</p></div>';
   h+='<div class="card"><h2>The '+probList.length+' probable slips</h2>';
   if(!probList.length) h+='<p class="small">None.</p>'; else {
     h+='<div class="gridwrap"><table class="sum"><tr><th>Take</th><th>Where</th><th>Expected</th><th>Heard</th></tr>';
@@ -226,13 +242,13 @@ function renderGrid(){
     h+='<tr><th scope="row">V'+v+'</th>';
     DAYS.forEach(function(d){
       var t=take(d,v), c=verseConf(d,v), isPlan=R.plan[String(v)]===d;
-      var tt=''+DW+' '+d+' verse '+v+': confidence '+fmt(c.mean)+(c.na?' (n/a: '+c.na+')':' (weakest line '+fmt(c.min)+'; lines '+c.lines.map(fmt).join(' / ')+')')+'; '+t.probable+' probable, '+t.judge+' to judge'+(t.defect_edges?', '+t.defect_edges+' cut edge(s)':'');
-      h+='<td><button class="cell '+band(c.mean)+(isPlan?' plan':'')+'" data-day="'+d+'" data-verse="'+v+'" title="'+esc(tt)+'" aria-label="'+esc(tt)+'"><b>'+fmt(c.mean)+'</b><br>'+(c.na?'':'low '+fmt(c.min))+(t.defect_edges&&!t.defect_whole?' &#9986;':'')+'</button></td>';
+      var tt=''+DW+' '+d+' verse '+v+': confidence '+fmt(c.mean)+(c.na?' (not scored: '+c.na+')':' (weakest line '+fmt(c.min)+'; lines '+c.lines.map(fmt).join(' / ')+')')+'; '+t.probable+' probable, '+t.judge+' to judge'+(t.defect_edges?', '+t.defect_edges+' cut edge(s)':'');
+      h+='<td><button class="cell '+band(c.mean)+(isPlan?' plan':'')+'" data-day="'+d+'" data-verse="'+v+'" title="'+esc(tt)+'" aria-label="'+esc(tt)+'"><b>'+fmt(c.mean)+'</b><br>'+(c.na?'<span class="nawhy">not scored: '+naShort(c.na)+'</span>':'low '+fmt(c.min))+(t.defect_edges&&!t.defect_whole?' &#9986;':'')+'</button></td>';
     });
     h+='</tr>';
   });
   g.innerHTML=h;
-  document.getElementById('legend').innerHTML='<span class="c-clean">85+ high</span><span class="c-notes">70 to 84</span><span class="c-warn">50 to 69</span><span class="c-bad">under 50</span><span class="c-defect">n/a (not enough evidence)</span><span style="border:2px solid var(--fg);box-shadow:0 0 0 2px var(--accent)">recommended take</span><span>&#9986; clip starts or ends mid-sound</span>';
+  document.getElementById('legend').innerHTML='<span class="c-clean">85+ high</span><span class="c-notes">70 to 84</span><span class="c-warn">50 to 69</span><span class="c-bad">under 50</span><span class="c-defect">n/a = not scored, the reason is under it (bad cut, looped, cut edge)</span><span style="border:2px solid var(--fg);box-shadow:0 0 0 2px var(--accent)">recommended take</span><span>&#9986; clip starts or ends mid-sound</span>';
   g.onclick=function(e){var b=e.target.closest('button.cell');if(!b)return;openVerse(+b.dataset.verse,+b.dataset.day,true)};
 }
 
@@ -286,7 +302,7 @@ function findHtml(d,v,f,idx){
   var id=d+'.'+v+'.'+f.kind+'.'+f.t_start, c=tierClass(f.tier), st=store[id]||{};
   var meta=JSON.stringify({day:d,verse:v,kind:f.kind,tier:f.tier,t_start:f.t_start,t_end:f.t_end,expected:f.expected_deva||f.expected||'',heard:String(f.heard||'').slice(0,90),passes:f.passes});
   var h='<div class="find t-'+c+'" id="f-'+esc(id)+'" data-meta="'+esc(meta)+'" data-id="'+esc(id)+'" data-s0="'+(f.syll?f.syll[0]:'')+'" data-s1="'+(f.syll?f.syll[1]:'')+'">';
-  h+='<div><span class="badge '+c+'">'+esc(f.tier)+'</span><b>'+esc(f.kind)+'</b> at '+f.t_start.toFixed(1)+'&ndash;'+f.t_end.toFixed(1)+' s'+(f.passes&&f.passes.length?' &middot; '+f.passes.length+' of 3 listeners agree ('+f.passes.map(function(p){return {A:'timing',B:'CTC letters',C:'Whisper'}[p]}).join(', ')+')':'')+(f.signal?' &middot; confirmed by the silence meter':'')+'</div>';
+  h+='<div><span class="badge '+c+'">'+esc(f.tier)+'</span><span class="badge fconf" title="Confidence that this finding is real, 0 to 95: share of the listeners that could have flagged it which did (see How is this number made)">confidence '+f.fconf+'</span><b>'+esc(f.kind)+'</b> at '+f.t_start.toFixed(1)+'&ndash;'+f.t_end.toFixed(1)+' s'+(f.passes&&f.passes.length?' &middot; '+f.passes.length+' of 3 listeners agree ('+f.passes.map(function(p){return {A:'timing',B:'CTC letters',C:'Whisper'}[p]}).join(', ')+')':'')+(f.signal?' &middot; confirmed by the silence meter':'')+((f.passes&&f.passes.length)||f.signal?'':' &middot; measured directly (no listener needed)')+'</div>';
   if(f.expected&&f.kind!=='audio defect'||(f.expected&&f.cut_edge)){
     h+='<div class="kv small">Text expects <b>'+esc(f.expected_deva||'')+'</b> <code>'+esc(f.expected)+'</code>';
     if(f.heard)h+=' &middot; heard <code>'+esc(String(f.heard).slice(0,90))+'</code>';

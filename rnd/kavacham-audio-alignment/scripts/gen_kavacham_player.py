@@ -22,6 +22,7 @@ sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 KAV = Path(sys.argv[1]).resolve() if len(sys.argv) > 1 else Path(__file__).resolve().parents[1] / "dmv-kavacham"
 CFG = json.loads((KAV / "chant.json").read_text(encoding="utf-8"))
 TITLE = CFG.get("title", "Chant")
+FAVICON = CFG.get("favicon") or "data:,"   # relative to the chant folder; "data:," = no icon request
 
 
 def load_day(n):
@@ -126,14 +127,25 @@ print(f"days with aligned verses: {sorted(days)}")
 # defaulting to Day 1 first (its own low-confidence verses 1-2) is what made this look broken.
 best_day = max(days, key=lambda n: sum(v["align_score"] for v in days[n]) / len(days[n])) if days else None
 LOW_THRESH = 0.85
+# open on the recommended set of chant.json when it has aligned verses, else on the best-aligned day
+start_day = CFG.get("recommended_set") if CFG.get("recommended_set") in days else best_day
 for n, verses in days.items():
     for v in verses:
         v["low"] = v["align_score"] < LOW_THRESH
 
 tabs = "".join(
-    f'<button class="tab" data-day="{n}" onclick="showDay({n})">Day {n}'
+    f'<button class="tab" data-day="{n}" onclick="showDay({n})"'
+    f'{" title=" + chr(34) + "has verses the aligner was unsure about (align score below 0.85)" + chr(34) if any(v["low"] for v in days[n]) else ""}>Day {n}'
     f'{" ⚠" if any(v["low"] for v in days[n]) else ""}</button>'
     for n in sorted(days))
+
+
+def score_title(v):
+    """What the row's number is: the forced aligner's score for this clip, from the per-day timings file (not the accuracy review)."""
+    base = f"align {v['align_score']:.2f}: how well the forced aligner matched this clip to the verse text (from the timings file). "
+    if v["low"]:
+        return base + f"Below {LOW_THRESH}: the aligner is unsure this clip matches the verse, so check it before trusting it. Not the accuracy review's confidence."
+    return base + f"At or above {LOW_THRESH}: the clip lines up with the verse. This is not the accuracy review's confidence (the badge below)."
 
 
 def pada_controls(n, i, v, r):
@@ -157,7 +169,7 @@ for n, verses in sorted(days.items()):
   <span class="num">{v['n']}</span>
   <div class="txt"><div class="dev">{esc(v['dev'])}</div><div class="iast">{esc(v['iast'])}</div>
   {pada_controls(n, i, v, r)}</div>
-  <span class="score" title="alignment confidence -- flagged low, may not match this verse">{v['align_score']:.2f}{' ⚠' if v['low'] else ''}</span>
+  <span class="score" title="{score_title(v)}">align {v['align_score']:.2f}{' ⚠' if v['low'] else ''}</span>
   <audio data-day="{n}" data-i="{i}" preload="none" src="{v['clip']}"></audio>
 </li>'''
         for i, (v, r) in enumerate(zip(verses, ranges)))
@@ -169,6 +181,7 @@ for n, verses in sorted(days.items()):
 HTML = f"""<!doctype html><meta charset="utf-8">
 <title>{TITLE} — verse-by-verse (all days)</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="{FAVICON}">
 <link rel="stylesheet" href="../shared/chant-nav.css">
 <script src="../shared/chant-nav.js" data-page="player"></script>
 <style>
@@ -306,7 +319,7 @@ function showDay(n){{
   document.getElementById('panel'+n).style.display='block';
   document.querySelector(`.tab[data-day="${{n}}"]`).classList.add('active');
 }}
-showDay({best_day if best_day else 'null'});
+showDay({start_day if start_day else 'null'});
 </script>
 <script src="../shared/chant-player-link.js"></script>"""
 

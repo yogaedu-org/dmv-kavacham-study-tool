@@ -267,7 +267,149 @@ def test_review_has_no_horizontal_scroll_at_phone_width(browser, base):
         pg.goto(base + name)
         pg.wait_for_selector("nav.chant-tabs a")
         pg.wait_for_load_state("networkidle")
-        assert pg.evaluate("document.documentElement.scrollWidth") <= 392, name
+        assert pg.evaluate("document.documentElement.scrollWidth <= window.innerWidth"), name
+    ctx.close()
+
+
+# ---------------------------------------------------------------- scores at every level (owner's standing rule)
+
+def test_every_finding_shows_a_numeric_confidence(page, base):
+    page.goto(base + "review.html")
+    page.wait_for_selector("#vb1", state="attached")
+    total = sum(len(t["findings"]) for t in R["takes"].values())
+    seen = page.evaluate("""() => { const out = [];
+        VERSES.forEach(v => DAYS.forEach(d => { openVerse(v, d, false);
+          document.querySelectorAll('#vb' + v + ' .find:not(.ign)').forEach(f => { const c = f.querySelector('.fconf');
+            out.push({id: f.dataset.id, txt: c ? c.textContent : null}); }); }));
+        return out; }""")
+    assert len(seen) == total == 59, (len(seen), total)
+    bad = [x for x in seen if not x["txt"] or not re.fullmatch(r"confidence \d{1,2}", x["txt"]) or int(x["txt"].split()[1]) > 95]
+    assert bad == []
+
+
+def test_finding_confidence_follows_the_stated_formula():
+    """1 of 3 listeners = 33, 2 of 3 = 67, 3 of 3 = 95 (cap); derived from results.json, never invented (METHOD.md)."""
+    vals = {}
+    for t in R["takes"].values():
+        for f in t["findings"]:
+            if f["tier"] != "defect" and not f.get("signal"):
+                vals.setdefault(f.get("passes_agreeing"), set()).add(f["fconf"])
+    assert vals[1] <= {33, 50} and vals[2] == {67} and vals[3] == {95}, vals
+
+
+def test_not_scored_cells_say_why_instead_of_showing_nothing(page, base):
+    page.goto(base + "review.html")
+    page.wait_for_selector("button.cell")
+    expected = sorted(k for k, t in R["takes"].items() if t["conf"]["na"])
+    assert expected == ["1.1", "1.2", "1.3", "6.9"], expected
+    for k in expected:
+        d, v = k.split(".")
+        cell = page.locator(f'button.cell[data-day="{d}"][data-verse="{v}"]')
+        txt = cell.inner_text()
+        assert "n/a" in txt and re.search(r"not scored: (bad cut|looped|cut edge)", txt), (k, txt)
+        assert "not scored:" in cell.get_attribute("aria-label")
+    assert page.locator("button.cell:has-text('not scored')").count() == 4
+    assert "not scored" in page.inner_text("#legend")
+
+
+def test_player_shows_each_days_review_score_and_the_recommended_mark(page, base):
+    cfg = json.load(open(os.path.join(CHANT, "chant.json"), encoding="utf-8"))
+    page.goto(base + "player.html")
+    page.wait_for_selector(".tab .chant-dscore")
+    for s in cfg["sets"]:
+        btn = page.locator(f'.tab[data-day="{s["id"]}"]')
+        want = round(R["day_conf"][str(s["id"])]["mean"])
+        assert f"· {want}" in btn.inner_text(), (s["id"], btn.inner_text())
+        assert (btn.locator(".chant-rec").count() == 1) == (s["id"] == cfg["recommended_set"])
+        assert f"confidence {want}" in page.locator(f"#panel{s['id']} .dayhead").text_content()
+
+
+def test_player_opens_on_the_recommended_set_from_chant_json(page, base):
+    cfg = json.load(open(os.path.join(CHANT, "chant.json"), encoding="utf-8"))
+    page.goto(base + "player.html")
+    page.wait_for_selector("nav.chant-tabs a")
+    shown = page.evaluate("[...document.querySelectorAll('.panel')].filter(p => p.style.display === 'block').map(p => p.id)")
+    assert shown == [f"panel{cfg['recommended_set']}"], shown
+    assert "active" in page.locator(f'.tab[data-day="{cfg["recommended_set"]}"]').get_attribute("class")
+
+
+def test_player_row_number_is_labelled_and_its_tooltip_is_true_for_that_row(page, base):
+    page.goto(base + "player.html")
+    page.wait_for_selector("li.v", state="attached")
+    low = page.locator('li.v[data-day="1"][data-i="0"] .score')
+    fine = page.locator('li.v[data-day="2"][data-i="0"] .score')
+    assert low.text_content().startswith("align 0.07") and "Below 0.85" in low.get_attribute("title")
+    assert fine.text_content().startswith("align 0.9") and "At or above 0.85" in fine.get_attribute("title")
+    assert "flagged low" not in fine.get_attribute("title")
+    assert "not the accuracy review" in fine.get_attribute("title").lower()
+
+
+def test_trust_text_names_three_listeners_everywhere(page, base):
+    page.goto(base + "review.html")
+    page.wait_for_selector("#summary .card")
+    txt = page.inner_text("#summary")
+    assert "Three automatic listeners" in txt and "both listeners" not in txt
+    assert "both letter-level listeners" in txt
+
+
+def test_favicon_is_linked_and_loads_on_both_pages(page, base):
+    for name in ("player.html", "review.html"):
+        page.goto(base + name)
+        href = page.evaluate("document.querySelector('link[rel=icon]').href")
+        assert page.evaluate("u => fetch(u).then(r => r.status)", href) == 200, (name, href)
+
+
+# ---------------------------------------------------------------- phone: tap targets, sideways scroll, the bar
+
+TAP_JS = """() => [...document.querySelectorAll('button, a[href], input[type=checkbox], input[type=text], summary')]
+  .filter(e => { const r = e.getBoundingClientRect(), cs = getComputedStyle(e); return r.width > 0 && r.height > 0 && cs.visibility !== 'hidden'; })
+  .map(e => ({el: e.tagName + '.' + e.className + ' ' + (e.textContent || '').trim().slice(0, 24), h: Math.round(e.getBoundingClientRect().height * 10) / 10}))
+  .filter(x => x.h < 39.5)"""
+
+
+@pytest.mark.parametrize("name", [
+    "player.html", "player.html#verse=4&day=1", "player.html#verse=1&day=6&t=6.4",
+    "review.html", "review.html#verse=1&day=6", "review.html#verse=7&day=2", "review.html#verse=3&day=4"])
+def test_every_control_is_at_least_40px_high_on_a_phone_and_nothing_scrolls_sideways(browser, base, name):
+    ctx = browser.new_context(viewport={"width": 390, "height": 800})
+    pg = ctx.new_page()
+    pg.goto(base + name)
+    pg.wait_for_selector("nav.chant-tabs a")
+    pg.wait_for_load_state("networkidle")
+    if name.startswith("review"):
+        pg.evaluate("document.getElementById('jsonin').closest('details').open = true")
+    assert pg.evaluate(TAP_JS) == []
+    assert pg.evaluate("document.documentElement.scrollWidth <= window.innerWidth")
+    ctx.close()
+
+
+def test_day_table_shows_recommended_tag_and_clean_count_without_sideways_scroll_on_a_phone(browser, base):
+    ctx = browser.new_context(viewport={"width": 390, "height": 800})
+    pg = ctx.new_page()
+    pg.goto(base + "review.html")
+    pg.wait_for_selector("table.daytab")
+    assert pg.evaluate("(() => { const w = document.querySelector('.daytab').closest('.gridwrap'); return w.scrollWidth <= w.clientWidth; })()")
+    rec = pg.locator(".daytab .badge:has-text('recommended')").bounding_box()
+    clean = pg.locator(".daytab td[data-label='Clean verses']").first.bounding_box()
+    for b in (rec, clean):
+        assert b and b["x"] >= 0 and b["x"] + b["width"] <= 390
+    ctx.close()
+
+
+def test_bottom_bar_is_hidden_until_audio_is_used_and_then_never_covers_the_last_content(browser, base):
+    ctx = browser.new_context(viewport={"width": 390, "height": 800})
+    pg = ctx.new_page()
+    pg.goto(base + "review.html#verse=1&day=6")
+    pg.wait_for_selector(".find .btn-play")
+    assert not pg.locator(".bar").is_visible()
+    pg.locator(".find .btn-play").first.click()
+    pg.wait_for_selector(".bar.on")
+    pg.evaluate("window.scrollTo(0, document.documentElement.scrollHeight)")
+    bar_top = pg.locator(".bar").bounding_box()["y"]
+    last = pg.evaluate("Math.max(...[...document.querySelectorAll('body > .card, body > div:not(.bar)')].map(e => e.getBoundingClientRect().bottom))")
+    assert last <= bar_top + 0.5, (last, bar_top)
+    pg.click("#stop")
+    assert not pg.locator(".bar").is_visible()
     ctx.close()
 
 

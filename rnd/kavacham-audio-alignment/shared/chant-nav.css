@@ -19,3 +19,18 @@ a.chant-xlink{color:var(--accent,#b5651d);font-weight:600;text-decoration:underl
 .chant-badge.na{background:repeating-linear-gradient(45deg,#d9d9d9,#d9d9d9 5px,#eee 5px,#eee 10px);color:#333}
 .chant-target{outline:3px solid var(--accent,#b5651d);outline-offset:-3px}
 @media (max-width:520px){nav.chant-tabs{padding:8px 12px}a.chant-tab{padding:0 12px}.chant-msg{margin:8px 12px}}
+/* per-day score and "recommended" mark on the player's day buttons / headers */
+.chant-dscore{font-weight:600;opacity:.9;margin-left:2px}
+.chant-rec{display:inline-block;margin-left:6px;padding:0 7px;border-radius:999px;border:1px solid currentColor;font-size:.78em;font-weight:700}
+.chant-dnote{font-size:12px;font-weight:400;color:var(--muted,#888)}
+/* phone: every interactive control is at least 40 px high (hit area), on every page that loads this file */
+@media (max-width:600px){
+  button,summary,select,input[type=text],input:not([type]){min-height:40px!important}
+  input[type=checkbox]{width:40px!important;height:40px!important;margin:0!important}
+  .play{width:40px!important;height:40px!important}
+  .pbtn{min-width:48px;padding:0 12px!important;font-size:13px!important}
+  a.chant-xlink,a.jump{display:inline-flex;align-items:center;min-height:40px;line-height:1.25;padding:0 2px}
+  .dayhead{flex-wrap:wrap}
+  summary{display:flex;align-items:center}
+  .loopbar label{min-height:40px}
+}
