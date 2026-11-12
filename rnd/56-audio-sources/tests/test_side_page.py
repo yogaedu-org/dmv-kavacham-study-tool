@@ -5,7 +5,7 @@
 Self-contained: a temp copy of the page, synthetic WAV tones as audio (no real audio, nothing from git), two origins on
 ephemeral ports (page + offline folder, and a mock cloud with CORS). Each test is named for the failure it catches.
 """
-import json, math, os, shutil, struct, sys, tempfile, wave
+import hashlib, json, math, os, shutil, struct, sys, tempfile, wave
 
 import pytest
 from playwright.sync_api import sync_playwright
@@ -34,12 +34,13 @@ def env():
     for n, hz in ((7, 440), (1, 450), (14, 460)):
         tone(os.path.join(tmp, "own", "verse-%02d.wav" % n), hz)
     s_page = serve.start(site, 0)
-    s_cloud = serve.start(cloud, 0, cors=True)
+    s_cloud = serve.start(cloud, 0, cors=True, ranges=False)  # like Cloudflare Pages: Range ignored, 200 + full body
     page_url = "http://127.0.0.1:%d/" % s_page.server_address[1]
     cloud_url = "http://127.0.0.1:%d/" % s_cloud.server_address[1]
     base = json.load(open(os.path.join(SIDE, "audio-config.json"), encoding="utf-8"))
     for v in base["verses"]:
         v["file"] = {"offline": "verse%02d.wav" % v["id"], "cloud": "verse%02d.wav" % v["id"]}
+        v["sha256"] = None  # the real manifest's hashes describe the real clips, not these synthetic tones
 
     def write_cfg(name, kinds):
         c = json.loads(json.dumps(base))
@@ -56,6 +57,16 @@ def env():
     write_cfg("cfg-offline.json", ["offline"])
     write_cfg("cfg-cloud.json", ["cloud"])
     write_cfg("cfg-chain.json", ["custom", "offline", "cloud"])
+    c = json.load(open(os.path.join(site, "cfg-cloud.json")))
+    sha = lambda p: hashlib.sha256(open(p, "rb").read()).hexdigest()
+    for v in c["verses"]:
+        if v["id"] in (1, 14):
+            v["sha256"] = sha(os.path.join(cloud, "verse%02d.wav" % v["id"]))
+    json.dump(c, open(os.path.join(site, "cfg-sha-ok.json"), "w"))
+    for v in c["verses"]:
+        if v["id"] == 1:
+            v["sha256"] = "0" * 64                                     # a clip that does not match its manifest
+    json.dump(c, open(os.path.join(site, "cfg-sha-bad.json"), "w"))
     c = json.load(open(os.path.join(site, "cfg-offline.json")))
     c["verses"] = [v for v in c["verses"] if v["id"] != 14]  # verse 14 absent from the manifest
     json.dump(c, open(os.path.join(site, "cfg-missing14.json"), "w"))
@@ -106,7 +117,36 @@ def test_cloud_is_a_real_cross_origin_request(browser, env):
     assert pg.evaluate("location.origin") != env["cloud"].rstrip("/")
     pg.click("button.play[data-id='1']")
     pg.wait_for_function("() => document.getElementById('player').currentTime > 0.05")
-    assert pg.evaluate("document.getElementById('player').src").startswith(env["cloud"])
+    assert pg.evaluate("document.getElementById('player').src").startswith("blob:")
+    pg.close()
+
+
+def test_cloud_that_ignores_range_still_plays_verse_1_through_a_blob_url(browser, env):
+    """Failure caught: a host that answers Range with 200 + full body (Cloudflare Pages) breaks <audio src>, for example on Safari."""
+    pg = open_page(browser, env, "cfg-cloud.json")
+    requests = []
+    pg.on("request", lambda r: requests.append(r.url) if r.url.startswith(env["cloud"]) else None)
+    pg.click("button.play[data-id='1']")
+    pg.wait_for_function("() => { const a = document.getElementById('player'); return !a.paused && a.currentTime > 0.05; }", timeout=10000)
+    assert any(u.endswith("verse01.wav") for u in requests)
+    assert pg.evaluate("document.getElementById('player').src").startswith("blob:")
+    assert pg.locator("#played-1").get_attribute("data-source") == "cloud"
+    # the mock really ignores Range: a direct Range request comes back 200 with the whole body and no Accept-Ranges
+    res = pg.evaluate("fetch(%r, {headers: {Range: 'bytes=0-99'}}).then(r => [r.status, r.headers.get('accept-ranges'), r.headers.get('content-length')])" % (env["cloud"] + "verse01.wav"))
+    assert res[0] == 200 and res[1] is None and int(res[2]) > 1000, res
+    pg.close()
+
+
+def test_clip_matching_its_sha256_plays_and_a_mismatching_clip_is_refused_with_a_visible_message(browser, env):
+    """Failure caught: a corrupted or swapped clip is played, or refused without saying why."""
+    pg = open_page(browser, env, "cfg-sha-ok.json")
+    play_and_check(pg, 14, "cloud")
+    pg.close()
+    pg = open_page(browser, env, "cfg-sha-bad.json")
+    pg.click("button.play[data-id='1']")
+    pg.wait_for_function("() => document.getElementById('played-1').classList.contains('err')")
+    assert "sha256 mismatch for verse01.wav" in pg.locator("#played-1").inner_text()
+    assert not pg.evaluate("document.getElementById('player').getAttribute('src')")
     pg.close()
 
 
