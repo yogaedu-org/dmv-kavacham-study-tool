@@ -1,0 +1,33 @@
+v24.15.0
+HEAD 2e510ac14bb61ae6a9e72316c56ad1f08df49bd1
+$ node <worktree@2e510ac>/tests/validate-data.js
+✅ Data validation passed: verses.json + config.json are well-formed.
+exit=0
+$ node <worktree@2e510ac>/tests/feedback-prefill.mjs
+✅ Feedback prefill: 3 locales and 14 verses map to options the template actually offers (3 language, 16 verse).
+exit=0
+$ node <worktree@2e510ac>/tests/controls-overflow.mjs
+controls-overflow: OK (popups can extend past .controls; backgrounds themed)
+exit=0
+$ node <worktree@2e510ac>/tests/autocomplete-keyboard.mjs
+✅ Autocomplete keyboard navigation: index walk wraps and clamps correctly.
+exit=0
+$ node <worktree@2e510ac>/tests/category-registry.mjs
+✅ Category registry: filter state resolves through the registry; config.json agrees with the code.
+exit=0
+$ node <worktree@2e510ac>/tests/css-tokens.mjs
+ℹ️  declared but unused (not a failure): --shadow-subtle
+✅ CSS tokens: 39 used, 40 declared, all in the base :root; 3 config.json cssVar values resolve.
+exit=0
+$ node <worktree@2e510ac>/tests/sw-assets.mjs
+ok sw-assets: 30 precache entries match disk
+exit=0
+$ node <worktree@2e510ac>/tests/font-scale-storage.mjs
+ok font-scale-storage: blocked localStorage falls back to scale 1
+exit=0
+$ node <worktree@2e510ac>/tests/sw-fetch.mjs
+ok sw-fetch: non-OK navigation not cached; offline miss returns a Response
+exit=0
+$ <python3.12> <worktree@2e510ac>/tools/check-doc-links.py
+broken=0 checked=43
+exit=0
