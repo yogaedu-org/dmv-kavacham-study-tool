@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex">
+<title>Chapter 1: What "correct" can mean for a chant</title>
+<script>try{var t=JSON.parse(localStorage.getItem('chantlab57:theme'));if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="stylesheet" href="css/lab.css">
+</head>
+<body data-page="ch1">
+<main>
+<div class="col">
+<h1>What "correct" can mean for a chant</h1>
+<p class="lede">Ask three chanters whether a verse was chanted correctly and you may get three different questions. Here are the three a machine can work with, and the three it cannot.</p>
+
+<h2>Three things you can check</h2>
+<ul>
+  <li><b>Which syllables.</b> A verse is a fixed sequence of <i>aksharas</i> (syllables). Correct can mean every one is there, in order, and sounds like itself. The slips are an omission, a substitution (for example <i>tha</i> for <i>ta</i> or <i>&#347;</i> for <i>s</i>) and an insertion.</li>
+  <li><b>How long.</b> Each syllable has a length and each line a rhythm. A pause in the wrong place, a rushed line or a held syllable all show up as timing. The earlier analysis flags a syllable at 0.4 times or less, or 2.0 times or more, of its usual length, and a pause of 0.30 seconds or longer.</li>
+  <li><b>What pitch.</b> How the voice moves, measured against the key you chose, not against a fixed note. Only the movement is compared (chapter 4).</li>
+</ul>
+<p class="srcnote">Sources: slip types, <a href="research/01-record-compare-in-browser.md">report 1</a> "Staged plan"; flag thresholds and pause rule, <a href="research/01-record-compare-in-browser.md">report 1</a> section 5, taken from <a href="research/03-chant-accuracy-METHOD.md">the chant accuracy method</a>.</p>
+
+<h2>What a machine can and cannot hear</h2>
+<p>It can compare your sound with a reference take, syllable by syllable, and say where it differs and how much evidence that rests on. It cannot know what you meant to chant, and it cannot know the reference is right: the method assumes the written verse is what the chanter intended. The speech models it borrows were trained on speech, not on chanting. And a difference that appears on most days may be the tool's habit or simply the way you say that syllable; only you can tell which. So every finding on these pages is a <span class="hyp">hypothesis</span> until a listener listens.</p>
+<p class="srcnote">Source: <a href="research/03-chant-accuracy-METHOD.md">method</a>, sections "What is hypothesis" and "Model-habit rule".</p>
+
+<h2>The evidence we start from</h2>
+<p>One chanter recorded all 14 verses on each of six days. Three automated listeners (a forced aligner, a letter decoder and Whisper) compared every take with the written verse, and the results were combined into a confidence for each line. Day 2 came out best.</p>
+</div>
+
+<div class="stage">
+  <canvas class="chart" id="days" role="img" aria-label="Bar chart of mean confidence per day"></canvas>
+  <p class="summary" id="days-summary" data-summary></p>
+  <div data-fb="ch1.days" data-label="the day-by-day chart"></div>
+</div>
+
+<div class="col">
+<p>These numbers are an estimate, not a measured probability. The weights were chosen by the analyst, not fitted to human judgements, because no human-labelled correct and incorrect takes exist. Day 1 verses 1 and 2 were cut wrongly in the recording and are not scored.</p>
+<p class="srcnote">Source: <a href="research/03-chant-accuracy-METHOD.md">method</a>, sections "Confidence that a line was chanted as written" and "Score and recommendation", 2026-11-11. Data: <code>chant.json</code>, evidence.days.</p>
+
+<h2>Hear it</h2>
+<p>Pick a verse. The first player is Day 2, the recommended day, and its ribbon lights up as it plays. The second is Day 5 of the same verse. Listen for where they differ; the next chapters show how a computer finds the same places.</p>
+</div>
+
+<div class="stage">
+  <div class="controls"><label>Verse <select id="verse"></select></label><span class="badge" id="badge">looking for audio</span></div>
+  <div id="ribbon"></div>
+  <p class="small mute" style="margin:.2rem 0 0">Day 2, the reference</p>
+  <audio id="audio" controls preload="auto" aria-label="Day 2 reference recording"></audio>
+  <p class="small mute" style="margin:.4rem 0 0">Day 5, the same verse</p>
+  <audio id="audio2" controls preload="none" aria-label="Day 5 recording of the same verse"></audio>
+  <p class="status" id="status" role="status"></p>
+  <p class="summary" id="summary" data-summary></p>
+  <div data-fb="ch1.sample" data-label="the two-day sample"></div>
+</div>
+
+<div class="col">
+<div class="tryit">
+  <h2>Try it</h2>
+  <p>Chant the verse you just heard and listen to yourself next to it. <a href="lab1.html">Open Lab 1</a> to record a take.</p>
+</div>
+<nav data-pager></nav>
+</div>
+</main>
+<script type="module" src="js/p-ch1.js"></script>
+</body>
+</html>

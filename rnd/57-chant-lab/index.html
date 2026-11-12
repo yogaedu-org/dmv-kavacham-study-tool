@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex">
+<title>Chant lab: did I chant it like the reference?</title>
+<script>try{var t=JSON.parse(localStorage.getItem('chantlab57:theme'));if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="stylesheet" href="css/lab.css">
+</head>
+<body data-page="index">
+<main>
+<div class="col">
+<h1>Did I chant this verse the way the reference does, and where did I drift?</h1>
+<p class="lede">This book is about that one question and how far a computer can help answer it. Press play below and watch the verse.</p>
+</div>
+
+<div class="stage" id="hero">
+  <div class="controls">
+    <label>Verse <select id="verse"></select></label>
+    <span class="badge" id="badge">looking for audio</span>
+  </div>
+  <div id="ribbon"></div>
+  <audio id="audio" controls preload="auto" aria-label="Reference recording of the verse"></audio>
+  <p class="status" id="status" role="status"></p>
+  <p class="summary" id="summary" data-summary></p>
+  <div data-fb="start.ribbon" data-label="the akshara ribbon"></div>
+</div>
+
+<div class="col">
+<p>This is the akshara ribbon, and it comes back in every chapter. Each cell is one syllable (an <i>akshara</i>), placed where the reference chants it. The shaded band under it is loudness, and the line is pitch. Press play and the current syllable lights up; press a syllable to hear from there.</p>
+
+<h2>The answer in three sentences</h2>
+<p>The first tier lines your take up with a reference take using only the sound, so it needs no download: it shows which syllables you stretched, shortened or dropped, and where your pitch moved. The second tier uses a speech model trained on many languages (about 70 MB, downloaded once) that checks each syllable against what it should sound like. On 26 slips planted in real takes, the first tier put its top flag on the slip all 26 times and the second did so 25 times out of 26; only one voice has been tested, and that is the biggest thing we do not know yet.</p>
+<p class="srcnote">Source: <a href="research/01-record-compare-in-browser.md">research report 1</a>, section "Answer", measured 2026-11-12. Chapter 6 gives the details and the limits.</p>
+
+<h2>Chapters</h2>
+<ol class="chapters" data-chapters></ol>
+
+<h2>How this book works</h2>
+<ul>
+  <li>Each chapter is one page with one idea. It ends with a "try it" that opens the matching tool in the lab.</li>
+  <li>Under every interactive element is a line where you can mark it Keep, Improve or Drop and leave a note. It is saved on this device; the footer exports it as a file. That is how elements are accepted or rejected before anything moves into the live study tool.</li>
+  <li>Anything the research reports call a <span class="hyp">hypothesis</span> or unmeasured is called that here, in the same word.</li>
+  <li>The recordings are not part of the repository. If the ribbon says no audio was found, the message names where it looked and the one command that fixes it.</li>
+</ul>
+<nav data-pager></nav>
+</div>
+</main>
+<script type="module" src="js/p-index.js"></script>
+</body>
+</html>

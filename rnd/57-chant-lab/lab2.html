@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex">
+<title>Lab 2: compare your take with the reference</title>
+<script>try{var t=JSON.parse(localStorage.getItem('chantlab57:theme'));if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="stylesheet" href="css/lab.css">
+</head>
+<body data-page="lab2">
+<main>
+<div class="col">
+<h1>Lab 2: compare your take with the reference</h1>
+<p class="lede">A difference for every syllable, and a score with a confidence at every level: syllable, line, verse and overall. Passes get a score too, not only flags.</p>
+<p>Choose a take, press Compare, and read the ribbon from left to right. The marks are leads to listen to, not verdicts. How the lining up works is in <a href="ch3.html">chapter 3</a> and the pitch in <a href="ch4.html">chapter 4</a>.</p>
+</div>
+
+<div class="stage">
+  <div class="controls">
+    <label>Verse <select id="verse"></select></label>
+    <span class="badge" id="badge">looking for audio</span>
+  </div>
+  <fieldset style="border:0;padding:0;margin:0 0 .8rem;display:flex;gap:.4rem 1rem;flex-wrap:wrap;font-family:var(--ui)"><legend class="mute small" style="padding:0 0 .3rem">Take to compare</legend>
+    <label><input type="radio" name="src" value="last"> my last take from Lab 1 <span class="mute small" id="lastinfo"></span></label>
+    <label><input type="radio" name="src" value="file"> a file <input type="file" id="file" accept="audio/*"></label>
+    <label><input type="radio" name="src" value="other" checked> <span id="otherlabel">another day's take</span> (a stand-in)</label>
+    <label><input type="radio" name="src" value="ref"> the reference itself (should look near-perfect)</label>
+  </fieldset>
+  <div class="controls"><button type="button" class="primary" id="go" disabled>Compare</button></div>
+  <div id="ribbon"></div>
+  <div class="legend"><span><i class="sw-ref"></i>reference pitch</span><span><i class="sw-take"></i>your take's pitch, lined up</span><span><i class="sw-flag"></i>marked syllable</span></div>
+  <audio id="audio" controls preload="auto" aria-label="Reference recording of the verse"></audio>
+  <p class="status" id="status" role="status"></p>
+  <p class="summary" id="summary" data-summary></p>
+  <div data-fb="lab2.ribbon" data-label="the ribbon with differences marked"></div>
+</div>
+
+<div class="stage" id="results" hidden>
+  <h2 style="margin-top:0">How sure, at every level</h2>
+  <div class="tablewrap"><table id="levels">
+    <thead><tr><th>Level</th><th class="num">Similarity</th><th class="num">Confidence</th><th class="num">Marked</th></tr></thead>
+    <tbody></tbody>
+  </table></div>
+  <p class="summary" id="levels-summary" data-summary></p>
+  <div data-fb="lab2.levels" data-label="the scores and confidences at every level"></div>
+
+  <h2>Every syllable</h2>
+  <p class="small mute">Both scores run from 0 to 100. On a narrow screen, scroll the table sideways for the other columns.</p>
+  <div class="tablewrap"><table id="aktable">
+    <thead><tr><th class="num">#</th><th>Syllable</th><th class="num">Similarity</th><th class="num">Confidence</th><th class="num">Length (x reference)</th><th class="num">Pitch (cents)</th><th class="num">Sound match</th><th>Marked</th></tr></thead>
+    <tbody></tbody>
+  </table></div>
+  <div data-fb="lab2.table" data-label="the per-syllable table"></div>
+</div>
+
+<div class="col">
+<div class="cannot">
+  <h3>What this can and cannot tell you</h3>
+  <p>It can tell you which syllables sounded unlike the reference, were held much longer or shorter than the rest of your take, or sat at a different pitch, and how much evidence each number rests on. It cannot tell you that you chanted wrongly: a difference may be your regular way of saying a syllable, a recording problem, or the tool's own habit. It has only been tested with one voice (<a href="ch6.html">chapter 6</a>). The similarity and confidence numbers are estimates whose weights were not fitted to human judgements, and the thresholds behind the marks (<a href="ch3.html">1.6 times</a> length, <a href="ch4.html">150 cents</a>) are hypotheses. Overall is the mean over the verses you have compared in this browser session.</p>
+</div>
+<div class="tryit">
+  <h2>Try it</h2>
+  <p>See whether the tool catches a slip it should catch: <a href="lab3.html">open Lab 3</a>.</p>
+</div>
+<nav data-pager></nav>
+</div>
+</main>
+<script type="module" src="js/p-lab2.js"></script>
+</body>
+</html>

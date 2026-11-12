@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex">
+<title>Chapter 6: How well it works so far</title>
+<script>try{var t=JSON.parse(localStorage.getItem('chantlab57:theme'));if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="stylesheet" href="css/lab.css">
+</head>
+<body data-page="ch6">
+<main>
+<div class="col">
+<h1>How well it works so far</h1>
+<p class="lede">The honest answer is: well on the one voice tested, and unknown on every other. Here is the test, the numbers, every limit we know of, and the test that is still missing.</p>
+
+<h2>The planted-slip test</h2>
+<p>We took Day 5, verses 1 to 13, and damaged each in two ways at a random position: two syllables left out (an omission), or two syllables replaced by the two that come six later (a substitution). That made 26 slips. The 13 untouched takes were kept as clean controls, and the reference was Day 2. The question for each tier: does the highest-scoring syllable fall within one before to two after the slip?</p>
+<div class="tablewrap"><table>
+<thead><tr><th></th><th>Tier 1 (lining up)</th><th>Tier 2 (phone model)</th></tr></thead>
+<tbody>
+<tr><td>Top flag on the slip</td><td>omissions 13 of 13, substitutions 13 of 13</td><td>omissions 12 of 13, substitutions 13 of 13</td></tr>
+<tr><td>Also above the worst clean take</td><td>11 of 13 and 8 of 13 (worst clean take scores 4.49, median 3.17)</td><td>0 of 26: one clean take spikes at 6.87 on the very first syllable. Above the second-worst clean take (2.79): 12 of 13 and 8 of 13</td></tr>
+<tr><td>Time</td><td>0.22 s per verse pair (NumPy, not the browser)</td><td>0.55 s per 13.2 s verse on one thread (native, not the browser)</td></tr>
+</tbody></table></div>
+<p>In plain words: both tiers put their top flag on the slip almost every time (26 of 26 and 25 of 26). But only 19 of the 26 planted slips scored higher than the worst clean take for tier 1, so for the other 7 you could not have told from the score alone that anything was wrong. That is why every flag on these pages is a lead to listen to, not a verdict.</p>
+<p class="srcnote">Source: <a href="research/01-record-compare-in-browser.md">report 1</a>, "Local evidence", measured 2026-11-12; per-verse numbers in <a href="research/dtw_probe.json">dtw_probe.json</a> and <a href="research/zipa_gop_probe.json">zipa_gop_probe.json</a>.</p>
+
+<h2>Look at each verse</h2>
+<p>Each verse has a clean take (hollow circle), an omission (round dot) and a substitution (diamond). The dashed line is the highest score any clean take got. A slip is easy to separate when its dot is far above the line.</p>
+</div>
+
+<div class="stage">
+  <canvas class="chart" id="splice1" role="img" aria-label="Tier 1 scores per verse for clean takes and planted slips"></canvas>
+  <p class="summary" id="splice1-summary" data-summary></p>
+  <canvas class="chart" id="splice2" role="img" aria-label="Tier 2 scores per verse for clean takes and planted slips" style="margin-top:1rem"></canvas>
+  <p class="summary" id="splice2-summary" data-summary></p>
+  <div data-fb="ch6.charts" data-label="the planted-slip charts"></div>
+</div>
+
+<div class="col">
+<h2>Where the slip was, verse by verse</h2>
+<p>Pick a verse and a kind of slip. The ribbon marks the syllables that were damaged and the syllable each tier flagged most strongly. The ribbon's timings are the reference's; the damaged take was Day 5.</p>
+</div>
+
+<div class="stage">
+  <div class="controls">
+    <label>Verse <select id="verse"></select></label>
+    <label>Slip <select id="kind"><option value="omission">omission</option><option value="substitution">substitution</option></select></label>
+    <label>Tier <select id="tier"><option value="dtw">Tier 1, lining up</option><option value="zipa">Tier 2, phone model</option></select></label>
+    <span class="badge" id="badge">looking for audio</span>
+  </div>
+  <div id="ribbon"></div>
+  <audio id="audio" controls preload="auto" aria-label="Reference recording of the verse"></audio>
+  <p class="status" id="status" role="status"></p>
+  <p class="summary" id="summary" data-summary></p>
+  <p class="summary" id="slip-summary" data-summary></p>
+  <div data-fb="ch6.slips" data-label="the slip locator"></div>
+</div>
+
+<div class="col">
+<h2>Every limit we know of</h2>
+<ul>
+  <li><b>One voice.</b> The reference and every test take are the same chanter. Cross-speaker scoring is untested for both tiers (<span class="hyp">hypothesis</span> that tier 2 is more robust to a different voice, since tier 1's features carry the voice's colour).</li>
+  <li><b>Hard splices.</b> The planted slips leave sharp edges that a real slip does not, which probably makes them easier to find.</li>
+  <li><b>Reference moments are an algorithm.</b> The syllable boundaries come from a forced aligner, not from a person marking them.</li>
+  <li><b>Tool habits.</b> The aligner's catch-all class won every frame on one clip (585 of 585), and Whisper large-v2 looped on two clips (a looped clip's result is void).</li>
+  <li><b>Edges.</b> Ignore the first and last syllable unless the clip starts or ends mid-sound: one clean take spiked at 6.87 on its first syllable.</li>
+  <li><b>No false-alarm rate.</b> No human-labelled clean takes exist, so how often a clean take is flagged has not been measured.</li>
+  <li><b>The earlier smoke test.</b> Five slips were spliced into Day 2 clips and scored: four were found and the line's confidence fell well below 70 (for example 91 to 32 for an omission); a repeated stretch was seen but placed several syllables away and kept a high score (91 to 91). Five clips is a smoke test, not a recall rate.</li>
+  <li><b>Not built or not measured.</b> The browser version of tier 2's audio features does not exist yet and must match the Python one; the browser speed of tier 2 is not measured; thresholds on this site's pages are hypotheses, not fitted.</li>
+  <li><b>Storage on iPhone.</b> Safari deletes a site's stored data after 7 days without a visit (<a href="https://web.dev/articles/storage-for-the-web">web.dev</a>), so recordings must be exported.</li>
+</ul>
+<p class="srcnote">Sources: <a href="research/01-record-compare-in-browser.md">report 1</a> "Local evidence", section 7 and "Top risk"; <a href="research/03-chant-accuracy-METHOD.md">method</a> "Passes" and "Confidence" (calibration).</p>
+
+<h2>The biggest unknown</h2>
+<p>Another voice. Tier 1 compares the colour of the sound, which carries the voice; tier 2 should be more robust but already merges ś with ṣ and drops aspiration on the one voice tested. Both statements are <span class="hyp">hypothesis</span> until the live test below.</p>
+
+<h2>The live test that is still missing</h2>
+<p>Three chanters, at least one who is not the author and one of the other sex, each chant five verses twice: once clean, and once from a card that names one slip in advance. The slips: an omission, <i>tha</i> for <i>ta</i>, ś for s, an insertion, a one-second pause, and a rushed half-length line. Report how many were found of how many, by type, and how many false flags a clean verse got. Fix the thresholds on two chanters and test on the third. Lab 3 on this site is a first, easy version of the same tally.</p>
+<div class="tablewrap"><table>
+<thead><tr><th>Decision</th><th>Rule from the report</th></tr></thead>
+<tbody>
+<tr><td>Promote tier 1</td><td>At least 80 % of deliberate slips located within one syllable, and at most 1 false flag per clean verse</td></tr>
+<tr><td>Demote tier 1 to a timing and pitch view</td><td>Cross-speaker locate rate under 50 %</td></tr>
+<tr><td>Promote tier 2</td><td>Beats tier 1 by 15 points or more on substitutions cross-speaker, or names the wrong sound correctly in at least 60 % of hits; under 10 seconds per take on the author's phone; its audio features match the Python ones</td></tr>
+<tr><td>Kill tier 2</td><td>No better than tier 1 cross-speaker, or it crashes iPhone Safari</td></tr>
+</tbody></table></div>
+<p class="srcnote">Source: <a href="research/01-record-compare-in-browser.md">report 1</a>, "Staged plan" and "Calibration".</p>
+
+<div class="cannot">
+  <h3>What this can and cannot tell you</h3>
+  <p>It can tell you how the method did on slips planted into one chanter's takes. It cannot tell you how it will do on your voice, or on a real mistake rather than a splice.</p>
+</div>
+
+<div class="tryit">
+  <h2>Try it</h2>
+  <p>Plant a slip yourself and watch it get caught or missed, with a running tally: <a href="lab3.html">open Lab 3</a>.</p>
+</div>
+<nav data-pager></nav>
+</div>
+</main>
+<script type="module" src="js/p-ch6.js"></script>
+</body>
+</html>

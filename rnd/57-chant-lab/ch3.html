@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex">
+<title>Chapter 3: Lining up two takes</title>
+<script>try{var t=JSON.parse(localStorage.getItem('chantlab57:theme'));if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="stylesheet" href="css/lab.css">
+</head>
+<body data-page="ch3">
+<main>
+<div class="col">
+<h1>Lining up two takes</h1>
+<p class="lede">Two takes of the same verse never run at the same speed. Before you can compare them syllable by syllable, you have to say which moment of one matches which moment of the other.</p>
+
+<h2>What warping is</h2>
+<p>Picture two rubber bands, each marked with the syllables of the verse. One is stretched a little more in the middle than the other. To compare them you stretch and squeeze each part until the marks sit on top of each other. Dynamic time warping, DTW, does that by computer. For every moment of the reference it looks at the tone of the sound (a short list of numbers called MFCCs, described in the glossary) and finds the cheapest path through all the possible matches, so that similar sounds meet similar sounds in the right order.</p>
+<p>Once the path is known, the syllable boundaries of the reference can be carried onto your take, and each syllable can be measured: how long you held it compared with the reference, how well it matched, how loud it was and where its pitch sat.</p>
+<p class="srcnote">Source: the method in <a href="research/01-record-compare-in-browser.md">report 1</a>, "Answer" and section 4 (MFCC and DTW against stored Day 2 features, Day 2 boundaries projected onto the take). The aligner running on this page is the one built for the audio side page (<code>rnd/56-audio-sources/compare.js</code>): it uses 12 MFCCs per 10 ms slice and no delta features, which is simpler than the report's MFCC+delta, so the accuracy below belongs to the report's version, not to this page's.</p>
+
+<h2>See it on two real takes</h2>
+<p>Pick a verse and two days. The warp path is drawn as a lag. The reference's time runs along the bottom, and the line shows how much later the other take is at the same point of the verse. A flat line means the same speed. A rising line means the other take is lingering there; a falling line means it is rushing. Red stretches mark syllables the take held much longer or shorter than the rest of its own tempo.</p>
+</div>
+
+<div class="stage">
+  <div class="controls">
+    <label>Verse <select id="verse"></select></label>
+    <label>Reference <select id="refset"></select></label>
+    <label>Other take <select id="otherset"></select></label>
+    <span class="badge" id="badge">looking for audio</span>
+  </div>
+  <div id="ribbon"></div>
+  <audio id="audio" controls preload="auto" aria-label="Reference recording of the verse"></audio>
+  <canvas class="chart" id="warp" role="img" aria-label="Warp path between the two takes, drawn as lag over time"></canvas>
+  <div class="legend"><span><i class="sw-take"></i>warp path</span><span><i class="sw-flag"></i>held much longer or shorter</span></div>
+  <p class="status" id="status" role="status"></p>
+  <p class="summary" id="summary" data-summary></p>
+  <p class="summary" id="warp-summary" data-summary></p>
+  <div data-fb="ch3.warp" data-label="the warp path plot"></div>
+  <div data-fb="ch3.timing" data-label="the timing marks on the ribbon"></div>
+</div>
+
+<div class="col">
+<p class="srcnote">The thresholds (a syllable is marked when its length is 1.6 times or more, or 0.625 times or less, of the take's overall tempo) are from the aligner's code and are a <span class="hyp">hypothesis</span>, not fitted to human judgements. The earlier analysis used 2.0 and 0.4.</p>
+
+<h2>How accurate is the lining up?</h2>
+<p>The Day 2 syllable moments were carried onto 63 other takes and compared with where the forced aligner had placed each syllable in those takes. Each line below is one take: the gold dot is its median error and the grey dot its 90th percentile.</p>
+</div>
+
+<div class="stage">
+  <canvas class="chart" id="strip" role="img" aria-label="Timing error per take"></canvas>
+  <p class="summary" id="strip-summary" data-summary></p>
+  <div data-fb="ch3.accuracy" data-label="the accuracy chart"></div>
+</div>
+
+<div class="col">
+<p><b>Caveats.</b> The reference moments are an algorithm's estimate, not ground truth, so this measures agreement between two methods. All 63 takes are by the same chanter as the reference. Different voices have not been tested (<span class="hyp">hypothesis</span>: timbre in the MFCCs makes cross-speaker alignment worse).</p>
+<p class="srcnote">Sources: <a href="research/01-record-compare-in-browser.md">report 1</a>, "Local evidence" table; raw numbers in <a href="research/dtw_probe.json">dtw_probe.json</a> (measured 2026-11-12); the speed, 0.22 s per verse pair, was measured with NumPy, not in the browser.</p>
+
+<div class="tryit">
+  <h2>Try it</h2>
+  <p>Record a take and see the same path for your own voice: <a href="lab2.html">open Lab 2</a>.</p>
+</div>
+<nav data-pager></nav>
+</div>
+</main>
+<script type="module" src="js/p-ch3.js"></script>
+</body>
+</html>

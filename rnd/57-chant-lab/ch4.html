@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex">
+<title>Chapter 4: Pitch</title>
+<script>try{var t=JSON.parse(localStorage.getItem('chantlab57:theme'));if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="stylesheet" href="css/lab.css">
+</head>
+<body data-page="ch4">
+<main>
+<div class="col">
+<h1>Pitch</h1>
+<p class="lede">Pitch is how high or low the voice is at each moment. In a chant it is the tune: where the voice rests, and how it rises and falls on a syllable.</p>
+
+<h2>How pitch is tracked</h2>
+<p>A pitch tracker looks for a repeating cycle in a short slice of sound. The time between repeats gives the pitch. A slice with no clear repeat, such as a breath, a hard consonant or silence, is called unvoiced and left blank. That is why the lines in the ribbon break.</p>
+<p>The tracker running on this page is a simple one that finds the repeat by comparing a slice with a delayed copy of itself (autocorrelation), searching between 70 and 400 hertz. It comes with the audio side page's aligner. The report's two candidates were not tested here: <a href="https://github.com/ianprime0509/pitchy">pitchy</a> (McLeod method, MIT licence, version 4.1.0) for stage 1, and <a href="https://github.com/lars76/swift-f0">SwiftF0</a> (MIT, version 0.3.0, a small model file) if pitchy jitters on low chant, which is a <span class="hyp">hypothesis</span>. Two other trackers were ruled out on licence: pitchfinder is GPL-3.0 and essentia.js is AGPL-3.0, both unfit for this MIT-licensed tool.</p>
+<p>Recording matters too. A phone or browser may switch on automatic gain control or noise suppression, and the report suspects these damage sustained pitch (<span class="hyp">hypothesis</span>; one <a href="https://groups.google.com/g/discuss-webrtc/c/PDZYMzAI-_Y">discussion thread</a> reports level drops on sustained tones). That is why Lab 1 asks the browser to switch them off, and then shows what the browser actually did, because it may ignore the request (<a href="https://developer.mozilla.org/en-US/docs/Web/API/MediaTrackConstraints/autoGainControl">MDN</a>).</p>
+<p class="srcnote">Sources: <a href="research/01-record-compare-in-browser.md">report 1</a>, sections 1 and 5 (pitchy and SwiftF0 fetched 2026-11-12; licences from the same fetch).</p>
+
+<h2>Cents, and why only the movement counts</h2>
+<p>A cent is a hundredth of a semitone, so 1200 cents is one octave. Each take's pitch is measured in cents above its own median pitch. That way, chanting the same tune a little higher or lower, or in another voice, is not counted as an error; only the shape of the tune is compared. The take's contour is first warped onto the reference using the alignment from chapter 3, and values are folded into plus or minus 600 cents so an octave jump does not look like a huge difference.</p>
+<p class="srcnote">Source: <a href="research/01-record-compare-in-browser.md">report 1</a>, section 5, "Pitch display".</p>
+
+<h2>See it on two real takes</h2>
+<p>Indigo is the reference and gold is the other take, drawn on the ribbon and again below it on a plain time axis. A syllable gets a pitch mark when its median pitch differs by 150 cents or more from the reference after the take's overall offset is removed, and enough of it was voiced for that to mean something. The 150 is from the aligner's code and is a <span class="hyp">hypothesis</span>, not a fitted value.</p>
+</div>
+
+<div class="stage">
+  <div class="controls">
+    <label>Verse <select id="verse"></select></label>
+    <label>Reference <select id="refset"></select></label>
+    <label>Other take <select id="otherset"></select></label>
+    <span class="badge" id="badge">looking for audio</span>
+  </div>
+  <div id="ribbon"></div>
+  <audio id="audio" controls preload="auto" aria-label="Reference recording of the verse"></audio>
+  <canvas class="chart" id="contour" role="img" aria-label="Pitch contours of the reference and the other take, in cents"></canvas>
+  <div class="legend"><span><i class="sw-ref"></i>reference</span><span><i class="sw-take"></i>other take, lined up</span></div>
+  <p class="status" id="status" role="status"></p>
+  <p class="summary" id="summary" data-summary></p>
+  <p class="summary" id="contour-summary" data-summary></p>
+  <div data-fb="ch4.contour" data-label="the two pitch contours"></div>
+  <div data-fb="ch4.marks" data-label="the pitch marks on the ribbon"></div>
+</div>
+
+<div class="col">
+<div class="cannot">
+  <h3>What this can and cannot tell you</h3>
+  <p>It can show where two takes by the same voice differ in the shape of the tune. It cannot yet be trusted for a different voice: cross-speaker scoring is untested (chapter 6). It cannot hear a pitch the tracker could not find, so short or breathy syllables are left unmarked.</p>
+</div>
+
+<div class="tryit">
+  <h2>Try it</h2>
+  <p>Chant the verse and see your own contour against the reference: <a href="lab2.html">open Lab 2</a>.</p>
+</div>
+<nav data-pager></nav>
+</div>
+</main>
+<script type="module" src="js/p-ch4.js"></script>
+</body>
+</html>
