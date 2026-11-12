@@ -451,6 +451,9 @@ a:hover {
 .verse-play:hover { background: var(--overlay-2); border-color: var(--color-sanskrit); }
 .verse-play:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
 .verse-play[aria-pressed="true"] { background: var(--color-accent); color: var(--color-primary); }
+/* Audio host unreachable (#56) */
+.audio-notice { display: flex; flex-wrap: wrap; align-items: center; gap: var(--spacing-xs); padding: var(--spacing-xs) var(--spacing-sm); border: 1px solid var(--color-deity); border-radius: 10px; color: var(--color-text-primary); font-size: 0.9rem; }
+.audio-notice[hidden] { display: none; }
 .verse-audio-status { font-size: 0.86rem; color: var(--color-text-secondary); margin-bottom: var(--spacing-sm); }
 .verse-audio-status:empty { display: none; }
 .verse-audio-status--error { color: var(--color-deity); }

@@ -271,17 +271,138 @@ def test_adding_a_set_on_the_host_is_data_only(browser, env):
         open(index, "w").write(original)
 
 
-def test_unreachable_audio_host_leaves_the_app_working_without_audio_controls(browser, env):
-    """Failure caught: a dead or not-yet-deployed audio host breaks the app or leaves dead play buttons."""
-    env["write_config"]("http://127.0.0.1:1/")
+def free_port():
+    import socket
+    with socket.socket() as k:
+        k.bind(("127.0.0.1", 0))
+        return k.getsockname()[1]
+
+
+def test_unreachable_audio_host_at_load_keeps_the_buttons_and_says_so_with_a_retry_that_works(browser, env):
+    """Failure caught: if the host is down at page load the buttons and switcher vanish with no message and no way back."""
+    port = free_port()
+    env["write_config"]("http://127.0.0.1:%d/" % port)
+    srv = None
     try:
         ctx = browser.new_context(); pg = ctx.new_page()
         pg.goto(env["app"]); pg.wait_for_selector("article.verse")
         assert pg.locator("article.verse").count() == 14
-        assert pg.locator(".verse-play").count() == 0 and pg.locator("#audioSetGroup").is_hidden()
+        assert pg.locator(".verse-play").count() == 14                      # buttons stay
+        notice = pg.locator("#audioNotice")
+        assert notice.is_visible()
+        assert "127.0.0.1:%d" % port in notice.inner_text() and "could not be loaded" in notice.inner_text()
+        assert pg.locator("#audioRetry").is_visible()
+        pg.click(".verse-play[data-verse='1']")                              # pressing a verse button says something too
+        pg.wait_for_function("() => document.getElementById('audioStatus-1').textContent.length > 0")
+        assert "unavailable" in pg.locator("#audioStatus-1").inner_text()
+        srv = serve.start(env["cloud_dir"], port, cors=True, ranges=False)   # the host comes up
+        pg.click("#audioRetry")
+        pg.wait_for_selector("#audioNotice", state="hidden")
+        assert pg.locator("#audioSetSelect").input_value() == "day2"
+        pg.click(".verse-play[data-verse='1']")
+        playing(pg, "/sets/day2/verse-01.wav")
         ctx.close()
     finally:
+        if srv:
+            srv.shutdown(); srv.server_close()
         env["write_config"](env["cloud"])
+
+
+def test_audio_loads_by_itself_when_the_browser_comes_back_online(browser, env):
+    """Failure caught: the reader has to find and press Retry after their connection returns."""
+    port = free_port()
+    env["write_config"]("http://127.0.0.1:%d/" % port)
+    srv = None
+    try:
+        ctx = browser.new_context(); pg = ctx.new_page()
+        pg.goto(env["app"]); pg.wait_for_selector("article.verse")
+        assert pg.locator("#audioNotice").is_visible()
+        srv = serve.start(env["cloud_dir"], port, cors=True, ranges=False)
+        pg.evaluate("window.dispatchEvent(new Event('online'))")
+        pg.wait_for_selector("#audioNotice", state="hidden")
+        assert pg.locator("#audioSetGroup").is_visible()
+        ctx.close()
+    finally:
+        if srv:
+            srv.shutdown(); srv.server_close()
+        env["write_config"](env["cloud"])
+
+
+def test_choosing_a_set_while_the_host_is_unreachable_keeps_the_choice_and_shows_the_message(browser, env):
+    """Failure caught: the drop-down silently snaps back to Day 2 when the chosen set cannot be loaded."""
+    port = free_port()
+    srv = serve.start(env["cloud_dir"], port, cors=True, ranges=False)
+    env["write_config"]("http://127.0.0.1:%d/" % port)
+    try:
+        ctx = browser.new_context(); pg = ctx.new_page()
+        pg.goto(env["app"]); pg.wait_for_selector("article.verse")
+        assert pg.locator("#audioNotice").is_hidden()
+        srv.shutdown(); srv.server_close(); srv = None                         # the host goes away
+        pg.select_option("#audioSetSelect", "day5")
+        pg.wait_for_selector("#audioNotice", state="visible")
+        assert pg.locator("#audioSetSelect").input_value() == "day5"          # the choice stays selected
+        assert "127.0.0.1:%d" % port in pg.locator("#audioNotice").inner_text()
+        assert pg.evaluate("localStorage.getItem('dmv-audio-set')") == "day5"
+        srv = serve.start(env["cloud_dir"], port, cors=True, ranges=False)   # back up: Retry loads the chosen set
+        pg.click("#audioRetry")
+        pg.wait_for_selector("#audioNotice", state="hidden")
+        pg.click(".verse-play[data-verse='1']")
+        playing(pg, "/sets/day5/verse-01.wav")
+        ctx.close()
+    finally:
+        if srv:
+            srv.shutdown(); srv.server_close()
+        env["write_config"](env["cloud"])
+
+
+def test_status_line_names_the_verse_and_the_set_while_playing_and_clears_on_stop(page):
+    """Failure caught: nothing on the page says which recitation set is playing."""
+    st = page.locator("#audioStatus-1")
+    assert st.get_attribute("aria-live") == "polite"
+    page.click(".verse-play[data-verse='1']")
+    page.wait_for_function("() => document.getElementById('audioStatus-1').textContent.includes('Playing verse 1')")
+    assert st.inner_text() == "Playing verse 1 \u00b7 Day 2"
+    page.select_option("#audioSetSelect", "day5")                             # switching stops and clears
+    assert st.inner_text() == ""
+    page.click(".verse-play[data-verse='1']")
+    page.wait_for_function("() => document.getElementById('audioStatus-1').textContent.includes('Day 5')")
+    page.click(".verse-play[data-verse='1']")                                 # stop
+    assert st.inner_text() == ""
+
+
+def test_playing_status_is_translated(page):
+    """Failure caught: the new 'Playing verse' frame exists only in English."""
+    page.select_option("#localeSelect", "es")
+    page.wait_for_function("() => document.querySelector('.verse-play').getAttribute('aria-label').startsWith('Reproducir')")
+    page.click(".verse-play[data-verse='1']")
+    page.wait_for_function("() => document.getElementById('audioStatus-1').textContent.startsWith('Reproduciendo')")
+
+
+def test_a_local_fixture_set_can_be_added_by_a_preview_only_override_without_touching_the_committed_config(browser, env):
+    """Failure caught: the preview owner cannot try switching without editing the committed config (or the public host)."""
+    fx = os.path.join(env["cloud_dir"], "fixture-sets")
+    os.makedirs(fx, exist_ok=True)
+    json.dump({"schema": 1, "sets": [{"id": "day5", "label": "Day 5 (local test)", "recommended": False, "manifest": "../sets/day5/manifest.json"}]}, open(os.path.join(fx, "index.json"), "w"))
+    c = json.load(open(os.path.join(env["site"], "config.json"), encoding="utf-8"))
+    c["audio"]["extraIndexes"] = [env["cloud"] + "fixture-sets/index.json"]
+    json.dump(c, open(os.path.join(env["site"], "config.json"), "w"))
+    index = os.path.join(env["cloud_dir"], "sets", "index.json")
+    original = open(index).read()
+    d = json.loads(original); d["sets"] = [x for x in d["sets"] if x["id"] != "day5"]; open(index, "w").write(json.dumps(d))   # the "public" index has Day 2 only
+    try:
+        ctx = browser.new_context(); pg = ctx.new_page()
+        pg.goto(env["app"]); pg.wait_for_selector("article.verse")
+        assert pg.eval_on_selector_all("#audioSetSelect option", "els => els.map(e => e.value)") == ["day2", "day5"]
+        assert "Day 5 (local test)" in pg.locator("#audioSetSelect option[value='day5']").inner_text()
+        pg.select_option("#audioSetSelect", "day5")
+        pg.click(".verse-play[data-verse='1']")
+        playing(pg, "/sets/day5/verse-01.wav")
+        ctx.close()
+    finally:
+        open(index, "w").write(original)
+        env["write_config"](env["cloud"])
+    committed = json.load(open(os.path.join(ROOT, "config.json"), encoding="utf-8"))["audio"]
+    assert "extraIndexes" not in committed
 
 
 def test_offline_mirror_supplies_the_index_and_the_audio_when_the_cloud_is_unreachable(browser, env):

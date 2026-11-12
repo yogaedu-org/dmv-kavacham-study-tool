@@ -19,12 +19,14 @@ import { createAudioSource } from './audio-source.js';
    ========================================================================== */
 
 const SET_KEY = 'dmv-audio-set';
-let sets = [];           // from the index
-let current = null;      // the selected set (index entry)
-let manifest = null;     // its manifest
-let source = null;       // audio-source.js instance
+let sets = [];            // every set offered (from the index, plus any audio.extraIndexes)
+let chosen = null;        // the set the reader selected (may not be loaded yet if the host is down)
+let current = null;       // the set whose manifest is loaded into `source`
+let manifest = null;      // its manifest
+let source = null;        // audio-source.js instance
+let loadError = null;     // last failure to reach the host (null = fine)
 let playingVerse = null;
-let ready = false;
+let isPlaying = false;
 
 const audioEl = function() { return document.getElementById('verseAudio'); };
 
@@ -34,9 +36,9 @@ export function audioEnabled() {
     return !!(a.cloudBase || a.offlineBase);
 }
 
-/** Markup for one verse's play button + status line (inside the verse card). */
+/** Markup for one verse's play button + status line (inside the verse card). Rendered whenever audio is configured, even if the host is down. */
 export function audioButtonHTML(verseNumber) {
-    if (!ready) return '';
+    if (!audioEnabled()) return '';
     return '<button type="button" class="verse-play" data-verse="' + verseNumber + '" aria-pressed="false" ' +
         'aria-label="' + labelFor('audio.play.aria', verseNumber) + '" title="' + labelFor('audio.play.aria', verseNumber) + '">' +
         '<span aria-hidden="true">&#9654;</span></button>' +
@@ -54,14 +56,20 @@ async function getJson(url) {
 const absRoot = function(base) { return new URL(base.charAt(base.length - 1) === '/' ? base : base + '/', document.baseURI).href; };
 let indexUrl = null, indexRoot = null;
 
+/** Host named in the "could not be loaded" message. */
+function hostLabel() {
+    const base = (CONFIG.audio || {}).cloudBase || (CONFIG.audio || {}).offlineBase || '';
+    try { return new URL(absRoot(base)).host; } catch (e) { return base; }
+}
+
 /** Translate a manifest into the config audio-source.js is driven by. The only place that knows both formats.
  *  Layout rule: set directory = manifest URL + manifest.base, expressed relative to the root that served the index, so the
- *  offline root (if configured) mirrors the cloud layout. */
+ *  offline root (if configured) mirrors the cloud layout. A set from an extra index is used where its manifest says. */
 function sourceConfig(set, m, manifestUrl) {
     const a = CONFIG.audio, dir = new URL(m.base || './', manifestUrl).href, sources = [], order = [];
-    const rel = dir.indexOf(indexRoot) === 0 ? dir.slice(indexRoot.length) : null;     // null: the manifest points elsewhere
+    const rel = !set._indexUrl && dir.indexOf(indexRoot) === 0 ? dir.slice(indexRoot.length) : null;   // null: the manifest points elsewhere
     if (a.offlineBase && rel !== null) { sources.push({ kind: 'offline', base: new URL(rel, absRoot(a.offlineBase)).href, label: 'offline' }); order.push('offline'); }
-    if (a.cloudBase)   { sources.push({ kind: 'cloud', base: rel !== null ? new URL(rel, absRoot(a.cloudBase)).href : dir, label: 'cloud' }); order.push('cloud'); }
+    if (a.cloudBase || set._indexUrl) { sources.push({ kind: 'cloud', base: rel !== null ? new URL(rel, absRoot(a.cloudBase)).href : dir, label: 'cloud' }); order.push('cloud'); }
     return {
         version: 1, set: { id: set.id, label: m.label || set.label }, sources, order,
         verses: Object.keys(m.verses || {}).map(function(n) {
@@ -72,37 +80,57 @@ function sourceConfig(set, m, manifestUrl) {
 }
 
 async function useSet(set) {
-    const manifestUrl = new URL(set.manifest, indexUrl).href;
-    manifest = await getJson(manifestUrl);
+    const manifestUrl = new URL(set.manifest, set._indexUrl || indexUrl).href;
+    const m = await getJson(manifestUrl);
+    manifest = m;
     current = set;
-    const cfg = sourceConfig(set, manifest, manifestUrl);
+    const cfg = sourceConfig(set, m, manifestUrl);
     if (source) source.setConfig(cfg); else source = createAudioSource(cfg);
 }
 
 function savedSetId() { try { return localStorage.getItem(SET_KEY); } catch (e) { return null; } }
 function saveSetId(id) { try { localStorage.setItem(SET_KEY, id); } catch (e) { /* private mode */ } }
 
-/** Load the index and the chosen set (saved choice > recommended > first). Call before renderVerses(). */
+async function loadIndex() {
+    const roots = [CONFIG.audio.cloudBase, CONFIG.audio.offlineBase].filter(Boolean).map(absRoot);
+    let index = null, lastError = null;
+    for (const root of roots) {                                       // cloud first, then the offline mirror
+        try { indexUrl = new URL(CONFIG.audio.setsIndex, root).href; indexRoot = root; index = await getJson(indexUrl); break; }
+        catch (e) { lastError = e; }
+    }
+    if (!index) throw lastError || new Error('no audio base configured');
+    const list = (index.sets || []).filter(function(s) { return s && s.id && s.manifest; });
+    if (!list.length) throw new Error('no sets in ' + indexUrl);
+    // Preview/test hook: extra index files (empty in the committed config) add sets, for example a local fixture set.
+    for (const url of (CONFIG.audio.extraIndexes || [])) {
+        const full = new URL(url, document.baseURI).href;
+        try {
+            const extra = await getJson(full);
+            (extra.sets || []).forEach(function(s) {
+                if (s && s.id && s.manifest && !list.some(function(x) { return x.id === s.id; })) list.push(Object.assign({}, s, { _indexUrl: full, recommended: false }));
+            });
+        } catch (e) { console.warn('Extra audio index not loaded:', full, e.message); }
+    }
+    sets = list;
+}
+
+function pickDefault() {
+    const saved = savedSetId();
+    return sets.filter(function(s) { return s.id === saved; })[0] || sets.filter(function(s) { return s.recommended; })[0] || sets[0];
+}
+
+/** Make sure the index and the CHOSEN set's manifest are loaded; throws if the host cannot be reached. */
+async function ensureLoaded() {
+    if (!sets.length) await loadIndex();
+    if (!chosen) chosen = pickDefault();
+    if (!current || current.id !== chosen.id || !source) await useSet(chosen);
+    loadError = null;
+}
+
+/** Load the index and the chosen set (saved choice > recommended > first). Call before renderVerses(). Never throws. */
 export async function initAudio() {
     if (!audioEnabled()) return;
-    try {
-        const roots = [CONFIG.audio.cloudBase, CONFIG.audio.offlineBase].filter(Boolean).map(absRoot);
-        let index = null, lastError = null;
-        for (const root of roots) {                                       // cloud first, then the offline mirror
-            try { indexUrl = new URL(CONFIG.audio.setsIndex, root).href; indexRoot = root; index = await getJson(indexUrl); break; }
-            catch (e) { lastError = e; }
-        }
-        if (!index) throw lastError || new Error('no audio base configured');
-        sets = (index.sets || []).filter(function(s) { return s && s.id && s.manifest; });
-        if (!sets.length) throw new Error('no sets in ' + indexUrl);
-        const saved = savedSetId();
-        const pick = sets.filter(function(s) { return s.id === saved; })[0] ||
-                     sets.filter(function(s) { return s.recommended; })[0] || sets[0];
-        await useSet(pick);
-        ready = true;
-    } catch (error) {
-        console.warn('Verse audio unavailable:', error.message);   // the app works without it
-    }
+    try { await ensureLoaded(); } catch (error) { loadError = error; console.warn('Verse audio unavailable:', error.message); }
 }
 
 function setLabel(s) { return s.label + (s.recommended ? ' ★ ' + t('audio.recommended') : ''); }
@@ -110,15 +138,31 @@ function setLabel(s) { return s.label + (s.recommended ? ' ★ ' + t('audio.reco
 function fillSetSelect() {
     const group = document.getElementById('audioSetGroup'), select = document.getElementById('audioSetSelect');
     if (!group || !select) return;
-    group.hidden = !ready;
-    if (!ready) return;
+    group.hidden = !sets.length;
+    if (!sets.length) return;
     select.innerHTML = '';
     sets.forEach(function(s) {
         const opt = document.createElement('option');
         opt.value = s.id; opt.textContent = setLabel(s);
-        if (current && s.id === current.id) opt.selected = true;
+        if (chosen && s.id === chosen.id) opt.selected = true;       // the reader's choice stays selected even if its manifest could not load
         select.appendChild(opt);
     });
+}
+
+/** The one visible "audio host unreachable" message, near the controls, with a Retry button. */
+function renderNotice() {
+    const box = document.getElementById('audioNotice'), text = document.getElementById('audioNoticeText');
+    if (!box || !text) return;
+    box.hidden = !loadError;
+    if (loadError) text.textContent = t('audio.hostDown').replace('{host}', hostLabel());
+}
+
+/** Retry loading (Retry button, the browser coming back online). Resolves true on success. */
+export async function retryAudio() {
+    if (!audioEnabled()) return false;
+    try { await ensureLoaded(); } catch (error) { loadError = error; console.warn('Verse audio unavailable:', error.message); }
+    fillSetSelect(); renderNotice();
+    return !loadError;
 }
 
 function statusEl(n) { return document.getElementById('audioStatus-' + n); }
@@ -130,9 +174,15 @@ function setStatus(n, text, isError) {
     el.classList.toggle('verse-audio-status--error', !!isError);
 }
 
+function paintPlayingStatus() {
+    if (playingVerse == null || !isPlaying) return;
+    setStatus(playingVerse, t('audio.playing').replace('{n}', playingVerse).replace('{set}', (manifest && manifest.label) || (current && current.label) || ''), false);
+}
+
 /** Re-apply the playing state after the verse cards were re-rendered (language change). */
 export function syncAudioButtons() {
     document.querySelectorAll('.verse-play').forEach(function(b) { paintButton(b, Number(b.dataset.verse) === playingVerse); });
+    paintPlayingStatus();
 }
 
 function paintButton(btn, on) {
@@ -146,7 +196,8 @@ function paintButton(btn, on) {
 export function stopAudio() {
     const a = audioEl();
     if (a) { a.pause(); a.removeAttribute('src'); delete a.dataset.sourceUrl; a.load(); }
-    playingVerse = null;
+    if (playingVerse != null && isPlaying) setStatus(playingVerse, '');   // "Playing verse N" is cleared on stop (errors stay)
+    playingVerse = null; isPlaying = false;
     syncAudioButtons();
 }
 
@@ -156,6 +207,12 @@ async function playVerse(n) {
     document.querySelectorAll('.verse-audio-status').forEach(function(el) { el.textContent = ''; });
     playingVerse = n;
     syncAudioButtons();
+    try { await ensureLoaded(); renderNotice(); fillSetSelect(); } catch (error) {
+        loadError = error; console.warn('Verse audio unavailable:', error.message);
+        if (playingVerse === n) { playingVerse = null; syncAudioButtons(); setStatus(n, t('audio.unavailable'), true); }
+        renderNotice(); fillSetSelect();
+        return;
+    }
     const setAtStart = current.id;
     const r = await source.resolve(n);
     if (playingVerse !== n || current.id !== setAtStart) return;     // the reader moved on meanwhile
@@ -169,23 +226,23 @@ async function playVerse(n) {
     const a = audioEl();
     a.src = r.url;
     a.dataset.sourceUrl = r.sourceUrl || r.url;                       // the network URL behind a blob: URL (for tests and debugging)
-    try { await a.play(); } catch (error) {
+    try { await a.play(); isPlaying = true; paintPlayingStatus(); } catch (error) {
         playingVerse = null; syncAudioButtons();
         setStatus(n, t('audio.playFailed').replace('{n}', n), true);
         console.warn('Audio play failed:', error.message);
     }
 }
 
-/** Wire the shared <audio>, the per-verse buttons (delegated, so re-renders keep working) and the set switcher. */
+/** Wire the shared <audio>, the per-verse buttons (delegated, so re-renders keep working), the set switcher and the retry paths. */
 export function initAudioControls() {
-    if (!ready) return;
-    fillSetSelect();
+    if (!audioEnabled()) return;
+    fillSetSelect(); renderNotice();
     const a = audioEl();
     if (a) {
-        a.addEventListener('ended', function() { playingVerse = null; syncAudioButtons(); });
+        a.addEventListener('ended', function() { if (playingVerse != null) setStatus(playingVerse, ''); playingVerse = null; isPlaying = false; syncAudioButtons(); });
         a.addEventListener('error', function() {
             if (playingVerse == null || !a.getAttribute('src')) return;
-            const n = playingVerse; playingVerse = null; syncAudioButtons();
+            const n = playingVerse; playingVerse = null; isPlaying = false; syncAudioButtons();
             setStatus(n, t('audio.playFailed').replace('{n}', n), true);
         });
     }
@@ -199,14 +256,16 @@ export function initAudioControls() {
     if (select) select.addEventListener('change', async function() {
         const set = sets.filter(function(s) { return s.id === select.value; })[0];
         if (!set) return;
+        chosen = set; saveSetId(set.id);                              // the reader's choice stands whether or not the host answers
         stopAudio();
         document.querySelectorAll('.verse-audio-status').forEach(function(el) { el.textContent = ''; });
-        try { await useSet(set); saveSetId(set.id); } catch (error) {
-            console.warn('Could not load set ' + set.id + ':', error.message);
-            select.value = current.id;                                // stay on the working set
-        }
+        try { await ensureLoaded(); } catch (error) { loadError = error; console.warn('Could not load set ' + set.id + ':', error.message); }
+        renderNotice();
     });
+    const retry = document.getElementById('audioRetry');
+    if (retry) retry.addEventListener('click', function() { retryAudio(); });
+    window.addEventListener('online', function() { if (loadError) retryAudio(); });
 }
 
-/** Re-label the switcher after a language change (the "recommended" word is localized). */
-export function refreshAudioControls() { if (ready) fillSetSelect(); }
+/** Re-label the switcher and the notice after a language change. */
+export function refreshAudioControls() { if (audioEnabled()) { fillSetSelect(); renderNotice(); } }

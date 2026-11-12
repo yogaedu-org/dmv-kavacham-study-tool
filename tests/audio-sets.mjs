@@ -14,6 +14,8 @@
  *   F4  A manifest entry has no key, or a sha256/bytes that is not well-formed: integrity checking silently becomes impossible.
  *   F5  An audio file was committed to git (#48: audio lives outside git): the repo grows 3 MB per set.
  *   F6  A js/ module hard-codes a clip URL or host: swapping the cloud would then need a code change.
+ *   F7  The committed config.json points audio.cloudBase anywhere but the public host (a local mock leaked into the build,
+ *       or extraIndexes, the preview-only override, was committed): visitors would get no audio or a stranger's.
  *
  * The self-check feeds the validator a broken set first: a guard that cannot fail proves nothing.
  *
@@ -71,6 +73,11 @@ if (dir) {
 // F5: no audio tracked by git anywhere in the repo (rnd/** is covered by .gitignore + the release assets, #48)
 const tracked = execFileSync('git', ['-C', root, 'ls-files'], { encoding: 'utf8' }).split('\n');
 for (const f of tracked) if (/\.(mp3|wav|m4a|ogg|opus|flac)$/i.test(f) && existsSync(join(root, f))) errors.push(`F5: audio file tracked in git: ${f}`);
+
+// F7: the committed config names the public host and carries no preview-only override
+const aud = (readJson('config.json').audio) || {};
+if (aud.cloudBase !== 'https://dmv-kavacham-audio.pages.dev/') errors.push('F7: config.json audio.cloudBase is ' + JSON.stringify(aud.cloudBase) + ', expected the public host https://dmv-kavacham-audio.pages.dev/ (a local mock belongs in a test or preview override, never in the committed config)');
+if (aud.extraIndexes && aud.extraIndexes.length) errors.push('F7: config.json audio.extraIndexes must be empty (preview-only override)');
 
 // F6: no clip host or file name baked into js/
 for (const f of readdirSync(join(root, 'js')).filter((x) => x.endsWith('.js'))) {

@@ -188,6 +188,12 @@
                 </div>
             </div>
             
+            <!-- Audio host unreachable (#56): one visible message with Retry; shown by js/audio.js only when needed -->
+            <div class="audio-notice" id="audioNotice" role="alert" hidden>
+                <span id="audioNoticeText"></span>
+                <button type="button" class="clear-btn" id="audioRetry" data-i18n="audio.retry">Retry</button>
+            </div>
+
             <!-- Active Filter Tags Row (populated by JS; :empty collapses it — keep it truly empty) -->
             <div class="active-filters" id="activeFilters" aria-label="Active filters" aria-live="polite"></div>
             
