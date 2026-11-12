@@ -30,12 +30,12 @@ Manifest / config (`audio-config.json` is the example):
   "verses": [ { "id": 1, "file": "verse01.mp3" | { "cloud": "day2__verse01.mp3", "offline": "verse01.mp3" },
                 "sha256": "...", "bytes": 0, "duration": 13.24, "set": "Day 2" } ] }
 ```
-- `cloud`: any http(s) base URL. Playback does not need CORS; reading the bytes for analysis does (the page reports a missing CORS header by name).
+- `cloud`: any http(s) base URL **with CORS**. Delivery is `blob` by default: `resolve()` fetches the whole clip (about 200 KB), checks its `sha256` against the manifest when one is given (a mismatch is an error naming the file and the clip is never played; `verified: true|false|null` is returned, `false` = this context has no SubtleCrypto), and returns a `blob:` URL for the shared `<audio>`. Reason: the Cloudflare Pages host ignores `Range` (200 + full body, no `Accept-Ranges`, measured by the deploy agent), and Safari refuses `<audio src>` from such a server; a blob also seeks and is the hook for a later offline cache. Clips are cached per set and the object URLs are revoked on `setConfig` (a set switch). `delivery: "stream"` on a source gives the plain URL.
 - `offline`: a same-origin relative folder. It is also where a later service-worker or Cache Storage copy would be served.
 - `custom`: the user's files from `<input type=file multiple>` or drag and drop, matched to verses by a number in the file name (`verse-07.mp3`, `07.wav`, `Take2_verse14.m4a`: a `verse` marker wins, else the last digit run; out-of-range or number-less names are listed as not used). Held as object URLs for the session only.
 - Swapping audio = swapping the config (`?config=other.json`) or a `base`. No player code changes.
 
-`sha256` is carried and returned but **not verified** at playback.
+`resolve()` also returns `sourceUrl` (the network URL behind a `blob:` URL), `delivery` and `verified`. Not verified: Safari playback (no iOS device here; the blob path is the mitigation, unproven on a device).
 
 ## Part 2: record and compare (#57, stage 1 of report 01)
 Importable modules, no page assumptions (the textbook lab can mount them):
@@ -61,7 +61,6 @@ Everything about thresholds is a hypothesis: none was fitted to human right/wron
 ## What is NOT done
 - Persistence of custom audio: no OPFS, IndexedDB or folder picker (session object URLs only). Next step: copy the chosen files into IndexedDB (report 02).
 - Offline download button / Cache Storage / service-worker range slicing: not here (live app untouched).
-- sha256 verification of audio at download or play.
 - Stage 2 of report 01 (ZIPA phone model + GOP, about 70 MB download): not tried. Next step: only after stage 1 passes the cross-speaker test.
 - Cross-speaker calibration with real mistakes (above); Safari/iOS recording behaviour (report 01 lists known constraint problems); recording is chromium-tested only.
 - Release assets as a cloud source: report 02 measured no CORS headers and a draft release answers 404, so no config points at them.
@@ -70,3 +69,6 @@ Everything about thresholds is a hypothesis: none was fitted to human right/wron
 1. **Where should cloud audio live?** KA prefers Cloudflare. Report 02 ranks same-origin hosting on the Pages site first (clips are about 3 MB per set, free, CORS-free), a separate Pages media repo second, R2 third (needs a custom domain for production). Recommendation: a Cloudflare Pages project for the clips; the app only needs the one `audio.cloudBase` value (see the app PR for the data layout).
 2. **How should custom audio persist?** Recommendation: copy the bytes into IndexedDB, keep no file handles (one code path on every browser; Safari may evict after 7 days unless installed), plus an export button for takes.
 3. **Manifest fields `reciter` and `licence`**: not known to this repo; who is the reciter and under what licence may the clips be published?
+
+## Hosting record
+[audio-hosting/DEPLOYMENT.md](audio-hosting/DEPLOYMENT.md) is the deploy agent's log for the Cloudflare Pages project `dmv-kavacham-audio` (public, Day 2 only, no Range support).
