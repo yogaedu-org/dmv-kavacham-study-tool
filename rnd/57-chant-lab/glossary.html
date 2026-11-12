@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex">
+<link rel="icon" href="data:,">
 <title>Glossary</title>
 <script>try{var t=JSON.parse(localStorage.getItem('chantlab57:theme'));if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
 <link rel="stylesheet" href="css/lab.css">
@@ -10,40 +11,8 @@
 <main>
 <div class="col">
 <h1>Glossary</h1>
-<p class="lede">Plain meanings for the words in this book, in the order you meet them.</p>
-<dl>
-<dt><b>Akshara</b></dt><dd>A syllable of the verse: a consonant cluster with its vowel, as written in Devanagari. The unit the ribbon is built from.</dd>
-<dt><b>Line (pada)</b></dt><dd>Half of a verse: the text up to the danda, then the rest.</dd>
-<dt><b>Take</b></dt><dd>One recording of a verse. The <b>reference</b> is the take the others are compared with; here it is Day 2.</dd>
-<dt><b>Ribbon</b></dt><dd>This book's picture of a verse: the syllables laid along time, with loudness and pitch under them and differences marked.</dd>
-<dt><b>Waveform</b></dt><dd>The air pressure at the microphone over time. Tall means loud.</dd>
-<dt><b>Loudness, decibel (dB)</b></dt><dd>The size of the sound in each short slice, on the logarithmic scale used for loudness. Here a slice is 10 milliseconds.</dd>
-<dt><b>Pause</b></dt><dd>By the earlier analysis' rule: 0.30 seconds or more where the loudness is more than 28 dB below the clip's 95th-percentile level.</dd>
-<dt><b>MFCC</b></dt><dd>A short list of numbers that describes the tone colour of a slice of sound. Two slices of the same sound give similar lists; the lists also carry the voice, which is why a different voice is a risk.</dd>
-<dt><b>DTW (dynamic time warping)</b></dt><dd>A method that matches each moment of one take to a moment of another, allowing either to stretch or squeeze, by choosing the cheapest path through all the matches. The path is the <b>warp path</b>.</dd>
-<dt><b>Forced alignment</b></dt><dd>Placing known text in time on a recording. It gave the syllable moments for Day 2.</dd>
-<dt><b>Pitch (F0)</b></dt><dd>How high or low the voice is, measured as the number of cycles per second of the voice's vibration. A slice with no clear cycle is <b>unvoiced</b> and has no pitch.</dd>
-<dt><b>Autocorrelation</b></dt><dd>Comparing a slice of sound with a delayed copy of itself. The delay at which they match best gives the pitch.</dd>
-<dt><b>Cent</b></dt><dd>A hundredth of a semitone; 1200 cents is an octave. Pitch here is in cents above the take's own median, so the key does not matter.</dd>
-<dt><b>Median</b></dt><dd>The middle value when numbers are sorted. A 90th percentile is the value that 9 in 10 are below.</dd>
-<dt><b>Speech sound (phone)</b></dt><dd>One distinct sound of speech, such as a retroflex t or an aspirated t.</dd>
-<dt><b>Phone recogniser, ZIPA</b></dt><dd>A model that turns audio into speech sounds, here trained on many languages. ZIPA is the one the report recommends as the tier 2 candidate.</dd>
-<dt><b>CTC</b></dt><dd>A way of training and reading speech models that outputs a sound, or a blank, for each frame of audio.</dd>
-<dt><b>GOP (goodness of pronunciation)</b></dt><dd>A score for how likely the expected sound was over the stretch where it was heard, compared with the best competing sound.</dd>
-<dt><b>Nat</b></dt><dd>A unit of log likelihood; the report gives GOP drops in nats.</dd>
-<dt><b>8-bit (int8)</b></dt><dd>A model stored with small numbers to be a quarter of the size of the 32-bit version.</dd>
-<dt><b>WebAssembly, WebGPU</b></dt><dd>Two ways a browser can run a model: on the main processor, or on the graphics chip.</dd>
-<dt><b>CORS</b></dt><dd>The permission header a server sends so that a page from another address may read its files. Without it a page can play a file but not analyse it.</dd>
-<dt><b>IndexedDB, Cache Storage</b></dt><dd>Places a browser keeps data for a site: general records and files, and downloaded responses.</dd>
-<dt><b>SHA-256</b></dt><dd>A fingerprint of a file. If the fingerprint matches, the file is the one expected.</dd>
-<dt><b>Similarity, confidence</b></dt><dd>On the lab pages, similarity is how little a syllable, line or verse differs from the reference (0 to 100) and confidence is how much evidence that number rests on (0 to 100, capped at 95). Both are estimates whose weights were not fitted to human judgements.</dd>
-<dt><b>Flag, mark</b></dt><dd>A syllable the tool suggests you listen to. A lead, not a verdict.</dd>
-<dt><b>Omission, substitution, insertion</b></dt><dd>Syllables left out, replaced by others, or added.</dd>
-<dt><b>Planted slip, splice, control</b></dt><dd>A slip made on purpose by cutting or replacing syllables in a recording. A control is the same recording left untouched.</dd>
-<dt><b>Calibration</b></dt><dd>Checking a method against cases where the right answer is known.</dd>
-<dt><b>Tier 1, tier 2</b></dt><dd>Tier 1 lines takes up using only the sound. Tier 2 adds a phone model that must be downloaded.</dd>
-<dt><b><span class="hyp">Hypothesis</span></b></dt><dd>Something the research reports did not check or measure. It is called that wherever it appears.</dd>
-</dl>
+<p class="lede">Plain meanings for the words in this book. Any dotted-underline word in a chapter links here.</p>
+<dl data-glossary></dl>
 <nav data-pager></nav>
 </div>
 </main>

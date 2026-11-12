@@ -38,8 +38,10 @@ if (chant) {
       say(why, true); return;
     }
     const s = stream.getAudioTracks()[0].getSettings(); settings = { echoCancellation: s.echoCancellation, noiseSuppression: s.noiseSuppression, autoGainControl: s.autoGainControl, channelCount: s.channelCount, sampleRate: s.sampleRate };
-    const wanted = ['echoCancellation', 'noiseSuppression', 'autoGainControl'].filter((k) => settings[k]);
-    $('micinfo').textContent = `The browser reports: echo cancellation ${s.echoCancellation}, noise suppression ${s.noiseSuppression}, automatic gain ${s.autoGainControl}, ${s.channelCount || '?'} channel(s). We asked for all three to be off. ${wanted.length ? `Still on: ${wanted.join(', ')}; the browser ignored the request, which may flatten sustained pitch (hypothesis).` : 'All three are off.'}`;
+    const keys = ['echoCancellation', 'noiseSuppression', 'autoGainControl'], names = { echoCancellation: 'echo cancellation', noiseSuppression: 'noise suppression', autoGainControl: 'automatic volume levelling' };
+    const state = (v) => (v === true ? 'on' : v === false ? 'off' : 'not reported by this browser');
+    const on = keys.filter((k) => settings[k] === true), unknown = keys.filter((k) => settings[k] === undefined);
+    $('micinfo').textContent = `The browser reports: ${keys.map((k) => `${names[k]} ${state(settings[k])}`).join(', ')}; ${settings.channelCount === undefined ? 'channels not reported by this browser' : `${settings.channelCount} channel${settings.channelCount === 1 ? '' : 's'}`}. We asked for all three to be off. ${on.length ? `Still on: ${on.map((k) => names[k]).join(', ')}. The browser ignored the request, and that may flatten sustained pitch (hypothesis).` : unknown.length ? `We cannot confirm ${unknown.map((k) => names[k]).join(', ')}: not reported by this browser.` : 'All three are off.'}`;
     const chunks = [];
     recorder = new MediaRecorder(stream);
     recorder.ondataavailable = (e) => { if (e.data.size) chunks.push(e.data); };

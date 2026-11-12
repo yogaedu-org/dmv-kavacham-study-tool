@@ -2,75 +2,77 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex">
-<title>Chapter 7: Where the audio lives</title>
+<link rel="icon" href="data:,">
+<title>Chapter 7: How well it works so far</title>
 <script>try{var t=JSON.parse(localStorage.getItem('chantlab57:theme'));if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
 <link rel="stylesheet" href="css/lab.css">
 </head>
 <body data-page="ch7">
 <main>
 <div class="col">
-<h1>Where the audio lives</h1>
-<p class="lede">The reference clips have to come from somewhere, and the page must say clearly where it looked when it finds nothing. The design is one swappable source, so changing where the audio lives never means changing the player.</p>
+<h1>How well it works so far</h1>
+<p class="lede">Well on the one voice tested, and unknown on every other. Here is the test and what it showed.</p>
 
-<h2>Three places, tried in this order</h2>
-<ol>
-  <li><b>Your own files.</b> Clips you picked on this device and the browser keeps for you.</li>
-  <li><b>A copy on the device</b> (called offline). A copy saved earlier, so the verse plays with no network.</li>
-  <li><b>The cloud.</b> The same website the app is served from.</li>
-</ol>
-<p>If none of them has the verse, the page says "No audio for verse N" and names what it tried, and the play button is disabled. It never fails silently.</p>
+<h2>The planted-slip test</h2>
+<p>We took Day 5, verses 1 to 13, and damaged each in two ways at a random spot: two syllables left out, or two syllables replaced by the two that come six later. That made 26 slips. The 13 untouched takes were kept as clean controls, and Day 2 was the reference. Both checks were asked: which syllable do you mark most strongly?</p>
 
-<h2>Why the cloud is the app's own website</h2>
-<p>A set of clips for one day is 14 files and about 3 MB. Hosting them on the same GitHub Pages site as the app costs nothing and the page can read and analyse them, because they come from the same place. GitHub allows 1 GB per Pages site and a soft limit of 100 GB of downloads a month, which is about 34,000 full downloads of a day set (a calculation from the 2.9 MB set size).</p>
-<p>Files attached to a GitHub release cannot do this job. They carry no permission header (CORS), so the page may play them but not analyse them, and a draft release answers "not found" to the public. Cloudflare R2 is possible, costs nothing at this size, but its test address is rate-limited and a real one needs a custom domain.</p>
-<p class="srcnote">Source: <a href="research/02-swappable-audio-sources.md">report 2</a>, answer and section 1 (fetched 2026-11-12), including <a href="https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits">GitHub Pages limits</a> and <a href="https://developers.cloudflare.com/r2/buckets/public-buckets/">R2 public buckets</a>.</p>
+<h2>What happened</h2>
+<p>Both put their strongest mark on the slip almost every time: 26 times out of 26 for the quick check and 25 out of 26 for the deeper check.</p>
+<p>But a mark on the right syllable is not the same as a score that stands out. For the quick check, only 19 of the 26 slips scored higher than the highest score any clean take got. For the other seven you could not have told from the score alone that anything was wrong. That is why every mark in this book is a lead to listen to, not a verdict.</p>
 
-<h2>Offline, and the iPhone catch</h2>
-<p>The design is a button, "Download Day 3 (2.9 MB)", that fetches the clips, checks each against its fingerprint (SHA-256) and stores them in the browser's cache so they play with no network. On an iPhone, Safari deletes a site's stored data, including this, after 7 days without a visit, unless the app is added to the Home Screen. Whether that is still exact in iOS 26 was not checked (<span class="hyp">hypothesis</span>). So the page should say "Add to Home Screen to keep offline audio" next to the download.</p>
-<p>On this test site, "offline" is only a folder of clips beside the page (<code>local-audio/</code>), filled by a copy script. The download button and the service-worker design are in the report and are not built here.</p>
-<p class="srcnote">Source: <a href="research/02-swappable-audio-sources.md">report 2</a>, section 3, citing <a href="https://webkit.org/blog/10218/full-third-party-cookie-blocking-and-more/">WebKit, 2020-03-24</a>.</p>
+<h2>Look at each verse</h2>
+<p>In the pictures each verse has a clean take (hollow circle), an omission (round dot) and a substitution (diamond). The dashed line is the highest score a clean take got. A slip is easy to separate when its dot is far above the line.</p>
+</div>
 
-<h2>Your own files</h2>
-<p>A file picker works in every browser, an iPhone included, and the page copies the bytes into its own storage. A folder picker only exists in Chrome and Edge 105 and later, so it is not relied on. Files are matched to verses by the number in the name: <code>verse-07.mp3</code> is verse 7. If a name has no number, the page asks which verse it is.</p>
-<p class="srcnote">Source: <a href="research/02-swappable-audio-sources.md">report 2</a>, section 4, citing <a href="https://caniuse.com/native-filesystem-api">caniuse</a>.</p>
+<div class="stage">
+  <canvas class="chart" id="splice1" role="img" aria-label="Quick check scores per verse for clean takes and planted slips"></canvas>
+  <p class="summary" id="splice1-summary" data-summary></p>
+  <canvas class="chart" id="splice2" role="img" aria-label="Deeper check scores per verse for clean takes and planted slips" style="margin-top:1rem"></canvas>
+  <p class="summary" id="splice2-summary" data-summary></p>
+  <div data-fb="ch7.charts" data-label="the planted-slip charts"></div>
+</div>
 
-<h2>Format</h2>
-<p>MP3, mono, constant bitrate. Every major browser plays it. At 128 kilobits per second a 12 second clip is about 192 KB. Constant bitrate keeps a jump to a syllable exact; a variable bitrate file may drift (<span class="hyp">hypothesis</span>). Halving to 64 kilobits would halve the set, but needs a listening check first (<span class="hyp">hypothesis</span>).</p>
-<p class="srcnote">Source: <a href="research/02-swappable-audio-sources.md">report 2</a>, section 5, citing <a href="https://developer.mozilla.org/en-US/docs/Web/Media/Guides/Formats/Audio_codecs">MDN audio codecs</a>.</p>
-
-<h2>Find a verse's audio</h2>
-<p>Choose where to look. "Automatic" tries your own files, then the offline folder, then the cloud. This test site has no cloud source configured, so choosing "cloud" shows what the error message looks like.</p>
+<div class="col">
+<h2>Where the slip was</h2>
+<p>Pick a verse and a kind of slip. The ribbon marks the syllables that were damaged and the syllable the chosen check marked most strongly. The timings are the reference's; the damaged take was Day 5.</p>
 </div>
 
 <div class="stage">
   <div class="controls">
     <label>Verse <select id="verse"></select></label>
-    <fieldset style="border:0;padding:0;margin:0;display:flex;gap:.8rem;flex-wrap:wrap"><legend class="mute small" style="padding:0 .4rem 0 0">Look in</legend>
-      <label><input type="radio" name="mode" value="auto" checked> automatic</label>
-      <label><input type="radio" name="mode" value="offline"> offline folder</label>
-      <label><input type="radio" name="mode" value="cloud"> cloud</label>
-      <label><input type="radio" name="mode" value="custom"> my own files</label>
-    </fieldset>
+    <label>Slip <select id="kind"><option value="omission">omission</option><option value="substitution">substitution</option></select></label>
+    <label>Check <select id="tier"><option value="dtw">Quick check</option><option value="zipa">Deeper check</option></select></label>
+    <span class="badge" id="badge">looking for audio</span>
   </div>
-  <div class="controls"><label>My own files <input type="file" id="files" accept="audio/*" multiple></label><span class="small mute" id="fileinfo"></span></div>
-  <div class="controls"><button type="button" class="primary" id="find">Find and load</button><span class="badge" id="badge">not searched yet</span></div>
   <div id="ribbon"></div>
-  <audio id="audio" controls preload="auto" aria-label="Verse recording"></audio>
+  <audio id="audio" controls preload="auto" aria-label="Reference recording of the verse"></audio>
   <p class="status" id="status" role="status"></p>
   <p class="summary" id="summary" data-summary></p>
-  <div data-fb="ch7.finder" data-label="the audio finder"></div>
+  <p class="summary" id="slip-summary" data-summary></p>
+  <div data-fb="ch7.slips" data-label="the slip locator"></div>
 </div>
 
 <div class="col">
 <div class="cannot">
   <h3>What this can and cannot tell you</h3>
-  <p>It shows how a clip is found and what the error says when it is not. It does not show offline storage on a phone or the cloud copy, because neither is set up on this test site. The ribbon always uses the reference's syllable moments, so with your own file it only follows the sound approximately.</p>
+  <p>It can tell you how the method did on slips planted into one chanter's takes. It cannot tell you how it will do on your voice, or on a real mistake rather than a splice. The limits are in <a href="ch8.html">chapter 8</a>.</p>
 </div>
-
 <div class="tryit">
   <h2>Try it</h2>
-  <p>Use your own recording as a take: <a href="lab1.html">open Lab 1</a>.</p>
+  <p>Plant a slip yourself and watch it get caught or missed, with a running tally: <a href="lab3.html">open Lab 3</a>.</p>
 </div>
+
+<details class="deep">
+<summary>For the technically curious</summary>
+<div class="tablewrap"><table>
+<thead><tr><th></th><th>Quick check (DTW)</th><th>Deeper check (ZIPA)</th></tr></thead>
+<tbody>
+<tr><td>Top flag within one before to two after the slip</td><td>omissions 13 of 13, substitutions 13 of 13</td><td>omissions 12 of 13, substitutions 13 of 13</td></tr>
+<tr><td>Also above the worst clean take</td><td>11 of 13 and 8 of 13 (worst clean take 4.49, median 3.17)</td><td>0 of 26: one clean take spikes at 6.87 nats on its first syllable. Above the second-worst clean take (2.79): 12 of 13 and 8 of 13</td></tr>
+<tr><td>Time</td><td>0.22 s per verse pair (NumPy)</td><td>0.55 s per 13.2 s verse, one thread, native</td></tr>
+</tbody></table></div>
+<p>Neither time was measured in the browser. Splice positions used the seed 20261112. Sources: <a href="sources.html#r1">report 1</a>, "Local evidence", measured 2026-11-12; per-verse numbers in <a href="sources.html#p1">dtw_probe.json</a> and <a href="sources.html#p2">zipa_gop_probe.json</a>.</p>
+</details>
 <nav data-pager></nav>
 </div>
 </main>

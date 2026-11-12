@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex">
+<link rel="icon" href="data:,">
 <title>Chapter 2: Hearing the verse as data</title>
 <script>try{var t=JSON.parse(localStorage.getItem('chantlab57:theme'));if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
 <link rel="stylesheet" href="css/lab.css">
@@ -14,22 +15,21 @@
 
 <h2>Three views of the same sound</h2>
 <ul>
-  <li><b>The waveform</b> is the air pressure at the microphone over time. Tall is loud.</li>
-  <li><b>The loudness curve</b> is the size of the sound in each slice of 10 milliseconds, in decibels. It is the gold line below the waveform.</li>
-  <li><b>Pauses</b> are found by one rule from the earlier analysis: a stretch of 0.30 seconds or longer where the loudness is more than 28 decibels below the clip's 95th-percentile level. The earlier analysis then asked whether each one sat inside a line or at the boundary between lines. Quiet at the very start and end of a clip is not counted.</li>
+  <li><b>The sound picture</b> shows how the air pressure at the microphone changes over time. Tall is loud. It is the blue shape in the lower picture.</li>
+  <li><b>The loudness line</b> is how loud the sound is in each hundredth of a second. It is the gold line.</li>
+  <li><b>Pauses</b> are stretches of at least 0.3 seconds where the sound drops very quiet compared with the loud parts of the clip. They are shaded red. Quiet at the very start and end of a clip is not counted.</li>
 </ul>
-<p class="srcnote">Source: pause rule, <a href="research/01-record-compare-in-browser.md">report 1</a> section 5 and <a href="research/03-chant-accuracy-METHOD.md">method</a> "Passes". The earlier run used 20 ms slices; this page uses 10 ms, so the counts can differ slightly.</p>
 
 <h2>Where the syllable boundaries come from</h2>
-<p>The cells in the ribbon sit at the moments a forced aligner placed each syllable in the Day 2 takes. That is an algorithm's estimate, not ground truth. Chapter 3 measures how well those moments carry over to other takes.</p>
-<p class="srcnote">Source: <a href="research/03-chant-accuracy-METHOD.md">method</a>, pass A (CTC forced alignment, torchaudio MMS_FA, 20 ms frames).</p>
+<p>The cells in the ribbon sit at the moments an automatic tool marked each syllable's start in the Day 2 recording. That is the tool's best estimate, not a person's decision. Chapter 3 measures how well those moments carry over to other takes.</p>
+<p>Press play and the current syllable lights up. Press a syllable to hear from there, and see whether the pauses fall where you would breathe.</p>
 </div>
 
 <div class="stage">
   <div class="controls"><label>Verse <select id="verse"></select></label><span class="badge" id="badge">looking for audio</span></div>
   <div id="ribbon"></div>
   <audio id="audio" controls preload="auto" aria-label="Reference recording of the verse"></audio>
-  <canvas class="chart" id="wave" role="img" aria-label="Waveform and loudness of the verse, with pauses shaded"></canvas>
+  <canvas class="chart" id="wave" role="img" aria-label="Sound picture and loudness of the verse, with pauses shaded"></canvas>
   <p class="status" id="status" role="status"></p>
   <p class="summary" id="summary" data-summary></p>
   <p class="summary" id="wave-summary" data-summary></p>
@@ -40,8 +40,13 @@
 <div class="col">
 <div class="tryit">
   <h2>Try it</h2>
-  <p>Record the same verse and see your own waveform and pauses next to the reference: <a href="lab1.html">open Lab 1</a>.</p>
+  <p>Record the same verse and see your own sound picture and pauses next to the reference: <a href="lab1.html">open Lab 1</a>.</p>
 </div>
+
+<details class="deep">
+<summary>For the technically curious</summary>
+<p>The top picture is the waveform. The loudness line is the frame level in decibels, one value per 10 milliseconds. A pause is a run of 0.30 seconds or more where that level is more than 28 decibels below the clip's 95th percentile level; the earlier analysis then asked whether it sat inside a line or at the boundary between lines. The earlier run used 20 millisecond frames, so counts can differ slightly. The syllable moments come from CTC forced alignment with torchaudio MMS_FA on 20 millisecond frames (<a href="sources.html#r1">report 1</a>, section 5; <a href="sources.html#r3">method</a>, "Passes").</p>
+</details>
 <nav data-pager></nav>
 </div>
 </main>

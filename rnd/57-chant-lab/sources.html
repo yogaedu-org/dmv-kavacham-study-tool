@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex">
+<link rel="icon" href="data:,">
 <title>Sources</title>
 <script>try{var t=JSON.parse(localStorage.getItem('chantlab57:theme'));if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
 <link rel="stylesheet" href="css/lab.css">
@@ -10,73 +11,79 @@
 <main>
 <div class="col">
 <h1>Sources</h1>
-<p class="lede">Every source behind the chapters, grouped by chapter. Dates are the publication or last-update date where the research reports gave one; otherwise the page was fetched on 2026-11-12 and no date was recorded.</p>
-<p>Two kinds of claim appear in this book. A claim that carries a link was read or measured by the research reports. A claim marked <span class="hyp">hypothesis</span> is the reports' own label for something not checked, and it is called that here too.</p>
-
+<p class="lede">Every claim in the chapters links to an entry here. Each entry shows the address and a date: the publication or last-update date where the research reports gave one, otherwise the day the page was fetched.</p>
+<p>A claim with a link was read or measured by the research reports. A claim marked <a class="term" href="glossary.html#hypothesis">hypothesis</a> is the reports' own label for something not checked, and it is called that here too.</p>
 <h2>The research behind the whole book</h2>
-<ul>
-  <li><a href="research/01-record-compare-in-browser.md">Report 1: record and compare chanting in the browser</a>, 2026-11-12. Record and compare, the two tiers, measured numbers and the calibration design.</li>
-  <li><a href="research/02-swappable-audio-sources.md">Report 2: swappable per-verse audio</a>, 2026-11-12. Cloud, offline and custom sources. Issue <a href="https://github.com/yogaedu-org/dmv-kavacham-study-tool/issues/56">dmv-kavacham-study-tool #56</a>.</li>
-  <li><a href="research/03-chant-accuracy-METHOD.md">Method of the chant accuracy analysis</a> (14 verses over 6 days), 2026-11-11, with the confidence section added the same day.</li>
-  <li><a href="research/dtw_probe.json">dtw_probe.json</a> and <a href="research/zipa_gop_probe.json">zipa_gop_probe.json</a>: the measurements behind chapters 3 and 6, 2026-11-12. The scripts that produced them stay in the hub repository, which is not public from here.</li>
-  <li>The syllable boundaries and per-day confidences come from the analysis' <code>results.json</code>, summarised into <code>chant.json</code> by <code>tools/build-chant-json.py</code>. The recordings are not in the repository.</li>
+<ul class="sources">
+<li id="r1"><b>Report 1: record and compare chanting in the browser</b> <span class="mute">2026-11-12</span><br><a href="research/01-record-compare-in-browser.md">research/01-record-compare-in-browser.md</a><br><span class="small">Record and compare, the quick and deeper checks, measured numbers, the calibration design.</span></li>
+<li id="r2"><b>Report 2: swappable per-verse audio</b> <span class="mute">2026-11-12</span><br><a href="research/02-swappable-audio-sources.md">research/02-swappable-audio-sources.md</a><br><span class="small">Cloud, offline and own-file sources for the reference clips.</span></li>
+<li id="r3"><b>Method of the chant accuracy analysis (14 verses over 6 days)</b> <span class="mute">2026-11-11</span><br><a href="research/03-chant-accuracy-METHOD.md">research/03-chant-accuracy-METHOD.md</a><br><span class="small">Passes, pause rule, model-habit rule, scores, confidence and the five-slip smoke test.</span></li>
+<li id="p1"><b>dtw_probe.json</b> <span class="mute">2026-11-12</span><br><a href="research/dtw_probe.json">research/dtw_probe.json</a><br><span class="small">Measurements behind chapters 3 and 7 (timing accuracy, planted slips, quick check).</span></li>
+<li id="p2"><b>zipa_gop_probe.json</b> <span class="mute">2026-11-12</span><br><a href="research/zipa_gop_probe.json">research/zipa_gop_probe.json</a><br><span class="small">Measurements behind chapters 6 and 7 (planted slips, deeper check). The scripts that made both files stay in the hub repository.</span></li>
+<li id="s47"><b>dmv-kavacham-study-tool issue 56</b> <span class="mute">fetched 2026-11-12</span><br><a href="https://github.com/yogaedu-org/dmv-kavacham-study-tool/issues/56">https://github.com/yogaedu-org/dmv-kavacham-study-tool/issues/56</a><br><span class="small">The issue the audio-source report belongs to.</span></li>
 </ul>
-
-<h2>Chapter 1: What "correct" can mean</h2>
-<ul><li><a href="research/03-chant-accuracy-METHOD.md">Method</a>: passes, model-habit rule, score and recommendation, confidence.</li></ul>
-
-<h2>Chapter 2: Hearing the verse as data</h2>
-<ul><li><a href="research/03-chant-accuracy-METHOD.md">Method</a>: energy rule for pauses, forced alignment (torchaudio MMS_FA).</li></ul>
-
-<h2>Chapter 3: Lining up two takes</h2>
-<ul><li><a href="research/01-record-compare-in-browser.md">Report 1</a> and <a href="research/dtw_probe.json">dtw_probe.json</a>.</li></ul>
-
 <h2>Chapter 4 and Lab 1: pitch and recording</h2>
-<ul>
-  <li><a href="https://github.com/ianprime0509/pitchy">pitchy</a>: McLeod pitch method, MIT, version 4.1.0 (npm 2024-01-04).</li>
-  <li><a href="https://github.com/lars76/swift-f0">SwiftF0</a>: MIT, version 0.3.0 (2026-09-25).</li>
-  <li><a href="https://groups.google.com/g/discuss-webrtc/c/PDZYMzAI-_Y">discuss-webrtc thread</a>: level drops on sustained tones with automatic gain control.</li>
-  <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/MediaTrackConstraints/autoGainControl">MDN: autoGainControl</a>: constraints are best effort.</li>
-  <li><a href="https://bugs.webkit.org/show_bug.cgi?id=179411">WebKit bug 179411</a>: constraints ignored on iOS 11.</li>
-  <li><a href="https://blog.addpipe.com/getusermedia-audio-constraints.md">addpipe: getUserMedia audio constraints</a>: Safari 26 gives stereo despite a one-channel request (secondary source).</li>
-  <li><a href="https://blog.addpipe.com/record-high-quality-audio-in-safari-with-alac-and-pcm-support-via-mediarecorder/">addpipe: Safari and MediaRecorder formats</a> (secondary source).</li>
+<ul class="sources">
+<li id="s1"><b>pitchy (McLeod pitch method, MIT, version 4.1.0)</b> <span class="mute">npm 2024-01-04</span><br><a href="https://github.com/ianprime0509/pitchy">https://github.com/ianprime0509/pitchy</a><br><span class="small">A candidate pitch tracker.</span></li>
+<li id="s2"><b>SwiftF0 (MIT, version 0.3.0)</b> <span class="mute">2026-09-25</span><br><a href="https://github.com/lars76/swift-f0">https://github.com/lars76/swift-f0</a><br><span class="small">A candidate pitch model if pitchy jitters on low chant (a hypothesis).</span></li>
+<li id="s3"><b>discuss-webrtc thread</b> <span class="mute">fetched 2026-11-12</span><br><a href="https://groups.google.com/g/discuss-webrtc/c/PDZYMzAI-_Y">https://groups.google.com/g/discuss-webrtc/c/PDZYMzAI-_Y</a><br><span class="small">Reports level drops on sustained tones with automatic gain control.</span></li>
+<li id="s4"><b>MDN: autoGainControl</b> <span class="mute">fetched 2026-11-12</span><br><a href="https://developer.mozilla.org/en-US/docs/Web/API/MediaTrackConstraints/autoGainControl">https://developer.mozilla.org/en-US/docs/Web/API/MediaTrackConstraints/autoGainControl</a><br><span class="small">Microphone settings are best effort; a browser may ignore them.</span></li>
+<li id="s5"><b>WebKit bug 179411</b> <span class="mute">fetched 2026-11-12</span><br><a href="https://bugs.webkit.org/show_bug.cgi?id=179411">https://bugs.webkit.org/show_bug.cgi?id=179411</a><br><span class="small">Constraints ignored on iOS 11.</span></li>
+<li id="s6"><b>addpipe: getUserMedia audio constraints</b> <span class="mute">fetched 2026-11-12</span><br><a href="https://blog.addpipe.com/getusermedia-audio-constraints.md">https://blog.addpipe.com/getusermedia-audio-constraints.md</a><br><span class="small">Safari 26 gives stereo despite a one-channel request (secondary source).</span></li>
+<li id="s7"><b>addpipe: Safari and MediaRecorder formats</b> <span class="mute">fetched 2026-11-12</span><br><a href="https://blog.addpipe.com/record-high-quality-audio-in-safari-with-alac-and-pcm-support-via-mediarecorder/">https://blog.addpipe.com/record-high-quality-audio-in-safari-with-alac-and-pcm-support-via-mediarecorder/</a><br><span class="small">Which recording formats Safari offers (secondary source).</span></li>
 </ul>
-
-<h2>Chapter 5: How apps score pronunciation</h2>
-<ul>
-  <li><a href="https://arxiv.org/abs/2507.16838">Cao et al., arXiv 2507.16838</a>, July 2025: self-alignment and alignment-free GOP.</li>
-  <li><a href="https://arxiv.org/abs/2506.02080">Parikh et al., arXiv 2506.02080</a>, Interspeech 2025: substitution-aware GOP.</li>
-  <li><a href="https://www.isca-archive.org/interspeech_2021/xu21k_interspeech.pdf">Xu et al., Interspeech 2021</a>: wav2vec2 mispronunciation detection, F1 0.610.</li>
-  <li><a href="https://arxiv.org/abs/2511.20107v1">arXiv 2511.20107</a>, November 2025: training-free retrieval, 69.6 %.</li>
-  <li><a href="https://blog.englishtest.duolingo.com/new-research-in-language-learning-a-pronunciation-scoring-model-built-around-intelligibility-not-imitation">Duolingo English Test blog</a>, 2025-07-30, and <a href="https://onlinelibrary.wiley.com/doi/full/10.1111/lang.70000">the paper</a> (doi 10.1111/lang.70000).</li>
-  <li><a href="https://learn.microsoft.com/en-us/azure/ai-services/speech-service/how-to-pronunciation-assessment">Azure Pronunciation Assessment</a>, updated 2026-07-03.</li>
-  <li><a href="https://api-docs.speechace.com/">Speechace API docs</a>. <a href="https://elsaspeak.com/en/efficacy">ELSA efficacy page</a> (method unpublished).</li>
-  <li><a href="https://tarteel.ai/blog/introducing-mistake-detection/">Tarteel</a>, 2022-01-04. <a href="https://arxiv.org/abs/2509.00094">Quran-muaalem</a>, 2025-08-27. <a href="https://github.com/Halleck45/OpenPronounce">OpenPronounce</a>.</li>
-  <li><a href="https://huggingface.co/anyspeech/zipa-small-crctc-500k">ZIPA-small</a> (repository updated 2026-10-06) and <a href="https://arxiv.org/abs/2505.23170">its paper, ACL 2025</a>. <a href="https://arxiv.org/abs/2510.24992">POWSM</a>, October 2025.</li>
-  <li>Other models: <a href="https://huggingface.co/onnx-community/wav2vec2-lv-60-espeak-cv-ft-ONNX">wav2vec2-lv-60-espeak</a>, <a href="https://huggingface.co/robg/speako-phoneme-recognizer">speako</a>, <a href="https://huggingface.co/Harveenchadha/vakyansh-wav2vec2-sanskrit-sam-60">vakyansh Sanskrit</a>.</li>
-  <li><a href="https://www.npmjs.com/package/onnxruntime-web">onnxruntime-web</a> 1.31.1 (npm, 2026-11-11). <a href="https://web.dev/blog/webgpu-supported-major-browsers">WebGPU support, web.dev</a>, 2025-11-25. <a href="https://bugs.webkit.org/show_bug.cgi?id=269777">WebKit bug 269777</a>, closed 2024-02-22.</li>
+<h2>Chapter 5: how apps score pronunciation</h2>
+<ul class="sources">
+<li id="s8"><b>Cao et al., arXiv 2507.16838</b> <span class="mute">July 2025</span><br><a href="https://arxiv.org/abs/2507.16838">https://arxiv.org/abs/2507.16838</a><br><span class="small">Goodness of pronunciation without a separate alignment step.</span></li>
+<li id="s9"><b>Parikh et al., arXiv 2506.02080 (Interspeech 2025)</b> <span class="mute">2025</span><br><a href="https://arxiv.org/abs/2506.02080">https://arxiv.org/abs/2506.02080</a><br><span class="small">Goodness of pronunciation limited to plausible confusions.</span></li>
+<li id="s10"><b>Xu et al., Interspeech 2021</b> <span class="mute">2021</span><br><a href="https://www.isca-archive.org/interspeech_2021/xu21k_interspeech.pdf">https://www.isca-archive.org/interspeech_2021/xu21k_interspeech.pdf</a><br><span class="small">A wav2vec2 system reached an F1 of 0.610 on English learners&#x27; speech.</span></li>
+<li id="s11"><b>arXiv 2511.20107</b> <span class="mute">November 2025</span><br><a href="https://arxiv.org/abs/2511.20107v1">https://arxiv.org/abs/2511.20107v1</a><br><span class="small">A training-free method reported 69.6 % (the data splits differ, so not a leaderboard).</span></li>
+<li id="s12"><b>Duolingo English Test blog</b> <span class="mute">2025-07-30</span><br><a href="https://blog.englishtest.duolingo.com/new-research-in-language-learning-a-pronunciation-scoring-model-built-around-intelligibility-not-imitation">https://blog.englishtest.duolingo.com/new-research-in-language-learning-a-pronunciation-scoring-model-built-around-intelligibility-not-imitation</a><br><span class="small">The test&#x27;s scorer: a deep model trained on human-rated responses.</span></li>
+<li id="s13"><b>Language Learning paper (doi 10.1111/lang.70000)</b> <span class="mute">fetched 2026-11-12</span><br><a href="https://onlinelibrary.wiley.com/doi/full/10.1111/lang.70000">https://onlinelibrary.wiley.com/doi/full/10.1111/lang.70000</a><br><span class="small">Spearman 0.82 with experts, better than GOP, Whisper confidence and a Microsoft tool (the authors&#x27; comparison).</span></li>
+<li id="s14"><b>Azure Pronunciation Assessment</b> <span class="mute">updated 2026-07-03</span><br><a href="https://learn.microsoft.com/en-us/azure/ai-services/speech-service/how-to-pronunciation-assessment">https://learn.microsoft.com/en-us/azure/ai-services/speech-service/how-to-pronunciation-assessment</a><br><span class="small">Accuracy, fluency, completeness and prosody scores; error types.</span></li>
+<li id="s15"><b>Speechace API docs</b> <span class="mute">fetched 2026-11-12</span><br><a href="https://api-docs.speechace.com/">https://api-docs.speechace.com/</a><br><span class="small">A 0 to 100 score per sound, syllable and word, plus fluency.</span></li>
+<li id="s16"><b>ELSA efficacy page</b> <span class="mute">fetched 2026-11-12</span><br><a href="https://elsaspeak.com/en/efficacy">https://elsaspeak.com/en/efficacy</a><br><span class="small">Claims 93.88 % agreement within one level; the method is unpublished.</span></li>
+<li id="s17"><b>Tarteel: mistake detection</b> <span class="mute">2022-01-04</span><br><a href="https://tarteel.ai/blog/introducing-mistake-detection/">https://tarteel.ai/blog/introducing-mistake-detection/</a><br><span class="small">Word-level missed, wrong and extra words; closed.</span></li>
+<li id="s18"><b>Quran-muaalem</b> <span class="mute">2025-08-27</span><br><a href="https://arxiv.org/abs/2509.00094">https://arxiv.org/abs/2509.00094</a><br><span class="small">An open model for recitation, 848 hours, Tajweed F1 75.8 %.</span></li>
+<li id="s19"><b>OpenPronounce</b> <span class="mute">fetched 2026-11-12</span><br><a href="https://github.com/Halleck45/OpenPronounce">https://github.com/Halleck45/OpenPronounce</a><br><span class="small">wav2vec2 plus DTW, English.</span></li>
 </ul>
-
-<h2>Chapter 6: How well it works so far</h2>
-<ul>
-  <li><a href="research/01-record-compare-in-browser.md">Report 1</a>, <a href="research/dtw_probe.json">dtw_probe.json</a>, <a href="research/zipa_gop_probe.json">zipa_gop_probe.json</a>, <a href="research/03-chant-accuracy-METHOD.md">method</a> (the five-slip smoke test).</li>
-  <li><a href="https://web.dev/articles/storage-for-the-web">web.dev: storage for the web</a>: Safari deletes script-writable storage after 7 days without interaction.</li>
-  <li><a href="https://developer.apple.com/forums/thread/710157">Apple developer forum thread</a>: Home Screen exemption and persistent storage are unreliable on iOS.</li>
+<h2>Chapter 6: a sound model for Sanskrit</h2>
+<ul class="sources">
+<li id="s20"><b>ZIPA-small CR-CTC 500k</b> <span class="mute">repository updated 2026-10-06</span><br><a href="https://huggingface.co/anyspeech/zipa-small-crctc-500k">https://huggingface.co/anyspeech/zipa-small-crctc-500k</a><br><span class="small">Size, licence and symbols of the candidate sound model.</span></li>
+<li id="s21"><b>ZIPA paper, ACL 2025 (arXiv 2505.23170)</b> <span class="mute">2025</span><br><a href="https://arxiv.org/abs/2505.23170">https://arxiv.org/abs/2505.23170</a><br><span class="small">The model&#x27;s paper.</span></li>
+<li id="s22"><b>POWSM</b> <span class="mute">October 2025</span><br><a href="https://arxiv.org/abs/2510.24992">https://arxiv.org/abs/2510.24992</a><br><span class="small">Claims parity with ZIPA; its size was not checked.</span></li>
+<li id="s23"><b>wav2vec2-lv-60-espeak (ONNX)</b> <span class="mute">fetched 2026-11-12</span><br><a href="https://huggingface.co/onnx-community/wav2vec2-lv-60-espeak-cv-ft-ONNX">https://huggingface.co/onnx-community/wav2vec2-lv-60-espeak-cv-ft-ONNX</a><br><span class="small">A larger alternative, 317.7 MB.</span></li>
+<li id="s24"><b>speako phoneme recognizer</b> <span class="mute">fetched 2026-11-12</span><br><a href="https://huggingface.co/robg/speako-phoneme-recognizer">https://huggingface.co/robg/speako-phoneme-recognizer</a><br><span class="small">English sounds only; rejected.</span></li>
+<li id="s25"><b>vakyansh Sanskrit model</b> <span class="mute">fetched 2026-11-12</span><br><a href="https://huggingface.co/Harveenchadha/vakyansh-wav2vec2-sanskrit-sam-60">https://huggingface.co/Harveenchadha/vakyansh-wav2vec2-sanskrit-sam-60</a><br><span class="small">Trained on Sanskrit but no licence is stated; blocked.</span></li>
+<li id="s26"><b>onnxruntime-web 1.31.1 (MIT)</b> <span class="mute">npm 2026-11-11</span><br><a href="https://www.npmjs.com/package/onnxruntime-web">https://www.npmjs.com/package/onnxruntime-web</a><br><span class="small">Runs the model in the browser.</span></li>
+<li id="s27"><b>WebGPU support, web.dev</b> <span class="mute">2025-11-25</span><br><a href="https://web.dev/blog/webgpu-supported-major-browsers">https://web.dev/blog/webgpu-supported-major-browsers</a><br><span class="small">Which browsers and phones can use WebGPU.</span></li>
+<li id="s28"><b>WebKit bug 269777</b> <span class="mute">closed 2024-02-22</span><br><a href="https://bugs.webkit.org/show_bug.cgi?id=269777">https://bugs.webkit.org/show_bug.cgi?id=269777</a><br><span class="small">About 300 MB of memory is reliably available to a page on an iPhone.</span></li>
 </ul>
-
-<h2>Chapter 7: Where the audio lives</h2>
-<ul>
-  <li><a href="research/02-swappable-audio-sources.md">Report 2</a>, which cites:</li>
-  <li><a href="https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits">GitHub Pages limits</a>. <a href="https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-large-files-on-github">Large files on GitHub</a> (search summary only).</li>
-  <li><a href="https://data.jsdelivr.com/v1/spec.yaml">jsDelivr spec</a> (search summary only).</li>
-  <li>Cloudflare: <a href="https://developers.cloudflare.com/r2/pricing/">R2 pricing</a>, <a href="https://developers.cloudflare.com/r2/buckets/public-buckets/">public buckets</a>, <a href="https://developers.cloudflare.com/r2/buckets/cors/">CORS</a>, <a href="https://developers.cloudflare.com/pages/platform/limits/">Pages limits</a>.</li>
-  <li><a href="https://api-docs.quran.com/docs/content_apis_versioned/4.0.0/recitation-audio-files/">Quran.com recitation audio API</a>: the catalogue, relative key and swappable base pattern.</li>
-  <li><a href="https://developer.chrome.com/docs/workbox/serving-cached-audio-and-video">Workbox: serving cached audio and video</a>. <a href="https://cloudfour.com/thinks/when-7-kb-equals-7-mb/">Cloud Four: opaque responses and storage quota</a> (secondary source).</li>
-  <li><a href="https://webkit.org/blog/14403/updates-to-storage-policy/">WebKit: storage policy</a>, 2023-08-10. <a href="https://webkit.org/blog/10218/full-third-party-cookie-blocking-and-more/">WebKit: 7-day limit</a>, 2020-03-24.</li>
-  <li><a href="https://caniuse.com/native-filesystem-api">caniuse: File System Access</a>. <a href="https://developer.chrome.com/blog/persistent-permissions-for-the-file-system-access-api">Chrome: persistent permissions</a>.</li>
-  <li><a href="https://developer.mozilla.org/en-US/docs/Web/Media/Guides/Formats/Audio_codecs">MDN: audio codecs</a>. <a href="https://caniuse.com/opus">caniuse: Opus</a>.</li>
+<h2>Chapter 8: what we do not know yet</h2>
+<ul class="sources">
+<li id="s29"><b>web.dev: storage for the web</b> <span class="mute">fetched 2026-11-12</span><br><a href="https://web.dev/articles/storage-for-the-web">https://web.dev/articles/storage-for-the-web</a><br><span class="small">Safari deletes a site&#x27;s stored data after 7 days without a visit.</span></li>
+<li id="s30"><b>Apple developer forum thread</b> <span class="mute">fetched 2026-11-12</span><br><a href="https://developer.apple.com/forums/thread/710157">https://developer.apple.com/forums/thread/710157</a><br><span class="small">The Home Screen exemption and persistent storage are unreliable on iOS.</span></li>
 </ul>
-<p class="srcnote">Report 2 notes two things it did not verify: whether the browser's cache accepts a partial (206) response, and whether jsDelivr refuses this repository.</p>
+<h2>Chapter 9: where the audio lives</h2>
+<ul class="sources">
+<li id="s31"><b>GitHub Pages limits</b> <span class="mute">fetched 2026-11-12</span><br><a href="https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits">https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits</a><br><span class="small">1 GB per site, a soft 100 GB per month of downloads.</span></li>
+<li id="s32"><b>Large files on GitHub</b> <span class="mute">fetched 2026-11-12</span><br><a href="https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-large-files-on-github">https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-large-files-on-github</a><br><span class="small">Search summary only.</span></li>
+<li id="s33"><b>jsDelivr spec</b> <span class="mute">fetched 2026-11-12</span><br><a href="https://data.jsdelivr.com/v1/spec.yaml">https://data.jsdelivr.com/v1/spec.yaml</a><br><span class="small">Search summary only.</span></li>
+<li id="s34"><b>Cloudflare R2 pricing</b> <span class="mute">fetched 2026-11-12</span><br><a href="https://developers.cloudflare.com/r2/pricing/">https://developers.cloudflare.com/r2/pricing/</a><br><span class="small">Free allowance and free downloads.</span></li>
+<li id="s35"><b>Cloudflare R2 public buckets</b> <span class="mute">fetched 2026-11-12</span><br><a href="https://developers.cloudflare.com/r2/buckets/public-buckets/">https://developers.cloudflare.com/r2/buckets/public-buckets/</a><br><span class="small">The test address is rate-limited; a real one needs a custom domain.</span></li>
+<li id="s36"><b>Cloudflare R2 CORS</b> <span class="mute">fetched 2026-11-12</span><br><a href="https://developers.cloudflare.com/r2/buckets/cors/">https://developers.cloudflare.com/r2/buckets/cors/</a><br><span class="small">How a bucket sets the permission header.</span></li>
+<li id="s37"><b>Cloudflare Pages limits</b> <span class="mute">fetched 2026-11-12</span><br><a href="https://developers.cloudflare.com/pages/platform/limits/">https://developers.cloudflare.com/pages/platform/limits/</a><br><span class="small">File and build limits.</span></li>
+<li id="s38"><b>Quran.com recitation audio API</b> <span class="mute">fetched 2026-11-12</span><br><a href="https://api-docs.quran.com/docs/content_apis_versioned/4.0.0/recitation-audio-files/">https://api-docs.quran.com/docs/content_apis_versioned/4.0.0/recitation-audio-files/</a><br><span class="small">The catalogue, relative key and swappable base pattern.</span></li>
+<li id="s39"><b>Workbox: serving cached audio and video</b> <span class="mute">fetched 2026-11-12</span><br><a href="https://developer.chrome.com/docs/workbox/serving-cached-audio-and-video">https://developer.chrome.com/docs/workbox/serving-cached-audio-and-video</a><br><span class="small">Cached media must be saved whole.</span></li>
+<li id="s40"><b>Cloud Four: opaque responses and storage quota</b> <span class="mute">fetched 2026-11-12</span><br><a href="https://cloudfour.com/thinks/when-7-kb-equals-7-mb/">https://cloudfour.com/thinks/when-7-kb-equals-7-mb/</a><br><span class="small">Secondary source.</span></li>
+<li id="s41"><b>WebKit: storage policy</b> <span class="mute">2023-08-10</span><br><a href="https://webkit.org/blog/14403/updates-to-storage-policy/">https://webkit.org/blog/14403/updates-to-storage-policy/</a><br><span class="small">Persistent storage on Safari 17.</span></li>
+<li id="s42"><b>WebKit: the 7-day limit</b> <span class="mute">2020-03-24</span><br><a href="https://webkit.org/blog/10218/full-third-party-cookie-blocking-and-more/">https://webkit.org/blog/10218/full-third-party-cookie-blocking-and-more/</a><br><span class="small">Stored data is deleted after 7 days of non-use unless the app is on the Home Screen.</span></li>
+<li id="s43"><b>caniuse: File System Access</b> <span class="mute">fetched 2026-11-12</span><br><a href="https://caniuse.com/native-filesystem-api">https://caniuse.com/native-filesystem-api</a><br><span class="small">Folder pickers exist only in Chrome and Edge 105 and later.</span></li>
+<li id="s44"><b>Chrome: persistent permissions</b> <span class="mute">fetched 2026-11-12</span><br><a href="https://developer.chrome.com/blog/persistent-permissions-for-the-file-system-access-api">https://developer.chrome.com/blog/persistent-permissions-for-the-file-system-access-api</a><br><span class="small">Why folder handles are not relied on.</span></li>
+<li id="s45"><b>MDN: audio codecs</b> <span class="mute">fetched 2026-11-12</span><br><a href="https://developer.mozilla.org/en-US/docs/Web/Media/Guides/Formats/Audio_codecs">https://developer.mozilla.org/en-US/docs/Web/Media/Guides/Formats/Audio_codecs</a><br><span class="small">MP3 is supported in all major browsers.</span></li>
+<li id="s46"><b>caniuse: Opus</b> <span class="mute">fetched 2026-11-12</span><br><a href="https://caniuse.com/opus">https://caniuse.com/opus</a><br><span class="small">Opus support on Apple browsers.</span></li>
+</ul>
+<p class="srcnote">Report 2 notes two things it did not verify: whether the browser cache accepts a partial (206) response, and whether jsDelivr refuses this repository.</p>
 <nav data-pager></nav>
 </div>
 </main>

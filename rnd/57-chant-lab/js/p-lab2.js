@@ -51,18 +51,20 @@ if (chant) {
 
       const all = session(); all[verse.id] = { score: L.verse.score, conf: L.verse.conf, take: t.name }; try { sessionStorage.setItem('chantlab57:' + SESSION, JSON.stringify(all)); } catch { /* session storage blocked: overall stays at this verse */ }
       const done = Object.entries(all), oScore = Math.round(done.reduce((s, [, v]) => s + v.score, 0) / done.length), oConf = Math.round(done.reduce((s, [, v]) => s + v.conf, 0) / done.length);
-      const row = (name, sc, cf, marked) => `<tr><td>${esc(name)}</td><td class="num">${sc}</td><td class="num">${cf} (${band(cf)})</td><td class="num">${esc(marked)}</td></tr>`;
+      const LOW = 30;
+      const scoreCell = (sc, cf) => (cf < LOW ? '<span class="lowconf">not enough to judge</span>' : String(sc));
+      const row = (name, sc, cf, marked) => `<tr class="${cf < LOW ? 'lowrow' : ''}"><td>${esc(name)}</td><td class="num">${scoreCell(sc, cf)}</td><td class="num">${cf} (${band(cf)})</td><td class="num">${esc(marked)}</td></tr>`;
       const rows = [row('Overall', oScore, oConf, `${done.length} verse${done.length > 1 ? 's' : ''}`),
         row(`Verse ${verse.id}`, L.verse.score, L.verse.conf, `${L.flagged} of ${res.aksharas.length}`)];
       for (const l of L.lines) rows.push(row(`Line ${l.line + 1}`, l.score, l.conf, `${l.flagged} of ${l.n}`));
       $('levels').querySelector('tbody').innerHTML = rows.join('');
-      $('levels-summary').innerHTML = `<b>${esc(t.name)} against ${esc(setLabel(chant, chant.reference_set))}, verse ${verse.id}.</b> Similarity ${L.verse.score} of 100 with ${band(L.verse.conf)} confidence (${L.verse.conf}). Your take is ${res.durRatio} times the reference's length and its tempo is ${res.tempo.toFixed(2)} times; its pitch sits ${res.keyOffsetCents} cents from the reference overall (not counted as an error). ${L.flagged ? `${L.flagged} syllable${L.flagged > 1 ? 's are' : ' is'} marked.` : 'No syllable is marked.'} Every syllable has a score below, marked or not. Overall is the mean over the ${done.length} verse${done.length > 1 ? 's' : ''} compared in this browser session; Marked counts syllables flagged. Confidence bands: 70 or more is high, 40 to 69 medium, under 40 low.`;
+      $('levels-summary').innerHTML = `<b>${esc(t.name)} against ${esc(setLabel(chant, chant.reference_set))}, verse ${verse.id}.</b> ${L.verse.conf < LOW ? `Score: not enough to judge, because confidence is only ${L.verse.conf}.` : `Score ${L.verse.score} of 100 with ${band(L.verse.conf)} confidence (${L.verse.conf}).`} Your take is ${res.durRatio} times the reference's length and its tempo is ${res.tempo.toFixed(2)} times; its pitch sits ${res.keyOffsetCents} cents from the reference overall (not counted as an error). ${L.flagged ? `${L.flagged} syllable${L.flagged > 1 ? 's are' : ' is'} marked.` : 'No syllable is marked.'} Every syllable has a score below, marked or not. Overall is the mean over the ${done.length} verse${done.length > 1 ? 's' : ''} compared in this browser session; Marked counts syllables flagged. Confidence bands: 70 or more is high, 40 to 69 medium, under 40 low.`;
       const byI = Object.fromEntries(L.ak.map((a) => [a.i, a]));
       $('aktable').querySelector('tbody').innerHTML = res.aksharas.map((a) => `<tr class="${a.flagged ? 'flag' : ''}" data-i="${a.i}"><td class="num">${a.i + 1}</td><td><span lang="sa" class="deva">${esc(a.deva)}</span> <i>${esc(a.iast)}</i></td>
-        <td class="num">${byI[a.i].score}</td><td class="num">${byI[a.i].conf}</td><td class="num">${a.ratio.toFixed(2)}</td><td class="num">${a.cents === null ? 'not judged' : Math.round(a.cents)}</td><td class="num">${a.z.toFixed(1)}</td><td>${a.flags.length ? esc(a.flags.join('; ')) : 'no'}</td></tr>`).join('');
+        <td class="num">${scoreCell(byI[a.i].score, byI[a.i].conf)}</td><td class="num">${byI[a.i].conf}</td><td class="num">${a.ratio.toFixed(2)}</td><td class="num">${a.cents === null ? 'not judged' : Math.round(a.cents)}</td><td class="num">${a.z.toFixed(1)}</td><td>${a.flags.length ? esc(a.flags.join('; ')) : 'no'}</td></tr>`).join('');
       $('results').hidden = false;
       say('');
-      window.__chantlab = Object.assign(window.__chantlab || {}, { lab2: { levels: L, flagged: res.aksharas.filter((a) => a.flagged).map((a) => a.i), overall: { score: oScore, conf: oConf, n: done.length } } });
+      window.__chantlab = Object.assign(window.__chantlab || {}, { lab2: { low: L.verse.conf < LOW, levels: L, flagged: res.aksharas.filter((a) => a.flagged).map((a) => a.i), overall: { score: oScore, conf: oConf, n: done.length } } });
     } catch (e) { say(e.message, true); }
     $('go').disabled = false;
   }

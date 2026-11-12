@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex">
+<link rel="icon" href="data:,">
 <title>Chapter 5: How apps score pronunciation</title>
 <script>try{var t=JSON.parse(localStorage.getItem('chantlab57:theme'));if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
 <link rel="stylesheet" href="css/lab.css">
@@ -10,73 +11,58 @@
 <main>
 <div class="col">
 <h1>How apps score pronunciation</h1>
-<p class="lede">Language apps have scored pronunciation for years. This is a short tour of how they do it, what a version of that costs in a browser, and why none of it comes ready-made for Sanskrit.</p>
+<p class="lede">Language apps have scored pronunciation for years. This is a short tour of the idea behind it and of what the products say about themselves.</p>
 
-<h2>The core idea: goodness of pronunciation</h2>
-<p>A speech model listens to the sound and says, for every moment, how likely each speech sound is. The classic score, Goodness of Pronunciation or GOP, takes the likelihood of the sound that should be there over the stretch where it was heard, and compares it with the best competing sound. A low score means the model heard something else. Two recent papers adapt it to the newer models: one makes it work without a separate alignment step (<a href="https://arxiv.org/abs/2507.16838">Cao et al., arXiv 2507.16838</a>, July 2025), and one limits it to plausible confusions (<a href="https://arxiv.org/abs/2506.02080">Parikh et al., Interspeech 2025, arXiv 2506.02080</a>).</p>
-<p>For a sense of how good such detection is on English learners' speech: a wav2vec2 system reached an F1 of 0.610 (<a href="https://www.isca-archive.org/interspeech_2021/xu21k_interspeech.pdf">Xu et al. 2021</a>) and a training-free retrieval method reported 69.6 % (<a href="https://arxiv.org/abs/2511.20107v1">arXiv 2511.20107</a>, November 2025). The data splits differ, so these are not a leaderboard.</p>
+<h2>The core idea</h2>
+<p>A speech model listens to the sound and says, for every moment, how likely each speech sound is. The classic score, goodness of pronunciation or GOP, asks one question of each syllable: how clearly was the sound that should be there actually heard, compared with the best competing sound? A low score means the model heard something else.</p>
+<p>Detecting a learner's mistakes this way is hard even for English. The research systems the reports found get roughly six or seven in ten right on that kind of test, where ten in ten would be perfect, so they find many mistakes but not all, and raise some false alarms. The exact figures are below. Treat any such score as a lead to listen to.</p>
 
-<h2>What the products publish</h2>
-<div class="tablewrap"><table>
-<thead><tr><th>Product</th><th>What is public</th></tr></thead>
-<tbody>
-<tr><td>Duolingo</td><td>No public description of the in-app speaking scorer was found. The Duolingo English Test scorer is a deep model over sound-level and rhythm-level features, trained on thousands of human-rated responses, with a Spearman correlation of 0.82 with experts, better than GOP, Whisper confidence and a Microsoft tool (the authors' own comparison). <a href="https://blog.englishtest.duolingo.com/new-research-in-language-learning-a-pronunciation-scoring-model-built-around-intelligibility-not-imitation">Blog, 2025-07-30</a>; <a href="https://onlinelibrary.wiley.com/doi/full/10.1111/lang.70000">Language Learning paper</a>.</td></tr>
-<tr><td>Azure Pronunciation Assessment</td><td>Accuracy (per sound, word and text; per syllable for US English only), fluency, completeness (spoken words over reference words), prosody (US English only), a weighted overall score, and error types omission, insertion and mispronunciation. <a href="https://learn.microsoft.com/en-us/azure/ai-services/speech-service/how-to-pronunciation-assessment">Docs, updated 2026-07-03</a>.</td></tr>
-<tr><td>Speechace</td><td>A 0 to 100 quality score per sound, syllable and word, plus stress and fluency (words correct per minute, pauses, articulation rate). <a href="https://api-docs.speechace.com/">API docs</a>.</td></tr>
-<tr><td>ELSA</td><td>Claims 93.88 % agreement within one CEFR level; the method is unpublished. <a href="https://elsaspeak.com/en/efficacy">Efficacy page</a>.</td></tr>
-</tbody></table></div>
-<p>None of these vendors lists Sanskrit. What "good" means for a chant, borrowed from them: accuracy per syllable, completeness (omissions and insertions), fluency (pauses and rate) and prosody (the pitch contour).</p>
-<p>Closer to home: <a href="https://tarteel.ai/blog/introducing-mistake-detection/">Tarteel</a> (2022-01-04) reports word-level missed, wrong and extra words and is closed. <a href="https://arxiv.org/abs/2509.00094">Quran-muaalem</a> (2025-08-27) is an open model trained on 848 hours of recitation with a Tajweed F1 of 75.8 %, the closest analogue found, because it is a phone model built for recitation. <a href="https://github.com/Halleck45/OpenPronounce">OpenPronounce</a> uses wav2vec2 plus DTW for English. No open-source browser comparer for Vedic chant was found.</p>
-
-<h2>The candidate for tier 2: ZIPA-small</h2>
-<p><a href="https://huggingface.co/anyspeech/zipa-small-crctc-500k">ZIPA-small</a> is a 64-million-parameter multilingual phone recogniser (<a href="https://arxiv.org/abs/2505.23170">ACL 2025, arXiv 2505.23170</a>), licence CC-BY-4.0. The 8-bit version is 70.7 MB (16-bit 131.6 MB, 32-bit 260.3 MB; repository updated 2026-10-06). It outputs 127 speech-sound symbols including retroflex, aspirated and long sounds. It was trained on Hindi, Marathi, Bengali, Telugu, Tamil and others, and not on Sanskrit. On one laptop thread it ran at 0.042 times real time: 0.55 seconds for a 13.2 second verse.</p>
-<p>Because the verse is known, the plan is not to recognise Sanskrit at all. The verse's transliteration is turned into the expected sounds by a fixed table of about 40 rules, the model's output is aligned to them, and each syllable gets a GOP. The score used is the drop compared with the reference take, which cancels sounds the model always hears differently (on clean takes the median drop was 1.34 nats, a unit of log likelihood).</p>
-<p>What it gets wrong on Sanskrit, as observed on the two clips read: ś and ṣ both came out as the same sound (ʃ), and <i>dhū</i> came out as <i>d̪oː</i>, the aspiration lost. That this is general is a <span class="hyp">hypothesis</span>. The model's greedy output for Day 2 verse 1 begins:</p>
-<pre class="sample" lang="und">hoːmmkratʃtʃaːmrakʃaːt̪umeːtaːrakaːmaruːpaːnivaːsiːni...</pre>
-<p>It is recognisable but not exact. Below, the syllables of that verse that carry ś, ṣ or aspiration are marked as the report describes.</p>
-<p class="srcnote">Sources: <a href="research/01-record-compare-in-browser.md">report 1</a>, sections 2, 3 and 6 and "Local evidence", all fetched or measured 2026-11-12. The browser speed of ZIPA was not measured.</p>
+<h2>Walk through a score</h2>
+<p>Step through how a score is made, with the verse on the ribbon below.</p>
 </div>
 
 <div class="stage">
+  <ol class="pipe" id="pipe" aria-label="Steps of a pronunciation score">
+    <li data-step="0"><b>Your recording</b></li>
+    <li data-step="1"><b>The model listens</b></li>
+    <li data-step="2"><b>Match to the verse</b></li>
+    <li data-step="3"><b>A score per syllable</b></li>
+  </ol>
+  <p class="pipe-text" id="pipe-text" role="status"></p>
+  <div class="controls"><button type="button" id="back">Back</button><button type="button" class="primary" id="next">Next step</button></div>
   <div id="ribbon"></div>
   <audio id="audio" controls preload="auto" aria-label="Reference recording of verse 1"></audio>
   <p class="status" id="status" role="status"></p>
   <p class="summary" id="summary" data-summary></p>
-  <div data-fb="ch5.ribbon" data-label="the marked sample"></div>
+  <div data-fb="ch5.pipeline" data-label="the step-by-step score"></div>
 </div>
 
 <div class="col">
-<h2>The other models considered</h2>
-<div class="tablewrap"><table>
-<thead><tr><th>Model</th><th>Size</th><th>Licence</th><th>Verdict in the report</th></tr></thead>
-<tbody>
-<tr><td>ZIPA-small CR-CTC 500k</td><td>70.7 MB (8-bit)</td><td>CC-BY-4.0</td><td>Recommended; needs a JavaScript port of its 80-value Kaldi audio features</td></tr>
-<tr><td>ZIPA-large (300 M)</td><td>not checked; about 4.7 times small is a <span class="hyp">hypothesis</span></td><td>CC-BY-4.0</td><td>Desktop only</td></tr>
-<tr><td><a href="https://huggingface.co/onnx-community/wav2vec2-lv-60-espeak-cv-ft-ONNX">wav2vec2-lv-60-espeak</a></td><td>317.7 MB; 241.7 MB (4-bit)</td><td>Apache-2.0</td><td>Desktop only on size</td></tr>
-<tr><td><a href="https://huggingface.co/robg/speako-phoneme-recognizer">speako</a></td><td>355.2 MB</td><td>Apache-2.0</td><td>Rejected: English sounds only</td></tr>
-<tr><td><a href="https://huggingface.co/Harveenchadha/vakyansh-wav2vec2-sanskrit-sam-60">vakyansh Sanskrit</a></td><td>377.8 MB; about 95 MB 8-bit by analogy (<span class="hyp">hypothesis</span>)</td><td>none stated</td><td>Blocked on licence</td></tr>
-<tr><td>MMS_FA, Whisper tiny</td><td>631.5 MB; 40.8 MB</td><td>non-commercial; MIT</td><td>Rejected: letters only; Whisper loops</td></tr>
-</tbody></table></div>
-<p class="srcnote">Source: <a href="research/01-record-compare-in-browser.md">report 1</a>, section 3 table. On a measure of sound-feature error, lower being better, the ZIPA paper gives Allosaurus 22.33, wav2vec2-phoneme 11.88 and ZIPA-large 2.70 on seen languages; ZIPA-small's own figure was not read (a gap). <a href="https://arxiv.org/abs/2510.24992">POWSM</a> (October 2025) claims parity with ZIPA; its size was not checked.</p>
+<h2>What good means for a chant</h2>
+<p>Borrowing from the apps: accuracy of each syllable, completeness (nothing left out or added), fluency (pauses and pace) and prosody (the pitch contour). None of the products below lists Sanskrit.</p>
 
-<h2>What runs on a phone and what runs on a laptop</h2>
+<h2>What the products say</h2>
 <ul>
-  <li>The model runs in the browser through <a href="https://www.npmjs.com/package/onnxruntime-web">onnxruntime-web</a> 1.31.1 (MIT). It uses WebAssembly, or WebGPU where there is one. Multi-threading needs a page setting that GitHub Pages does not give without a workaround (<span class="hyp">hypothesis</span>).</li>
-  <li>WebGPU (<a href="https://web.dev/blog/webgpu-supported-major-browsers">web.dev, 2025-11-25</a>): Chrome and Edge 113 and later on desktop; Chrome 121 and later on Android 12 and later with some graphics chips; Firefox 141 and later on Windows and 145 and later on Apple-silicon Macs, not Android or Linux; Safari 26 on iPhone, iPad and Mac.</li>
-  <li>An iPhone tab is killed, not warned, when it uses too much memory: "Only ~300 MB of RAM is reliably available to WebAssembly pages" (<a href="https://bugs.webkit.org/show_bug.cgi?id=269777">WebKit bug 269777</a>). ZIPA-small at 8 bits fits. The 240 to 630 MB models do not, so they are for laptops only.</li>
-  <li>The browser speed of ZIPA is <b>not measured</b>. The <span class="hyp">hypothesis</span> is 2 to 3 times slower than the native run: 1 to 2 seconds per 12 second take on a laptop and a few seconds on a phone.</li>
+  <li><b>Duolingo.</b> No public description of the app's speaking scorer was found. Its English test uses a model trained on thousands of human-rated answers, and it agrees well with experts (<a href="sources.html#s12">source</a>).</li>
+  <li><b>Azure.</b> Scores for accuracy, fluency, completeness and, for US English only, prosody, and it names omissions, insertions and mispronunciations (<a href="sources.html#s14">source</a>).</li>
+  <li><b>Speechace.</b> A score for each sound, syllable and word, and for fluency (<a href="sources.html#s15">source</a>).</li>
+  <li><b>ELSA.</b> Claims high agreement with human levels but has not published how it was measured (<a href="sources.html#s16">source</a>).</li>
 </ul>
-<p>So on a phone, tier 1 is certain and tier 2 is plausible. If there is no WebGPU, memory is low, or the download is declined, the tool falls back to tier 1 alone.</p>
+<p>Closer to chant: Tarteel reports missed, wrong and extra words in Quran recitation and is closed (<a href="sources.html#s17">source</a>); Quran-muaalem is an open model built for recitation, the closest analogue found (<a href="sources.html#s18">source</a>). No open-source browser tool for Vedic chant was found.</p>
 
 <div class="cannot">
   <h3>What this can and cannot tell you</h3>
-  <p>It can tell you what exists, what it costs and what the report recommends. It cannot tell you that tier 2 works on a phone, or on any voice but one: neither has been measured.</p>
+  <p>It tells you what exists and what the products publish. It cannot tell you that any of it works for Sanskrit: none of these vendors lists it.</p>
 </div>
-
 <div class="tryit">
   <h2>Try it</h2>
-  <p>See what a planted slip looks like to tier 1 in <a href="lab3.html">Lab 3</a>, then read how both tiers did in <a href="ch6.html">chapter 6</a>.</p>
+  <p>Next, the sound model this book would use for Sanskrit, and what it hears: <a href="ch6.html">chapter 6</a>.</p>
 </div>
+
+<details class="deep">
+<summary>For the technically curious</summary>
+<p>Two recent papers adapt GOP to CTC models: one without a separate alignment step (<a href="sources.html#s8">Cao et al., arXiv 2507.16838</a>, July 2025) and one limited to plausible confusions (<a href="sources.html#s9">Parikh et al., Interspeech 2025</a>). On English learners' speech a wav2vec2 system reached an F1 of 0.610 (<a href="sources.html#s10">Xu et al. 2021</a>) and a training-free retrieval method reported 69.6 % (<a href="sources.html#s11">arXiv 2511.20107</a>, November 2025); the splits differ, so these are not a leaderboard. The Duolingo English Test scorer has a Spearman correlation of 0.82 with experts and beat GOP, Whisper confidence and a Microsoft tool, by the authors' own comparison (<a href="sources.html#s13">paper</a>). Azure's accuracy is per sound, word and text, and per syllable for US English only (<a href="sources.html#s14">docs, updated 2026-07-03</a>). ELSA claims 93.88 % agreement within one level. Speechace reports fluency as words correct per minute, pauses and articulation rate. Quran-muaalem: 848 hours, Tajweed F1 75.8 % (<a href="sources.html#s18">2025-08-27</a>). OpenPronounce uses wav2vec2 plus DTW for English (<a href="sources.html#s19">source</a>).</p>
+</details>
 <nav data-pager></nav>
 </div>
 </main>

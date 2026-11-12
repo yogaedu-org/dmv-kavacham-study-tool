@@ -18,8 +18,8 @@ if (chant) {
       redraw = chart(wave, 200, (c) => drawWave(c, { pcm: r.clip.pcm, sr: 16000, db: r.analysis.db, threshold, pauses, dur }));
       const longest = pauses.reduce((m, p) => Math.max(m, p.t1 - p.t0), 0);
       ws.innerHTML = pauses.length
-        ? `<b>Pauses.</b> ${pauses.length} of 0.30 s or longer in ${fmt(dur)} s of audio: ${pauses.map((p) => `${fmt(p.t0, 2)} to ${fmt(p.t1, 2)} s (${where(p)})`).join('; ')}. Longest ${fmt(longest, 2)} s. The threshold is ${fmt(threshold, 0)} dB.`
-        : `<b>Pauses.</b> None of 0.30 s or longer in ${fmt(dur)} s of audio (threshold ${fmt(threshold, 0)} dB).`;
+        ? `<b>Pauses.</b> ${pauses.length} of 0.30 s or longer in ${fmt(dur)} s of audio: ${pauses.map((p) => `${fmt(p.t0, 2)} to ${fmt(p.t1, 2)} s (${where(p)})`).join('; ')}. Longest ${fmt(longest, 2)} s.`
+        : `<b>Pauses.</b> None of 0.30 s or longer in ${fmt(dur)} s of audio.`;
       if (v.analysis_note) ws.innerHTML += ` Note: ${v.analysis_note}.`;
     },
   });

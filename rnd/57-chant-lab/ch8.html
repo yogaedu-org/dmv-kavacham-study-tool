@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex">
+<link rel="icon" href="data:,">
+<title>Chapter 8: What we do not know yet</title>
+<script>try{var t=JSON.parse(localStorage.getItem('chantlab57:theme'));if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="stylesheet" href="css/lab.css">
+</head>
+<body data-page="ch8">
+<main>
+<div class="col">
+<h1>What we do not know yet</h1>
+<p class="lede">A method is only as good as the doubts written next to it. Here are the ones we know of, the biggest one, and the test that would settle it.</p>
+
+<h2>The biggest unknown: another voice</h2>
+<p>The reference and every test take are the same chanter. The quick check compares the colour of the sound, which carries the voice. The deeper check should cope better with a new voice, but on the one voice tested it already merges two sounds and drops a breath. Both statements are <a class="term hyp" href="glossary.html#hypothesis">hypothesis</a> until a live test.</p>
+
+<h2>Every other limit</h2>
+<ul>
+  <li><b>The slips were cut in.</b> A splice leaves sharp edges a real slip does not, which probably makes it easier to find.</li>
+  <li><b>The syllable moments are an automatic estimate,</b> not a person's marking.</li>
+  <li><b>Some checks failed on some clips.</b> One tool's catch-all sound won every moment of one clip, so it had to be ignored, and Whisper looped on two clips; a looped clip's result is void.</li>
+  <li><b>Edges.</b> Ignore the first and last syllable unless the clip starts or ends mid-sound: one clean take spiked on its first.</li>
+  <li><b>No false-alarm rate.</b> There are no human-labelled clean takes, so how often a clean take is wrongly marked has not been measured.</li>
+  <li><b>An earlier smoke test</b> found four of five slips but placed a repeated stretch several syllables away. Five clips is not a recall rate.</li>
+  <li><b>Not built or not measured:</b> the deeper check's browser audio features, and its speed in a browser.</li>
+  <li><b>iPhone storage.</b> Safari deletes a site's stored data after 7 days without a visit, so recordings must be exported (<a href="sources.html#s29">source</a>).</li>
+</ul>
+
+<h2>The test that is still missing</h2>
+<p>Three chanters, at least one who is not the author and one of the other sex, each chant five verses twice: once clean, and once from a card that names one slip in advance. The slips: an omission, <i>tha</i> for <i>ta</i>, <i>&#347;</i> for <i>s</i>, an insertion, a one-second pause, and a rushed half-length line. Count how many are found of how many, by type, and how many false marks a clean verse gets. Fix the thresholds on two chanters and test on the third. Lab 3 is a first, easy version of the same tally.</p>
+
+<div class="cannot">
+  <h3>What this can and cannot tell you</h3>
+  <p>It tells you what to doubt. It does not make any of it go away: until the live test is done, treat the tools as a second pair of ears, not a judge.</p>
+</div>
+<div class="tryit">
+  <h2>Try it</h2>
+  <p>Run the easy version of the test yourself: <a href="lab3.html">open Lab 3</a>.</p>
+</div>
+
+<details class="deep">
+<summary>For the technically curious</summary>
+<div class="tablewrap"><table>
+<thead><tr><th>Decision</th><th>Rule from the report</th></tr></thead>
+<tbody>
+<tr><td>Promote the quick check</td><td>At least 80 % of deliberate slips located within one syllable, and at most 1 false flag per clean verse</td></tr>
+<tr><td>Demote it to a timing and pitch view</td><td>Cross-speaker locate rate under 50 %</td></tr>
+<tr><td>Promote the deeper check</td><td>Beats the quick check by 15 points or more on substitutions cross-speaker, or names the wrong sound correctly in at least 60 % of hits; under 10 seconds per take on the author's phone; its audio features match the Python ones</td></tr>
+<tr><td>Kill the deeper check</td><td>No better than the quick check cross-speaker, or it crashes iPhone Safari</td></tr>
+</tbody></table></div>
+<p>The catch-all sound was the aligner's wildcard class, which won 585 of 585 frames on one clip; Whisper large-v2 looped on two clips. The earlier smoke test: five slips spliced into Day 2 clips, four found, and the line's confidence fell, for example 91 to 32 for an omission; the repeated stretch kept 91. Sources: <a href="sources.html#r1">report 1</a> "Local evidence", section 7, "Top risk", "Staged plan" and "Calibration"; <a href="sources.html#r3">method</a>; Apple's forum notes the Home Screen exemption is unreliable (<a href="sources.html#s30">source</a>).</p>
+</details>
+<nav data-pager></nav>
+</div>
+</main>
+<script type="module" src="js/p-static.js"></script>
+</body>
+</html>
