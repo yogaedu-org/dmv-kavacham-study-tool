@@ -13,8 +13,11 @@
 //     sources: [                                  // chain order is fixed by `order`, not by this list
 //       { kind: "custom" },                       // files the user picked this session
 //       { kind: "offline", base: "local-audio/offline/", label: "offline folder" },
-//       { kind: "cloud",   base: "https://host/dir/",   label: "cloud", crossOrigin: null }
+//       { kind: "cloud",   base: "https://host/dir/",   label: "cloud", delivery: "blob" }
 //     ],
+//     // delivery: "blob" (default for cloud) fetches the whole clip, checks sha256 when the manifest has one, and hands the
+//     // player a blob: URL, so playback and seeking do not depend on the host honouring HTTP Range (Cloudflare Pages does not;
+//     // Safari refuses <audio src> without it). "stream" (default for offline) gives the plain URL.
 //     order:  ["custom", "offline", "cloud"],     // optional; this is the default
 //     verses: [ { id: 1, file: "day2/verse01.mp3" | { cloud: "day2__verse01.mp3", offline: "..." },
 //                 sha256: "...", duration: 12.64, set: "Day 2" }, ... ]
@@ -23,6 +26,13 @@
 export const KINDS = ["custom", "offline", "cloud"];
 const DEFAULT_ORDER = ["custom", "offline", "cloud"];
 const PROBE_TIMEOUT_MS = 10000;
+const DEFAULT_DELIVERY = { custom: "stream", offline: "stream", cloud: "blob" };
+
+async function sha256Hex(buf) {
+  if (typeof crypto === "undefined" || !crypto.subtle) return null;       // insecure context: cannot verify
+  const d = new Uint8Array(await crypto.subtle.digest("SHA-256", buf));
+  return Array.from(d, (b) => b.toString(16).padStart(2, "0")).join("");
+}
 
 /** Verse number from a file name: "verse-07.mp3" -> 7, "07.wav" -> 7, "Take2_verse14.m4a" -> 14. null if none. */
 export function matchVerseNumber(fileName, maxVerse = 14) {
@@ -72,12 +82,16 @@ export function probeMedia(url, { crossOrigin = null, timeoutMs = PROBE_TIMEOUT_
   });
 }
 
-export function createAudioSource(initialConfig, { probe = probeMedia, baseHref = (typeof document !== "undefined" ? document.baseURI : "http://localhost/") } = {}) {
+export function createAudioSource(initialConfig, { probe = probeMedia, baseHref = (typeof document !== "undefined" ? document.baseURI : "http://localhost/"), fetchFn = (typeof fetch !== "undefined" ? (...a) => fetch(...a) : null), sha256 = sha256Hex } = {}) {
   let config = null;
   let custom = new Map();          // verse id -> { url, name }
+  let blobs = new Map();           // source url -> { objectUrl, duration, verified } for "blob" delivery, per set (dropped on set switch)
+
+  function revokeBlobs() { for (const b of blobs.values()) URL.revokeObjectURL(b.objectUrl); blobs = new Map(); }
 
   function setConfig(next) {
     if (!next || !Array.isArray(next.verses) || !Array.isArray(next.sources)) throw new Error("audio config needs `verses` and `sources` arrays");
+    revokeBlobs();                                                         // a set switch frees the previous set's clips
     config = next;
   }
   setConfig(initialConfig);
@@ -103,10 +117,35 @@ export function createAudioSource(initialConfig, { probe = probeMedia, baseHref 
         out.push({ kind, label, url: null, skip: `verse ${verseId} is not in the config` });
       } else {
         const file = pickFile(verse, kind);
-        out.push(file ? { kind, label, url: joinUrl(src.base, file, baseHref), crossOrigin: src.crossOrigin ?? null } : { kind, label, url: null, skip: `verse ${verseId} has no ${kind} file name` });
+        out.push(file ? { kind, label, url: joinUrl(src.base, file, baseHref), crossOrigin: src.crossOrigin ?? null, delivery: src.delivery || DEFAULT_DELIVERY[kind], name: String(file) } : { kind, label, url: null, skip: `verse ${verseId} has no ${kind} file name` });
       }
     }
     return out;
+  }
+
+  /** Fetch a whole clip, verify its sha256 (when the manifest has one), return a blob: URL. Cached per source url until a set switch. */
+  async function fetchBlob(c, verse) {
+    if (blobs.has(c.url)) return blobs.get(c.url);
+    if (!fetchFn) throw new Error("fetch is not available");
+    let resp;
+    try { resp = await fetchFn(c.url); } catch (e) { throw new Error("could not be fetched (blocked by CORS, offline or host unreachable)"); }
+    if (!resp.ok) throw new Error(`HTTP ${resp.status} ${resp.statusText || ""}`.trim());
+    const buf = await resp.arrayBuffer();
+    let verified = null;
+    if (verse && verse.sha256) {
+      const got = await sha256(buf);
+      if (got !== null) {
+        if (got !== verse.sha256) throw new Error(`sha256 mismatch for ${c.name}: expected ${verse.sha256.slice(0, 12)}..., got ${got.slice(0, 12)}...; not played`);
+        verified = true;
+      } else verified = false;                                            // this browser context cannot hash (insecure origin)
+    }
+    const type = (verse && verse.codec) || (resp.headers && resp.headers.get && resp.headers.get("content-type")) || "audio/mpeg";
+    const objectUrl = URL.createObjectURL(new Blob([buf], { type }));
+    let duration = null;
+    try { duration = (await probe(objectUrl, {})).duration; } catch (e) { URL.revokeObjectURL(objectUrl); throw new Error("downloaded but the browser could not decode it (unsupported or damaged audio)"); }
+    const entry = { objectUrl, duration, verified };
+    blobs.set(c.url, entry);
+    return entry;
   }
 
   /** The one call the player makes. Never throws for a missing file: returns {missing:true, tried:[...]}.
@@ -117,9 +156,11 @@ export function createAudioSource(initialConfig, { probe = probeMedia, baseHref 
     for (const c of candidates(verseId, mode, kinds)) {
       if (!c.url) { tried.push({ kind: c.kind, label: c.label, ok: false, reason: c.skip }); continue; }
       try {
-        const info = c.kind === "custom" ? { duration: null } : await probe(c.url, { crossOrigin: c.crossOrigin });
+        const blob = c.kind !== "custom" && c.delivery === "blob" ? await fetchBlob(c, verse) : null;
+        const info = c.kind === "custom" ? { duration: null } : blob ? { duration: blob.duration } : await probe(c.url, { crossOrigin: c.crossOrigin });
         return {
-          url: c.url, source: c.kind, label: c.label, duration: info.duration ?? (verse && verse.duration) ?? null,
+          url: blob ? blob.objectUrl : c.url, sourceUrl: c.url, source: c.kind, label: c.label, delivery: blob ? "blob" : "stream",
+          verified: blob ? blob.verified : null, duration: info.duration ?? (verse && verse.duration) ?? null,
           setLabel: (verse && verse.set) || (config.set && config.set.label) || "", sha256: (verse && verse.sha256) || null, tried,
         };
       } catch (e) {
@@ -147,5 +188,5 @@ export function createAudioSource(initialConfig, { probe = probeMedia, baseHref 
   function clearCustom() { for (const c of custom.values()) URL.revokeObjectURL(c.url); custom = new Map(); }
   const customIds = () => [...custom.keys()].sort((a, b) => a - b);
 
-  return { resolve, candidates, setConfig, getConfig: () => config, setCustomFiles, clearCustom, customIds, verseOf };
+  return { resolve, candidates, setConfig, revokeBlobs, getConfig: () => config, setCustomFiles, clearCustom, customIds, verseOf };
 }

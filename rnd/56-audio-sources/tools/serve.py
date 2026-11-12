@@ -1,7 +1,7 @@
 """Tiny static server for the #56 side page: HTTP Range support, optional CORS, no dependency.
 
     python tools/serve.py --root <dir> --port 8770            # the page + the offline audio folder (same origin)
-    python tools/serve.py --root <dir> --port 8771 --cors     # the mock "cloud": another origin, CORS on
+    python tools/serve.py --root <dir> --port 8771 --cors --no-range   # the mock "cloud": another origin, CORS on, Range ignored like Cloudflare Pages
     python tools/serve.py --root <repo> --port 8772 --map config.json=<file>   # serve a different file at one URL path (preview config)
 
 Two ports on 127.0.0.1 are two origins, so the page's "cloud" source is a real cross-origin request.
@@ -19,7 +19,7 @@ mimetypes.add_type("audio/wav", ".wav")
 mimetypes.add_type("application/json", ".json")
 
 
-def make_handler(root, cors, maps=None):
+def make_handler(root, cors, maps=None, ranges=True):
     root = os.path.realpath(root)
     maps = {"/" + k.lstrip("/"): os.path.realpath(v) for k, v in (maps or {}).items()}  # leading slash optional (Git-Bash rewrites it)
 
@@ -70,7 +70,7 @@ def make_handler(root, cors, maps=None):
             size = os.path.getsize(full)
             ctype = mimetypes.guess_type(full)[0] or "application/octet-stream"
             start, end, status = 0, size - 1, 200
-            m = re.match(r"bytes=(\d*)-(\d*)$", self.headers.get("Range", "").strip())
+            m = re.match(r"bytes=(\d*)-(\d*)$", self.headers.get("Range", "").strip()) if ranges else None   # ranges=False models Cloudflare Pages: 200 + full body
             if m and (m.group(1) or m.group(2)):
                 if m.group(1):
                     start = int(m.group(1))
@@ -89,7 +89,8 @@ def make_handler(root, cors, maps=None):
             self.send_response(status)
             self._cors()
             self.send_header("Content-Type", ctype)
-            self.send_header("Accept-Ranges", "bytes")
+            if ranges:
+                self.send_header("Accept-Ranges", "bytes")
             self.send_header("Cache-Control", "no-store")
             self.send_header("Last-Modified", email.utils.formatdate(os.path.getmtime(full), usegmt=True))
             if status == 206:
@@ -120,9 +121,9 @@ def make_handler(root, cors, maps=None):
     return H
 
 
-def start(root, port, cors=False, maps=None):
+def start(root, port, cors=False, maps=None, ranges=True):
     """Start in a thread (used by the tests); returns the server (call .shutdown())."""
-    srv = ThreadingHTTPServer(("127.0.0.1", port), make_handler(root, cors, maps))
+    srv = ThreadingHTTPServer(("127.0.0.1", port), make_handler(root, cors, maps, ranges))
     threading.Thread(target=srv.serve_forever, daemon=True).start()
     return srv
 
@@ -132,9 +133,10 @@ if __name__ == "__main__":
     ap.add_argument("--root", required=True)
     ap.add_argument("--port", type=int, required=True)
     ap.add_argument("--cors", action="store_true")
+    ap.add_argument("--no-range", action="store_true", help="ignore Range headers (200 + full body, no Accept-Ranges), like Cloudflare Pages")
     ap.add_argument("--map", action="append", default=[], help="URLPATH=FILE: serve FILE at URLPATH (repeatable)")
     a = ap.parse_args()
-    srv = ThreadingHTTPServer(("127.0.0.1", a.port), make_handler(a.root, a.cors, dict(m.split("=", 1) for m in a.map)))
+    srv = ThreadingHTTPServer(("127.0.0.1", a.port), make_handler(a.root, a.cors, dict(m.split("=", 1) for m in a.map), not a.no_range))
     if sys.stdout is not None:
         print("serving %s on http://127.0.0.1:%d/ cors=%s" % (a.root, a.port, a.cors), flush=True)
     srv.serve_forever()

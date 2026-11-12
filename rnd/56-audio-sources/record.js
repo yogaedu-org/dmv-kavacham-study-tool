@@ -20,7 +20,7 @@ export function initRecordSection({ src, pageData, getMode }) {
     const r = await src.resolve(id, { kinds });
     if (r.missing) throw new Error(`reference clip for verse ${id} not found. Tried: ${r.tried.map((t) => `${t.kind} (${t.reason})`).join("; ")}`);
     let resp;
-    try { resp = await fetch(r.url); } catch (e) { throw new Error(`the reference at ${r.url} cannot be read for analysis (a cross-origin source needs CORS headers): ${e.message}`); }
+    try { resp = await fetch(r.url); } catch (e) { throw new Error(`the reference at ${r.sourceUrl || r.url} cannot be read for analysis (a cross-origin source needs CORS headers): ${e.message}`); }
     if (!resp.ok) throw new Error(`reference ${r.url}: HTTP ${resp.status}`);
     return { pcm: await decodeToPcm(await resp.arrayBuffer()), from: `${r.label} [${r.source}]` };
   }
@@ -104,7 +104,7 @@ export function initRecordSection({ src, pageData, getMode }) {
       const out = await runCalibration({
         pageData, onProgress: (t) => { $("calibstatus").textContent = t; },
         loadRef: async (id) => (await referencePcm(id)).pcm,
-        loadOther: async (id) => { const r = await src.resolve(id, { kinds: ["cloud"] }); if (r.missing) return null; const u = new URL(`day5/verse${String(id).padStart(2, "0")}.mp3`, r.url).href; const resp = await fetch(u); return resp.ok ? decodeToPcm(await resp.arrayBuffer()) : null; },
+        loadOther: async (id) => { const r = await src.resolve(id, { kinds: ["cloud"] }); if (r.missing) return null; const u = new URL(`day5/verse${String(id).padStart(2, "0")}.mp3`, r.sourceUrl || r.url).href; const resp = await fetch(u); return resp.ok ? decodeToPcm(await resp.arrayBuffer()) : null; },
       });
       $("calibout").textContent = out.text; window.__calibration = out;
       $("calibstatus").textContent = "Done.";

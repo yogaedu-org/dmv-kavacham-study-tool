@@ -67,8 +67,9 @@ async function play(id) {
   }
   btn.textContent = "Stop";
   const dur = r.duration ? `, ${r.duration.toFixed(1)} s` : "";
+  const how = r.delivery === "blob" ? ` · downloaded whole${r.verified === true ? ", sha256 verified" : r.verified === false ? ", sha256 not checked (no SubtleCrypto in this context)" : ""}` : "";
   const skipped = r.tried.length ? ` (skipped: ${r.tried.map((t) => `${t.kind}: ${t.reason}`).join("; ")})` : "";
-  setPlayed(id, `Played from ${r.label} [${r.source}] · ${r.setLabel || pageData.set_label}${dur}${skipped}`, { source: r.source });
+  setPlayed(id, `Played from ${r.label} [${r.source}] · ${r.setLabel || pageData.set_label}${dur}${how}${skipped}`, { source: r.source });
 }
 function stop() {
   player.pause();
