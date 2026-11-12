@@ -510,7 +510,7 @@ def test_a_days_score_is_rounded_the_same_on_the_player_and_the_review(page, bas
     rev = page.evaluate("[...document.querySelectorAll('.daytab tr')].slice(1).map(r => r.querySelector('.pill').textContent)")
     page.goto(base + "player.html")
     page.wait_for_selector(".tab .chant-dscore")
-    ply = page.evaluate("[...document.querySelectorAll('.tab .chant-dscore')].map(e => e.textContent.replace(/\D/g, ''))")
+    ply = page.evaluate("[...document.querySelectorAll('.tab .chant-dscore')].map(e => e.textContent.replace(/[^0-9]/g, ''))")
     assert rev == ply and len(ply) == 6, (rev, ply)
 
 
