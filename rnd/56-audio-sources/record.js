@@ -6,7 +6,7 @@ import { runCalibration } from "./calibration.js";
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const band = (c) => (c >= 70 ? "hi" : c >= 40 ? "mid" : "lo");
-const cchip = (label, c) => `<span class="chip ${band(c * 100)}" title="confidence ${c}">${label} ${c.toFixed(2)}</span>`;
+const cchip = (label, c) => `<span class="chip ${band(c * 100)}" title="confidence ${Math.round(c * 100)} of 100">${label} ${Math.round(c * 100)}</span>`;   // confidence is 0-100 everywhere
 
 export function initRecordSection({ src, pageData, getMode }) {
   let takePcm = null, takeUrl = null, recorder = null;

@@ -40,6 +40,13 @@ test("compare() returns a score AND a confidence at every level: akshara, line, 
   assert.equal(r.lines.reduce((s, l) => s + l.of, 0), r.aksharas.length);           // every akshara belongs to exactly one line
 });
 
+test("every confidence in the result is on the same 0-100 integer scale, including the per-akshara parts", () => {
+  const v = verse(1), ref = tone(dur(v)), r = compare(ref, ref, v);
+  const all = [r.overall.confidence, r.verse.confidence, ...r.lines.map((l) => l.confidence), ...r.aksharas.flatMap((a) => [a.confidence, ...Object.values(a.confidenceParts)])];
+  assert.ok(all.every((c) => Number.isInteger(c) && c >= 0 && c <= 100), JSON.stringify(all.filter((c) => !(Number.isInteger(c) && c >= 0 && c <= 100))));
+  assert.ok(Math.max(...r.aksharas.flatMap((a) => Object.values(a.confidenceParts))) > 1, "parts are not left on a 0-1 scale");
+});
+
 test("verse 14 compares line 1 only, so it returns exactly one line (its closing line repeats a variable number of times)", () => {
   const v = verse(14), ref = tone(dur(v));
   assert.equal(compare(ref, ref, v).lines.length, 1);

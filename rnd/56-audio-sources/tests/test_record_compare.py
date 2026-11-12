@@ -136,6 +136,8 @@ def test_result_shows_score_and_confidence_for_the_verse_and_each_line_and_expla
         assert score < 50, score                                              # a different verse is not a good match
         text = pg.locator("#overallscore").inner_text()
         assert "Poor overall match" in text and "Low confidence" in text, text
+        chips = pg.locator("#aktable .chip").all_inner_texts()
+        assert chips and all(c.split()[-1].isdigit() and int(c.split()[-1]) <= 100 for c in chips), chips[:6]   # "c 45", never "c 0.45"
         explain = pg.locator("#explain").inner_text()
         assert "Score" in explain and "Confidence" in explain and "noise, silence" in explain
         b.close()
