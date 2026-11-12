@@ -1,0 +1,18 @@
+{
+ "1": {
+  "samples": 278,
+  "duration_s": 13.24,
+  "mismatching_samples": 8,
+  "worst_lead_ms": 0,
+  "worst_lag_ms": 19,
+  "page_errors": []
+ },
+ "14": {
+  "samples": 499,
+  "duration_s": 25.0,
+  "mismatching_samples": 16,
+  "worst_lead_ms": 0,
+  "worst_lag_ms": 21,
+  "page_errors": []
+ }
+}

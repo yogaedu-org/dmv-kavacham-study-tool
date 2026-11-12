@@ -1,0 +1,20 @@
+{
+ "verses": 14,
+ "problems": [],
+ "notes": [
+  "verse 1: 1.04 s of quiet after akshara 16 नी",
+  "verse 2 akshara 0: shown नै, analysed as नैर् (same count, matched by index)",
+  "verse 2 akshara 1: shown रृ, analysed as ऋ (same count, matched by index)",
+  "verse 4 akshara 0: shown ऊ, analysed as उ (same count, matched by index)",
+  "verse 4 akshara 9: shown त, analysed as तं (same count, matched by index)",
+  "verse 4 akshara 10: shown ङ्गी, analysed as गी (same count, matched by index)",
+  "verse 8 akshara 25: shown रा, analysed as रां (same count, matched by index)",
+  "verse 8 akshara 26: shown ङ्गु, analysed as गु (same count, matched by index)",
+  "verse 10 akshara 8: shown ज, analysed as जं (same count, matched by index)",
+  "verse 10 akshara 9: shown ङ्घो, analysed as घो (same count, matched by index)",
+  "verse 11 akshara 2: shown ङ्गु, analysed as गु (matched by position)",
+  "verse 11 akshara 23: shown दीन्, analysed as दी + न (the analysis text lacks the final virama); the times are merged",
+  "verse 14: times from the re-alignment with the closing line sung 3 times (#55 aligned it once and smeared it over 18 s)"
+ ],
+ "bytes": 50549
+}

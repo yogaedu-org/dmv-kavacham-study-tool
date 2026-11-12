@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added (#56)
 - **Verse audio**: a play/stop button per verse and a recitation-set switcher (Day 2, recommended, is the only public set today), driven by the hosted `sets/index.json` + manifests and one `config.json` value (`audio.cloudBase` = the Cloudflare Pages project `dmv-kavacham-audio`). Off if no base is configured or the host is unreachable. Service worker: range requests bypass it, `sets/*.json` are network-first, and its cleanup keeps `dmv-audio-*` caches.
 
+### Added (#61)
+- **Follow-along highlighting**: while a verse plays, the current word (soft tint) and akshara (stronger tint + underline) light up in the Devanagari and the transliteration, in time with the recitation. Times: `audio/sets/day2/timings.json` (derived from the #55 forced alignment by `tools/build-timings.py`), or the manifest's `timings` path; a set without timings plays unhighlighted. Controls: "Follow along" on/off and Syllable/Word (remembered). The text is wrapped only while playing and restored on stop.
+
 ### 🏗️ Architecture (#10)
 - **Split `app.js` into ES modules** under `js/` (`state`/`util`/`config`/`i18n`/`controls`/`filters`/`render`/`main`), loaded via `<script type="module">`. Parity-verified (search, theme, font, language, 14 verses). A Vite single-file bundle that also runs from `file://` is tracked in #33.
 - Added a **module-graph test guard** (every `js/` import must resolve to a real export) — catches refactor drift where a renamed export silently breaks the app.
