@@ -1,6 +1,6 @@
 # Chant lab (dmv #57)
 
-A small textbook with an interactive lab: how a machine can tell whether a verse was chanted like a reference, with seven chapters, three lab pages, sources and a glossary. Plain HTML, CSS and ES modules. No build, no CDN, no npm. R&D test page: the live app does not link to it and nothing here is wired into it.
+A small textbook with an interactive lab: how a machine can tell whether a verse was chanted like a reference, with nine chapters, three lab pages, sources and a glossary. Plain HTML, CSS and ES modules. No build, no CDN, no npm. R&D test page: the live app does not link to it and nothing here is wired into it.
 
 ## Run it
 
@@ -15,6 +15,7 @@ It must be served from the repo root over http://localhost (the microphone needs
 ## What is where
 
 - `DESIGN.md`: palette, type, layout, the akshara ribbon.
+- `tools/build-sources.py` builds `sources.html` (anchored entries `#s12`); `js/glossary.js` is the one glossary list (the glossary page and the dotted-underline links both read it).
 - `chant.json`: the one file with everything chant-specific (verses, per-syllable reference timings, day sets, clips location, measured evidence). Built by `tools/build-chant-json.py` from the #55 analysis output.
 - `js/ribbon.js`: the akshara ribbon, used on every page. `js/chrome.js`: bar, previous/next, Keep/Improve/Drop feedback (localStorage, exported as JSON from the footer).
 - The aligner, the audio-source chain and the calibration damage function are the #56 modules in `../56-audio-sources/`, mounted unchanged (`compare.js`, `audio-source.js`, `calibration.js`, `record.js` for decoding).
