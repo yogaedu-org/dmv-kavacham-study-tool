@@ -1,4 +1,4 @@
-# Wave 27/28 verifier gaps: evidence (hub mooladhara#773)
+# Wave 27/28 verifier gaps: evidence (the hub tracking issue)
 
 Measured 2026-11-09 (UTC) by wave-29 FIX agent. Result: **no code gap**. Every item the
 verifier marked PARTIAL is a report/process gap or a verification limit; the proofs are saved here.
@@ -38,11 +38,9 @@ failed at step `Run node tests/validate-data.js`.
 back to scale 1), `sw-fetch.mjs` (non-OK navigation not cached; offline miss returns a Response),
 `sw-assets.mjs` (30 precache entries match disk), `css-tokens.mjs`, `category-registry.mjs`, etc.
 
-## 4. Draft release (outward write: PREPARE-ONLY, call-out the verifier asked for)
+## 4. R&D audio
 
-`gh release view rnd-audio-2026-11`: `draft=true`, tag `rnd-audio-2026-11`, target `main`, **87 assets, 54,857,307 bytes**.
-An upload to GitHub is an outward write; because the release is a draft nothing is public and nothing links to it.
-It stays class-C-style prepared-only: KA publishes it (or not) himself; PR #49 must not merge before that.
+The R&D audio is not in git; see issue #48.
 
 ## 5. Process notes from the verifier (acknowledged, not code)
 
