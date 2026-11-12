@@ -21,6 +21,12 @@ A web application for studying the Daśamahāvidyā Kavacam (Armor of the Ten Gr
 - Missing strings fall back to English, so a partial locale can never blank the UI
 - Translations are **accepted** (an AI-assisted first pass; a footer disclaimer invites native-speaker corrections via the GitHub issue form)
 
+### Verse audio (#56)
+- A play/stop button on each verse and a **recitation set** switcher (default: the set marked recommended, Day 2); the choice is remembered
+- **Where the audio lives is data, not code**: `config.json` `audio.cloudBase` (one value; empty = feature off) -> `audio/sets/index.json` (which sets exist) -> `audio/sets/<set>/manifest.json` (verse -> file, sha256, duration). Adding a set is new clips + a manifest + an index entry. `js/audio-source.js` is the one resolver (it also drives the R&D side page in `rnd/56-audio-sources/`)
+- Audio files are **not in git** (#48): `python tools/build-audio-sets.py --src <clips dir> --stage <upload dir>` writes the manifests and stages the tree to upload to the host
+- Not done yet: an offline-download button (the service worker already keeps `dmv-audio-*` caches across app updates), custom user audio in the app
+
 ### Appearance & offline
 - **Two themes** — "Manuscript at Dusk" (dark) and Manuscript (light) — follow the OS with a sun/moon toggle
 - **Orientation glyph** per verse: a direction rosette (v1–4), a body figure (v5–11), or an all-around mandala (v12–14), drawn from each verse's own data
@@ -78,6 +84,8 @@ Goddesses invoked include Kālī/Kālikā, Tārā, Tripurasundarī/Ṣoḍaśī,
 node tests/validate-data.js       # schema + content-regression + i18n key-parity + drift guards
 node tests/feedback-prefill.mjs   # correction-form params are options the issue template offers (#41)
 node tests/controls-overflow.mjs  # filter/search popups aren't clipped by .controls; themed backgrounds (#43)
+node tests/audio-sets.mjs         # recitation-set data is well-formed; no audio in git; no hard-coded host (#56)
+python -m pytest tests/test_verse_audio.py -q   # verse audio in a real browser (Playwright for Python; synthetic clips) (#56)
 ```
 
 ### Deploy (GitHub Pages, from `main`)
