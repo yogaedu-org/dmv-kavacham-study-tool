@@ -15,6 +15,8 @@ python rnd/56-audio-sources/tools/serve.py --root rnd/56-audio-sources/local-aud
 Open `http://127.0.0.1:8770/index.html`. `serve.py` supports HTTP Range, `--cors`, and `--map URLPATH=FILE`. Tests: `node --test rnd/56-audio-sources/tests/audio-source.test.mjs` and `python -I -m pytest rnd/56-audio-sources/tests -q` (Playwright for Python; the first file uses synthetic tones, the second needs the populated clips and ffmpeg and skips otherwise).
 
 ## Part 1: swappable audio (`audio-source.js`)
+_In the app PR (#56 wiring) this module lives at `js/audio-source.js` and the page imports it from `../../js/`: one copy, used by the live app and by this page._
+
 The player calls one function: `resolve(verseId, {mode, kinds}) -> {url, source, label, duration, setLabel, sha256, tried} | {missing: true, tried: [{kind, label, url, reason}]}`. It walks the chain **custom > offline > cloud** (or one kind when `mode` is set) and returns the first URL the browser can load. A missing file never fails silently: `tried` names every source and why it was skipped (`HTTP 404`, `no custom file for verse 8`, `verse 14 is not in the config`).
 
 `createAudioSource(config, {probe, baseHref})` returns `{resolve, candidates, setConfig, getConfig, setCustomFiles, clearCustom, customIds}`. `setConfig(next)` is the swap.

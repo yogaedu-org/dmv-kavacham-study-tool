@@ -22,9 +22,9 @@ A web application for studying the Daśamahāvidyā Kavacam (Armor of the Ten Gr
 - Translations are **accepted** (an AI-assisted first pass; a footer disclaimer invites native-speaker corrections via the GitHub issue form)
 
 ### Verse audio (#56)
-- A play/stop button on each verse and a **recitation set** switcher (default: the set marked recommended, Day 2); the choice is remembered
-- **Where the audio lives is data, not code**: `config.json` `audio.cloudBase` (one value; empty = feature off) -> `audio/sets/index.json` (which sets exist) -> `audio/sets/<set>/manifest.json` (verse -> file, sha256, duration). Adding a set is new clips + a manifest + an index entry. `js/audio-source.js` is the one resolver (it also drives the R&D side page in `rnd/56-audio-sources/`)
-- Audio files are **not in git** (#48): `python tools/build-audio-sets.py --src <clips dir> --stage <upload dir>` writes the manifests and stages the tree to upload to the host
+- A play/stop button on each verse and a **recitation set** switcher (default: the set marked recommended, today Day 2, the only public set); the choice is remembered
+- **Where the audio lives is data, not code**: `config.json` `audio.cloudBase` (one value: the Cloudflare Pages project `dmv-kavacham-audio`; empty = feature off) -> `sets/index.json` on that host (which sets exist) -> `sets/<set>/manifest.json` (verse -> file, sha256, duration). Adding another reciter or day is clips + a manifest + an index entry on the host; no app change. `js/audio-source.js` is the one resolver (it also drives the R&D side page in `rnd/56-audio-sources/`)
+- Audio files are **not in git** (#48). `node tests/audio-sets.mjs <dir containing sets/>` validates a bundle before upload; `python tools/build-audio-sets.py` builds a second LOCAL test set (never uploaded) so the switcher can be tried in a local preview
 - Not done yet: an offline-download button (the service worker already keeps `dmv-audio-*` caches across app updates), custom user audio in the app
 
 ### Appearance & offline
@@ -84,7 +84,7 @@ Goddesses invoked include Kālī/Kālikā, Tārā, Tripurasundarī/Ṣoḍaśī,
 node tests/validate-data.js       # schema + content-regression + i18n key-parity + drift guards
 node tests/feedback-prefill.mjs   # correction-form params are options the issue template offers (#41)
 node tests/controls-overflow.mjs  # filter/search popups aren't clipped by .controls; themed backgrounds (#43)
-node tests/audio-sets.mjs         # recitation-set data is well-formed; no audio in git; no hard-coded host (#56)
+node tests/audio-sets.mjs         # no audio in git, no hard-coded clip URL; with a dir: the hosted sets/ data is well-formed (#56)
 python -m pytest tests/test_verse_audio.py -q   # verse audio in a real browser (Playwright for Python; synthetic clips) (#56)
 ```
 
