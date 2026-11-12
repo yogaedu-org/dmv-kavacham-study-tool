@@ -4,6 +4,7 @@ import { escapeHtml, DIR_ANGLES } from './util.js';
 import { DOMElements, VERSE_DATA, I18N } from './state.js';
 import { verseTranslation } from './i18n.js';
 import { createTags } from './filters.js';
+import { audioButtonHTML, syncAudioButtons } from './audio.js';
 
 /* ==========================================================================
    RENDERING FUNCTIONS
@@ -103,6 +104,7 @@ function createVerseHTML(verse) {
         <article class="verse" id="verse-${verse.number}" tabindex="0">
             <div class="verse-glyph" aria-hidden="true">${glyphForVerse(verse)}</div>
             <div class="verse-number">${verse.number}</div>
+            ${audioButtonHTML(verse.number)}
 
             <div class="sanskrit" lang="sa">${formatTextForHTML(verse.sanskrit)}</div>
             
@@ -138,4 +140,5 @@ export function renderVerses() {
     
     // Update container content
     DOMElements.versesContainer.innerHTML = versesHTML;
+    syncAudioButtons();
 }

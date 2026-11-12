@@ -18,6 +18,11 @@
     "enableFilters": true,
     "enableCompactMode": true
   },
+  "audio": {
+    "setsIndex": "audio/sets/index.json",
+    "cloudBase": "",
+    "offlineBase": ""
+  },
   "display": {
     "breakpoints": { "tablet": 768, "mobile": 480 }
   },

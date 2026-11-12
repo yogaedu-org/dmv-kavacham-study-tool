@@ -17,6 +17,7 @@ export async function loadConfig() {
             app:      Object.assign({}, DEFAULT_CONFIG.app, c.app),
             features: Object.assign({}, DEFAULT_CONFIG.features, c.features),
             display:  Object.assign({}, DEFAULT_CONFIG.display, c.display),
+            audio:    Object.assign({}, DEFAULT_CONFIG.audio, c.audio),
             categories: Array.isArray(c.categories) && c.categories.length ? c.categories : DEFAULT_CONFIG.categories
         });
         console.log('Loaded config.json');

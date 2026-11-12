@@ -2,7 +2,7 @@
 // Each test is named for the failure it catches.
 import test from "node:test";
 import assert from "node:assert/strict";
-import { createAudioSource, matchVerseNumber } from "../audio-source.js";
+import { createAudioSource, matchVerseNumber } from "../../../js/audio-source.js";
 
 const cfg = (over = {}) => ({
   version: 1, set: { id: "d", label: "Day 2" },

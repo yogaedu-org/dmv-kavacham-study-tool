@@ -20,6 +20,7 @@ import { loadI18n, resolveLocale, applyI18n, initLanguageSwitcher, populateAllDr
 import { initFontScale, toggleCompactMode, togglePinMode, updateCompactMode, updatePinButton, handleScroll, toggleSanskrit, toggleTransliteration, updateDisplayClasses } from './controls.js';
 import { toggleDropdown, closeAllDropdowns, addFilterTag, removeFilterTag, handleSearch, hideAutocomplete, applyFiltersAndHighlights, clearAllFilters } from './filters.js';
 import { renderVerses } from './render.js';
+import { initAudio, initAudioControls } from './audio.js';
 
 /* ==========================================================================
    EVENT HANDLERS
@@ -171,6 +172,9 @@ async function initializeApp() {
         // Load verse data (single source of truth)
         await loadVerseData();
 
+        // Verse audio (#56): load the recitation-set index + chosen manifest (a no-op when no base is configured)
+        await initAudio();
+
         // Initialize application state with loaded data
         AppState.init();
 
@@ -202,6 +206,9 @@ async function initializeApp() {
         
         // Render verses
         renderVerses();
+
+        // Wire the verse play buttons + recitation-set switcher (#56)
+        initAudioControls();
         
         console.log('Application initialized successfully');
     } catch (error) {

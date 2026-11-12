@@ -1,0 +1,109 @@
+{
+  "schema": 1,
+  "set": "day2",
+  "version": "2026-11-12",
+  "label": "Day 2",
+  "reciter": null,
+  "licence": null,
+  "base": "day2/",
+  "verses": {
+    "1": {
+      "key": "verse01.mp3",
+      "sha256": "ab4f5893c89192be29145cfd3a5a2fd16eb4c90935bf31b0c2c612c5af3de212",
+      "bytes": 212878,
+      "duration": 13.24,
+      "codec": "audio/mpeg"
+    },
+    "2": {
+      "key": "verse02.mp3",
+      "sha256": "f942fc7e6f7e07fbaf0ca55cc18af6994895d569b0ca0f9a0854a1f6786dd67c",
+      "bytes": 192816,
+      "duration": 11.98,
+      "codec": "audio/mpeg"
+    },
+    "3": {
+      "key": "verse03.mp3",
+      "sha256": "af6e341b14dd566955c27de2d8ea2465451dc47a1aebbd047299673b0869fdf0",
+      "bytes": 191144,
+      "duration": 11.88,
+      "codec": "audio/mpeg"
+    },
+    "4": {
+      "key": "verse04.mp3",
+      "sha256": "a3a91f5657bfe6119c6eefab413348ad9098b34996f3d4aab3002ebddda7917d",
+      "bytes": 198249,
+      "duration": 12.31,
+      "codec": "audio/mpeg"
+    },
+    "5": {
+      "key": "verse05.mp3",
+      "sha256": "8dad5cb8ede9d8397416af9a7368ffa22e456b102fd41645c985b4be6b6a7f89",
+      "bytes": 191144,
+      "duration": 11.87,
+      "codec": "audio/mpeg"
+    },
+    "6": {
+      "key": "verse06.mp3",
+      "sha256": "5ccd376c3eada10b395f5155d35919c5326111b18749fedd29a33778658f8b15",
+      "bytes": 199085,
+      "duration": 12.36,
+      "codec": "audio/mpeg"
+    },
+    "7": {
+      "key": "verse07.mp3",
+      "sha256": "229a43a84847eb846710f9411c504288ad04e701b4bce44025c36453045e0d38",
+      "bytes": 199085,
+      "duration": 12.38,
+      "codec": "audio/mpeg"
+    },
+    "8": {
+      "key": "verse08.mp3",
+      "sha256": "9a8a07c0386aa1fdd44a513438decbfcb87948c286cfa257f73bdace4a877c67",
+      "bytes": 199085,
+      "duration": 12.36,
+      "codec": "audio/mpeg"
+    },
+    "9": {
+      "key": "verse09.mp3",
+      "sha256": "dc455388d64467fe90c52ebc491c2cfe8b3b7a9e2cc8bdec880cc7ce76b39bf6",
+      "bytes": 195324,
+      "duration": 12.14,
+      "codec": "audio/mpeg"
+    },
+    "10": {
+      "key": "verse10.mp3",
+      "sha256": "057351132d5ffefa32b26fe90f27e7b0f393ddbdaf519daab618cfbfa8233eed",
+      "bytes": 198667,
+      "duration": 12.34,
+      "codec": "audio/mpeg"
+    },
+    "11": {
+      "key": "verse11.mp3",
+      "sha256": "72f149ecebbc647a0dbe8cbc6a84425c8bc2b3d5d8d3cc5e31508df4eb7bebe3",
+      "bytes": 193234,
+      "duration": 12.0,
+      "codec": "audio/mpeg"
+    },
+    "12": {
+      "key": "verse12.mp3",
+      "sha256": "dfe9f7dbe6469b49077acfbfe53a892bfd223ad7428ef3b606d8d5c52130c38a",
+      "bytes": 191144,
+      "duration": 11.87,
+      "codec": "audio/mpeg"
+    },
+    "13": {
+      "key": "verse13.mp3",
+      "sha256": "36e74b7f69914b216cabaf9c0d160cefd32c31e1726a2b3c0c12ca24e00426e4",
+      "bytes": 196577,
+      "duration": 12.22,
+      "codec": "audio/mpeg"
+    },
+    "14": {
+      "key": "verse14.mp3",
+      "sha256": "3db79828a4e7ad7aa1dd98dba7c663396dd870f15178f157a8fb9a33889ed1f3",
+      "bytes": 401377,
+      "duration": 25.0,
+      "codec": "audio/mpeg"
+    }
+  }
+}

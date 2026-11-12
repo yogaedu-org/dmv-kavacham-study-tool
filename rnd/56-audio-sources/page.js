@@ -1,5 +1,5 @@
 // page.js: the verse player of the #56 side page. Knows nothing about where audio lives: it calls audio-source.js `resolve()`.
-import { createAudioSource } from "./audio-source.js";
+import { createAudioSource } from "../../js/audio-source.js";
 import { initRecordSection } from "./record.js";
 
 const $ = (id) => document.getElementById(id);

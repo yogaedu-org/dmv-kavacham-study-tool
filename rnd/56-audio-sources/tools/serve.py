@@ -2,6 +2,7 @@
 
     python tools/serve.py --root <dir> --port 8770            # the page + the offline audio folder (same origin)
     python tools/serve.py --root <dir> --port 8771 --cors     # the mock "cloud": another origin, CORS on
+    python tools/serve.py --root <repo> --port 8772 --map /config.json=<file>   # serve a different file at one URL path (preview config)
 
 Two ports on 127.0.0.1 are two origins, so the page's "cloud" source is a real cross-origin request.
 Binds to 127.0.0.1 only. Not a production server.
@@ -18,8 +19,9 @@ mimetypes.add_type("audio/wav", ".wav")
 mimetypes.add_type("application/json", ".json")
 
 
-def make_handler(root, cors):
+def make_handler(root, cors, maps=None):
     root = os.path.realpath(root)
+    maps = {k: os.path.realpath(v) for k, v in (maps or {}).items()}
 
     class H(BaseHTTPRequestHandler):
         server_version = "dmv-side/1"
@@ -42,7 +44,10 @@ def make_handler(root, cors):
             self.end_headers()
 
         def _path(self):
-            rel = unquote(urlparse(self.path).path).lstrip("/") or "index.html"
+            urlpath = unquote(urlparse(self.path).path)
+            if urlpath in maps and os.path.isfile(maps[urlpath]):
+                return maps[urlpath]
+            rel = urlpath.lstrip("/") or "index.html"
             full = os.path.realpath(os.path.join(root, rel))
             if os.path.commonpath([full, root]) != root:
                 return None
@@ -115,9 +120,9 @@ def make_handler(root, cors):
     return H
 
 
-def start(root, port, cors=False):
+def start(root, port, cors=False, maps=None):
     """Start in a thread (used by the tests); returns the server (call .shutdown())."""
-    srv = ThreadingHTTPServer(("127.0.0.1", port), make_handler(root, cors))
+    srv = ThreadingHTTPServer(("127.0.0.1", port), make_handler(root, cors, maps))
     threading.Thread(target=srv.serve_forever, daemon=True).start()
     return srv
 
@@ -127,8 +132,9 @@ if __name__ == "__main__":
     ap.add_argument("--root", required=True)
     ap.add_argument("--port", type=int, required=True)
     ap.add_argument("--cors", action="store_true")
+    ap.add_argument("--map", action="append", default=[], help="URLPATH=FILE: serve FILE at URLPATH (repeatable)")
     a = ap.parse_args()
-    srv = ThreadingHTTPServer(("127.0.0.1", a.port), make_handler(a.root, a.cors))
+    srv = ThreadingHTTPServer(("127.0.0.1", a.port), make_handler(a.root, a.cors, dict(m.split("=", 1) for m in a.map)))
     if sys.stdout is not None:
         print("serving %s on http://127.0.0.1:%d/ cors=%s" % (a.root, a.port, a.cors), flush=True)
     srv.serve_forever()

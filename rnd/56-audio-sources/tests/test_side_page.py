@@ -7,6 +7,8 @@ ephemeral ports (page + offline folder, and a mock cloud with CORS). Each test i
 """
 import json, math, os, shutil, struct, sys, tempfile, wave
 
+os.environ.setdefault("SERVE_QUIET", "1")
+
 import pytest
 from playwright.sync_api import sync_playwright
 
@@ -27,6 +29,8 @@ def env():
     tmp = tempfile.mkdtemp(prefix="dmv56-")
     site = os.path.join(tmp, "site"); cloud = os.path.join(tmp, "cloud")
     shutil.copytree(SIDE, site, ignore=shutil.ignore_patterns("local-audio", "tests", "tools", "__pycache__", ".pytest_cache"))
+    os.makedirs(os.path.join(site, "js"))  # the page imports ../../js/audio-source.js: the app's one copy
+    shutil.copyfile(os.path.join(SIDE, "..", "..", "js", "audio-source.js"), os.path.join(site, "js", "audio-source.js"))
     os.makedirs(os.path.join(site, "off")); os.makedirs(cloud); os.makedirs(os.path.join(tmp, "own"))
     for n in (1, 14):
         tone(os.path.join(site, "off", "verse%02d.wav" % n), 220 + n * 10)

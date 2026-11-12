@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "sets": [
+    {
+      "id": "day2",
+      "label": "Day 2",
+      "recommended": true,
+      "manifest": "audio/sets/day2/manifest.json"
+    },
+    {
+      "id": "day5",
+      "label": "Day 5",
+      "recommended": false,
+      "manifest": "audio/sets/day5/manifest.json"
+    }
+  ]
+}
