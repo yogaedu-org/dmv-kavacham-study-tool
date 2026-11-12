@@ -242,7 +242,8 @@ export function compare(take, reference, verse) {
     i: a.i, deva: a.deva, iast: a.iast, line: verse.syllables[a.i].line,
     timingRatio: +a.ratio.toFixed(3), pitchCents: a.cents === null ? null : Math.round(a.cents), cost: +a.mismatch.toFixed(3),
     matchZ: +a.z.toFixed(2), levelDb: +a.levelDelta.toFixed(1), flags: a.flags, flagged: a.flagged,
-    confidence: Math.round(100 * (a.conf.timing + a.conf.pitch + a.conf.match) / 3), confidenceParts: a.conf,
+    confidence: Math.round(100 * (a.conf.timing + a.conf.pitch + a.conf.match) / 3),
+    confidenceParts: { timing: Math.round(100 * a.conf.timing), pitch: Math.round(100 * a.conf.pitch), match: Math.round(100 * a.conf.match) },   // 0-100 like every other confidence
   }));
   const lines = [...new Set(aksharas.map((a) => a.line))].map((line) => {
     const g = aksharas.filter((a) => a.line === line), bad = g.filter((a) => a.flagged).length;
