@@ -1,0 +1,184 @@
+{
+ "version": 1,
+ "set": {
+  "id": "day2",
+  "label": "Day 2, recommended by the #55 analysis"
+ },
+ "sources": [
+  {
+   "kind": "custom",
+   "label": "your own files"
+  },
+  {
+   "kind": "offline",
+   "base": "local-audio/offline/",
+   "label": "offline folder"
+  },
+  {
+   "kind": "cloud",
+   "base": "http://127.0.0.1:8771/",
+   "label": "cloud"
+  }
+ ],
+ "order": [
+  "custom",
+  "offline",
+  "cloud"
+ ],
+ "verses": [
+  {
+   "id": 1,
+   "file": {
+    "offline": "verse01.mp3",
+    "cloud": "verse01.mp3"
+   },
+   "sha256": "ab4f5893c89192be29145cfd3a5a2fd16eb4c90935bf31b0c2c612c5af3de212",
+   "bytes": 212878,
+   "duration": 13.24,
+   "set": "Day 2"
+  },
+  {
+   "id": 2,
+   "file": {
+    "offline": "verse02.mp3",
+    "cloud": "verse02.mp3"
+   },
+   "sha256": "f942fc7e6f7e07fbaf0ca55cc18af6994895d569b0ca0f9a0854a1f6786dd67c",
+   "bytes": 192816,
+   "duration": 11.98,
+   "set": "Day 2"
+  },
+  {
+   "id": 3,
+   "file": {
+    "offline": "verse03.mp3",
+    "cloud": "verse03.mp3"
+   },
+   "sha256": "af6e341b14dd566955c27de2d8ea2465451dc47a1aebbd047299673b0869fdf0",
+   "bytes": 191144,
+   "duration": 11.88,
+   "set": "Day 2"
+  },
+  {
+   "id": 4,
+   "file": {
+    "offline": "verse04.mp3",
+    "cloud": "verse04.mp3"
+   },
+   "sha256": "a3a91f5657bfe6119c6eefab413348ad9098b34996f3d4aab3002ebddda7917d",
+   "bytes": 198249,
+   "duration": 12.31,
+   "set": "Day 2"
+  },
+  {
+   "id": 5,
+   "file": {
+    "offline": "verse05.mp3",
+    "cloud": "verse05.mp3"
+   },
+   "sha256": "8dad5cb8ede9d8397416af9a7368ffa22e456b102fd41645c985b4be6b6a7f89",
+   "bytes": 191144,
+   "duration": 11.87,
+   "set": "Day 2"
+  },
+  {
+   "id": 6,
+   "file": {
+    "offline": "verse06.mp3",
+    "cloud": "verse06.mp3"
+   },
+   "sha256": "5ccd376c3eada10b395f5155d35919c5326111b18749fedd29a33778658f8b15",
+   "bytes": 199085,
+   "duration": 12.36,
+   "set": "Day 2"
+  },
+  {
+   "id": 7,
+   "file": {
+    "offline": "verse07.mp3",
+    "cloud": "verse07.mp3"
+   },
+   "sha256": "229a43a84847eb846710f9411c504288ad04e701b4bce44025c36453045e0d38",
+   "bytes": 199085,
+   "duration": 12.38,
+   "set": "Day 2"
+  },
+  {
+   "id": 8,
+   "file": {
+    "offline": "verse08.mp3",
+    "cloud": "verse08.mp3"
+   },
+   "sha256": "9a8a07c0386aa1fdd44a513438decbfcb87948c286cfa257f73bdace4a877c67",
+   "bytes": 199085,
+   "duration": 12.36,
+   "set": "Day 2"
+  },
+  {
+   "id": 9,
+   "file": {
+    "offline": "verse09.mp3",
+    "cloud": "verse09.mp3"
+   },
+   "sha256": "dc455388d64467fe90c52ebc491c2cfe8b3b7a9e2cc8bdec880cc7ce76b39bf6",
+   "bytes": 195324,
+   "duration": 12.14,
+   "set": "Day 2"
+  },
+  {
+   "id": 10,
+   "file": {
+    "offline": "verse10.mp3",
+    "cloud": "verse10.mp3"
+   },
+   "sha256": "057351132d5ffefa32b26fe90f27e7b0f393ddbdaf519daab618cfbfa8233eed",
+   "bytes": 198667,
+   "duration": 12.34,
+   "set": "Day 2"
+  },
+  {
+   "id": 11,
+   "file": {
+    "offline": "verse11.mp3",
+    "cloud": "verse11.mp3"
+   },
+   "sha256": "72f149ecebbc647a0dbe8cbc6a84425c8bc2b3d5d8d3cc5e31508df4eb7bebe3",
+   "bytes": 193234,
+   "duration": 12.0,
+   "set": "Day 2"
+  },
+  {
+   "id": 12,
+   "file": {
+    "offline": "verse12.mp3",
+    "cloud": "verse12.mp3"
+   },
+   "sha256": "dfe9f7dbe6469b49077acfbfe53a892bfd223ad7428ef3b606d8d5c52130c38a",
+   "bytes": 191144,
+   "duration": 11.87,
+   "set": "Day 2"
+  },
+  {
+   "id": 13,
+   "file": {
+    "offline": "verse13.mp3",
+    "cloud": "verse13.mp3"
+   },
+   "sha256": "36e74b7f69914b216cabaf9c0d160cefd32c31e1726a2b3c0c12ca24e00426e4",
+   "bytes": 196577,
+   "duration": 12.22,
+   "set": "Day 2"
+  },
+  {
+   "id": 14,
+   "file": {
+    "offline": "verse14.mp3",
+    "cloud": "verse14.mp3"
+   },
+   "sha256": "3db79828a4e7ad7aa1dd98dba7c663396dd870f15178f157a8fb9a33889ed1f3",
+   "bytes": 401377,
+   "duration": 25.0,
+   "set": "Day 2"
+  }
+ ]
+}

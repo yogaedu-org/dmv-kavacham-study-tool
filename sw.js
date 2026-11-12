@@ -13,7 +13,10 @@
  */
 'use strict';
 
-const CACHE = 'dmv-kavacham-v11';
+const CACHE = 'dmv-kavacham-v12';
+// Downloaded verse audio (a later offline-download feature, #56) lives in caches named 'dmv-audio-<set>@<version>'.
+// The cleanup below must never delete them, so an app update does not erase a reader's offline audio.
+const AUDIO_CACHE_PREFIX = 'dmv-audio-';
 const ASSETS = [
   './',
   './index.html',
@@ -25,6 +28,8 @@ const ASSETS = [
   './js/controls.js',
   './js/filters.js',
   './js/render.js',
+  './js/audio.js',
+  './js/audio-source.js',
   './styles.css',
   './figures/body-head.webp',
   './figures/body-face.webp',
@@ -61,7 +66,7 @@ self.addEventListener('install', function(event) {
 self.addEventListener('activate', function(event) {
   event.waitUntil(
     caches.keys().then(function(keys) {
-      return Promise.all(keys.filter(function(k) { return k !== CACHE; })
+      return Promise.all(keys.filter(function(k) { return k !== CACHE && k.indexOf(AUDIO_CACHE_PREFIX) !== 0; })
         .map(function(k) { return caches.delete(k); }));
     }).then(function() { return self.clients.claim(); })
   );
@@ -75,6 +80,25 @@ function isNavigation(request) {
 self.addEventListener('fetch', function(event) {
   var request = event.request;
   if (request.method !== 'GET') return;
+
+  // Media range requests (audio seeking/streaming) go straight to the network: a cached whole file (a 200) must never
+  // answer a range request, which expects a 206 slice (#56).
+  if (request.headers.has('range')) return;
+
+  // Recitation-set data (sets/index.json + manifests, hosted with the audio) is NETWORK-FIRST: a new set appears without a
+  // CACHE bump, and the last list still works offline (#56).
+  if (request.url.indexOf('/sets/') !== -1 && request.url.split('?')[0].slice(-5) === '.json') {
+    event.respondWith(
+      fetch(request).then(function(response) {
+        if (response && response.status === 200) {
+          var copy = response.clone();
+          caches.open(CACHE).then(function(cache) { cache.put(request, copy); });
+        }
+        return response;
+      }).catch(function() { return caches.match(request); })
+    );
+    return;
+  }
 
   // Network-first for the page itself: freshest when online, graceful offline.
   if (isNavigation(request)) {
@@ -96,7 +120,7 @@ self.addEventListener('fetch', function(event) {
   event.respondWith(
     caches.match(request).then(function(cached) {
       return cached || fetch(request).then(function(response) {
-        if (response && response.ok && request.url.indexOf(self.location.origin) === 0) {
+        if (response && response.status === 200 && request.url.indexOf(self.location.origin) === 0) {
           var clone = response.clone();
           caches.open(CACHE).then(function(cache) { cache.put(request, clone); });
         }

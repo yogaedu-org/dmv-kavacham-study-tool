@@ -5,6 +5,7 @@ import { LOCALE_NAMES } from './util.js';
 import { updatePinButton } from './controls.js';
 import { populateDropdown, updateFilterTags, applyFiltersAndHighlights } from './filters.js';
 import { renderVerses } from './render.js';
+import { refreshAudioControls } from './audio.js';
 
 /* ==========================================================================
    INTERNATIONALIZATION (#25)
@@ -118,6 +119,7 @@ export function initLanguageSwitcher() {
         populateAllDropdowns();
         updateFilterTags();
         renderVerses();
+        refreshAudioControls();
         applyFiltersAndHighlights();
     });
 }

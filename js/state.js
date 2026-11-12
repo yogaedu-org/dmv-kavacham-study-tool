@@ -56,6 +56,9 @@ export const DEFAULT_CONFIG = {
         enableCompactMode: true
     },
     display: { breakpoints: { tablet: 768, mobile: 480 } },
+    // Verse audio (#56). Both bases empty = the feature is off (no buttons, no switcher).
+    // cloudBase: ONE value, the Cloudflare Pages project that hosts the clips and their sets/ index. offlineBase: optional same-origin folder with the same layout.
+    audio: { setsIndex: 'sets/index.json', cloudBase: '', offlineBase: '', extraIndexes: [] },
     categories: [
         { key: 'deities',    dataField: 'deities',    stateKey: 'selectedDeities',    allKey: 'allDeities',    domKey: 'deities',    cssVar: 'deity',     label: 'Deities',    color: '#d9615a', colorLight: '#b23a34' },
         { key: 'directions', dataField: 'directions', stateKey: 'selectedDirections', allKey: 'allDirections', domKey: 'directions', cssVar: 'direction', label: 'Directions', color: '#7d9bd0', colorLight: '#4a5f8a' },

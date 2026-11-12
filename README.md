@@ -21,6 +21,14 @@ A web application for studying the Daśamahāvidyā Kavacam (Armor of the Ten Gr
 - Missing strings fall back to English, so a partial locale can never blank the UI
 - Translations are **accepted** (an AI-assisted first pass; a footer disclaimer invites native-speaker corrections via the GitHub issue form)
 
+### Verse audio (#56)
+- A play/stop button on each verse and a **recitation set** switcher (default: the set marked recommended, today Day 2, the only public set); the choice is remembered
+- **Where the audio lives is data, not code**: `config.json` `audio.cloudBase` (one value: the Cloudflare Pages project `dmv-kavacham-audio`; empty = feature off) -> `sets/index.json` on that host (which sets exist) -> `sets/<set>/manifest.json` (verse -> file, sha256, duration). Adding another reciter or day is clips + a manifest + an index entry on the host; no app change. `js/audio-source.js` is the one resolver (it also drives the R&D side page in `rnd/56-audio-sources/`)
+- Audio files are **not in git** (#48). `node tests/audio-sets.mjs <dir containing sets/>` validates a bundle before upload; `python tools/build-audio-sets.py` builds a second LOCAL test set (never uploaded) so the switcher can be tried in a local preview
+- If the host cannot be reached (at load, or when a set is chosen) the buttons stay, one message with the host name and a Retry button appears under the controls, the reader's chosen set stays selected, and it retries by itself when the browser comes back online. While a verse plays its status line reads "Playing verse N · <set label>"
+- Preview-only extra sets: `audio.extraIndexes` (empty in the committed config) lists extra set-index files; `python tools/make-preview-config.py` builds a preview config that adds a local "Day 5 (local test)" set to the public Day 2 (see its docstring). The committed `audio.cloudBase` must stay the public host (`tests/audio-sets.mjs` F7)
+- Not done yet: an offline-download button (the service worker already keeps `dmv-audio-*` caches across app updates), custom user audio in the app
+
 ### Appearance & offline
 - **Two themes** — "Manuscript at Dusk" (dark) and Manuscript (light) — follow the OS with a sun/moon toggle
 - **Orientation glyph** per verse: a direction rosette (v1–4), a body figure (v5–11), or an all-around mandala (v12–14), drawn from each verse's own data
@@ -78,6 +86,8 @@ Goddesses invoked include Kālī/Kālikā, Tārā, Tripurasundarī/Ṣoḍaśī,
 node tests/validate-data.js       # schema + content-regression + i18n key-parity + drift guards
 node tests/feedback-prefill.mjs   # correction-form params are options the issue template offers (#41)
 node tests/controls-overflow.mjs  # filter/search popups aren't clipped by .controls; themed backgrounds (#43)
+node tests/audio-sets.mjs         # no audio in git, no hard-coded clip URL; with a dir: the hosted sets/ data is well-formed (#56)
+python -m pytest tests/test_verse_audio.py -q   # verse audio in a real browser (Playwright for Python; synthetic clips) (#56)
 ```
 
 ### Deploy (GitHub Pages, from `main`)

@@ -425,6 +425,39 @@ a:hover {
 .locale-select:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
 .locale-select option { background: var(--color-secondary); color: var(--color-text-primary); }
 
+/* Recitation-set switcher (#56) */
+.audioset-group { display: inline-flex; align-items: center; gap: var(--spacing-xs); }
+.audioset-group[hidden] { display: none; }
+.audioset-label { font-size: 0.86rem; color: var(--color-text-secondary); }
+
+/* Verse play button + status (#56) — sits beside the verse-number badge */
+.verse-play {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  margin-left: var(--spacing-xs);
+  margin-bottom: var(--spacing-md);
+  vertical-align: top;
+  border: 1px solid var(--color-accent);
+  border-radius: 50%;
+  background: var(--overlay-1);
+  color: var(--color-accent);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: border-color var(--transition-fast), background var(--transition-fast);
+}
+.verse-play:hover { background: var(--overlay-2); border-color: var(--color-sanskrit); }
+.verse-play:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+.verse-play[aria-pressed="true"] { background: var(--color-accent); color: var(--color-primary); }
+/* Audio host unreachable (#56) */
+.audio-notice { display: flex; flex-wrap: wrap; align-items: center; gap: var(--spacing-xs); padding: var(--spacing-xs) var(--spacing-sm); border: 1px solid var(--color-deity); border-radius: 10px; color: var(--color-text-primary); font-size: 0.9rem; }
+.audio-notice[hidden] { display: none; }
+.verse-audio-status { font-size: 0.86rem; color: var(--color-text-secondary); margin-bottom: var(--spacing-sm); }
+.verse-audio-status:empty { display: none; }
+.verse-audio-status--error { color: var(--color-deity); }
+
 .compact-toggle {
   background: var(--overlay-2);
   border: 1px solid var(--color-accent);

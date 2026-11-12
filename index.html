@@ -135,6 +135,12 @@
 
                 <!-- Language switcher (#25) — options injected from config.app.locales -->
                 <select class="locale-select" id="localeSelect" aria-label="Choose language" data-i18n-attr="aria-label:controls.language.aria"></select>
+
+                <!-- Recitation-set switcher (#56) — options injected from audio/sets/index.json; hidden unless audio is configured -->
+                <div class="audioset-group" id="audioSetGroup" hidden>
+                    <label for="audioSetSelect" class="audioset-label" data-i18n="controls.audioSet.label">Recitation</label>
+                    <select class="locale-select" id="audioSetSelect" title="Choose the recitation to listen to" data-i18n-attr="title:controls.audioSet.title"></select>
+                </div>
             </div>
             
             <!-- Filter Dropdowns Row -->
@@ -182,6 +188,12 @@
                 </div>
             </div>
             
+            <!-- Audio host unreachable (#56): one visible message with Retry; shown by js/audio.js only when needed -->
+            <div class="audio-notice" id="audioNotice" role="alert" hidden>
+                <span id="audioNoticeText"></span>
+                <button type="button" class="clear-btn" id="audioRetry" data-i18n="audio.retry">Retry</button>
+            </div>
+
             <!-- Active Filter Tags Row (populated by JS; :empty collapses it — keep it truly empty) -->
             <div class="active-filters" id="activeFilters" aria-label="Active filters" aria-live="polite"></div>
             
@@ -203,6 +215,9 @@
             </div>
         </main>
         
+        <!-- One shared player for every verse's play button (#56) -->
+        <audio id="verseAudio" preload="none"></audio>
+
         <!-- Information Section -->
         <aside class="notes" role="complementary">
             <h3>Study Notes</h3>

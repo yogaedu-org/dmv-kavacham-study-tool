@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] — on branch `fix/10-es-modules` (ships together on merge)
 
+### Added (#56)
+- **Verse audio**: a play/stop button per verse and a recitation-set switcher (Day 2, recommended, is the only public set today), driven by the hosted `sets/index.json` + manifests and one `config.json` value (`audio.cloudBase` = the Cloudflare Pages project `dmv-kavacham-audio`). Off if no base is configured or the host is unreachable. Service worker: range requests bypass it, `sets/*.json` are network-first, and its cleanup keeps `dmv-audio-*` caches.
+
 ### 🏗️ Architecture (#10)
 - **Split `app.js` into ES modules** under `js/` (`state`/`util`/`config`/`i18n`/`controls`/`filters`/`render`/`main`), loaded via `<script type="module">`. Parity-verified (search, theme, font, language, 14 verses). A Vite single-file bundle that also runs from `file://` is tracked in #33.
 - Added a **module-graph test guard** (every `js/` import must resolve to a real export) — catches refactor drift where a renamed export silently breaks the app.

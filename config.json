@@ -18,6 +18,11 @@
     "enableFilters": true,
     "enableCompactMode": true
   },
+  "audio": {
+    "setsIndex": "sets/index.json",
+    "cloudBase": "https://dmv-kavacham-audio.pages.dev/",
+    "offlineBase": ""
+  },
   "display": {
     "breakpoints": { "tablet": 768, "mobile": 480 }
   },
