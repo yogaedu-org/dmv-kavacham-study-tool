@@ -35,8 +35,9 @@ export async function runCalibration({ pageData, loadRef, loadOther, onProgress 
   for (const v of list) {
     onProgress(`verse ${v.id}: loading the reference...`);
     const ref = await loadRef(v.id), n = v.syl_t.length;
-    const k = 2 + ((7 * v.id + 3) % (n - 5));                      // deterministic, away from the first and last aksharas
-    for (const kind of ["silence", "replace"]) {
+    const ks = [2 + ((7 * v.id + 3) % (n - 5)), 2 + ((11 * v.id + 17) % (n - 5))];   // two deterministic positions, away from the first and last aksharas
+    if (ks[1] === ks[0]) ks[1] = 2 + ((ks[0] + 9) % (n - 5));
+    for (const k of ks) for (const kind of ["silence", "replace"]) {
       onProgress(`verse ${v.id}: ${kind} akshara ${k + 1}...`);
       await tick();
       const r = compareTake(ref, damage(ref, v, k, kind), v);

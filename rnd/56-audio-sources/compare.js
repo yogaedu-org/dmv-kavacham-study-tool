@@ -217,3 +217,33 @@ export function compareTake(refPcm, usrPcm, verse) {
     refDb: refF.db, usrDb: usrF.db,
   };
 }
+
+/**
+ * The importable entry point (the textbook lab and the side page both call this).
+ * @param take       {pcm: Float32Array 16 kHz mono} or a bare Float32Array: the user's recording
+ * @param reference  {pcm} or a bare Float32Array: the reference clip (Day 2)
+ * @param verse      {syllables:[{deva,iast,line}], syl_t:[[t0,t1]], analysis_span:[t0,t1]} (one entry of page-data.json)
+ * @returns {{
+ *   aksharas: {i, deva, iast, line, timingRatio, pitchCents|null, cost, matchZ, levelDb, flags:string[], flagged:boolean, confidence:number,
+ *              confidenceParts:{timing,pitch,match}}[],
+ *   lines:    {line, score, confidence, flagged}[],
+ *   verse:    {score, confidence, flagged, of},
+ *   overall:  {score, confidence, note}, tempo, keyOffsetCents, durRatio, details }}
+ * Every level carries a 0-100 `confidence`: an estimate of how much evidence the numbers rest on, not a probability.
+ */
+export function compare(take, reference, verse) {
+  const r = compareTake(reference.pcm || reference, take.pcm || take, verse);
+  const aksharas = r.aksharas.map((a) => ({
+    i: a.i, deva: a.deva, iast: a.iast, line: verse.syllables[a.i].line,
+    timingRatio: +a.ratio.toFixed(3), pitchCents: a.cents === null ? null : Math.round(a.cents), cost: +a.mismatch.toFixed(3),
+    matchZ: +a.z.toFixed(2), levelDb: +a.levelDelta.toFixed(1), flags: a.flags, flagged: a.flagged,
+    confidence: Math.round(100 * (a.conf.timing + a.conf.pitch + a.conf.match) / 3), confidenceParts: a.conf,
+  }));
+  const lines = [...new Set(aksharas.map((a) => a.line))].map((line) => {
+    const g = aksharas.filter((a) => a.line === line), bad = g.filter((a) => a.flagged).length;
+    return { line, score: Math.round(100 * (1 - bad / g.length)), confidence: Math.round(g.reduce((s, a) => s + a.confidence, 0) / g.length), flagged: bad };
+  });
+  const flagged = aksharas.filter((a) => a.flagged).length;
+  return { aksharas, lines, verse: { score: r.overall.score, confidence: r.overall.confidence, flagged, of: aksharas.length },
+           overall: r.overall, tempo: r.tempo, keyOffsetCents: r.keyOffsetCents, durRatio: r.durRatio, details: r };
+}
