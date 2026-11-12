@@ -19,8 +19,8 @@
     "enableCompactMode": true
   },
   "audio": {
-    "setsIndex": "audio/sets/index.json",
-    "cloudBase": "",
+    "setsIndex": "sets/index.json",
+    "cloudBase": "https://dmv-kavacham-audio.pages.dev/",
     "offlineBase": ""
   },
   "display": {

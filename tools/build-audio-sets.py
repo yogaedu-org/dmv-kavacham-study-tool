@@ -1,13 +1,14 @@
-"""Build the recitation-set data for the verse player (#56) from a folder of per-verse clips.
+"""Build LOCAL TEST recitation sets in the hosted layout (#56). Nothing is written into the repo.
 
-    python tools/build-audio-sets.py --src <dir holding day2/ day5/ ... with verse01.mp3 .. verse14.mp3>
-                                     [--sets day2:recommended,day5] [--stage <dir>]
+    python tools/build-audio-sets.py --src <dir holding day5/ ... with verse01.mp3 .. verse14.mp3> --sets day5 --out <mock cloud root>
 
-Writes audio/sets/index.json and audio/sets/<set>/manifest.json (sha256, bytes, duration, codec per verse). The AUDIO is never
-written into the repo: --stage copies the clips into <dir>/<set>/verseNN.mp3, which is exactly the tree to upload to the cloud
-host (or to serve from a mock cloud in local preview). Duration comes from ffprobe (must be on PATH or pass --ffprobe).
-
-Adding another set later is data only: put its 14 clips next to the others, add it to --sets, run this, upload the tree.
+The hosted layout (the Cloudflare Pages project `dmv-kavacham-audio`) is:
+    sets/index.json                       {"schema":1,"sets":[{"id","label","recommended","manifest":"day2/manifest.json"}]}
+    sets/<set>/manifest.json              schema, set, version, label, reciter, licence, base "./", verses{n:{key,sha256,bytes,duration,codec}}
+    sets/<set>/verse-01.mp3 .. verse-14.mp3
+Only Day 2 is public. This tool exists so the switcher can be proven locally with a SECOND set (for example Day 5) served from a
+mock cloud; those files are never uploaded or committed. It merges into an existing <out>/sets/index.json (so copy the real
+sets/ tree there first) and never marks the new set recommended. Duration comes from ffprobe (PATH or --ffprobe).
 """
 import argparse, datetime, hashlib, json, os, shutil, subprocess, sys
 
@@ -15,14 +16,12 @@ sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ap = argparse.ArgumentParser()
 ap.add_argument("--src", required=True)
-ap.add_argument("--sets", default="day2:recommended,day5")
-ap.add_argument("--stage")
+ap.add_argument("--sets", required=True, help="comma-separated set ids, each a folder under --src")
+ap.add_argument("--out", required=True)
 ap.add_argument("--ffprobe", default="ffprobe")
-ap.add_argument("--version", default=datetime.date.today().isoformat())
 a = ap.parse_args()
 
-verses = json.load(open(os.path.join(ROOT, "data", "verses.json"), encoding="utf-8"))["verses"]
-nums = [v["number"] for v in verses]
+nums = [v["number"] for v in json.load(open(os.path.join(ROOT, "data", "verses.json"), encoding="utf-8"))["verses"]]
 
 
 def duration(path):
@@ -31,30 +30,25 @@ def duration(path):
     return round(float(out), 2)
 
 
-index = {"schema": 1, "sets": []}
-for spec in a.sets.split(","):
-    sid, _, flag = spec.partition(":")
-    label = "Day %s" % sid.replace("day", "") if sid.startswith("day") else sid
+idx_path = os.path.join(a.out, "sets", "index.json")
+index = json.load(open(idx_path, encoding="utf-8")) if os.path.isfile(idx_path) else {"schema": 1, "sets": []}
+for sid in a.sets.split(","):
     entries = {}
     for n in nums:
-        name = "verse%02d.mp3" % n
-        p = os.path.join(a.src, sid, name)
-        if not os.path.isfile(p):
-            sys.exit("missing clip: %s" % p)
-        data = open(p, "rb").read()
-        entries[str(n)] = {"key": name, "sha256": hashlib.sha256(data).hexdigest(), "bytes": len(data),
-                           "duration": duration(p), "codec": "audio/mpeg"}
-        if a.stage:
-            os.makedirs(os.path.join(a.stage, sid), exist_ok=True)
-            shutil.copyfile(p, os.path.join(a.stage, sid, name))
-    manifest = {"schema": 1, "set": sid, "version": a.version, "label": label,
-                "reciter": None, "licence": None,  # not known to this repo: fill in before publishing (open question)
-                "base": sid + "/", "verses": entries}
-    d = os.path.join(ROOT, "audio", "sets", sid)
-    os.makedirs(d, exist_ok=True)
-    json.dump(manifest, open(os.path.join(d, "manifest.json"), "w", encoding="utf-8", newline="\n"), ensure_ascii=False, indent=2)
-    index["sets"].append({"id": sid, "label": label, "recommended": flag == "recommended", "manifest": "audio/sets/%s/manifest.json" % sid})
-    print("%s: %d clips, %.1f MB" % (sid, len(entries), sum(e["bytes"] for e in entries.values()) / 1e6))
-assert sum(1 for s in index["sets"] if s["recommended"]) == 1, "exactly one set must be recommended"
-json.dump(index, open(os.path.join(ROOT, "audio", "sets", "index.json"), "w", encoding="utf-8", newline="\n"), ensure_ascii=False, indent=2)
-print("wrote audio/sets/index.json with %d sets" % len(index["sets"]))
+        src = os.path.join(a.src, sid, "verse%02d.mp3" % n)
+        if not os.path.isfile(src):
+            sys.exit("missing clip: %s" % src)
+        key = "verse-%02d.mp3" % n
+        data = open(src, "rb").read()
+        os.makedirs(os.path.join(a.out, "sets", sid), exist_ok=True)
+        shutil.copyfile(src, os.path.join(a.out, "sets", sid, key))
+        entries[str(n)] = {"key": key, "sha256": hashlib.sha256(data).hexdigest(), "bytes": len(data), "duration": duration(src), "codec": "audio/mpeg"}
+    label = "Day %s" % sid.replace("day", "") if sid.startswith("day") else sid
+    manifest = {"schema": 1, "set": sid, "version": datetime.date.today().isoformat(), "label": label,
+                "reciter": "local test fixture", "licence": "local test fixture", "base": "./", "verses": entries}
+    json.dump(manifest, open(os.path.join(a.out, "sets", sid, "manifest.json"), "w", encoding="utf-8", newline="\n"), ensure_ascii=False, indent=1)
+    index["sets"] = [s for s in index["sets"] if s["id"] != sid] + [{"id": sid, "label": label, "recommended": False, "manifest": "%s/manifest.json" % sid}]
+    print("%s: %d clips" % (sid, len(entries)))
+assert sum(1 for s in index["sets"] if s["recommended"]) <= 1
+json.dump(index, open(idx_path, "w", encoding="utf-8", newline="\n"), ensure_ascii=False, indent=1)
+print("wrote %s with %d sets" % (idx_path, len(index["sets"])))

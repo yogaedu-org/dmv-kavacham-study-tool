@@ -8,12 +8,13 @@ import { createAudioSource } from './audio-source.js';
 /* ==========================================================================
    VERSE AUDIO (#56)
    One shared <audio id="verseAudio">, one play/stop button per verse, and a
-   "recitation set" switcher. WHERE the audio lives is data, never code:
-     config.json  audio.cloudBase / audio.offlineBase   (one value each)
-     audio/sets/index.json                              (which sets exist; one is "recommended")
-     audio/sets/<set>/manifest.json                     (verse -> file key, sha256, duration)
-   The player only calls createAudioSource().resolve(verse). Adding Day 5 or another
-   reciter = new clips + a manifest + an index entry; no change here.
+   "recitation set" switcher. WHERE the audio lives is data, never code. The host (a Cloudflare Pages
+   project) serves, next to the clips:
+     <cloudBase>sets/index.json                 which sets exist; one is "recommended"
+     <cloudBase>sets/<set>/manifest.json        verse -> file key, sha256, bytes, duration (relative `base`)
+   and config.json holds the one value that points at it: audio.cloudBase (optional audio.offlineBase: a
+   same-origin folder with the same layout). The player only calls createAudioSource().resolve(verse).
+   Another reciter or day = upload clips + a manifest + an index entry on the host; nothing here changes.
    Both bases empty = feature off (no buttons, no switcher), so the app is unchanged.
    ========================================================================== */
 
@@ -50,11 +51,17 @@ async function getJson(url) {
     return r.json();
 }
 
-/** Translate a manifest into the config audio-source.js is driven by. The only place that knows both formats. */
-function sourceConfig(set, m) {
-    const a = CONFIG.audio, rel = m.base || (set.id + '/'), sources = [], order = [];
-    if (a.offlineBase) { sources.push({ kind: 'offline', base: new URL(rel, new URL(a.offlineBase, document.baseURI)).href, label: 'offline' }); order.push('offline'); }
-    if (a.cloudBase)   { sources.push({ kind: 'cloud',   base: new URL(rel, new URL(a.cloudBase, document.baseURI)).href,   label: 'cloud' });   order.push('cloud'); }
+const absRoot = function(base) { return new URL(base.charAt(base.length - 1) === '/' ? base : base + '/', document.baseURI).href; };
+let indexUrl = null, indexRoot = null;
+
+/** Translate a manifest into the config audio-source.js is driven by. The only place that knows both formats.
+ *  Layout rule: set directory = manifest URL + manifest.base, expressed relative to the root that served the index, so the
+ *  offline root (if configured) mirrors the cloud layout. */
+function sourceConfig(set, m, manifestUrl) {
+    const a = CONFIG.audio, dir = new URL(m.base || './', manifestUrl).href, sources = [], order = [];
+    const rel = dir.indexOf(indexRoot) === 0 ? dir.slice(indexRoot.length) : null;     // null: the manifest points elsewhere
+    if (a.offlineBase && rel !== null) { sources.push({ kind: 'offline', base: new URL(rel, absRoot(a.offlineBase)).href, label: 'offline' }); order.push('offline'); }
+    if (a.cloudBase)   { sources.push({ kind: 'cloud', base: rel !== null ? new URL(rel, absRoot(a.cloudBase)).href : dir, label: 'cloud' }); order.push('cloud'); }
     return {
         version: 1, set: { id: set.id, label: m.label || set.label }, sources, order,
         verses: Object.keys(m.verses || {}).map(function(n) {
@@ -65,9 +72,10 @@ function sourceConfig(set, m) {
 }
 
 async function useSet(set) {
-    manifest = await getJson(set.manifest);
+    const manifestUrl = new URL(set.manifest, indexUrl).href;
+    manifest = await getJson(manifestUrl);
     current = set;
-    const cfg = sourceConfig(set, manifest);
+    const cfg = sourceConfig(set, manifest, manifestUrl);
     if (source) source.setConfig(cfg); else source = createAudioSource(cfg);
 }
 
@@ -78,9 +86,15 @@ function saveSetId(id) { try { localStorage.setItem(SET_KEY, id); } catch (e) { 
 export async function initAudio() {
     if (!audioEnabled()) return;
     try {
-        const index = await getJson(CONFIG.audio.setsIndex);
+        const roots = [CONFIG.audio.cloudBase, CONFIG.audio.offlineBase].filter(Boolean).map(absRoot);
+        let index = null, lastError = null;
+        for (const root of roots) {                                       // cloud first, then the offline mirror
+            try { indexUrl = new URL(CONFIG.audio.setsIndex, root).href; indexRoot = root; index = await getJson(indexUrl); break; }
+            catch (e) { lastError = e; }
+        }
+        if (!index) throw lastError || new Error('no audio base configured');
         sets = (index.sets || []).filter(function(s) { return s && s.id && s.manifest; });
-        if (!sets.length) throw new Error('no sets in ' + CONFIG.audio.setsIndex);
+        if (!sets.length) throw new Error('no sets in ' + indexUrl);
         const saved = savedSetId();
         const pick = sets.filter(function(s) { return s.id === saved; })[0] ||
                      sets.filter(function(s) { return s.recommended; })[0] || sets[0];

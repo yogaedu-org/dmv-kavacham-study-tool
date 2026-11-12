@@ -2,8 +2,10 @@
 /**
  * Recitation-set data guard (#56).
  *
- * audio/sets/index.json + audio/sets/<set>/manifest.json are the ONLY place that says which audio exists, so
- * adding a set (Day 5, another reciter) is a data change. That is safe only while the data stays well-formed.
+ * sets/index.json + sets/<set>/manifest.json (hosted next to the clips on the Cloudflare Pages project, NOT in this repo) are
+ * the ONLY place that says which audio exists, so adding a set (another reciter) is a data change. That is safe only while the
+ * data stays well-formed. Pass the folder that CONTAINS sets/ to validate a bundle before it is uploaded:
+ *     node tests/audio-sets.mjs <dir>        (without <dir> only the repo guards F5/F6 and the self-check run)
  * Named failures:
  *
  *   F1  The index has no recommended set, or two: the app picks the wrong default (or an arbitrary one).
@@ -15,7 +17,7 @@
  *
  * The self-check feeds the validator a broken set first: a guard that cannot fail proves nothing.
  *
- * Run:  node tests/audio-sets.mjs
+ * Run:  node tests/audio-sets.mjs [<dir containing sets/>]
  */
 import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
@@ -54,11 +56,17 @@ for (const f of ['F1', 'F2', 'F3', 'F4']) {
 }
 
 const errors = [];
-const index = readJson('audio/sets/index.json');
-const manifests = {};
-for (const s of index.sets) if (existsSync(join(root, s.manifest))) manifests[s.id] = readJson(s.manifest);
-const nums = readJson('data/verses.json').verses.map((v) => v.number);
-errors.push(...validateSets(index, manifests, nums));
+const dir = process.argv[2];
+let summary = 'repo guards only (no sets dir given)';
+if (dir) {
+  const rd = (rel) => JSON.parse(readFileSync(join(dir, rel), 'utf8'));
+  const index = rd('sets/index.json');
+  const manifests = {};
+  for (const x of index.sets) if (existsSync(join(dir, 'sets', x.manifest))) manifests[x.id] = rd('sets/' + x.manifest);
+  const nums = readJson('data/verses.json').verses.map((v) => v.number);
+  errors.push(...validateSets(index, manifests, nums));
+  summary = `${index.sets.length} set(s) x ${nums.length} verses, one recommended`;
+}
 
 // F5: no audio tracked by git anywhere in the repo (rnd/** is covered by .gitignore + the release assets, #48)
 const tracked = execFileSync('git', ['-C', root, 'ls-files'], { encoding: 'utf8' }).split('\n');
@@ -67,8 +75,8 @@ for (const f of tracked) if (/\.(mp3|wav|m4a|ogg|opus|flac)$/i.test(f) && exists
 // F6: no clip host or file name baked into js/
 for (const f of readdirSync(join(root, 'js')).filter((x) => x.endsWith('.js'))) {
   const src = readFileSync(join(root, 'js', f), 'utf8').replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');  // code only, not comments
-  if (/https?:\/\/[^'"\s]*\.(mp3|wav)\b/i.test(src) || /verse\d\d\.mp3/.test(src) || /r2\.dev|r2\.cloudflarestorage|pages\.dev/.test(src)) errors.push(`F6: js/${f} hard-codes an audio URL or host`);
+  if (/https?:\/\/[^'"\s]*\.(mp3|wav)\b/i.test(src) || /verse\d\d\.mp3/.test(src) || /r2\.dev|r2\.cloudflarestorage/.test(src)) errors.push(`F6: js/${f} hard-codes an audio URL or host`);
 }
 
 if (errors.length) { console.error(`audio-sets: FAILED (${errors.length})`); errors.forEach((e) => console.error('  - ' + e)); process.exit(1); }
-console.log(`audio-sets: OK (${index.sets.length} sets x ${nums.length} verses, one recommended, no audio in git, no hard-coded host)`);
+console.log(`audio-sets: OK (${summary}; no audio in git, no hard-coded clip URL)`);

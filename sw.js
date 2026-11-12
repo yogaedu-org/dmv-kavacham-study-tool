@@ -85,8 +85,9 @@ self.addEventListener('fetch', function(event) {
   // answer a range request, which expects a 206 slice (#56).
   if (request.headers.has('range')) return;
 
-  // Recitation-set data (index + manifests) is NETWORK-FIRST so a new set appears without a CACHE bump (#56).
-  if (request.url.indexOf('/audio/sets/') !== -1 && request.url.slice(-5) === '.json') {
+  // Recitation-set data (sets/index.json + manifests, hosted with the audio) is NETWORK-FIRST: a new set appears without a
+  // CACHE bump, and the last list still works offline (#56).
+  if (request.url.indexOf('/sets/') !== -1 && request.url.split('?')[0].slice(-5) === '.json') {
     event.respondWith(
       fetch(request).then(function(response) {
         if (response && response.status === 200) {

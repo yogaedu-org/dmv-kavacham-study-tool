@@ -3,8 +3,9 @@
     python -I -m pytest tests/test_verse_audio.py -q -p no:cacheprovider
 
 Self-contained: a temp copy of the app, synthetic WAV tones as the audio (nothing real, nothing from git), the app on one
-ephemeral port and a mock cloud with CORS on another (a real cross-origin fetch). The manifests are the repo's real ones with
-.mp3 keys swapped for .wav (the clips here are synthetic) and one verse removed from Day 5 for the missing-verse test.
+ephemeral port and a mock cloud with CORS on another (a real cross-origin fetch). The mock cloud has the HOSTED layout
+(sets/index.json, sets/<set>/manifest.json, sets/<set>/verse-NN.wav): Day 2 (recommended) and a second LOCAL fixture set,
+Day 5, with verse 14 missing for the missing-verse test. Only Day 2 is public in reality; Day 5 here is a fixture.
 Each test is named for the failure it catches.
 """
 import json, math, os, shutil, struct, sys, tempfile, wave
@@ -18,7 +19,12 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "rnd", "56-audio-sources", "tools"))
 import serve  # noqa: E402
 
-APP_FILES = ["index.html", "styles.css", "config.json", "manifest.webmanifest", "sw.js", "js", "data", "i18n", "fonts", "icons", "figures", "audio"]
+APP_FILES = ["index.html", "styles.css", "config.json", "manifest.webmanifest", "sw.js", "js", "data", "i18n", "fonts", "icons", "figures"]
+
+
+def write_index(root, sets):
+    json.dump({"schema": 1, "sets": [{"id": i, "label": "Day %s" % i[-1], "recommended": r, "manifest": "%s/manifest.json" % i} for i, r in sets]},
+              open(os.path.join(root, "sets", "index.json"), "w"))
 
 
 def tone(path, hz, secs=4.0, rate=16000):
@@ -36,32 +42,33 @@ def env():
     for f in APP_FILES:
         src, dst = os.path.join(ROOT, f), os.path.join(site, f)
         shutil.copytree(src, dst) if os.path.isdir(src) else shutil.copyfile(src, dst)
+    sets = os.path.join(cloud, "sets")
     for sid, hz, verses in (("day2", 300, (1, 14)), ("day5", 500, (1,))):
-        os.makedirs(os.path.join(cloud, sid))
+        os.makedirs(os.path.join(sets, sid))
         for n in verses:
-            tone(os.path.join(cloud, sid, "verse%02d.wav" % n), hz + n * 5)
+            tone(os.path.join(sets, sid, "verse-%02d.wav" % n), hz + n * 5)
+        m = {"schema": 1, "set": sid, "version": "test", "label": "Day %s" % sid[-1], "base": "./",
+             "verses": {str(n): {"key": "verse-%02d.wav" % n, "sha256": "0" * 64, "bytes": 1, "duration": 4.0, "codec": "audio/wav"} for n in range(1, 15) if not (sid == "day5" and n == 14)}}
+        json.dump(m, open(os.path.join(sets, sid, "manifest.json"), "w"))
+    write_index(cloud, [("day2", True), ("day5", False)])
     os.makedirs(os.path.join(site, "fx"))
     tone(os.path.join(site, "fx", "clip.wav"), 400)
-    for sid in ("day2", "day5"):                                     # real manifests, .wav keys, Day 5 without verse 14
-        p = os.path.join(site, "audio", "sets", sid, "manifest.json")
-        m = json.load(open(p, encoding="utf-8"))
-        for e in m["verses"].values():
-            e["key"] = e["key"].replace(".mp3", ".wav")
-        if sid == "day5":
-            del m["verses"]["14"]
-        json.dump(m, open(p, "w", encoding="utf-8"))
+    # an offline mirror (same layout, same-origin) holding verse 1 of Day 2
+    os.makedirs(os.path.join(site, "off", "sets", "day2"))
+    tone(os.path.join(site, "off", "sets", "day2", "verse-01.wav"), 600)
     s_cloud = serve.start(cloud, 0, cors=True)
     cloud_url = "http://127.0.0.1:%d/" % s_cloud.server_address[1]
 
-    def write_config(cloud_base):
+    def write_config(cloud_base, offline_base=""):
         c = json.load(open(os.path.join(ROOT, "config.json"), encoding="utf-8"))
         c["audio"]["cloudBase"] = cloud_base
+        c["audio"]["offlineBase"] = offline_base
         json.dump(c, open(os.path.join(site, "config.json"), "w", encoding="utf-8"))
 
     write_config(cloud_url)
     s_app = serve.start(site, 0)
     app_url = "http://127.0.0.1:%d/" % s_app.server_address[1]
-    yield {"app": app_url, "cloud": cloud_url, "site": site, "write_config": write_config}
+    yield {"app": app_url, "cloud": cloud_url, "site": site, "write_config": write_config, "cloud_dir": cloud}
     s_app.shutdown(); s_cloud.shutdown()
     shutil.rmtree(tmp, ignore_errors=True)
 
@@ -94,19 +101,19 @@ def test_day2_is_the_default_and_plays_verse_1_and_verse_14_from_the_cloud_base(
     assert page.locator("#audioSetSelect").input_value() == "day2"
     for n in (1, 14):
         page.click(".verse-play[data-verse='%d']" % n)
-        playing(page, "%sday2/verse%02d.wav" % (env["cloud"], n))
+        playing(page, "%ssets/day2/verse-%02d.wav" % (env["cloud"], n))
         page.click(".verse-play[data-verse='%d']" % n)  # stop
 
 
 def test_switching_to_day5_makes_the_same_button_play_the_day5_file(page, env):
     """Failure caught: the recitation switcher changes the label but the button keeps playing the old set."""
     page.click(".verse-play[data-verse='1']")
-    playing(page, "/day2/verse01.wav")
+    playing(page, "/sets/day2/verse-01.wav")
     before = page.evaluate("document.getElementById('verseAudio').src")
     page.select_option("#audioSetSelect", "day5")
     assert page.evaluate("document.getElementById('verseAudio').paused")      # switching stops the old recitation
     page.click(".verse-play[data-verse='1']")
-    playing(page, "/day5/verse01.wav")
+    playing(page, "/sets/day5/verse-01.wav")
     assert page.evaluate("document.getElementById('verseAudio').src") != before
 
 
@@ -116,7 +123,7 @@ def test_chosen_set_survives_a_reload(page):
     page.reload(); page.wait_for_selector("article.verse")
     assert page.locator("#audioSetSelect").input_value() == "day5"
     page.click(".verse-play[data-verse='1']")
-    playing(page, "/day5/verse01.wav")
+    playing(page, "/sets/day5/verse-01.wav")
 
 
 def test_unknown_saved_set_falls_back_to_the_recommended_one(page):
@@ -169,8 +176,8 @@ def test_one_shared_audio_element_and_one_button_per_verse(page):
     """Failure caught: each verse gets its own audio element, so two recitations can play at once."""
     assert page.locator("audio").count() == 1
     assert page.locator(".verse-play").count() == 14
-    page.click(".verse-play[data-verse='1']"); playing(page, "day2/verse01.wav")
-    page.click(".verse-play[data-verse='14']"); playing(page, "day2/verse14.wav")
+    page.click(".verse-play[data-verse='1']"); playing(page, "sets/day2/verse-01.wav")
+    page.click(".verse-play[data-verse='14']"); playing(page, "sets/day2/verse-14.wav")
     assert page.locator(".verse-play[aria-pressed='true']").count() == 1
 
 
@@ -231,3 +238,56 @@ def test_service_worker_does_not_answer_a_range_request_from_a_cached_whole_file
     status = pg.evaluate("fetch('fx/clip.wav', {headers: {Range: 'bytes=0-99'}}).then(r => r.status)")
     assert status == 206
     ctx.close()
+
+
+def test_adding_a_set_on_the_host_is_data_only(browser, env):
+    """Failure caught: a new recitation set needs a code change or an app release before it shows up in the switcher."""
+    sid = "day6"
+    os.makedirs(os.path.join(env["cloud_dir"], "sets", sid), exist_ok=True)
+    tone(os.path.join(env["cloud_dir"], "sets", sid, "verse-01.wav"), 800)
+    json.dump({"schema": 1, "set": sid, "version": "t", "label": "Another reciter", "base": "./",
+               "verses": {"1": {"key": "verse-01.wav", "sha256": "0" * 64, "bytes": 1, "duration": 4.0, "codec": "audio/wav"}}},
+              open(os.path.join(env["cloud_dir"], "sets", sid, "manifest.json"), "w"))
+    index = os.path.join(env["cloud_dir"], "sets", "index.json")
+    original = open(index).read()
+    d = json.loads(original); d["sets"].append({"id": sid, "label": "Another reciter", "recommended": False, "manifest": "day6/manifest.json"})
+    open(index, "w").write(json.dumps(d))
+    try:
+        ctx = browser.new_context(); pg = ctx.new_page()
+        pg.goto(env["app"]); pg.wait_for_selector("article.verse")
+        assert pg.locator("#audioSetSelect option[value='day6']").inner_text() == "Another reciter"
+        pg.select_option("#audioSetSelect", "day6")
+        pg.click(".verse-play[data-verse='1']")
+        playing(pg, "/sets/day6/verse-01.wav")
+        ctx.close()
+    finally:
+        open(index, "w").write(original)
+
+
+def test_unreachable_audio_host_leaves_the_app_working_without_audio_controls(browser, env):
+    """Failure caught: a dead or not-yet-deployed audio host breaks the app or leaves dead play buttons."""
+    env["write_config"]("http://127.0.0.1:1/")
+    try:
+        ctx = browser.new_context(); pg = ctx.new_page()
+        pg.goto(env["app"]); pg.wait_for_selector("article.verse")
+        assert pg.locator("article.verse").count() == 14
+        assert pg.locator(".verse-play").count() == 0 and pg.locator("#audioSetGroup").is_hidden()
+        ctx.close()
+    finally:
+        env["write_config"](env["cloud"])
+
+
+def test_offline_mirror_supplies_the_index_and_the_audio_when_the_cloud_is_unreachable(browser, env):
+    """Failure caught: the second source (offline folder) is configured but is never used, so offline readers get nothing."""
+    env["write_config"]("http://127.0.0.1:1/", "off/")
+    try:
+        ctx = browser.new_context(); pg = ctx.new_page()
+        with open(os.path.join(env["site"], "off", "sets", "index.json"), "w") as f:
+            json.dump({"schema": 1, "sets": [{"id": "day2", "label": "Day 2", "recommended": True, "manifest": "day2/manifest.json"}]}, f)
+        shutil.copyfile(os.path.join(env["cloud_dir"], "sets", "day2", "manifest.json"), os.path.join(env["site"], "off", "sets", "day2", "manifest.json"))
+        pg.goto(env["app"]); pg.wait_for_selector(".verse-play")
+        pg.click(".verse-play[data-verse='1']")
+        playing(pg, "/off/sets/day2/verse-01.wav")
+        ctx.close()
+    finally:
+        env["write_config"](env["cloud"])
