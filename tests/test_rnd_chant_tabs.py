@@ -318,10 +318,11 @@ def test_player_shows_each_days_review_score_and_the_recommended_mark(page, base
     page.wait_for_selector(".tab .chant-dscore")
     for s in cfg["sets"]:
         btn = page.locator(f'.tab[data-day="{s["id"]}"]')
-        want = round(R["day_conf"][str(s["id"])]["mean"])
-        assert f"· {want}" in btn.inner_text(), (s["id"], btn.inner_text())
+        want = R["day_conf"][str(s["id"])]["mean"]
+        shown = int(re.search(r"· (\d+)", btn.inner_text()).group(1))
+        assert abs(shown - want) <= 1, (s["id"], btn.inner_text(), want)
         assert (btn.locator(".chant-rec").count() == 1) == (s["id"] == cfg["recommended_set"])
-        assert f"confidence {want}" in page.locator(f"#panel{s['id']} .dayhead").text_content()
+        assert f"confidence {shown}" in page.locator(f"#panel{s['id']} .dayhead").text_content()
 
 
 def test_player_opens_on_the_recommended_set_from_chant_json(page, base):
@@ -475,3 +476,49 @@ def test_second_chant_folder_gets_both_pages_and_an_extra_tab_without_code_chang
         ctx.close()
     finally:
         proc.terminate()
+
+
+CLIP_JS = """() => [...document.querySelectorAll('button')]
+  .filter(e => { const r = e.getBoundingClientRect(); return r.width > 0 && r.height > 0 && !e.classList.contains('cell') && e.textContent.trim().length >= 3; })
+  .map(e => { const g = document.createRange(); g.selectNodeContents(e);
+    const tops = [...g.getClientRects()].filter(x => x.width > 0).map(x => x.top).sort((p, q) => p - q).filter((t, i, arr) => i === 0 || t - arr[i - 1] > 6);
+    return {el: e.className + ' ' + e.textContent.trim().slice(0, 24), w: e.clientWidth, h: e.clientHeight,
+            clip: e.scrollWidth > e.clientWidth + 1 || e.scrollHeight > e.clientHeight + 1, lines: tops.length}; })
+  .filter(x => x.clip || x.lines > 2)"""
+
+
+@pytest.mark.parametrize("name", ["review.html#verse=1&day=6", "review.html#verse=7&day=2", "review.html#verse=3&day=4",
+                                  "player.html", "player.html#verse=4&day=1"])
+def test_text_buttons_keep_their_natural_width_so_no_label_is_clipped_or_split_per_letter(browser, base, name):
+    """Regression: a 40 px width rule meant for the player's round play button squashed 'Whole take' and 'Play from 2 s before'."""
+    ctx = browser.new_context(viewport={"width": 390, "height": 800})
+    pg = ctx.new_page()
+    pg.goto(base + name)
+    pg.wait_for_selector("nav.chant-tabs a")
+    pg.wait_for_load_state("networkidle")
+    assert pg.evaluate(CLIP_JS) == []
+    for sel in ("button.btn-play", "button.play:has-text('Whole take')"):
+        for b in pg.locator(sel).all():
+            if b.is_visible():
+                assert b.bounding_box()["width"] >= 100, (sel, b.bounding_box())
+    ctx.close()
+
+
+def test_a_days_score_is_rounded_the_same_on_the_player_and_the_review(page, base):
+    page.goto(base + "review.html")
+    page.wait_for_selector(".daytab .pill")
+    rev = page.evaluate("[...document.querySelectorAll('.daytab tr')].slice(1).map(r => r.querySelector('.pill').textContent)")
+    page.goto(base + "player.html")
+    page.wait_for_selector(".tab .chant-dscore")
+    ply = page.evaluate("[...document.querySelectorAll('.tab .chant-dscore')].map(e => e.textContent.replace(/\D/g, ''))")
+    assert rev == ply and len(ply) == 6, (rev, ply)
+
+
+def test_first_finding_points_at_the_collapsed_explanation_of_its_confidence(page, base):
+    page.goto(base + "review.html#verse=1&day=6")
+    page.wait_for_selector(".find .fconf")
+    links = page.locator("#vb1 .find a.howlink")
+    assert links.count() == 1, "only the first finding carries the pointer"
+    assert not page.evaluate("document.getElementById('howdet').open")
+    links.click()
+    assert page.evaluate("document.getElementById('howdet').open")

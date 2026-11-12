@@ -146,15 +146,62 @@
     return resultsCache;
   }
   function bandOf(x) { return x === null || x === undefined ? "na" : (x >= 85 ? "high" : (x >= 70 ? "ok" : (x >= 50 ? "low" : "bad"))); }
-  function takeSummary(R, day, verse) {
+  function takeSummary(R, day, verse, sc) {
     var t = R && R.takes && R.takes[day + "." + verse];
     if (!t) return null;
-    var n = (t.probable || 0) + (t.judge || 0), conf = t.conf && t.conf.mean != null ? t.conf.mean : null, label;
+    var n = (t.probable || 0) + (t.judge || 0), conf = sc ? sc.verseConf(day, verse).mean : (t.conf && t.conf.mean != null ? t.conf.mean : null), label;
     if (t.defect_whole) label = "bad cut";
     else if (n === 0) label = "clean";
     else label = n + (n === 1 ? " finding" : " findings");
-    if (!t.defect_whole && conf !== null) label += ", confidence " + Math.round(conf);
+    if (!t.defect_whole && conf !== null) label += ", confidence " + fmtScore(conf);
     return { findings: n, probable: t.probable || 0, judge: t.judge || 0, defect: !!t.defect_whole, conf: conf, band: t.defect_whole ? "na" : bandOf(conf), label: label };
+  }
+
+
+  /* ---------- scores: one implementation for every page (mirrors step3_merge.py; the review's browser test checks it) ---------- */
+  function fmtScore(x) { return x === null || x === undefined ? "n/a" : String(Math.round(x)); }
+  function scorer(R, getStore) {
+    var CF = R.conf_params, cfg = cfgCache, VERSES = [], i;
+    for (i = 1; i <= cfg.verse_count; i++) VERSES.push(i);
+    function store() { try { return getStore() || {}; } catch (e) { return {}; } }
+    function take(d, v) { return R.takes[d + "." + v]; }
+    function togOf(v) {
+      var out = [], st = store();
+      (R.consistent_differences[String(v)] || []).forEach(function (n) { var s = st["ign." + v + "." + n.syll]; if (s && s.v === "mine") out.push(n.syll); });
+      return out;
+    }
+    function padaConf(p, tog) {
+      if (p.na) return null;
+      var n = p.syl.length, i, sB = 0, sC = 0, cleanB = true, cleanC = true, tg = 0;
+      for (i = 0; i < n; i++) {
+        var inT = tog.indexOf(p.syl[i]) >= 0, xB = p.exclB[i] && !inT, xC = p.exclC[i] && !inT;
+        if (!xB) sB += Math.min(1, p.costB[i]); if (!xC) sC += Math.min(1, p.costC[i]);
+        if (p.costB[i] >= 1 && !xB) cleanB = false; if (p.costC[i] >= 1 && !xC) cleanC = false;
+        if (inT && (p.costB[i] >= 1 || p.costC[i] >= 1) && (p.exclB[i] || p.exclC[i])) tg++;
+      }
+      var D = ((1 - sB / n) + (1 - sC / n)) / 2, runs = [cleanB, cleanC]; if (p.a_ran) runs.push(!p.a_flag);
+      var N = runs.filter(Boolean).length / runs.length, wP = (p.P === null) ? 0 : CF.w_P;
+      var base = (wP * (p.P || 0) + CF.w_D * D + CF.w_N * N) / (wP + CF.w_D + CF.w_N);
+      var pen = Math.min(CF.pen_cap, CF.pen_probable * p.pen.probable + CF.pen_judge * (p.pen.judge + tg));
+      return Math.max(0, Math.min(CF.cap, 100 * base - pen));
+    }
+    function verseConf(d, v) {
+      var t = take(d, v), tog = togOf(v), cs = t.padas.map(function (p) { return padaConf(p, tog); });
+      var na = t.padas.filter(function (p) { return p.na; })[0];
+      if (na) return { mean: null, min: null, na: na.na, lines: cs };
+      var m = cs.reduce(function (a, b) { return a + b; }, 0) / cs.length;
+      return { mean: m, min: Math.min.apply(null, cs), na: null, lines: cs };
+    }
+    function dayConf(d) {
+      var s = 0, n = 0, ab = 0;
+      VERSES.forEach(function (v) { var c = verseConf(d, v); if (c.mean !== null) { s += c.mean; n++; if (c.min >= CF.thresh) ab++; } });
+      return { mean: n ? s / n : null, n: n, above: ab };
+    }
+    return { padaConf: padaConf, verseConf: verseConf, dayConf: dayConf, fmt: fmtScore };
+  }
+  /* KA's "how I say it" answers, as saved by the review page (same key); the player reads them so both pages show one number */
+  function savedMarks() {
+    try { return JSON.parse(localStorage.getItem((cfgCache && cfgCache.review_storage_key) || "") || "{}"); } catch (e) { return {}; }
   }
 
   /* ---------- clip URLs ---------- */
@@ -188,7 +235,7 @@
     config: function () { return cfgCache; },
     notice: notice, clearNotice: clearNotice,
     parseLink: parseLink, buildLink: function (p, o) { return buildLink(cfgCache, p, o); },
-    onLink: onLink, loadResults: loadResults, takeSummary: takeSummary,
+    onLink: onLink, loadResults: loadResults, takeSummary: takeSummary, scorer: scorer, fmtScore: fmtScore, savedMarks: savedMarks,
     audioPath: function (d, v) { return audioPath(cfgCache, d, v); },
     audioSrc: function (rel) { return audioSrc(cfgCache, rel); }
   };

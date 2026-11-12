@@ -71,6 +71,7 @@ table.sum{border-collapse:collapse;width:100%;font-size:.9rem}.sum td,.sum th{bo
 .badge.fconf{color:var(--fg);border-color:var(--fg)}
 .find .fconf-note{font-size:.8rem;color:var(--mut)}
 @media (max-width:600px){
+ .find>.row>.btn-play{flex:1 1 100%}
  table.daytab,.daytab tbody,.daytab tr,.daytab td{display:block;white-space:normal}
  .daytab tr:first-child{display:none}
  .daytab tr{border:1px solid var(--line);border-radius:8px;padding:6px 10px;margin:8px 0}
@@ -133,35 +134,11 @@ function take(d,v){return R.takes[d+'.'+v]}
 function tierClass(t){return t==='probable slip'?'probable':(t==='listen and judge'?'judge':'defect')}
 
 /* ---------- confidence (mirrors step3_merge.py; checked against it in the browser test) ---------- */
-function togOf(v){var out=[];(R.consistent_differences[String(v)]||[]).forEach(function(n){var s=store['ign.'+v+'.'+n.syll];if(s&&s.v==='mine')out.push(n.syll)});return out}
-function padaConf(p,tog){
-  if(p.na)return null;
-  var n=p.syl.length,i,sB=0,sC=0,cleanB=true,cleanC=true,tg=0;
-  for(i=0;i<n;i++){
-    var inT=tog.indexOf(p.syl[i])>=0, xB=p.exclB[i]&&!inT, xC=p.exclC[i]&&!inT;
-    if(!xB)sB+=Math.min(1,p.costB[i]); if(!xC)sC+=Math.min(1,p.costC[i]);
-    if(p.costB[i]>=1&&!xB)cleanB=false; if(p.costC[i]>=1&&!xC)cleanC=false;
-    if(inT&&(p.costB[i]>=1||p.costC[i]>=1)&&(p.exclB[i]||p.exclC[i]))tg++;
-  }
-  var D=((1-sB/n)+(1-sC/n))/2, runs=[cleanB,cleanC]; if(p.a_ran)runs.push(!p.a_flag);
-  var N=runs.filter(Boolean).length/runs.length, wP=(p.P===null)?0:CF.w_P;
-  var base=(wP*(p.P||0)+CF.w_D*D+CF.w_N*N)/(wP+CF.w_D+CF.w_N);
-  var pen=Math.min(CF.pen_cap,CF.pen_probable*p.pen.probable+CF.pen_judge*(p.pen.judge+tg));
-  return Math.max(0,Math.min(CF.cap,100*base-pen));
-}
-function verseConf(d,v){
-  var t=take(d,v),tog=togOf(v),cs=t.padas.map(function(p){return padaConf(p,tog)});
-  var na=t.padas.filter(function(p){return p.na})[0];
-  if(na)return {mean:null,min:null,na:na.na,lines:cs};
-  var m=cs.reduce(function(a,b){return a+b},0)/cs.length;
-  return {mean:m,min:Math.min.apply(null,cs),na:null,lines:cs};
-}
-function dayConf(d){
-  var s=0,n=0,ab=0;VERSES.forEach(function(v){var c=verseConf(d,v);if(c.mean!==null){s+=c.mean;n++;if(c.min>=CF.thresh)ab++}});
-  return {mean:n?s/n:null,n:n,above:ab};
-}
+var SC=null;   /* the shared scorer (chant-nav.js), built in boot(); reads the answers from `store` */
+function verseConf(d,v){return SC.verseConf(d,v)}
+function dayConf(d){return SC.dayConf(d)}
 function band(x){return x===null?'c-defect':(x>=85?'c-clean':(x>=70?'c-notes':(x>=50?'c-warn':'c-bad')))}
-function fmt(x){return x===null?'n/a':String(Math.round(x))}
+function fmt(x){return ChantNav.fmtScore(x)}
 function naShort(r){r=String(r||'');return /cut wrongly/.test(r)?'bad cut':(/loop/.test(r)?'looped':(/mid-sound|missing/.test(r)?'cut edge':'no data'))}
 function lineWord(q){return 'Line '+(q+1)}
 
@@ -194,7 +171,7 @@ document.getElementById('stop').onclick=function(){player.pause();stopAt=null;st
 function howHtml(){
   var sc=R.synth_conf||[];
   var cal=sc.map(function(r){return r.kind+' (line '+r.line+'): '+Math.round(r.unspliced)+' &rarr; '+Math.round(r.spliced)}).join('; ');
-  return '<details class="how"><summary>How is this number made?</summary><div class="small">'+
+  return '<details class="how" id="howdet"><summary>How is this number made?</summary><div class="small">'+
   '<p><b>An estimate of the confidence that a line (pada) was chanted as written, 0 to 100. It is not a measured probability.</b> It is built per line, per take:</p>'+
   '<ul class="tight"><li><b>Timing fit ('+Math.round(CF.w_P*100)+'%)</b>: mean alignment posterior of the line&rsquo;s syllables, compared with the same line on the other days after removing each day&rsquo;s own level. Same as the other days = '+Math.round(CF.P_mid*100)+'%, '+CF.P_span+' better = 100%. Not available for the repeated closing line of verse 14.</li>'+
   '<li><b>Decode agreement ('+Math.round(CF.w_D*100)+'%)</b>: 1 minus the share of syllables the letter-level decode (CTC) and Whisper disagree with the text on (average of the two; syllables set aside as same-on-most-days do not count).</li>'+
@@ -302,7 +279,7 @@ function findHtml(d,v,f,idx){
   var id=d+'.'+v+'.'+f.kind+'.'+f.t_start, c=tierClass(f.tier), st=store[id]||{};
   var meta=JSON.stringify({day:d,verse:v,kind:f.kind,tier:f.tier,t_start:f.t_start,t_end:f.t_end,expected:f.expected_deva||f.expected||'',heard:String(f.heard||'').slice(0,90),passes:f.passes});
   var h='<div class="find t-'+c+'" id="f-'+esc(id)+'" data-meta="'+esc(meta)+'" data-id="'+esc(id)+'" data-s0="'+(f.syll?f.syll[0]:'')+'" data-s1="'+(f.syll?f.syll[1]:'')+'">';
-  h+='<div><span class="badge '+c+'">'+esc(f.tier)+'</span><span class="badge fconf" title="Confidence that this finding is real, 0 to 95: share of the listeners that could have flagged it which did (see How is this number made)">confidence '+f.fconf+'</span><b>'+esc(f.kind)+'</b> at '+f.t_start.toFixed(1)+'&ndash;'+f.t_end.toFixed(1)+' s'+(f.passes&&f.passes.length?' &middot; '+f.passes.length+' of 3 listeners agree ('+f.passes.map(function(p){return {A:'timing',B:'CTC letters',C:'Whisper'}[p]}).join(', ')+')':'')+(f.signal?' &middot; confirmed by the silence meter':'')+((f.passes&&f.passes.length)||f.signal?'':' &middot; measured directly (no listener needed)')+'</div>';
+  h+='<div><span class="badge '+c+'">'+esc(f.tier)+'</span><span class="badge fconf" title="Confidence that this finding is real, 0 to 95: share of the listeners that could have flagged it which did (see How is this number made)">confidence '+f.fconf+'</span>'+(idx===0?'<a href="#howdet" class="howlink small">What is this number? (How is this number made?, top of the page)</a> ':'')+'<b>'+esc(f.kind)+'</b> at '+f.t_start.toFixed(1)+'&ndash;'+f.t_end.toFixed(1)+' s'+(f.passes&&f.passes.length?' &middot; '+f.passes.length+' of 3 listeners agree ('+f.passes.map(function(p){return {A:'timing',B:'CTC letters',C:'Whisper'}[p]}).join(', ')+')':'')+(f.signal?' &middot; confirmed by the silence meter':'')+((f.passes&&f.passes.length)||f.signal?'':' &middot; measured directly (no listener needed)')+'</div>';
   if(f.expected&&f.kind!=='audio defect'||(f.expected&&f.cut_edge)){
     h+='<div class="kv small">Text expects <b>'+esc(f.expected_deva||'')+'</b> <code>'+esc(f.expected)+'</code>';
     if(f.heard)h+=' &middot; heard <code>'+esc(String(f.heard).slice(0,90))+'</code>';
@@ -357,6 +334,7 @@ function refreshAll(){
   VERSES.forEach(function(v){var b=document.getElementById('vb'+v);if(b&&b.innerHTML)renderPanel(v)});
 }
 document.addEventListener('click',function(e){
+  var hl=e.target.closest('a.howlink');if(hl){e.preventDefault();var hd=document.getElementById('howdet');hd.open=true;hd.scrollIntoView({behavior:'smooth',block:'start'});return}
   var j=e.target.closest('a.jump');if(j){e.preventDefault();openVerse(+j.dataset.verse,+j.dataset.day,true);return}
   var pl=e.target.closest('button.play');if(pl){playFrom(+pl.dataset.day,+pl.dataset.verse,+pl.dataset.t,pl.dataset.len?+pl.dataset.len:0);return}
   var tab=e.target.closest('button.tab');if(tab){var v=+tab.closest('.vbody').id.slice(2);sel[v]=+tab.dataset.day;renderPanel(v);return}
@@ -415,7 +393,7 @@ function applyLink(link){
   }
 }
 function boot(cfg,res){
-  CFG=cfg;R=res;DW=cfg.set_word||'Day';CF=R.conf_params;
+  CFG=cfg;R=res;DW=cfg.set_word||'Day';CF=R.conf_params;SC=ChantNav.scorer(R,function(){return store});
   DAYS=cfg.sets.map(function(x){return x.id});
   VERSES=[];for(var i=1;i<=cfg.verse_count;i++)VERSES.push(i);
   KEY=cfg.review_storage_key||('chantReview.'+cfg.id+'.v1');

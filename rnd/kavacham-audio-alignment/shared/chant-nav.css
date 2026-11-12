@@ -27,9 +27,11 @@ a.chant-xlink{color:var(--accent,#b5651d);font-weight:600;text-decoration:underl
 @media (max-width:600px){
   button,summary,select,input[type=text],input:not([type]){min-height:40px!important}
   input[type=checkbox]{width:40px!important;height:40px!important;margin:0!important}
-  .play{width:40px!important;height:40px!important}
+  li.v>.play{width:40px!important;height:40px!important}
+  button{white-space:normal}
+  button.play,button.btn-play,button.pl{width:auto!important;min-width:44px}
   .pbtn{min-width:48px;padding:0 12px!important;font-size:13px!important}
-  a.chant-xlink,a.jump{display:inline-flex;align-items:center;min-height:40px;line-height:1.25;padding:0 2px}
+  a.chant-xlink,a.jump,a.howlink{display:inline-flex;align-items:center;min-height:40px;line-height:1.25;padding:0 2px}
   .dayhead{flex-wrap:wrap}
   summary{display:flex;align-items:center}
   .loopbar label{min-height:40px}
