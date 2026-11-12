@@ -1,5 +1,6 @@
 // record.js: the #57 side section: record a take (or choose a file), play it back, compare it to the Day 2 reference.
-import { compareTake, SR } from "./compare.js";
+import { compare, compareTake, SR } from "./compare.js";
+import { startRecording, decodeToPcm } from "./recorder.js";
 import { runCalibration } from "./calibration.js";
 
 const $ = (id) => document.getElementById(id);
@@ -7,19 +8,8 @@ const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&l
 const band = (c) => (c >= 70 ? "hi" : c >= 40 ? "mid" : "lo");
 const cchip = (label, c) => `<span class="chip ${band(c * 100)}" title="confidence ${c}">${label} ${c.toFixed(2)}</span>`;
 
-/** Decode any browser-readable audio to mono 16 kHz Float32Array. */
-export async function decodeToPcm(arrayBuffer) {
-  const ctx = new AudioContext({ sampleRate: SR });
-  try {
-    const buf = await ctx.decodeAudioData(arrayBuffer);
-    const ch = buf.getChannelData(0).slice();
-    if (buf.numberOfChannels > 1) { const c2 = buf.getChannelData(1); for (let i = 0; i < ch.length; i++) ch[i] = (ch[i] + c2[i]) / 2; }
-    return ch;
-  } finally { ctx.close(); }
-}
-
 export function initRecordSection({ src, pageData, getMode }) {
-  let takePcm = null, takeUrl = null, recorder = null, stream = null;
+  let takePcm = null, takeUrl = null, recorder = null;
   const status = (t, err = false) => { $("status").textContent = t; $("status").style.color = err ? "var(--bad)" : ""; };
   const verseId = () => Number($("takeverse").value);
   const verse = () => pageData.verses.find((v) => v.id === verseId());
@@ -46,23 +36,15 @@ export function initRecordSection({ src, pageData, getMode }) {
 
   $("rec").addEventListener("click", async () => {
     try {
-      stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false, channelCount: 1 } });
+      recorder = await startRecording({ onSettings: (s) => { $("micinfo").textContent = `Mic settings the browser reports: echoCancellation=${s.echoCancellation}, noiseSuppression=${s.noiseSuppression}, autoGainControl=${s.autoGainControl} (we asked for all three off; a browser may ignore that).`; } });
     } catch (e) { status(`Microphone not available: ${e.name}: ${e.message}`, true); return; }
-    const s = stream.getAudioTracks()[0].getSettings();
-    $("micinfo").textContent = `Mic settings the browser reports: echoCancellation=${s.echoCancellation}, noiseSuppression=${s.noiseSuppression}, autoGainControl=${s.autoGainControl} (we asked for all three off; a browser may ignore that).`;
-    const chunks = [];
-    recorder = new MediaRecorder(stream);
-    recorder.ondataavailable = (e) => { if (e.data.size) chunks.push(e.data); };
-    recorder.onstop = async () => {
-      stream.getTracks().forEach((t) => t.stop());
-      const blob = new Blob(chunks, { type: recorder.mimeType });
-      try { setTake(await decodeToPcm(await blob.arrayBuffer()), blob, "Recorded"); } catch (e) { status("Could not read the recording: " + e.message, true); }
-      $("rec").disabled = false; $("recstop").disabled = true;
-    };
-    recorder.start();
     $("rec").disabled = true; $("recstop").disabled = false; status("Recording...");
   });
-  $("recstop").addEventListener("click", () => { if (recorder && recorder.state !== "inactive") recorder.stop(); });
+  $("recstop").addEventListener("click", async () => {
+    if (!recorder) return;
+    try { const take = await recorder.stop(); setTake(take.pcm, take.blob, "Recorded"); } catch (e) { status("Could not read the recording: " + e.message, true); }
+    recorder = null; $("rec").disabled = false; $("recstop").disabled = true;
+  });
   $("takefile").addEventListener("change", async (e) => {
     const f = e.target.files[0]; if (!f) return;
     try { setTake(await decodeToPcm(await f.arrayBuffer()), f, `Loaded ${f.name}`); } catch (er) { status(`Could not decode ${f.name}: ${er.message}`, true); }
@@ -75,8 +57,9 @@ export function initRecordSection({ src, pageData, getMode }) {
       const ref = await referencePcm(verseId());
       status("Aligning...");
       await new Promise((r) => setTimeout(r, 20));          // let the status paint before the (about 1 s) computation
-      const res = compareTake(ref.pcm, takePcm, verse());
-      showResult(res, ref.from);
+      const full = compare(takePcm, ref.pcm, verse());   // the importable entry point; the page draws its `details`
+      window.__lastCompare = full;
+      showResult(full.details, ref.from);
       status(`Done. Reference from ${ref.from}.`);
     } catch (e) { status(e.message, true); }
   });
@@ -129,5 +112,5 @@ export function initRecordSection({ src, pageData, getMode }) {
     $("calib").disabled = false;
   });
 
-  window.__side = { compareTake, decodeToPcm, referencePcm };   // test hook
+  window.__side = { compare, compareTake, decodeToPcm, referencePcm };   // test hook
 }
