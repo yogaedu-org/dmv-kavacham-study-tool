@@ -8,22 +8,25 @@ at an offset, no extra file cutting needed (#9).
 
   python gen_kavacham_player.py
 
-Reads reference/chants/dmv-kavacham/kavacham-verse-timings.json (Day 3) and
-kavacham-verse-timings-dayN.json (other days, once aligned) -- skips any day not yet aligned.
-Writes reference/chants/dmv-kavacham/player.html, sitting next to audio/day3, audio/day1, etc so
-relative paths resolve. LOCAL FILE, not a published artifact (large local audio, private QA use).
+Reads the chant folder's chant.json (title, and per set: id, label, timings file) and each set's
+timings JSON -- skips any set whose timings file does not exist yet.
+Writes player.html into the chant folder (default: ../dmv-kavacham, or pass the folder as argv[1]),
+sitting next to audio/ so relative paths resolve. The page links the shared tab bar and the
+player <-> accuracy-review links (../shared/chant-nav.js, chant-player-link.js; #55).
 Run with PYTHONIOENCODING=utf-8 PYTHONUTF8=1
 """
 import json, sys
 from pathlib import Path
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
-REPO = Path(__file__).resolve().parents[2]
-KAV = REPO / "reference" / "chants" / "dmv-kavacham"
+KAV = Path(sys.argv[1]).resolve() if len(sys.argv) > 1 else Path(__file__).resolve().parents[1] / "dmv-kavacham"
+CFG = json.loads((KAV / "chant.json").read_text(encoding="utf-8"))
+TITLE = CFG.get("title", "Chant")
+FAVICON = CFG.get("favicon") or "data:,"   # relative to the chant folder; "data:," = no icon request
 
 
 def load_day(n):
-    p = KAV / ("kavacham-verse-timings.json" if n == 3 else f"kavacham-verse-timings-day{n}.json")
+    p = KAV / next(s["timings"] for s in CFG["sets"] if s["id"] == n)
     if not p.exists():
         return None
     d = json.loads(p.read_text(encoding="utf-8"))
@@ -114,7 +117,7 @@ def compute_ranges(verses):
 
 
 days = {}
-for n in range(1, 7):
+for n in [s["id"] for s in CFG["sets"]]:
     verses = load_day(n)
     if verses:
         days[n] = verses
@@ -124,14 +127,25 @@ print(f"days with aligned verses: {sorted(days)}")
 # defaulting to Day 1 first (its own low-confidence verses 1-2) is what made this look broken.
 best_day = max(days, key=lambda n: sum(v["align_score"] for v in days[n]) / len(days[n])) if days else None
 LOW_THRESH = 0.85
+# open on the recommended set of chant.json when it has aligned verses, else on the best-aligned day
+start_day = CFG.get("recommended_set") if CFG.get("recommended_set") in days else best_day
 for n, verses in days.items():
     for v in verses:
         v["low"] = v["align_score"] < LOW_THRESH
 
 tabs = "".join(
-    f'<button class="tab" data-day="{n}" onclick="showDay({n})">Day {n}'
+    f'<button class="tab" data-day="{n}" onclick="showDay({n})"'
+    f'{" title=" + chr(34) + "has verses the aligner was unsure about (align score below 0.85)" + chr(34) if any(v["low"] for v in days[n]) else ""}>Day {n}'
     f'{" ⚠" if any(v["low"] for v in days[n]) else ""}</button>'
     for n in sorted(days))
+
+
+def score_title(v):
+    """What the row's number is: the forced aligner's score for this clip, from the per-day timings file (not the accuracy review)."""
+    base = f"align {v['align_score']:.2f}: how well the forced aligner matched this clip to the verse text (from the timings file). "
+    if v["low"]:
+        return base + f"Below {LOW_THRESH}: the aligner is unsure this clip matches the verse, so check it before trusting it. Not the accuracy review's confidence."
+    return base + f"At or above {LOW_THRESH}: the clip lines up with the verse. This is not the accuracy review's confidence (the badge below)."
 
 
 def pada_controls(n, i, v, r):
@@ -155,7 +169,7 @@ for n, verses in sorted(days.items()):
   <span class="num">{v['n']}</span>
   <div class="txt"><div class="dev">{esc(v['dev'])}</div><div class="iast">{esc(v['iast'])}</div>
   {pada_controls(n, i, v, r)}</div>
-  <span class="score" title="alignment confidence -- flagged low, may not match this verse">{v['align_score']:.2f}{' ⚠' if v['low'] else ''}</span>
+  <span class="score" title="{score_title(v)}">align {v['align_score']:.2f}{' ⚠' if v['low'] else ''}</span>
   <audio data-day="{n}" data-i="{i}" preload="none" src="{v['clip']}"></audio>
 </li>'''
         for i, (v, r) in enumerate(zip(verses, ranges)))
@@ -165,8 +179,11 @@ for n, verses in sorted(days.items()):
                   f'<ol class="verses">{rows}</ol></div>')
 
 HTML = f"""<!doctype html><meta charset="utf-8">
-<title>DMV Kavacham — verse-by-verse (all days)</title>
+<title>{TITLE} — verse-by-verse (all days)</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="{FAVICON}">
+<link rel="stylesheet" href="../shared/chant-nav.css">
+<script src="../shared/chant-nav.js" data-page="player"></script>
 <style>
 :root{{--ink:#222;--bg:#fafafa;--card:#fff;--line:#ddd;--accent:#b5651d;--muted:#888;--playing:#2f8f5f}}
 @media (prefers-color-scheme:dark){{:root{{--ink:#e8e6f0;--bg:#15161f;--card:#1d1e2a;--line:#2e3040;--accent:#e0a24a;--muted:#9a97ad;--playing:#4fbf83}}}}
@@ -206,7 +223,7 @@ li.v.playing .play{{background:var(--playing);color:#fff;border-color:var(--play
 .loopbar label{{display:flex;align-items:center;gap:6px;cursor:pointer}}
 #audioNotice{{margin:10px 20px;padding:10px 14px;border:1px solid #c0392b;border-radius:8px;color:#c0392b;font-size:13px}}
 </style>
-<header><h1>DMV Kavacham — verse by verse, all days</h1>
+<header><h1>{TITLE} — verse by verse, all days</h1>
 <p>Auto-advancing playback of each day's actual chant, aligned to the 14 shlokas. Play the whole
 chant, one verse, or (below each verse) line 1 / line 2 alone -- verse 14's L2 also offers its
 first repetition alone, for line-by-line study vs. the full (all-repetitions) chant. A red border
@@ -229,7 +246,7 @@ document.querySelectorAll('audio').forEach(a=>a.addEventListener('error',()=>{{
   audioNotice('Audio could not be loaded (' + (a.getAttribute('src') || '').split('/').pop() +
     '). The clips are hosted as release assets of this repository; if this persists they may not be published yet.');
 }}));
-(async function useReleaseAudioIfNeeded(){{
+window.audioReady = (async function useReleaseAudioIfNeeded(){{
   if(location.protocol === 'file:') return;
   const clips = [...document.querySelectorAll('audio')];
   try{{ const r = await fetch(clips[0].getAttribute('src'), {{method:'HEAD'}}); if(r.ok) return; }}catch(e){{}}
@@ -302,8 +319,9 @@ function showDay(n){{
   document.getElementById('panel'+n).style.display='block';
   document.querySelector(`.tab[data-day="${{n}}"]`).classList.add('active');
 }}
-showDay({best_day if best_day else 'null'});
-</script>"""
+showDay({start_day if start_day else 'null'});
+</script>
+<script src="../shared/chant-player-link.js"></script>"""
 
 OUT = KAV / "player.html"
 OUT.write_text(HTML, encoding="utf-8", newline="\n")

@@ -16,3 +16,6 @@ graphify-out/
 
 # R&D audio lives in release assets (#48); restore with tools/fetch-rnd-audio.py
 rnd/**/audio/
+
+# review analysis scratch (clip decodes, intermediate passes); regenerable, see rnd/**/review/README.md
+rnd/**/review/work/

@@ -1,0 +1,47 @@
+[
+ {
+  "case": "s_omit_v7",
+  "kind": "omission",
+  "line": 1,
+  "unspliced": 90.7,
+  "spliced": 32.2,
+  "found_probable": 1,
+  "found_judge": 0
+ },
+ {
+  "case": "s_rep_v9",
+  "kind": "repeat",
+  "line": 1,
+  "unspliced": 90.9,
+  "spliced": 91.1,
+  "found_probable": 0,
+  "found_judge": 0
+ },
+ {
+  "case": "s_sub_v11",
+  "kind": "substitution",
+  "line": 1,
+  "unspliced": 90.2,
+  "spliced": 64.4,
+  "found_probable": 0,
+  "found_judge": 1
+ },
+ {
+  "case": "s_omit_v3",
+  "kind": "omission",
+  "line": 2,
+  "unspliced": 90.6,
+  "spliced": 33.6,
+  "found_probable": 1,
+  "found_judge": 0
+ },
+ {
+  "case": "s_sub_v5",
+  "kind": "substitution",
+  "line": 2,
+  "unspliced": 91.0,
+  "spliced": 34.5,
+  "found_probable": 1,
+  "found_judge": 0
+ }
+]
