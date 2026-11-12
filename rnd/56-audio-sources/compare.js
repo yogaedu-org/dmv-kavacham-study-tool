@@ -208,10 +208,15 @@ export function compareTake(refPcm, usrPcm, verse) {
   const bad = ak.map((a) => Math.min(1, Math.max(a.flagged ? 0.5 : 0, clamp(a.z / 8, 0, 1))));
   const matchedShare = 1 - bad.filter((b) => b >= 0.5).length / ak.length;
   const alignmentOk = clamp(1 - Math.max(0, al.total - 0.6) / 0.6, 0, 1);
+  // Flags are relative to the take's own median, so a take that is uniformly wrong (noise, silence, another verse) would flag
+  // little and score high. The absolute spectral distance fixes that: ordinary takes of the verse sit near 0.6-0.7 (Day 5 and
+  // Day 1 against Day 2), noise and other verses at 0.9 or more. The score is scaled down from 0.75 (no change) to 1.0 (x0.15).
+  // Hypothesis: the 0.75 / 1.0 cut-offs come from a handful of clips, not from human ratings.
+  const medianCost = median(ak.map((a) => a.mismatch)), fit = clamp(1 - (medianCost - 0.75) / 0.25, 0, 1), fitFactor = 0.15 + 0.85 * fit;
   const meanConf = ak.reduce((s, a) => s + (a.conf.timing + a.conf.pitch + a.conf.match) / 3, 0) / ak.length;
   return {
-    aksharas: ak, tempo, keyOffsetCents: Math.round(1200 * keyOffset), alignCost: +al.total.toFixed(3),
-    overall: { score: Math.round(100 * (0.5 * matchedShare + 0.5 * (1 - bad.reduce((s, b) => s + b, 0) / ak.length))), confidence: Math.min(95, Math.round(100 * meanConf * alignmentOk)),
+    aksharas: ak, medianCost: +medianCost.toFixed(3), fitFactor: +fitFactor.toFixed(2), tempo, keyOffsetCents: Math.round(1200 * keyOffset), alignCost: +al.total.toFixed(3),
+    overall: { score: Math.round(fitFactor * 100 * (0.5 * matchedShare + 0.5 * (1 - bad.reduce((s, b) => s + b, 0) / ak.length))), confidence: Math.min(95, Math.round(100 * meanConf * alignmentOk)),
                note: "similarity to the reference, an estimate; confidence = how much evidence the numbers rest on" },
     refExcerpt: { t0: a0, t1: a1, frames: refF.n }, usrFrames: usrF.n, usrMap: al.map, durRatio: +dur.toFixed(2),
     refDb: refF.db, usrDb: usrF.db,
@@ -226,7 +231,7 @@ export function compareTake(refPcm, usrPcm, verse) {
  * @returns {{
  *   aksharas: {i, deva, iast, line, timingRatio, pitchCents|null, cost, matchZ, levelDb, flags:string[], flagged:boolean, confidence:number,
  *              confidenceParts:{timing,pitch,match}}[],
- *   lines:    {line, score, confidence, flagged}[],
+ *   lines:    {line, from, to, of, score, confidence, flagged}[]   (score = share of the line's aksharas not flagged),
  *   verse:    {score, confidence, flagged, of},
  *   overall:  {score, confidence, note}, tempo, keyOffsetCents, durRatio, details }}
  * Every level carries a 0-100 `confidence`: an estimate of how much evidence the numbers rest on, not a probability.
@@ -241,7 +246,7 @@ export function compare(take, reference, verse) {
   }));
   const lines = [...new Set(aksharas.map((a) => a.line))].map((line) => {
     const g = aksharas.filter((a) => a.line === line), bad = g.filter((a) => a.flagged).length;
-    return { line, score: Math.round(100 * (1 - bad / g.length)), confidence: Math.round(g.reduce((s, a) => s + a.confidence, 0) / g.length), flagged: bad };
+    return { line, from: g[0].i, to: g[g.length - 1].i, of: g.length, score: Math.round(r.fitFactor * 100 * (1 - bad / g.length)), confidence: Math.round(g.reduce((s, a) => s + a.confidence, 0) / g.length), flagged: bad };
   });
   const flagged = aksharas.filter((a) => a.flagged).length;
   return { aksharas, lines, verse: { score: r.overall.score, confidence: r.overall.confidence, flagged, of: aksharas.length },

@@ -116,3 +116,40 @@ def test_a_reference_on_a_server_without_cors_is_reported_as_a_cors_problem_not_
         pg.click("#analyse")
         pg.wait_for_function("() => /CORS/.test(document.getElementById('status').textContent)", timeout=15000)
         b.close()
+
+
+def test_result_shows_score_and_confidence_for_the_verse_and_each_line_and_explains_a_poor_take(env):
+    """Failure caught: only akshara and overall levels are shown; a wrong-verse take scores high; a low score is unexplained."""
+    with sync_playwright() as p:
+        b = launch(p)
+        pg = b.new_page()
+        pg.goto(env["page"] + "index.html?config=cfg-offline.json"); pg.wait_for_selector("body[data-ready='1']")
+        pg.set_input_files("#takefile", os.path.join(REAL, "verse02.mp3"))   # a take of the WRONG verse against verse 1
+        pg.wait_for_function("() => !document.getElementById('analyse').disabled")
+        pg.click("#analyse")
+        pg.wait_for_selector("#result:not([hidden])", timeout=30000)
+        rows = pg.locator("#levels tr").all_inner_texts()
+        labels = [r.split("\t")[0].strip() for r in rows[1:]]
+        assert labels[0] == "Overall" and labels[1] == "Verse" and labels[2].startswith("Line 1") and labels[3].startswith("Line 2"), rows
+        assert all("confidence" in r for r in rows[1:]) and all("/ 100" in r for r in rows[1:]), rows
+        score = int(pg.locator("#overallscore").inner_text().split("reference:")[1].split("/")[0])
+        assert score < 50, score                                              # a different verse is not a good match
+        text = pg.locator("#overallscore").inner_text()
+        assert "Poor overall match" in text and "Low confidence" in text, text
+        explain = pg.locator("#explain").inner_text()
+        assert "Score" in explain and "Confidence" in explain and "noise, silence" in explain
+        b.close()
+
+
+def test_page_load_logs_no_failed_request_and_no_console_error_including_the_favicon(env):
+    """Failure caught: a 404 for /favicon.ico (or any asset) is logged on every load of the test page."""
+    with sync_playwright() as p:
+        b = launch(p)
+        pg = b.new_page()
+        bad, errors = [], []
+        pg.on("response", lambda r: bad.append((r.status, r.url)) if r.status >= 400 else None)
+        pg.on("console", lambda m: errors.append(m.text) if m.type == "error" else None)
+        pg.goto(env["page"] + "index.html?config=cfg-offline.json"); pg.wait_for_selector("body[data-ready='1']")
+        pg.wait_for_timeout(500)
+        assert bad == [] and errors == [], (bad, errors)
+        b.close()
