@@ -37,3 +37,6 @@ to foot; 12–14 are the closing protection. Full mapping is in `kavacham-verses
 ## Provenance
 - Text: `reference/chants/drive-corpus/atha śrīmahāvidyākavacam (DEV/ROM).docx` (KA's shared Drive).
 - Audio: `2026 July - Ashadha Navaratri/Day 3 - 2026-07-17/recordings/` (Zoom recording, media gitignored).
+
+## Player and accuracy review (#55)
+`player.html` and `review.html` are two linked tabs of one chant (`chant.json` is their config). How they link, which files are generated, and how to add another chant: `review/README.md`. Method: `review/METHOD.md`.
