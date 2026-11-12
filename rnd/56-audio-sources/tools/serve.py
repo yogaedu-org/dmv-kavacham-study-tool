@@ -2,7 +2,7 @@
 
     python tools/serve.py --root <dir> --port 8770            # the page + the offline audio folder (same origin)
     python tools/serve.py --root <dir> --port 8771 --cors     # the mock "cloud": another origin, CORS on
-    python tools/serve.py --root <repo> --port 8772 --map /config.json=<file>   # serve a different file at one URL path (preview config)
+    python tools/serve.py --root <repo> --port 8772 --map config.json=<file>   # serve a different file at one URL path (preview config)
 
 Two ports on 127.0.0.1 are two origins, so the page's "cloud" source is a real cross-origin request.
 Binds to 127.0.0.1 only. Not a production server.
@@ -21,7 +21,7 @@ mimetypes.add_type("application/json", ".json")
 
 def make_handler(root, cors, maps=None):
     root = os.path.realpath(root)
-    maps = {k: os.path.realpath(v) for k, v in (maps or {}).items()}
+    maps = {"/" + k.lstrip("/"): os.path.realpath(v) for k, v in (maps or {}).items()}  # leading slash optional (Git-Bash rewrites it)
 
     class H(BaseHTTPRequestHandler):
         server_version = "dmv-side/1"
