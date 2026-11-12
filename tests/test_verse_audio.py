@@ -8,7 +8,7 @@ ephemeral port and a mock cloud with CORS on another (a real cross-origin fetch)
 Day 5, with verse 14 missing for the missing-verse test. Only Day 2 is public in reality; Day 5 here is a fixture.
 Each test is named for the failure it catches.
 """
-import json, math, os, shutil, struct, sys, tempfile, wave
+import hashlib, json, math, os, shutil, struct, sys, tempfile, wave
 
 os.environ.setdefault("SERVE_QUIET", "1")
 
@@ -20,6 +20,10 @@ sys.path.insert(0, os.path.join(ROOT, "rnd", "56-audio-sources", "tools"))
 import serve  # noqa: E402
 
 APP_FILES = ["index.html", "styles.css", "config.json", "manifest.webmanifest", "sw.js", "js", "data", "i18n", "fonts", "icons", "figures"]
+
+
+def sha(path):
+    return hashlib.sha256(open(path, "rb").read()).hexdigest()
 
 
 def write_index(root, sets):
@@ -48,7 +52,8 @@ def env():
         for n in verses:
             tone(os.path.join(sets, sid, "verse-%02d.wav" % n), hz + n * 5)
         m = {"schema": 1, "set": sid, "version": "test", "label": "Day %s" % sid[-1], "base": "./",
-             "verses": {str(n): {"key": "verse-%02d.wav" % n, "sha256": "0" * 64, "bytes": 1, "duration": 4.0, "codec": "audio/wav"} for n in range(1, 15) if not (sid == "day5" and n == 14)}}
+             "verses": {str(n): {"key": "verse-%02d.wav" % n, "sha256": sha(os.path.join(sets, sid, "verse-%02d.wav" % n)) if n in verses else "0" * 64,
+                             "bytes": 1, "duration": 4.0, "codec": "audio/wav"} for n in range(1, 15) if not (sid == "day5" and n == 14)}}
         json.dump(m, open(os.path.join(sets, sid, "manifest.json"), "w"))
     write_index(cloud, [("day2", True), ("day5", False)])
     os.makedirs(os.path.join(site, "fx"))
@@ -56,7 +61,7 @@ def env():
     # an offline mirror (same layout, same-origin) holding verse 1 of Day 2
     os.makedirs(os.path.join(site, "off", "sets", "day2"))
     tone(os.path.join(site, "off", "sets", "day2", "verse-01.wav"), 600)
-    s_cloud = serve.start(cloud, 0, cors=True)
+    s_cloud = serve.start(cloud, 0, cors=True, ranges=False)  # like Cloudflare Pages: Range ignored, 200 + full body
     cloud_url = "http://127.0.0.1:%d/" % s_cloud.server_address[1]
 
     def write_config(cloud_base, offline_base=""):
@@ -91,9 +96,11 @@ def page(browser, env):
     ctx.close()
 
 
-def playing(pg, src_part):
+def playing(pg, src_part, blob=True):
     pg.wait_for_function("() => { const a = document.getElementById('verseAudio'); return !a.paused && a.currentTime > 0.05; }", timeout=10000)
-    assert src_part in pg.evaluate("document.getElementById('verseAudio').src")
+    assert src_part in pg.evaluate("document.getElementById('verseAudio').dataset.sourceUrl")
+    if blob:  # cloud clips are fetched whole and played from a blob: URL (the host ignores Range)
+        assert pg.evaluate("document.getElementById('verseAudio').src").startswith("blob:")
 
 
 def test_day2_is_the_default_and_plays_verse_1_and_verse_14_from_the_cloud_base(page, env):
@@ -109,12 +116,12 @@ def test_switching_to_day5_makes_the_same_button_play_the_day5_file(page, env):
     """Failure caught: the recitation switcher changes the label but the button keeps playing the old set."""
     page.click(".verse-play[data-verse='1']")
     playing(page, "/sets/day2/verse-01.wav")
-    before = page.evaluate("document.getElementById('verseAudio').src")
+    before = page.evaluate("document.getElementById('verseAudio').dataset.sourceUrl")
     page.select_option("#audioSetSelect", "day5")
     assert page.evaluate("document.getElementById('verseAudio').paused")      # switching stops the old recitation
     page.click(".verse-play[data-verse='1']")
     playing(page, "/sets/day5/verse-01.wav")
-    assert page.evaluate("document.getElementById('verseAudio').src") != before
+    assert page.evaluate("document.getElementById('verseAudio').dataset.sourceUrl") != before
 
 
 def test_chosen_set_survives_a_reload(page):
@@ -246,7 +253,7 @@ def test_adding_a_set_on_the_host_is_data_only(browser, env):
     os.makedirs(os.path.join(env["cloud_dir"], "sets", sid), exist_ok=True)
     tone(os.path.join(env["cloud_dir"], "sets", sid, "verse-01.wav"), 800)
     json.dump({"schema": 1, "set": sid, "version": "t", "label": "Another reciter", "base": "./",
-               "verses": {"1": {"key": "verse-01.wav", "sha256": "0" * 64, "bytes": 1, "duration": 4.0, "codec": "audio/wav"}}},
+               "verses": {"1": {"key": "verse-01.wav", "sha256": sha(os.path.join(env["cloud_dir"], "sets", sid, "verse-01.wav")), "bytes": 1, "duration": 4.0, "codec": "audio/wav"}}},
               open(os.path.join(env["cloud_dir"], "sets", sid, "manifest.json"), "w"))
     index = os.path.join(env["cloud_dir"], "sets", "index.json")
     original = open(index).read()
@@ -287,7 +294,32 @@ def test_offline_mirror_supplies_the_index_and_the_audio_when_the_cloud_is_unrea
         shutil.copyfile(os.path.join(env["cloud_dir"], "sets", "day2", "manifest.json"), os.path.join(env["site"], "off", "sets", "day2", "manifest.json"))
         pg.goto(env["app"]); pg.wait_for_selector(".verse-play")
         pg.click(".verse-play[data-verse='1']")
-        playing(pg, "/off/sets/day2/verse-01.wav")
+        playing(pg, "/off/sets/day2/verse-01.wav", blob=False)
         ctx.close()
     finally:
         env["write_config"](env["cloud"])
+
+
+def test_cloud_that_ignores_range_plays_from_a_blob_url_and_a_corrupt_clip_is_refused(browser, env):
+    """Failure caught: the host answers Range with 200 + full body (Cloudflare Pages), or serves a clip that does not match its manifest."""
+    ctx = browser.new_context(); pg = ctx.new_page()
+    res = pg.request.get(env["cloud"] + "sets/day2/verse-01.wav", headers={"Range": "bytes=0-99"})
+    assert res.status == 200 and "accept-ranges" not in res.headers and len(res.body()) > 1000   # the mock really ignores Range
+    pg.goto(env["app"]); pg.wait_for_selector("article.verse")
+    pg.click(".verse-play[data-verse='1']")
+    playing(pg, "/sets/day2/verse-01.wav")
+    ctx.close()
+    # corrupt the clip on the host: the manifest hash no longer matches
+    clip = os.path.join(env["cloud_dir"], "sets", "day2", "verse-14.wav")
+    good = open(clip, "rb").read()
+    open(clip, "wb").write(good[:-2] + b"")
+    try:
+        ctx = browser.new_context(); pg = ctx.new_page()
+        pg.goto(env["app"]); pg.wait_for_selector("article.verse")
+        pg.click(".verse-play[data-verse='14']")
+        pg.wait_for_function("() => document.getElementById('audioStatus-14').textContent.length > 0")
+        assert "sha256 mismatch for verse-14.wav" in pg.locator("#audioStatus-14").inner_text()
+        assert not pg.evaluate("document.getElementById('verseAudio').getAttribute('src')")
+        ctx.close()
+    finally:
+        open(clip, "wb").write(good)

@@ -66,7 +66,7 @@ function sourceConfig(set, m, manifestUrl) {
         version: 1, set: { id: set.id, label: m.label || set.label }, sources, order,
         verses: Object.keys(m.verses || {}).map(function(n) {
             const v = m.verses[n];
-            return { id: Number(n), file: v.key, sha256: v.sha256 || null, duration: v.duration || null, set: m.label || set.label };
+            return { id: Number(n), file: v.key, sha256: v.sha256 || null, duration: v.duration || null, codec: v.codec || null, set: m.label || set.label };
         })
     };
 }
@@ -145,7 +145,7 @@ function paintButton(btn, on) {
 
 export function stopAudio() {
     const a = audioEl();
-    if (a) { a.pause(); a.removeAttribute('src'); a.load(); }
+    if (a) { a.pause(); a.removeAttribute('src'); delete a.dataset.sourceUrl; a.load(); }
     playingVerse = null;
     syncAudioButtons();
 }
@@ -168,6 +168,7 @@ async function playVerse(n) {
     }
     const a = audioEl();
     a.src = r.url;
+    a.dataset.sourceUrl = r.sourceUrl || r.url;                       // the network URL behind a blob: URL (for tests and debugging)
     try { await a.play(); } catch (error) {
         playingVerse = null; syncAudioButtons();
         setStatus(n, t('audio.playFailed').replace('{n}', n), true);
